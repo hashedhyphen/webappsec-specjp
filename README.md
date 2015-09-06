@@ -13,4 +13,4 @@ W3C Web Application Security Working Group が策定している仕様の日本�
 
 ### 翻訳物
 
-*[Secure Contexts](https://hashedhyphen.github.io/webappsec-specjp/powerfulfeatures/) (Powerful Features) （翻訳中）
+*　[Secure Contexts](https://hashedhyphen.github.io/webappsec-specjp/powerfulfeatures/) (Powerful Features) （翻訳中）
