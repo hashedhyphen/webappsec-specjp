@@ -9,7 +9,7 @@ W3C Web Application Security Working Group が策定している仕様の日本�
 
 この翻訳文書のライセンスは [W3C Document License](http://www.w3.org/Consortium/Legal/2002/copyright-documents-20021231) に従います。
 
-何かお気づきの点がございましたら、このリポジトリの Issue に、もしくは Twitter アカウントの [@hashedhyphen](https://twitter.com/hashedhyphen) にご連絡いただければと思います。
+何かお気づきの点がございましたら、このリポジトリの Issue に、もしくは Twitter アカウントの [@hashedhyphen](https://twitter.com/hashedhyphen) にご連絡いただければと思います。1文字単位の typo に関してでも歓迎です。
 
 ### 翻訳物
 
