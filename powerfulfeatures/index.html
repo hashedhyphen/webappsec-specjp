@@ -458,257 +458,147 @@
 
    <section>
 
-    <h2 class="heading settled" data-level="5" id="algorithms"><span class="secno">5. </span><span class="content">Algorithms</span><a class="self-link" href="#algorithms"></a></h2>
+    <h2 class="heading settled" data-level="5" id="algorithms">
+     <span class="secno">5. </span><span class="content">アルゴリズム</span>
+     <a class="self-link" href="#algorithms"></a>
+    </h2>
 
+    <h3 class="heading settled" data-level="5.1" id="settings-secure"> <span class="secno">5.1. </span><span class="content"><var>settings object</var> は安全なコンテキストか？</span>
+     <a class="self-link" href="#settings-secure"></a>
+    </h3>
 
-    <section>
+    <p>
+     ある <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a> の <var>settings</var> に対して、このオブジェクトが<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>である場合、このアルゴリズムは <code>Secure</code> を返し、そうでない場合は <code>Not Secure</code> を返します。
+    </p>
 
-     <h3 class="heading settled" data-level="5.1" id="settings-secure"><span class="secno">5.1. </span><span class="content">
-      Is <var>settings object</var> a secure context?
-    </span><a class="self-link" href="#settings-secure"></a></h3>
+    <ol>
 
-
-
-     <p>Given a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a> <var>settings</var>, this algorithm returns
-    <code>Secure</code> if the object represents a <a data-link-type="dfn" href="#secure-context">secure
-    context</a>, and <code>Not Secure</code> otherwise.</p>
-
-
+     <li>
+      <var>settings</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS state</a> が <code>authenticated</code> で<strong>ない</strong>とき
 
      <ol>
 
       <li>
-        If <var>settings</var>' <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS state</a> is <strong>not</strong>
-        <code>authenticated</code>:
-
-
-       <ol>
-
-        <li>
-            Let <var>origin</var> be <var>settings</var>' <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a>.
-
-
-
-        <li>
-            If <var>origin</var> is a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-2.3">globally unique identifier</a>, set
-            <var>origin</var> to the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a>
-            of <var>settings</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a>.
-
-
-         <p class="note" role="note">Note: This is future-proofing against a world where sandboxing
-            <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> is a thing.</p>
-
-
-
-         <p class="issue" id="issue-ed0737af"><a class="self-link" href="#issue-ed0737af"></a> "<a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a>" isn’t correct. We should use whatever
-            gets produced as a result of
-            <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27146">bug
-            27146</a>.</p>
-
-
-
-
-        <li>
-            If the result of executing the <a href="#is-origin-trustworthy">§5.2
-      Is origin potentially trustworthy?</a> algorithm
-            on <var>origin</var> is <strong>not</strong> <code>Potentially
-            Trustworthy</code>, return <code>Not Secure</code>.
-
-
-
-       </ol>
-
-
-
-       <p class="issue" id="issue-60c8add0"><a class="self-link" href="#issue-60c8add0"></a> <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> is poorly defined. For example, we should ensure
-        that sandboxed documents retain the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a>
-        associated with their transport mechanism. See
-        <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27190">bug
-        27190</a>.</p>
-
-
-
+       <var>origin</var> を <var>settings</var> の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> とします。
 
       <li>
-        If <var>settings</var> has a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a>
-        <var>document</var>, then:
+       もし <var>origin</var> が <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-2.3">globally unique identifier</a> であるならば、<var>origin</var> を <var>settings</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a> に代入します。
 
+       <p class="note" role="note">
+        補足: これはサンドボックス化された <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> がある場合における後方互換性を保つためのものです。
+       </p>
 
-       <p class="note" role="note">Note: If <var>settings</var> maps to a <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> (either directly,
-        or as the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> of a <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code>), we’ll walk all
-        the way up the document’s ancestor chain to verify that the whole chain
-        is secure.</p>
-
-
-
-       <ol>
-
-        <li>
-            Let <var>documents to check</var> be a list of <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code>s
-            containing <var>document</var> and the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#active-document">active document</a>
-            in each of the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#ancestor-browsing-context">ancestor browsing contexts</a> of
-            <var>document</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">browsing context</a>.
-
-
-
-        <li>
-            For each <var>ancestor</var> in <var>documents to check</var>:
-
-
-         <ol>
-
-          <li>
-                If <var>ancestor</var> corresponds to <a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an IFrame
-                <code>srcdoc</code> <code>Document</code></a>, skip to the next
-                <var>ancestor</var>.
-
-
-
-          <li>
-                If the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> for <var>ancestor</var>’s
-                <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> has a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> of
-                <code>Authenticated</code>, skip to the next
-                <var>ancestor</var>.
-
-
-
-          <li>
-                Let <var>origin</var> be <var>ancestor</var>’s <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> if
-                <var>ancestor</var>’s active <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxing-flag-set">sandboxing flag set</a> does not
-                have its <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a> set, and
-                the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin of <var>ancestor</var>’s
-                <code>URL</code></a> otherwise.
-
-
-
-          <li>
-                If the result of executing the <a href="#is-origin-trustworthy">§5.2
-      Is origin potentially trustworthy?</a>
-                algorithm on <var>origin</var> is <strong>not</strong>
-                <code>Potentially Trustworthy</code>, return
-                <code>Not Secure</code>.
-
-
-
-         </ol>
-
-
-
-
-       </ol>
-
-
-
+       <p class="issue" id="issue-ed0737af">
+        <a class="self-link" href="#issue-ed0737af"></a>
+        "<a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a>" は正しくありません。<a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27146">bug 27146</a> の結果が用いられるべきです。
+       </p>
 
       <li>
-        Return <code>Secure</code>
-
-
+       <a href="#is-origin-trustworthy">§5.2 オリジンは潜在的に安全なコンテキストか？</a> のアルゴリズムを <var>origin</var> に適用した結果が <code>Potentially Trustworthy</code> で<strong>ない</strong>場合、<code>Not Secure</code> を返します。
 
      </ol>
 
+     <p class="issue" id="issue-60c8add0">
+      <a class="self-link" href="#issue-60c8add0"></a>
+      <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> の定義が明確になされていません。例えば、サンドボックス化されたドキュメントは、自身の通信機構に結び付いた <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> を保持するよう保証するべきです。詳細は <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27190">bug 27190</a> を見てください。
+     </p>
 
-    </section>
+     <li>
+      <var>settings</var> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> の <var>document</var> を持っているとき、
 
-
-    <section>
-
-     <h3 class="heading settled" data-level="5.2" id="is-origin-trustworthy"><span class="secno">5.2. </span><span class="content">
-      Is <var>origin</var> potentially trustworthy?
-    </span><a class="self-link" href="#is-origin-trustworthy"></a></h3>
-
-
-
-     <p>Certain origins are always potentially trustworthy. In particular, UAs
-    MUST treat <code>file</code> URLs and URLs with hostnames names equivalent
-    to "localhost" as potentially trustworthy. In principle the UA could treat
-    local files and local web servers as untrustworthy. However, <em>given the
-    information that is available to the UA at runtime</em>, the resources
-    appear to have been transported securely. Additionally, treating such
-    resources as potentially trustworthy is convenient for developers building
-    an application before deploying it to the public.</p>
-
-
-
-     <p>A user agent MAY choose to extend this trust to other, vendor-specific URL
-    schemes like <code>app:</code> or <code>chrome-extension:</code>.</p>
-
-
-
-     <p>Given an <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> <var>origin</var>, the following algorithm returns
-    <code>Potentially Trustworthy</code> or <code>Not Trustworthy</code> as
-    appropriate.</p>
-
-
+     <p class="note" role="note">
+      補足: もし <var>settings</var> が <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> へマッピング（直接に、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> として）されている場合は、チェイン全体が安全であることを確認するため、ドキュメントの継承チェインをすべてさかのぼることになります。
+     </p>
 
      <ol>
 
       <li>
-        If <var>origin</var> is a <a data-link-type="dfn" href="https://w3c.github.io/webappsec/specs/mixedcontent/#potentially-secure-origin">potentially secure origin</a>,
-        return <code>Potentially Trustworthy</code>.
-
-
-       <p class="note" role="note">Note: The origin of <code>blob:</code> and <code>filesystem:</code> URLs
-        is the origin of the context in which they were created. Therefore,
-        blobs created in an potentially secure origin will themselves be
-        potentially secure. The origin of <code>data:</code> and
-        <code>javascript:</code> URLs is an opaque identifier, which will not
-        be considered potentially secure.</p>
-
-
-
+       <var>document</var> と、それ自身の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">ブラウジングコンテキスト</a> が持つ <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#ancestor-browsing-context">継承元ブラウジングコンテキスト</a> のそれぞれにおける <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#active-document">アクティブドキュメント</a> とを含む <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> のリストを <var>documents to check</var> に設定します。
 
       <li>
-        If <var>origin</var>’s <code>host</code> component is or falls within
-        <code>localhost.</code> <a data-link-type="biblio" href="#biblio-rfc6761">[RFC6761]</a>, return <code>Potentially
-        Trustworthy</code>.
+       <var>documents to check</var> の各 <var>ancestor</var> について
 
+      <ol>
 
+       <li>
+        もし <var>ancestor</var> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an IFrame
+        <code>srcdoc</code> <code>Document</code></a> に対応する場合は、次の <var>ancestor</var> に移動します。
 
-      <li>
-        If <var>origin</var>’s <code>host</code> component matches one of
-        the CIDR notations <code>127.0.0.0/8</code> or <code>::1/128</code>
-        <a data-link-type="biblio" href="#biblio-rfc4632">[RFC4632]</a>, return <code>Potentially Trustworthy</code>.
+       <li>
+        もし <var>ancestor</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> に対する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> が、<code>Authenticated</code> な <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> を持っている場合、次の <var>ancestor</var> に移動します。
 
+       <li>
+        もし <var>ancestor</var> のアクティブな <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxing-flag-set">sandboxing flag set</a> が、自身の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a> セットを持っていないならば、<var>origin</var> を <var>ancestor</var> の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> とします。そうでなければ、<var>origin</var> を <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin of <var>ancestor</var>’s
+         <code>URL</code></a> とします。
 
+       <li>
+        <var>origin</var> に対して <a href="#is-origin-trustworthy">§5.2 オリジンは潜在的に信頼できるか？</a> のアルゴリズムを適用した結果が <code>Potentially Trustworthy</code> で<strong>ない</strong>場合、 <code>Not Secure</code> を返します。
 
-      <li>
-        If <var>origin</var>’s <code>scheme</code> component is
-        <code>file</code>, return <code>Potentially Trustworthy</code>.
-
-
-
-      <li>
-        If <var>origin</var>’s <code>scheme</code> component is one which
-        the user agent considers to be authenticated, return
-        <code>Potentially Trustworthy</code>.
-
-
-       <p class="note" role="note">Note: See <a href="#packaged-applications">§6.1 Packaged Applications</a> for detail here.</p>
-
-
-
-
-      <li>
-        If <var>origin</var> has been configured as a trustworthy origin,
-        return <code>Potentially Trustworthy</code>.
-
-
-       <p class="note" role="note">Note: See <a href="#development-environments">§6.2 Development Environments</a> for detail here.</p>
-
-
-
-
-      <li>
-        Return <code>Not Trusted</code>.
-
-
+      </ol>
 
      </ol>
 
+     <li>
+      <code>Secure</code> を返します。
 
-    </section>
-</section>
+    </ol>
+
+    <h3 class="heading settled" data-level="5.2" id="is-origin-trustworthy">
+     <span class="secno">5.2. </span><span class="content"><var>origin</var> は潜在的に信頼できるか？</span>
+     <a class="self-link" href="#is-origin-trustworthy"></a>
+    </h3>
+
+    <p>
+     特定のオリジンは常に潜在的に信頼できます。特に、ユーザエージェントは <code>file</code> URL と、"localhost" に等価なホスト名を持つ URL とは、潜在的に信頼できるものと扱わなくてはなりません（MUST）。原則として、ユーザエージェントはローカルのファイルとローカルの Web サーバは信頼できないものと扱うことができます。しかし、<em>実行時にユーザエージェントが利用可能な情報を考えると</em>、リソースは安全に運ばれてきたと考えられます。さらに、そのようなリソースを潜在的に信頼できるものと見なすことで、デプロイして公開する前に開発者がアプリケーションを開発するのに都合が良くなります。
+    </p>
+
+    <p>
+     ユーザエージェントは <code>app:</code> や <code>chrome-extension:</code> のようなベンダー定義の URL スキームを信頼するように拡張してもよいです（MAY）。
+    </p>
+
+    <p>
+     ある <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> の <var>origin</var> について、以下のアルゴリズムは <code>Potentially Trustworthy</code> か <code>Not Trustworthy</code> のどちらか適切なものを返します。
+    </p>
+
+    <ol>
+
+     <li>
+      もし <var>origin</var> が <a data-link-type="dfn" href="https://w3c.github.io/webappsec/specs/mixedcontent/#potentially-secure-origin">潜在的に安全なオリジン</a> であれば、<code>Potentially Trustworthy</code> を返します。
+
+
+      <p class="note" role="note">
+       補足: <code>blob:</code> と <code>filesystem:</code> URL のオリジンは、その URL が作られたコンテキストのオリジンです。従って、潜在的に安全なオリジンで作られた blob は潜在的に安全です。<code>data:</code> と <code>javascript:</code> URL のオリジンは opaque identifier であり、これらは潜在的に安全であるとはいえません。
+      </p>
+
+     <li>
+      もし <var>origin</var> における <code>host</code> の構成部分が <code>localhost.</code> <a data-link-type="biblio" href="#biblio-rfc6761">[RFC6761]</a> であれば、<code>Potentially Trustworthy</code> を返します。
+
+     <li>
+      もし <var>origin</var> における <code>host</code> の構成部分が CIDR 記法の <code>127.0.0.0/8</code> または <code>::1/128</code> と一致するならば、<code>Potentially Trustworthy</code> を返します。
+
+     <li>
+      もし <var>origin</var> における <code>scheme</code> の構成部分が <code>file</code> であれば、<code>Potentially Trustworthy</code> を返します。
+
+     <li>
+      もし <var>origin</var> における <code>scheme</code> の構成部分が、ユーザエージェントが認証できるとみなしたものであれば <code>Potentially Trustworthy</code> を返します。
+
+      <p class="note" role="note">
+       補足: 詳しくは <a href="#packaged-applications">§6.1 Packaged Applications</a> を参照してください。
+      </p>
+
+     <li>
+      もし <var>origin</var> が信頼できるオリジンとして設定されているならば、<code>Potentially Trustworthy</code> を返します。
+
+      <p class="note" role="note">
+       補足: 詳しくは <a href="#development-environments">§6.2 開発環境</a> を参照してください。
+      </p>
+
+     <li>
+      <code>Not Trusted</code> を返します。
+
+    </ol>
+
+   </section>
 
 
    <section>
