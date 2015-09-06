@@ -362,151 +362,98 @@
    <section>
 
     <h2 class="heading settled" data-level="4" id="restrictions">
-     <span class="secno">4. </span><span class="content">Restricting Features</span>
+     <span class="secno">4. </span><span class="content">機能の制限</span>
      <a class="self-link" href="#restrictions"></a>
     </h2>
 
     <h3 class="heading settled" data-level="4.1" id="new">
-     <span class="secno">4.1. </span><span class="content">New Features</span>
+     <span class="secno">4.1. </span><span class="content">新しい機能</span>
      <a class="self-link" href="#new"></a>
     </h3>
 
-    <p>When writing a specification for new features, we recommend that authors
-  and editors guard sensitive APIs with checks against
-  <a href="#settings-secure">§5.1
-      Is settings object a secure context?</a>. For example, something like the following
-  would be a good approach:</p>
+    <p>
+     新しい機能に関する仕様を書く際には、<a href="#settings-secure">§5.1 settings object は安全か？</a>に基づく確認をして、機微な API を守るように、著者と編者に勧めます。良いアプローチの一例として、以下のようなものが挙げられます。
+    </p>
 
-
-    <div class="example" id="example-8ce7bce2"><a class="self-link" href="#example-8ce7bce2"></a>
+    <div class="example" id="example-8ce7bce2">
+     <a class="self-link" href="#example-8ce7bce2"></a>
 
      <ol>
 
       <li>
-        If the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> is not a <a data-link-type="dfn" href="#secure-context">secure
-        context</a>, then [<i>insert something appropriate here: perhaps you
-        could reject a Promise with a <code>SecurityError</code>, call an error
-        callback, deny a permission request, etc.</i>].
-
-
+        もし <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> が <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>でない場合、[ <i>ここに適切な文章を入れてください。 <code>SecurityError</code> が起きた Promise をリジェクトし、エラー時のコールバックを呼び出し、権限リクエストを拒否する、などといった文章が入るかもしれません</i> ] 。
 
      </ol>
 
-
-
-     <p class="note" role="note">Note: If you choose to copy/paste the above text for your spec, do remember
-    to put an action appropriate for your use case in place of the placeholder
-    text.</p>
-
+     <p class="note" role="note">
+      補足: 自分の仕様に上の文章をコピー、貼り付けした場合は、仕様のユースケースに適したアクションをプレースホルダの部分へ忘れずに入れてください。
+     </p>
 
     </div>
 
+    <h3 class="heading settled" data-level="4.2" id="legacy">
+     <span class="secno">4.2. </span><span class="content">レガシーな機能</span>
+     <a class="self-link" href="#legacy"></a>
+    </h3>
 
-    <h3 class="heading settled" data-level="4.2" id="legacy"><span class="secno">4.2. </span><span class="content">Legacy Features</span><a class="self-link" href="#legacy"></a></h3>
 
-
-    <p>The list above clearly includes some existing functionality that is currently
-  available to the web over insecure channels. We recommend that such legacy
-  functionality begin requiring a <a data-link-type="dfn" href="#secure-context">secure context</a> as quickly as is
-  reasonably possible.</p>
-
+    <p>
+     上に挙げたリストには、安全でない通信路における Web で現時点で存在しアクセス可能な機能が明らかに含まれています。そのようなレガシーな機能に対しては、現実的な範囲で可能な限り早く、<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>を求めるように始めてください。
+    </p>
 
     <ol>
 
      <li>
-      If such a feature is not widely implemented, we recommend that the
-      specification be immediately
-      <a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">modified</a> to include a restriction
-      to <a data-link-type="dfn" href="#secure-context">secure contexts</a>.
-
-
+      そのような機能が広く実装されてはいない場合は、<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>に対する制限を含めるよう、仕様をすぐに<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">変更する</a>ことを勧めます。
 
      <li>
-      If such a feature is widely implemented, but not yet in wide use, we
-      recommend that it be quickly restricted to <a data-link-type="dfn" href="#secure-context">secure contexts</a> by
-      adding a check as described in <a href="#new">§4.1 New Features</a> to existing implementations, and
-      <a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">modifying the specification</a>
-      accordingly.
-
-
+      そのような機能が広く実装されているが、広く使われてはいない場合は、<a href="#new">§4.1 新しい機能</a> で述べた確認を現存の実装に追加し、それに従って<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">仕様を変更する</a>ことにより、速やかに<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> に制限することを勧めます。
 
      <li>
-      If such a feature is in wide use, we recommend that the existing
-      functionality be deprecated; the specification should be
-      <a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">modified</a> to note that it does not
-      conform to the restrictions outlined in this document, and a plan should
-      be developed to both offer a conformant version of the feature and to
-      migrate existing users into that new version.
-
-
+      そのような機能が広く使われている場合は、現存の機能を廃止することを勧めます。そして、この文書で説明した制限に仕様が適合しない旨を記述するような仕様の<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">変更</a>、適合する将来のバージョンを提供して現在のユーザを新しいバージョンに移行させる計画の立案をするべきです。
 
     </ol>
 
+    <h4 class="heading settled" data-level="4.2.1" id="legacy-example">
+     <span class="secno">4.2.1. </span><span class="content">例: Geolocation</span>
+     <a class="self-link" href="#legacy-example"></a>
+    </h4>
 
-    <h4 class="heading settled" data-level="4.2.1" id="legacy-example"><span class="secno">4.2.1. </span><span class="content">Example: Geolocation</span><a class="self-link" href="#legacy-example"></a></h4>
-
-
-    <p>The <a data-link-type="biblio" href="#biblio-geolocation-api">[GEOLOCATION-API]</a> is a good concrete example of such an feature; it is
-  widely implemented and used on a large number of insecure sites. A reasonable
-  path forward might look like this:</p>
-
+    <p>
+     そのような機能の具体例として良いものには <a data-link-type="biblio" href="#biblio-geolocation-api">[GEOLOCATION-API]</a> があります。この機能は広く実装されており、数多くの安全でないサイトで使われています。筋道立てて改善するには、以下のような流れになるかもしれません。
+    </p>
 
     <ol>
 
      <li>
-      <a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">Modify</a> the specification to include
-      checks against [[#settings-secure] before executing the algorithms for
-      <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/geolocation-API/#get-current-position">getCurrentPosition()</a></code> and <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/geolocation-API/#watch-position">watchPosition()</a></code>.
+      <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/geolocation-API/#get-current-position">getCurrentPosition()</a></code> や <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/geolocation-API/#watch-position">watchPosition()</a></code> のアルゴリズムを実行する前に、[[#settings-secure] に対する確認を含めるよう、仕様を<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">変更します</a>。
 
-
-      <p>If <a href="#settings-secure">§5.1
-      Is settings object a secure context?</a> returns <code>Not Secure</code>, then
-      the algorithms should be aborted, and the <var>errorCallback</var> invoked
-      with a <code>code</code> of <code>PERMISSION_DENIED</code>.</p>
-
-
-
+      <p>
+       もし <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> が <code>Not Secure</code> を返す場合、そのアルゴリズムは中断されるべきであり、<code>PERMISSION_DENIED</code> を表す <code>code</code> とともに <var>errorCallback</var> が呼び出されます。
+      </p>
 
      <li>
-      User agents should announce clear intentions to disable the API for
-      insecure contexts on a specific date, and warn developers accordingly
-      (via console messages, for example).
-
-
+      安全でないコンテキストにおいてその API を無効にする明確な意志を、特定の日時に表明するべきであり、それに従って開発者には警告を出すべきです（例えば、コンソールにメッセージを出すなど）。
 
      <li>
-      Leading up to the flag day, user agents should announce a deprecation
-      schedule to ensure both that site authors recognize the need to modify
-      their code before it simply stops working altogether, and to protect
-      users in the meantime. Such a plan might include:
-
+      プログラムの変更日を迎える準備として、単純にすべて停止させる前にサイトの運営者に自分のコードを変更する必要性を認識させることと、その期間においてユーザを守ることとを目的とし、ユーザエージェントは廃止のスケジュールを公表するべきです。そのような計画は次のようなものを含むかもしれません。
 
       <ul>
 
        <li>
-          Disallowing persistent permission grants to insecure origins
-
-
+        安全でないオリジンに対する永続的な権限譲渡の無効化
 
        <li>
-          Coarsening the accuracy of the API for insecure origins (perhaps
-          consistently returning city-level data rather than high-accuracy
-          data)
-
-
+        安全でないオリジンにおける API の精度を粗雑にする（高精度のデータではなく市区町村単位のデータを継続的に返すかもしれません）
 
        <li>
-          UI modifications to inform users and site authors of the risk
-
-
+        ユーザとサイトの運営者に対してリスクを伝えるような UI の変更
 
       </ul>
 
-
-
-
     </ol>
-</section>
+
+   </section>
 
 
    <section>
