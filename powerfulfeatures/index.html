@@ -212,7 +212,7 @@
       <li><a href="#normative"><span class="secno"></span> <span class="content">規範的な文献</span></a>
       <li><a href="#informative"><span class="secno"></span> <span class="content">参考文献</span></a>
      </ul>
-    <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issue の索引</span></a>
+    <li><a href="#issues-index"><span class="secno"></span> <span class="content">問題点の索引</span></a>
    </ul></div>
 
   <main>
@@ -220,7 +220,7 @@
    <section>
 
     <h2 class="heading settled" data-level="1" id="intro">
-     <span class="secno">1. </span><span class="content">Introduction</span>
+     <span class="secno">1. </span><span class="content">導入</span>
      <a class="self-link" href="#intro"></a>
     </h2>
 
@@ -264,10 +264,10 @@
       </ul>
 
      <dt>
-      <dfn data-dfn-type="dfn" data-noexport="" id="embedding-document">埋め込みドキュメント<a class="self-link" href="#embedding-document"></a></dfn>
+      <dfn data-dfn-type="dfn" data-noexport="" id="embedding-document">埋め込み元ドキュメント<a class="self-link" href="#embedding-document"></a></dfn>
 
       <dd>
-       ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> <var>A</var> について、<var>A</var> の <strong>埋め込みドキュメント</strong> とは、 <var>A</var> の<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">ブラウジングコンテキスト</a>が<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context-nested-through">ネストされている</a> <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> のことを指します。
+       ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> <var>A</var> について、<var>A</var> の <strong>埋め込み元ドキュメント</strong> とは、 <var>A</var> の<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">ブラウジングコンテキスト</a>が<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context-nested-through">ネストされている</a> <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> のことを指します。
 
     </dl>
 
@@ -500,7 +500,7 @@
 
      <p class="issue" id="issue-60c8add0">
       <a class="self-link" href="#issue-60c8add0"></a>
-      <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> の定義が明確になされていません。例えば、サンドボックス化されたドキュメントは、自身の通信機構に結び付いた <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> を保持するよう保証するべきです。詳細は <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27190">bug 27190</a> を見てください。
+      <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> の定義が明確ではありません。例えば、サンドボックス化されたドキュメントは、自身の通信機構に結び付いた <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> を保持するよう保証するべきです。詳細は <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27190">bug 27190</a> を参照してください。
      </p>
 
      <li>
@@ -553,7 +553,7 @@
     </p>
 
     <p>
-     ユーザエージェントは <code>app:</code> や <code>chrome-extension:</code> のようなベンダー定義の URL スキームを信頼するように拡張してもよいです（MAY）。
+     ユーザエージェントは <code>app:</code> や <code>chrome-extension:</code> のようなベンダー定義の URL スキームを信頼するように拡張してもよいでしょう（MAY）。
     </p>
 
     <p>
@@ -603,138 +603,148 @@
 
    <section>
 
-    <h2 class="heading settled" data-level="6" id="implementation-considerations"><span class="secno">6. </span><span class="content">Implementation Considerations</span><a class="self-link" href="#implementation-considerations"></a></h2>
+    <h2 class="heading settled" data-level="6" id="implementation-considerations">
+     <span class="secno">6. </span><span class="content">実装について考慮すべき事項</span>
+     <a class="self-link" href="#implementation-considerations"></a>
+    </h2>
 
+    <h3 class="heading settled" data-level="6.1" id="packaged-applications">
+     <span class="secno">6.1. </span><span class="content">Packaged Applications</span>
+     <a class="self-link" href="#packaged-applications"></a>
+    </h3>
 
-    <h3 class="heading settled" data-level="6.1" id="packaged-applications"><span class="secno">6.1. </span><span class="content">Packaged Applications</span><a class="self-link" href="#packaged-applications"></a></h3>
+    <p>
+     Packaged Applications をサポートしているユーザエージェントは、ユーザエージェントがコンテンツを認証した特定の URL スキームをホワイトリストにしても良いでしょう（MAY）。例えば、Firefox OS アプリケーションのリソースは、<code>scheme</code> の構成部分が <code>app:</code> である URL で参照されます。同様に、Chrome 拡張と Chrome アプリは <code>chrome-extension:</code> スキームで動作します。これらを信頼できるオリジンと見なせても無理はないでしょう。
+    </p>
 
+    <h3 class="heading settled" data-level="6.2" id="development-environments">
+     <span class="secno">6.2. </span><span class="content">開発環境</span>
+     <a class="self-link" href="#development-environments"></a>
+    </h3>
 
-    <p>User agents that support packaged applications MAY whitelist specific URL
-  schemes whose contents are authenticated by the user agent. For example,
-  FirefoxOS application resources are referred to by a URL whose
-  <code>scheme</code> component is <code>app:</code>. Likewise, Chrome’s
-  extensions and apps live on <code>chrome-extension:</code> schemes. These
-  could reasonably be considered trusted origins.</p>
+    <p>
+     仮に <a href="#is-origin-trustworthy">§5.2 オリジンは潜在的に信頼できるか？</a> が <code>Not Trusted</code> を通常は返す場合であっても、ループバックではないホストでステージングサーバを動かしている開発者を支援するため、ユーザエージェントは、信頼できると見なすオリジンの一覧をユーザが設定できるように許可しても良いでしょう（MAY）。
+    </p>
 
-
-    <h3 class="heading settled" data-level="6.2" id="development-environments"><span class="secno">6.2. </span><span class="content">Development Environments</span><a class="self-link" href="#development-environments"></a></h3>
-
-
-    <p>In order to support developers who run staging servers on non-loopback hosts,
-  user agents MAY allow users to configure specific sets of origins as
-  trustworthy, even though <a href="#is-origin-trustworthy">§5.2
-      Is origin potentially trustworthy?</a> would normally return
-  <code>Not Trusted</code>.</p>
-</section>
-
+   </section>
 
 
    <section>
 
-    <h2 class="heading settled" data-level="7" id="acknowledgements"><span class="secno">7. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
+    <h2 class="heading settled" data-level="7" id="acknowledgements">
+     <span class="secno">7. </span><span class="content">謝辞</span>
+     <a class="self-link" href="#acknowledgements"></a>
+    </h2>
 
-
-    <p>This document is largely based on the Chrome Security team’s work on
-  <a data-link-type="biblio" href="#biblio-powerful-new-features">[POWERFUL-NEW-FEATURES]</a>. Chris Palmer, Ryan Sleevi, and David Dorwin have
-  been particularly engaged. Anne van Kesteren and Henri Sivonen have also
-  provided very helpful feedback.</p>
-</section>
-
-</main>
-
-  <h2 class="no-ref no-num heading settled" id="conformance"><span class="content">Conformance</span><a class="self-link" href="#conformance"></a></h2>
-
-
-  <h3 class="no-ref no-num heading settled" id="conventions"><span class="content">Document conventions</span><a class="self-link" href="#conventions"></a></h3>
-
-
-  <p>Conformance requirements are expressed with a combination of
-    descriptive assertions and RFC 2119 terminology. The key words "MUST",
-    "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT",
-    "RECOMMENDED", "MAY", and "OPTIONAL" in the normative parts of this
-    document are to be interpreted as described in RFC 2119.
-    However, for readability, these words do not appear in all uppercase
-    letters in this specification.
-
+    <p>
+     この文書は、Chrome セキュリティチームの <a data-link-type="biblio" href="#biblio-powerful-new-features">[POWERFUL-NEW-FEATURES]</a> における業績に大きく依存しています。これには Chris Palmer、Ryan Sleevi、そして David Dorwin 各氏が特に貢献しています。また、Anne van Kesteren と Henri Sivonen 両氏からとても有益なフィードバックをいただきました。
     </p>
-  <p>All of the text of this specification is normative except sections
-    explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a></p>
+
+   </section>
+
+  </main>
 
 
-  <p>Examples in this specification are introduced with the words "for example"
-    or are set apart from the normative text with <code>class="example"</code>,
-    like this:
+  <h2 class="no-ref no-num heading settled" id="conformance">
+   <span class="content">適合性</span>
+   <a class="self-link" href="#conformance"></a>
+  </h2>
 
-    </p>
-  <div class="example" id="example-f839f6c8"><a class="self-link" href="#example-f839f6c8"></a>
+  <h3 class="no-ref no-num heading settled" id="conventions">
+   <span class="content">文書の条件</span>
+   <a class="self-link" href="#conventions"></a>
+  </h3>
 
-   <p>This is an example of an informative example.</p>
+  <p>
+   適合性要件は、本文中で明示的に注意したものと、RFC 2119 用語集とによって表現されます。この文書において規範的な箇所で現れる "MUST"、"MUST NOT"、"REQUIRED"、"SHALL"、"SHALL NOT"、"SHOULD"、"SHOULD NOT"、"RECOMMENDED"、"MAY"、そして "OPTIONAL" といったキーワードは、RFC 2119 で述べられている通りに解釈されるべきです。しかし、可読性を考慮して、これらの語句が常に大文字で仕様に現れるとは限りません【訳注: 日本語訳において特別の強調が常に行われるとも限りません】。
+  </p>
 
+  <p>
+   この仕様の文章について、非規範的、例、補足と明示的に書かれた節以外はすべて規範的です <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a>。
+  </p>
 
+  <p>
+   この仕様における例は、「例えば」の語句で始まるか、規範的な文章とは切り離して以下のように <code>class="example"</code> が伴われています。
+  </p>
+
+  <div class="example" id="example-f839f6c8">
+   <a class="self-link" href="#example-f839f6c8"></a>
+   <p>この例は参考としての例です。</p>
   </div>
 
+  <p>
+   参考としての補足は、「補足」の語句で始まるか、規範的な文章とは切り離して以下のように <code>class="note"</code> が伴われています。
+  </p>
 
-  <p>Informative notes begin with the word "Note" and are set apart from the
-    normative text with <code>class="note"</code>, like this:
+  <p class="note" role="note">
+   これは参考としての補足です。
+  </p>
 
-    </p>
-  <p class="note" role="note">Note, this is an informative note.</p>
+  <h3 class="no-ref no-num heading settled" id="conformant-algorithms">
+   <span class="content">適合するアルゴリズム</span>
+   <a class="self-link" href="#conformant-algorithms"></a>
+  </h3>
 
+  <p>
+   アルゴリズムの部分として命令文で書かれた要件（「先頭にある空白文字をすべて取り除いてくだい」または「false を返し、この手順を中断してください」のようなものです）は、アルゴリズムの説明で用いられるキーワード（"must"、"should"、"may" など）とともに解釈されるべきです。
+  </p>
 
-  <h3 class="no-ref no-num heading settled" id="conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#conformant-algorithms"></a></h3>
+  <p>
+   アルゴリズムや特定の手順で述べられている適合性要件は、結果が等価である限りにおいて、いかなる方法でも解釈することができます。特に、この仕様で定義されるアルゴリズムは理解のしやすさを意識しており、パフォーマンスを意識してはいません。実装者には、アルゴリズム実装の最適化を勧めます。
+  </p>
 
+  <h3 class="no-ref no-num heading settled" id="conformance-classes">
+   <span class="content">適合性クラス</span>
+   <a class="self-link" href="#conformance-classes"></a>
+  </h3>
 
-  <p>Requirements phrased in the imperative as part of algorithms (such as
-    "strip any leading space characters" or "return false and abort these
-    steps") are to be interpreted with the meaning of the key word ("must",
-    "should", "may", etc) used in introducing the algorithm.</p>
+  <p>
+   <dfn data-dfn-type="dfn" data-noexport="" id="conformant-user-agent">適合するユーザエージェント<a class="self-link" href="#conformant-user-agent"></a></dfn>は、この仕様に挙げられている要件のうち、ユーザエージェントに適用可能なものはすべて実装しなくてはなりません。
+  </p>
 
+  <p>
+   <dfn data-dfn-type="dfn" data-noexport="" id="conformant-server">適合するサーバ<a class="self-link" href="#conformant-server"></a></dfn>は、この仕様に挙げられている要件のうち、サーバに関要可能なものはすべて実装しなくてはなりません。
+  </p>
 
-  <p>Conformance requirements phrased as algorithms or specific steps can be
-    implemented in any manner, so long as the end result is equivalent. In
-    particular, the algorithms defined in this specification are intended to
-    be easy to understand and are not intended to be performant. Implementers
-    are encouraged to optimize.</p>
+  <h2 class="no-num heading settled" id="index">
+   <span class="content">索引</span>
+   <a class="self-link" href="#index"></a>
+  </h2>
 
+  <h3 class="no-num heading settled" id="index-defined-here">
+   <span class="content">この仕様で定義される用語</span>
+   <a class="self-link" href="#index-defined-here"></a>
+  </h3>
 
-  <h3 class="no-ref no-num heading settled" id="conformance-classes"><span class="content">Conformance Classes</span><a class="self-link" href="#conformance-classes"></a></h3>
-
-
-  <p>A <dfn data-dfn-type="dfn" data-noexport="" id="conformant-user-agent">conformant user agent<a class="self-link" href="#conformant-user-agent"></a></dfn> must implement all the requirements
-    listed in this specification that are applicable to user agents.</p>
-
-
-  <p>A <dfn data-dfn-type="dfn" data-noexport="" id="conformant-server">conformant server<a class="self-link" href="#conformant-server"></a></dfn> must implement all the requirements listed
-    in this specification that are applicable to servers.</p>
-
-
-
-
-  <h2 class="no-num heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
-  <h3 class="no-num heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="indexlist">
-   <li>conformant server, <a href="#conformant-server">Unnumbered section</a>
-   <li>conformant user agent, <a href="#conformant-user-agent">Unnumbered section</a>
-   <li>embedding document, <a href="#embedding-document">2</a>
-   <li>secure context, <a href="#secure-context">2</a>
-   <li>secure document, <a href="#secure-document">2</a>
-   <li>secure worker, <a href="#secure-worker">2</a></ul>
-  <h3 class="no-num heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
+   <li>適合するサーバ、<a href="#conformant-server">番号のない節</a>
+   <li>適合するユーザエージェント、<a href="#conformant-user-agent">番号のない節</a>
+   <li>埋め込み元ドキュメント、<a href="#embedding-document">2</a>
+   <li>安全なコンテキスト、<a href="#secure-context">2</a>
+   <li>安全なドキュメント、<a href="#secure-document">2</a>
+   <li>安全なワーカー、<a href="#secure-worker">2</a>
+  </ul>
+
+  <h3 class="no-num heading settled" id="index-defined-elsewhere">
+   <span class="content">参考文献で定義される用語</span>
+   <a class="self-link" href="#index-defined-elsewhere"></a>
+  </h3>
+
   <ul class="indexlist">
-   <li><a data-link-type="biblio" href="#biblio-dom">[dom]</a> defines the following terms:
+   <li><a data-link-type="biblio" href="#biblio-dom">[dom]</a> は以下の用語を定義します。
     <ul>
      <li><a href="http://www.w3.org/TR/dom/#interface-document">Document</a>
     </ul>
-   <li><a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a> defines the following terms:
+   <li><a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a> は以下の用語を定義します。
     <ul>
      <li><a href="https://fetch.spec.whatwg.org/#concept-response-tls-state">tls state</a>
     </ul>
-   <li><a data-link-type="biblio" href="#biblio-geolocation-api">[geolocation-API]</a> defines the following terms:
+   <li><a data-link-type="biblio" href="#biblio-geolocation-api">[geolocation-API]</a> は以下の用語を定義します。
     <ul>
      <li><a href="http://www.w3.org/TR/geolocation-API/#get-current-position">getCurrentPosition()</a>
      <li><a href="http://www.w3.org/TR/geolocation-API/#watch-position">watchPosition()</a>
     </ul>
-   <li><a data-link-type="biblio" href="#biblio-html5">[html5]</a> defines the following terms:
+   <li><a data-link-type="biblio" href="#biblio-html5">[html5]</a> は以下の用語を定義します。
     <ul>
      <li><a href="http://www.w3.org/TR/html5/browsers.html#active-document">active document</a>
      <li><a href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an iframe srcdoc document</a>
@@ -751,34 +761,44 @@
      <li><a href="http://www.w3.org/TR/html5/webstorage.html#the-sessionstorage-attribute">sessionStorage</a>
      <li><a href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a>
     </ul>
-   <li><a data-link-type="biblio" href="#biblio-mix">[MIX]</a> defines the following terms:
+   <li><a data-link-type="biblio" href="#biblio-mix">[MIX]</a> は以下の用語を定義します。
     <ul>
      <li><a href="https://w3c.github.io/webappsec/specs/mixedcontent/#potentially-secure-origin">potentially secure origin</a>
     </ul>
-   <li><a data-link-type="biblio" href="#biblio-rfc6454">[RFC6454]</a> defines the following terms:
+   <li><a data-link-type="biblio" href="#biblio-rfc6454">[RFC6454]</a> は以下の用語を定義します。
     <ul>
      <li><a href="https://tools.ietf.org/html/rfc6454#section-2.3">globally unique identifier</a>
      <li><a href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a>
     </ul>
-   <li><a data-link-type="biblio" href="#biblio-service-workers">[service-workers]</a> defines the following terms:
+   <li><a data-link-type="biblio" href="#biblio-service-workers">[service-workers]</a> は以下の用語を定義します。
     <ul>
      <li><a href="http://www.w3.org/TR/service-workers/#service-worker-obj">ServiceWorker</a>
     </ul>
-   <li><a data-link-type="biblio" href="#biblio-url">[URL]</a> defines the following terms:
+   <li><a data-link-type="biblio" href="#biblio-url">[URL]</a> は以下の用語を定義します。
     <ul>
      <li><a href="https://url.spec.whatwg.org/#concept-url-origin">origin of a url</a>
     </ul>
-   <li><a data-link-type="biblio" href="#biblio-w3c-process">[W3C-PROCESS]</a> defines the following terms:
+   <li><a data-link-type="biblio" href="#biblio-w3c-process">[W3C-PROCESS]</a> は以下の用語を定義します。
     <ul>
      <li><a href="http://www.w3.org/2014/Process-20140801/#rec-modify">modify a specification</a>
     </ul>
-   <li><a data-link-type="biblio" href="#biblio-workers">[workers]</a> defines the following terms:
+   <li><a data-link-type="biblio" href="#biblio-workers">[workers]</a> は以下の用語を定義します。
     <ul>
      <li><a href="http://www.w3.org/TR/workers/#sharedworker">SharedWorker</a>
      <li><a href="http://www.w3.org/TR/workers/#worker">Worker</a>
-    </ul></ul>
-  <h2 class="no-num heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
-  <h3 class="no-num heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
+    </ul>
+  </ul>
+
+  <h2 class="no-num heading settled" id="references">
+   <span class="content">参考文献</span>
+   <a class="self-link" href="#references"></a>
+  </h2>
+
+  <h3 class="no-num heading settled" id="normative">
+   <span class="content">規範的な参考文献</span>
+   <a class="self-link" href="#normative"></a>
+  </h3>
+
   <dl>
    <dt id="biblio-fetch"><a class="self-link" href="#biblio-fetch"></a>[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
@@ -805,8 +825,14 @@
    <dt id="biblio-service-workers"><a class="self-link" href="#biblio-service-workers"></a>[SERVICE-WORKERS]
    <dd>Alex Russell; Jungkee Song; Jake Archibald. <a href="http://www.w3.org/TR/service-workers/">Service Workers</a>. 25 June 2015. WD. URL: <a href="http://www.w3.org/TR/service-workers/">http://www.w3.org/TR/service-workers/</a>
    <dt id="biblio-workers"><a class="self-link" href="#biblio-workers"></a>[WORKERS]
-   <dd>Ian Hickson. <a href="http://www.w3.org/TR/workers/">Web Workers</a>. 1 May 2012. CR. URL: <a href="http://www.w3.org/TR/workers/">http://www.w3.org/TR/workers/</a></dl>
-  <h3 class="no-num heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+   <dd>Ian Hickson. <a href="http://www.w3.org/TR/workers/">Web Workers</a>. 1 May 2012. CR. URL: <a href="http://www.w3.org/TR/workers/">http://www.w3.org/TR/workers/</a>
+  </dl>
+
+  <h3 class="no-num heading settled" id="informative">
+   <span class="content">情報的な参考文献</span>
+   <a class="self-link" href="#informative"></a>
+  </h3>
+
   <dl>
    <dt id="biblio-bluetooth"><a class="self-link" href="#biblio-bluetooth"></a>[BLUETOOTH]
    <dd>Jeffrey Yasskin; Vincent Scheib. <a href="https://webbluetoothcg.github.io/web-bluetooth/">Web Bluetooth</a>. URL: <a href="https://webbluetoothcg.github.io/web-bluetooth/">https://webbluetoothcg.github.io/web-bluetooth/</a>
@@ -831,16 +857,24 @@
    <dt id="biblio-mediacapture-streams"><a class="self-link" href="#biblio-mediacapture-streams"></a>[MEDIACAPTURE-STREAMS]
    <dd>Daniel Burnett; et al. <a href="http://www.w3.org/TR/mediacapture-streams/">Media Capture and Streams</a>. 14 April 2015. LCWD. URL: <a href="http://www.w3.org/TR/mediacapture-streams/">http://www.w3.org/TR/mediacapture-streams/</a>
    <dt id="biblio-rfc6265"><a class="self-link" href="#biblio-rfc6265"></a>[RFC6265]
-   <dd>A. Barth. <a href="https://tools.ietf.org/html/rfc6265">HTTP State Management Mechanism</a>. April 2011. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6265">https://tools.ietf.org/html/rfc6265</a></dl>
-  <h2 class="no-num heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
+   <dd>A. Barth. <a href="https://tools.ietf.org/html/rfc6265">HTTP State Management Mechanism</a>. April 2011. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6265">https://tools.ietf.org/html/rfc6265</a>
+  </dl>
+
+  <h2 class="no-num heading settled" id="issues-index">
+   <span class="content">問題点の索引</span>
+   <a class="self-link" href="#issues-index"></a>
+  </h2>
+
   <div style="counter-reset:issue">
-   <div class="issue"> "<a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a>" isn’t correct. We should use whatever
-            gets produced as a result of
-            <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27146">bug
-            27146</a>.<a href="#issue-ed0737af"> ↵ </a></div>
-   <div class="issue"> <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> is poorly defined. For example, we should ensure
-        that sandboxed documents retain the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a>
-        associated with their transport mechanism. See
-        <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27190">bug
-        27190</a>.<a href="#issue-60c8add0"> ↵ </a></div></div></body>
+   <div class="issue">
+    "<a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a>" は正しくありません。<a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27146">bug 27146</a> の結果が用いられるべきです。<a href="#issue-ed0737af"> ↵ </a>
+   </div>
+
+   <div class="issue">
+    <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> の定義が明確ではありません。 例えば、サンドボックス化されたドキュメントは、自身の通信機構に結び付いた <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> を保持するよう保証するべきです。詳細は <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27190">bug 27190</a> を参照してください。<a href="#issue-60c8add0"> ↵ </a>
+   </div>
+
+  </div>
+
+ </body>
 </html>
