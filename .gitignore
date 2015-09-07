@@ -1,2 +1,5 @@
 # original htmls
 *.BAK
+
+# css
+*.css
