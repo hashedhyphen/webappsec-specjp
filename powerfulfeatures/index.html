@@ -64,7 +64,9 @@
   <div class="head">
 
    <p class="note" role="note">
-    この文書は、2015年7月17日時点で Editor's Draft である <a href="https://w3c.github.io/webappsec/specs/powerfulfeatures/">Secure Contexts</a> の日本語訳です。正式な文書は英語版のみであることにご注意ください。
+
+    この文書は、2015年7月17日時点で Editor's Draft である <a href="https://w3c.github.io/webappsec/specs/powerfulfeatures/">Secure Contexts</a> の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。
+
     <br>
     詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。
    </p>
@@ -75,7 +77,7 @@
     <a class="logo" href="http://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"></a>
    </p>
 
-   <h1 class="p-name no-ref" id="title">Secure Contexts</h1>
+   <h1 class="p-name no-ref" id="title">Secure Contexts 日本語訳</h1>
 
    <h2 class="no-num no-toc no-ref heading settled" id="subtitle">
     <span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-07-17">17 July 2015</time></span>
@@ -132,11 +134,13 @@
   <div data-fill-with="status">
 
    <p>
-    この文書は editor's draft の公式なコピーです。これは議論のみを目的として提供されており、内容が予告なく変更されることがあります。この文書の内容は W3C に公認されてはいません。進行中の仕事として以外でこの文書を引用することはしないでください。
+
+    この文書は Editor's Draft の公式なコピーです。これは議論のみを目的として提供されており、内容が予告なく変更されることがあります。この文書の内容は W3C に公認されたものではありません。作成中の文書であることを踏まえずにこの文書を引用することはしないでください。
    </p>
 
    <p>
-    <strong>この文書の変更は <a href="https://github.com/w3c/webappsec">https://github.com/w3c/webappsec</a> に記録されるかもしれません。</strong>
+    <strong>この文書に関する変更点は <a href="https://github.com/w3c/webappsec">https://github.com/w3c/webappsec</a> に記録されるかもしれません。</strong>
+
    </p>
 
    <p>
@@ -148,7 +152,9 @@
    </p>
 
    <p>
-    この文書は <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 W3C Patent Policy</a> の下で活動している団体によって作られました。W3C は、グループの成果物に関連して作られた <a href="http://www.w3.org/2004/01/pp-impl/49309/status">public list of any patent disclosures</a> を管理しています。このリストには特許を公開する方法も含まれています。<a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> が含まれていると考える特許について実際の知識を持っている方は、<a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section 6 of the W3C Patent Policy</a> に従って情報を開示しなければなりません。
+
+    この文書は <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 W3C Patent Policy</a> の下で活動するグループによって作成されました。W3C は、このグループの成果物に関連する <a href="http://www.w3.org/2004/01/pp-impl/49309/status">開示特許の公開リスト</a> を管理しており、このリストには特許を開示する方法も含まれています。特許について <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> があると考え、実際に特許に関する知識を持っている方は、<a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">W3C Patent Policy の第6章</a> に従って情報を開示しなければなりません。
+
    </p>
 
    <p>
@@ -196,11 +202,13 @@
       <li><a href="#development-environments"><span class="secno">6.2</span> <span class="content">開発環境</span></a>
      </ul>
     <li><a href="#acknowledgements"><span class="secno">7</span> <span class="content">謝辞</span></a>
-    <li><a href="#conformance"><span class="secno"></span> <span class="content">適合性</span></a>
+
+    <li><a href="#conformance"><span class="secno"></span> <span class="content">準拠基準</span></a>
      <ul class="toc">
-      <li><a href="#conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
-      <li><a href="#conformant-algorithms"><span class="secno"></span> <span class="content">適合するアルゴリズム</span></a>
-      <li><a href="#conformance-classes"><span class="secno"></span> <span class="content">適合するクラス</span></a>
+      <li><a href="#conventions"><span class="secno"></span> <span class="content">文書における規約</span></a>
+      <li><a href="#conformant-algorithms"><span class="secno"></span> <span class="content">準拠するアルゴリズム</span></a>
+      <li><a href="#conformance-classes"><span class="secno"></span> <span class="content">準拠するクラス</span></a>
+
      </ul>
     <li><a href="#index"><span class="secno"></span> <span class="content">索引</span></a>
      <ul class="toc">
@@ -209,8 +217,10 @@
      </ul>
     <li><a href="#references"><span class="secno"></span> <span class="content">参考文献</span></a>
      <ul class="toc">
-      <li><a href="#normative"><span class="secno"></span> <span class="content">規範的な文献</span></a>
-      <li><a href="#informative"><span class="secno"></span> <span class="content">参考文献</span></a>
+
+      <li><a href="#normative"><span class="secno"></span> <span class="content">規範的な参考文献</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">情報的な参考文献</span></a>
+
      </ul>
     <li><a href="#issues-index"><span class="secno"></span> <span class="content">問題点の索引</span></a>
    </ul></div>
@@ -229,11 +239,13 @@
     </p>
 
     <p>
-     より便利でより強力なアプリケーションが動作できるよう Web プラットフォームが拡張されるに従って、アプリケーションを動かす機能が最小限のセキュリティ境界を満たすコンテキスト内でのみ動作されることを保障する必要性が高まっています。この文書では、Web における機能の濫用に対する脅威モデルを説明し、新しい機能を規定する文書に組み込まれるべき規範的な要求を説明します。
+
+     より便利でより強力なアプリケーションが動作できるように Web プラットフォームが拡張されるに従い、アプリケーションに必要な機能の動作範囲が、最小限のセキュリティ境界を満たすコンテキストの中だけであることを保障する必要性が高まっています。この文書では、Web における機能の濫用に対する脅威モデルを説明し、新しい機能を規定する文書が組み込むべき規範的な要件を説明します。
     </p>
 
     <p>
-     ここで議論される要求のうち最も明白なものは、機密な、あるいは私的な情報にアクセスするアプリケーションのコードは、データの完全性が保障されており、認証され、かつ機密性のある通信路でのみ配信されるべきだということです。安全にコードを配信することはユーザの安全とプライバシーの要求をアプリケーションが常に満たすことを保障できませんが、これは必要な前提条件です。
+     ここで議論される要件の中で最も明白なのは、機密もしくは私的なデータにアクセスするアプリケーションのコードが配信されるのは、データの完全性が保障され、認証が行われ、かつ機密性が確保された通信路のみであるべきだということです。安全にコードを配信しても、ユーザのセキュリティとプライバシーという要件をアプリケーションが常に満たすことまで保障はできませんが、これは必要な前提条件です。
+
     </p>
 
    </section>
@@ -251,15 +263,19 @@
       <dfn data-dfn-type="dfn" data-export="" id="secure-context">安全なコンテキスト<a class="self-link" href="#secure-context"></a></dfn>
 
       <dd>
-       ある <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a> に対して <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが実行されて <code>Secure</code> が返された場合、その <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a> は <strong>安全なコンテキスト</strong> であるといいます。さらに、
+
+       ある <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a> に <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが適用されて <code>Secure</code> が返された場合、その <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a> は <strong>安全なコンテキスト</strong> であるといいます。さらに、
+
 
        <ul>
 
         <li>
-         ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> に対して <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが実行されて <code>Secure</code> が返された場合、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> は <dfn data-dfn-type="dfn" data-export="" id="secure-document">安全なドキュメント<a class="self-link" href="#secure-document"></a></dfn> であるといいます。
+
+         ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> に <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが適用されて <code>Secure</code> が返された場合、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> は <dfn data-dfn-type="dfn" data-export="" id="secure-document">安全なドキュメント<a class="self-link" href="#secure-document"></a></dfn> であるといいます。
 
        <li>
-         ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code>、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#sharedworker">SharedWorker</a></code>、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/service-workers/#service-worker-obj">ServiceWorker</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> に対して <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが実行されて <code>Secure</code> が返された場合、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> は <dfn data-dfn-type="dfn" data-export="" id="secure-worker">安全なワーカー<a class="self-link" href="#secure-worker"></a></dfn> であるといいます。
+         ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code>、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#sharedworker">SharedWorker</a></code>、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/service-workers/#service-worker-obj">ServiceWorker</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> に <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが適用されて <code>Secure</code> が返された場合、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> は <dfn data-dfn-type="dfn" data-export="" id="secure-worker">安全なワーカー<a class="self-link" href="#secure-worker"></a></dfn> であるといいます。
+
 
       </ul>
 
@@ -267,7 +283,9 @@
       <dfn data-dfn-type="dfn" data-noexport="" id="embedding-document">埋め込み元ドキュメント<a class="self-link" href="#embedding-document"></a></dfn>
 
       <dd>
-       ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> <var>A</var> について、<var>A</var> の <strong>埋め込み元ドキュメント</strong> とは、 <var>A</var> の<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">ブラウジングコンテキスト</a>が<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context-nested-through">ネストされている</a> <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> のことを指します。
+
+       ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> <var>A</var> の <strong>埋め込み元ドキュメント</strong> とは、 <var>A</var> の<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">ブラウジングコンテキスト</a>が<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context-nested-through">ネストされている</a> <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> のことを指します。
+
 
     </dl>
 
@@ -286,11 +304,15 @@
     </p>
 
     <h3 class="heading settled" data-level="3.1" id="threat-models">
-     <span class="secno">3.1. </span><span class="content">Threat Models</span>
+
+     <span class="secno">3.1. </span><span class="content">脅威モデル</span>
      <a class="self-link" href="#threat-models"></a>
     </h3>
 
-    <p>認証されていないオリジンに権限を与えることは、ネットワーク上に攻撃者がいない場合、すべてのオリジンに権限を与えることと等価です。インターネットの状況は、ネットワーク上に攻撃者がいることを当然のこととして仮定しなくてはならないほどのものです。一般にネットワーク上の攻撃者は、受動的と能動的との2種類に分類されます。</p>
+    <p>
+     認証されていないオリジンに権限を与えることは、ネットワーク上に攻撃者がいるため、あらゆるオリジンに権限を与えることと等価です。インターネットの現状はひどいものであり、ネットワーク上に攻撃者がいることを当然のように仮定しなくてはなりません。一般に、ネットワーク上の攻撃者は受動的と能動的との2種類に分類されます。
+    </p>
+
 
     <h4 class="heading settled" data-level="3.1.1" id="threat-passive">
      <span class="secno">3.1.1. </span><span class="content">ネットワーク上の受動的な攻撃者</span>
@@ -298,11 +320,13 @@
     </h4>
 
     <p>
-     「ネットワーク上の受動的な攻撃者」とは、通信の流れを観察できるが、この仕様に関わるレイヤーにおける通信の改変はできない、または改変しないことを選ぶ集団を指します。
+
+     「ネットワーク上の受動的な攻撃者」とは、通信の流れを観察することはできるが、この仕様に関係するレイヤーでの通信を改変することはできない、または意図的に改変しない集団を指します。
     </p>
 
     <p>
-     この文脈におけるネットワークの監視は「通信している集団の承認なしに彼らの意志を覆す」、そして「その演者がどれだけ慈悲深いと思われようとも、その演者によって監視が許されている限り、非道な演者の大半から身を守ることはできない」<a data-link-type="biblio" href="#biblio-rfc7258">[RFC7258]</a>。従って、この文書で定義されるアルゴリズムは、アプリケーション層におけるデータの完全性だけでなくプライバシーも提供する仕組みを要求しています
+     このように、ネットワークの監視は「通信している人々の承認なしに彼らの意志を裏切り」、そして「誰かが監視を許している限り、人々はその『誰か』をどれだけ慈悲深い存在と考えていようとも、最も非道な連中から自分たちの身を守ることはできない」 <a data-link-type="biblio" href="#biblio-rfc7258">[RFC7258]</a> のです。そのため、この文書で定義されるアルゴリズムは、アプリケーション層におけるデータの完全性だけでなくプライバシーも提供する仕組みを要求しています。
+
     </p>
 
     <h4 class="heading settled" data-level="3.1.2" id="threat-active">
@@ -311,7 +335,9 @@
     </h4>
 
     <p>
-     「ネットワーク上の能動的な攻撃者」とは、「ネットワーク上の受動的な攻撃者」が行えることすべてに対する能力を持ち、加えてネットワークを流れるあらゆるデータを改変、阻止、再送できる能力を持ちます。これらの能力は、能力に対する多くのレベルにおける潜在的な敵が持つことができ、公共の無線ネットワークを提供、または単に接続している危殆化した端末に限らず、料金の徴収のために通信を操作していながらセキュリティやプライバシーの脆弱性を間接的に抱えているインターネットサービスプロバイダに至るまで（<a data-link-type="biblio" href="#biblio-verizon">[VERIZON]</a> や <a data-link-type="biblio" href="#biblio-comcast">[COMCAST]</a> が最近の例です）、セキュリティまたはプライバシーを危殆化させる意思を持ち個人や団体、さらには国民全体をも標的にできる集団にとってです。
+
+     「ネットワーク上の能動的な攻撃者」は、「ネットワーク上の受動的な攻撃者」ができることすべてに加え、ネットワークを流れるあらゆるデータを改変、阻止、再送できる攻撃手段を持っています。セキュリティやプライバシーを揺るがし、個人や団体、さらには国民全体を標的にする潜在的な敵の集団にとって、公共の無線ネットワークを提供、または単に接続しているだけの脆弱なデバイスに限らず、料金の徴収のために通信を操作していながら、セキュリティやプライバシー上の脆弱性を間接的に抱えているインターネットサービスプロバイダ（<a data-link-type="biblio" href="#biblio-verizon">[VERIZON]</a> や <a data-link-type="biblio" href="#biblio-comcast">[COMCAST]</a> が最近の例です）という具合に、対象によってさまざまな攻撃手段をとることができます。
+
     </p>
 
     <h3 class="heading settled" data-level="3.2" id="threat-risks">
@@ -320,7 +346,9 @@
     </h3>
 
     <p>
-     ユーザの安全とプライバシーに明らかな影響を与える特定の Web プラットフォームの機能は、上で述べた脅威から身を守るために <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> の中でのみ利用可能にされるべきです。安全でないコンテキストで利用可能な機能は以下のような可能性をネットワーク上の攻撃者にさらす危険を冒します。
+
+     上で述べた脅威からユーザを守るために、特定の Web プラットフォームの持つ、ユーザのセキュリティとプライバシーに大きな影響を与える機能は <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> の中でのみ利用可能であるべきです。安全でないコンテキストで機能を利用可能にすると、以下の可能性をネットワーク上の攻撃者に与えてしまう危険を冒します。
+
     </p>
 
     <ol>
@@ -329,31 +357,35 @@
       機密情報（個人を識別できる情報、資格情報、支払方法など）を閲覧、改変できる可能性。<a data-link-type="biblio" href="#biblio-credential-management">[CREDENTIAL-MANAGEMENT]</a> は機密情報を扱う API の一例です。
 
      <li>
-      ユーザのデバイス（カメラ、マイクロフォン、特に挙げる価値のある GPS、しかし加速度計のように明らかな危険性がほとんどないセンサも確かに含まれています）からの入力の閲覧、改変できる可能性。<a data-link-type="biblio" href="#biblio-geolocation-api">[GEOLOCATION-API]</a> や <a data-link-type="biblio" href="#biblio-mediacapture-streams">[MEDIACAPTURE-STREAMS]</a> はセンサの入力を使う機能の歴史的な一例です。
+
+      ユーザのデバイス（カメラ、マイクロフォン、そして GPS は特に挙げる価値がありますが、これには加速度計のように明らかな危険性のほとんどないセンサも確かに含まれています）からの入力を閲覧、改変できる可能性。<a data-link-type="biblio" href="#biblio-geolocation-api">[GEOLOCATION-API]</a> や <a data-link-type="biblio" href="#biblio-mediacapture-streams">[MEDIACAPTURE-STREAMS]</a> はセンサの入力を使う機能の歴史的な一例です。
 
      <li>
-      ユーザがアクセスできる他のデバイスに関する情報にアクセスする可能性。<a data-link-type="biblio" href="#biblio-discovery">[DISCOVERY]</a> や <a data-link-type="biblio" href="#biblio-bluetooth">[BLUETOOTH]</a> が良い例です。
+      ユーザがアクセスできる他のデバイスの情報にアクセスできる可能性。<a data-link-type="biblio" href="#biblio-discovery">[DISCOVERY]</a> や <a data-link-type="biblio" href="#biblio-bluetooth">[BLUETOOTH]</a> が良い例です。
 
      <li>
-      ある一定時間の経過後に自身をリセットする識別子（例: <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/webstorage.html#the-sessionstorage-attribute">sessionStorage</a></code>）や、ユーザが手動でリセットできる識別子（例: <a data-link-type="biblio" href="#biblio-encrypted-media">[ENCRYPTED-MEDIA]</a>、Cookie <a data-link-type="biblio" href="#biblio-rfc6265">[RFC6265]</a>、そして <a data-link-type="biblio" href="#biblio-indexeddb">[IndexedDB]</a>）、さらにはユーザが容易にはリセットできないハードウェアの特徴を識別するもの、こういったものを含む一時的、ないしは永続的な識別子を使ってユーザを追跡する可能性。
+      ある一定時間が経過すると自身をリセットする識別子（例: <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/webstorage.html#the-sessionstorage-attribute">sessionStorage</a></code>）や、ユーザが手動でリセットできる識別子（例: <a data-link-type="biblio" href="#biblio-encrypted-media">[ENCRYPTED-MEDIA]</a>、Cookie <a data-link-type="biblio" href="#biblio-rfc6265">[RFC6265]</a>、そして <a data-link-type="biblio" href="#biblio-indexeddb">[IndexedDB]</a>）、さらにはユーザが容易にはリセットできないハードウェアの特徴を識別するもの、こういったものを含む一時的、ないしは永続的な識別子を使ってユーザを追跡できる可能性。
 
      <li>
-      ブラウザのセッションが切れるまで存在する、オリジンに対する状態を抱える可能性。<a data-link-type="biblio" href="#biblio-service-workers">[SERVICE-WORKERS]</a> がとても良い例です。
+      ブラウザのセッションが切れるまで有効なある状態をオリジンに設定できる可能性。<a data-link-type="biblio" href="#biblio-service-workers">[SERVICE-WORKERS]</a> がとても良い例です。
 
      <li>
-      ユーザエージェントのネイティブな UI を、削除したり覆い隠したり、またはコンテキストに対するユーザの理解に関連する詳細を操作するなどの方法で操作する可能性。例えば <a data-link-type="biblio" href="#biblio-fullscreen">[FULLSCREEN]</a> が挙げられます。
+      削除したり覆い隠したり、またはコンテキストをユーザが理解するのに用いる詳細情報を変更するなどして、ブラウザのネイティブな UI を操作できる可能性。例えば <a data-link-type="biblio" href="#biblio-fullscreen">[FULLSCREEN]</a> が挙げられます。
 
      <li>
-      ユーザの許可が必要な機能を導入する可能性。
+      ユーザの許可が必要な機能を組み込める可能性。
+
 
     </ol>
 
     <p>
-     このリストはすべてを列挙しているわけではありませんが、仕様を作成したり実装する際に考慮すべきリスクの種類がどういうものか感じられるでしょう。
+
+     このリストにすべて列挙されているわけではありませんが、仕様を作成したり実装する際に考慮すべきリスクに、どういう種類のものがあるかは分かるはずです。
     </p>
 
     <p class="note" role="note">
-     補足: <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> に対して機能を制限することは極めて重要であるのに対し、そのような情報を運ぶ手段（例えば、新しいネットワークにアクセスする仕組み、またはほかのネットワークの情報にアクセスする基本的な機能）が等しく機密的であることを忘れてはいけません。
+     補足: 機能を <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> に制限することは極めて重要ですが、そのような情報を運ぶ手段（例えば、新しいネットワークにアクセスする仕組み、または他のネットワークの情報にアクセスするための基本的な機能）に対しても、機密性が等しく求められることを忘れてはいけません。
+
     </p>
 
    </section>
@@ -372,7 +404,9 @@
     </h3>
 
     <p>
-     新しい機能に関する仕様を書く際には、<a href="#settings-secure">§5.1 settings object は安全か？</a>に基づく確認をして、機微な API を守るように、著者と編者に勧めます。良いアプローチの一例として、以下のようなものが挙げられます。
+
+     新しい機能に関する仕様を書く際には、<a href="#settings-secure">§5.1 settings object は安全か？</a>に基づく確認をして、機密性が求められる API を守ることを著者と編者に推奨します。良いアプローチの一例として、以下のようなものが挙げられます。
+
     </p>
 
     <div class="example" id="example-8ce7bce2">
@@ -386,7 +420,9 @@
      </ol>
 
      <p class="note" role="note">
-      補足: 自分の仕様に上の文章をコピー、貼り付けした場合は、仕様のユースケースに適したアクションをプレースホルダの部分へ忘れずに入れてください。
+
+      補足: 自分の仕様に上の文章をコピー、貼り付けする場合は、仕様のユースケースに適した処理を表す文章をプレースホルダの部分へ忘れずに入れてください。
+
      </p>
 
     </div>
@@ -398,19 +434,23 @@
 
 
     <p>
-     上に挙げたリストには、安全でない通信路における Web で現時点で存在しアクセス可能な機能が明らかに含まれています。そのようなレガシーな機能に対しては、現実的な範囲で可能な限り早く、<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>を求めるように始めてください。
+
+     先ほど挙げたリストには、現時点で Web に存在し、かつ安全でない通信路でアクセス可能な機能が明らかに含まれています。そのようなレガシーな機能が<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>内で利用可能となるよう、現実的な範囲で可能な限り早く動き始めることを推奨します。
+
     </p>
 
     <ol>
 
      <li>
-      そのような機能が広く実装されてはいない場合は、<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>に対する制限を含めるよう、仕様をすぐに<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">変更する</a>ことを勧めます。
+
+      そのような機能が広く実装されてはいない場合、<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>に関する制限を含めるよう、仕様をすぐに<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">修正する</a>ことを勧めます。
 
      <li>
-      そのような機能が広く実装されているが、広く使われてはいない場合は、<a href="#new">§4.1 新しい機能</a> で述べた確認を現存の実装に追加し、それに従って<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">仕様を変更する</a>ことにより、速やかに<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> に制限することを勧めます。
+      そのような機能が広く実装されているが、広く使われてはいない場合は、<a href="#new">§4.1 新しい機能</a> で述べた確認手順を現存の実装に追加し、それに従って<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">仕様を修正する</a>ことにより、速やかに機能を<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>に制限することを勧めます。
 
      <li>
-      そのような機能が広く使われている場合は、現存の機能を廃止することを勧めます。そして、この文書で説明した制限に仕様が適合しない旨を記述するような仕様の<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">変更</a>、適合する将来のバージョンを提供して現在のユーザを新しいバージョンに移行させる計画の立案をするべきです。
+      そのような機能が広く使われている場合は、現存の機能を廃止することを勧めます。そして、この文書で説明した制限に仕様が準拠しない旨を記述するために仕様を<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">修正</a>し、準拠する将来のバージョンを提供して現在のユーザを新しいバージョンに移行させる計画の立案をするべきです。
+
 
     </ol>
 
@@ -420,34 +460,41 @@
     </h4>
 
     <p>
-     そのような機能の具体例として良いものには <a data-link-type="biblio" href="#biblio-geolocation-api">[GEOLOCATION-API]</a> があります。この機能は広く実装されており、数多くの安全でないサイトで使われています。筋道立てて改善するには、以下のような流れになるかもしれません。
+
+     そのような機能の具体例として良いものには <a data-link-type="biblio" href="#biblio-geolocation-api">[GEOLOCATION-API]</a> があります。この機能は広く実装されており、数多くの安全でないサイトで使われています。無理なく改善するための流れは、以下のようになるかもしれません。
+
     </p>
 
     <ol>
 
      <li>
-      <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/geolocation-API/#get-current-position">getCurrentPosition()</a></code> や <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/geolocation-API/#watch-position">watchPosition()</a></code> のアルゴリズムを実行する前に、[[#settings-secure] に対する確認を含めるよう、仕様を<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">変更します</a>。
+
+      <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/geolocation-API/#get-current-position">getCurrentPosition()</a></code> や <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/geolocation-API/#watch-position">watchPosition()</a></code> のアルゴリズムを実行する前に [[#settings-secure] の確認を含めるよう、仕様を<a data-link-type="dfn" href="http://www.w3.org/2014/Process-20140801/#rec-modify">修正します</a>。
+
 
       <p>
        もし <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> が <code>Not Secure</code> を返す場合、そのアルゴリズムは中断されるべきであり、<code>PERMISSION_DENIED</code> を表す <code>code</code> とともに <var>errorCallback</var> が呼び出されます。
       </p>
 
      <li>
-      安全でないコンテキストにおいてその API を無効にする明確な意志を、特定の日時に表明するべきであり、それに従って開発者には警告を出すべきです（例えば、コンソールにメッセージを出すなど）。
+
+      安全でないコンテキストにおける API を無効にする明確な意志を、決められた日時に表明するべきであり、それに従って開発者には警告を出すべきです（例えば、コンソールにメッセージを出すなど）。
 
      <li>
-      プログラムの変更日を迎える準備として、単純にすべて停止させる前にサイトの運営者に自分のコードを変更する必要性を認識させることと、その期間においてユーザを守ることとを目的とし、ユーザエージェントは廃止のスケジュールを公表するべきです。そのような計画は次のようなものを含むかもしれません。
+      プログラムの変更日を迎えるための準備として、コードを変更する必要性をサイトの運営者に認識させるため、加えてその期間中のユーザを守るため、単純に API をすべて停止させる前に、ユーザエージェントは廃止のスケジュールを公表するべきです。そのような計画には次のようなものが含まれるかもしれません。
+
 
       <ul>
 
        <li>
-        安全でないオリジンに対する永続的な権限譲渡の無効化
+
+        安全でないオリジンに永続的な権限を与えていたことを無効にする
 
        <li>
-        安全でないオリジンにおける API の精度を粗雑にする（高精度のデータではなく市区町村単位のデータを継続的に返すかもしれません）
+        安全でないオリジンで API を利用した際の精度を粗雑にする（高精度のデータではなく市区町村単位のデータを継続的に返すかもしれません）
 
        <li>
-        ユーザとサイトの運営者に対してリスクを伝えるような UI の変更
+        ユーザとサイトの運営者に対してリスクを伝えるように UI を変更する
 
       </ul>
 
@@ -482,10 +529,12 @@
        <var>origin</var> を <var>settings</var> の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> とします。
 
       <li>
-       もし <var>origin</var> が <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-2.3">globally unique identifier</a> であるならば、<var>origin</var> を <var>settings</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a> に代入します。
+
+       もし <var>origin</var> が <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-2.3">globally unique identifier</a> であるならば、<var>settings</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a> を <var>origin</var> とします。
 
        <p class="note" role="note">
-        補足: これはサンドボックス化された <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> がある場合における後方互換性を保つためのものです。
+        補足: これはサンドボックス化された <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> に対して、後方互換性を保つための処理です。
+
        </p>
 
        <p class="issue" id="issue-ed0737af">
@@ -507,7 +556,9 @@
       <var>settings</var> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> の <var>document</var> を持っているとき、
 
      <p class="note" role="note">
-      補足: もし <var>settings</var> が <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> へマッピング（直接に、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> として）されている場合は、チェイン全体が安全であることを確認するため、ドキュメントの継承チェインをすべてさかのぼることになります。
+
+      補足: もし <var>settings</var> が <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> へマッピング（直接、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> として）されている場合は、チェイン全体が安全であることを確認するため、ドキュメントの継承チェインをすべてさかのぼることになります。
+
      </p>
 
      <ol>
@@ -521,18 +572,20 @@
       <ol>
 
        <li>
-        もし <var>ancestor</var> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an IFrame
-        <code>srcdoc</code> <code>Document</code></a> に対応する場合は、次の <var>ancestor</var> に移動します。
+
+        もし <var>ancestor</var> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">IFrame
+        <code>srcdoc</code> <code>Document</code></a> に対応する場合は、次の <var>ancestor</var> へスキップします。
 
        <li>
-        もし <var>ancestor</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> に対する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> が、<code>Authenticated</code> な <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> を持っている場合、次の <var>ancestor</var> に移動します。
+        もし <var>ancestor</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> に対する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> が、<code>Authenticated</code> な <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> を持っている場合は、次の <var>ancestor</var> へスキップします。
 
        <li>
-        もし <var>ancestor</var> のアクティブな <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxing-flag-set">sandboxing flag set</a> が、自身の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a> セットを持っていないならば、<var>origin</var> を <var>ancestor</var> の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> とします。そうでなければ、<var>origin</var> を <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin of <var>ancestor</var>’s
+        もし <var>ancestor</var> のアクティブな <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxing-flag-set">sandboxing flag set</a> が、自身の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a> セットを持っていない場合は、<var>origin</var> を <var>ancestor</var> の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> とします。そうでなければ、<var>origin</var> を <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin of <var>ancestor</var>’s
          <code>URL</code></a> とします。
 
        <li>
-        <var>origin</var> に対して <a href="#is-origin-trustworthy">§5.2 オリジンは潜在的に信頼できるか？</a> のアルゴリズムを適用した結果が <code>Potentially Trustworthy</code> で<strong>ない</strong>場合、 <code>Not Secure</code> を返します。
+        もし <var>origin</var> に対して <a href="#is-origin-trustworthy">§5.2 オリジンは潜在的に信頼できるか？</a> のアルゴリズムを適用した結果が <code>Potentially Trustworthy</code> で<strong>ない</strong>場合は、<code>Not Secure</code> を返します。
+
 
       </ol>
 
@@ -544,20 +597,24 @@
     </ol>
 
     <h3 class="heading settled" data-level="5.2" id="is-origin-trustworthy">
-     <span class="secno">5.2. </span><span class="content"><var>origin</var> は潜在的に信頼できるか？</span>
+
+     <span class="secno">5.2. </span><span class="content"><var>オリジン</var> は潜在的に信頼できるか？</span>
+
      <a class="self-link" href="#is-origin-trustworthy"></a>
     </h3>
 
     <p>
-     特定のオリジンは常に潜在的に信頼できます。特に、ユーザエージェントは <code>file</code> URL と、"localhost" に等価なホスト名を持つ URL とは、潜在的に信頼できるものと扱わなくてはなりません（MUST）。原則として、ユーザエージェントはローカルのファイルとローカルの Web サーバは信頼できないものと扱うことができます。しかし、<em>実行時にユーザエージェントが利用可能な情報を考えると</em>、リソースは安全に運ばれてきたと考えられます。さらに、そのようなリソースを潜在的に信頼できるものと見なすことで、デプロイして公開する前に開発者がアプリケーションを開発するのに都合が良くなります。
+
+     特定のオリジンはどんな場合でも潜在的に信頼できます。特に、ユーザエージェントは <code>file</code> URL と、"localhost" に等価なホスト名を持つ URL とを、潜在的に信頼できるものと扱わなくてはなりません（MUST）。原則として、ユーザエージェントはローカルのファイルとローカルの Web サーバは信頼できないものと扱うことができます。しかし、<em>実行時にユーザエージェントが利用可能な情報を考えると</em>、リソースは安全に運ばれてきたものと考えられます。さらに、そのようなリソースを潜在的に信頼できるものと見なすことで、デプロイして公開する前のアプリケーション開発に都合が良くなります。
     </p>
 
     <p>
-     ユーザエージェントは <code>app:</code> や <code>chrome-extension:</code> のようなベンダー定義の URL スキームを信頼するように拡張してもよいでしょう（MAY）。
+     ユーザエージェントは、<code>app:</code> や <code>chrome-extension:</code> のようなベンダー定義の URL スキームに関して、これらを信頼するように拡張してもよいでしょう（MAY）。
     </p>
 
     <p>
-     ある <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> の <var>origin</var> について、以下のアルゴリズムは <code>Potentially Trustworthy</code> か <code>Not Trustworthy</code> のどちらか適切なものを返します。
+     ある <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">オリジン</a> の <var>origin</var> に対して、以下のアルゴリズムは <code>Potentially Trustworthy</code> か <code>Not Trustworthy</code> のどちらか適切なものを返します。
+
     </p>
 
     <ol>
@@ -580,7 +637,9 @@
       もし <var>origin</var> における <code>scheme</code> の構成部分が <code>file</code> であれば、<code>Potentially Trustworthy</code> を返します。
 
      <li>
-      もし <var>origin</var> における <code>scheme</code> の構成部分が、ユーザエージェントが認証できるとみなしたものであれば <code>Potentially Trustworthy</code> を返します。
+
+      もし <var>origin</var> における <code>scheme</code> の構成部分が、ユーザエージェントが認証できると見なしたものであれば <code>Potentially Trustworthy</code> を返します。
+
 
       <p class="note" role="note">
        補足: 詳しくは <a href="#packaged-applications">§6.1 Packaged Applications</a> を参照してください。
@@ -614,7 +673,9 @@
     </h3>
 
     <p>
-     Packaged Applications をサポートしているユーザエージェントは、ユーザエージェントがコンテンツを認証した特定の URL スキームをホワイトリストにしても良いでしょう（MAY）。例えば、Firefox OS アプリケーションのリソースは、<code>scheme</code> の構成部分が <code>app:</code> である URL で参照されます。同様に、Chrome 拡張と Chrome アプリは <code>chrome-extension:</code> スキームで動作します。これらを信頼できるオリジンと見なせても無理はないでしょう。
+
+     Packaged Applications をサポートしているユーザエージェントは、自身でコンテンツを認証した特定の URL スキームからなるホワイトリストを作成しても良いでしょう（MAY）。例えば、Firefox OS アプリケーションのリソースは、<code>scheme</code> の構成部分が <code>app:</code> である URL で参照されます。同様に、Chrome 拡張機能と Chrome アプリは <code>chrome-extension:</code> スキームで動作します。これらを信頼できるオリジンと見なせても無理はないでしょう。
+
     </p>
 
     <h3 class="heading settled" data-level="6.2" id="development-environments">
@@ -623,7 +684,9 @@
     </h3>
 
     <p>
-     仮に <a href="#is-origin-trustworthy">§5.2 オリジンは潜在的に信頼できるか？</a> が <code>Not Trusted</code> を通常は返す場合であっても、ループバックではないホストでステージングサーバを動かしている開発者を支援するため、ユーザエージェントは、信頼できると見なすオリジンの一覧をユーザが設定できるように許可しても良いでしょう（MAY）。
+
+     通常は <a href="#is-origin-trustworthy">§5.2 オリジンは潜在的に信頼できるか？</a> が <code>Not Trusted</code> を返す場合であったとしても、ループバックではないホストでステージングサーバを動かしている開発者を支援するため、ユーザエージェントは、信頼できると見なすオリジンの一覧をユーザが設定できるように許可しても良いでしょう（MAY）。
+
     </p>
 
    </section>
@@ -637,7 +700,9 @@
     </h2>
 
     <p>
-     この文書は、Chrome セキュリティチームの <a data-link-type="biblio" href="#biblio-powerful-new-features">[POWERFUL-NEW-FEATURES]</a> における業績に大きく依存しています。これには Chris Palmer、Ryan Sleevi、そして David Dorwin 各氏が特に貢献しています。また、Anne van Kesteren と Henri Sivonen 両氏からとても有益なフィードバックをいただきました。
+
+     この文書は、Chrome セキュリティチームの <a data-link-type="biblio" href="#biblio-powerful-new-features">[POWERFUL-NEW-FEATURES]</a> における成果に大きく依存しています。これには Chris Palmer、Ryan Sleevi、そして David Dorwin 各氏が特に貢献しています。また、Anne van Kesteren と Henri Sivonen 両氏からとても有益なフィードバックをいただきました。
+
     </p>
 
    </section>
@@ -646,17 +711,23 @@
 
 
   <h2 class="no-ref no-num heading settled" id="conformance">
-   <span class="content">適合性</span>
+
+   <span class="content">準拠基準</span>
+
    <a class="self-link" href="#conformance"></a>
   </h2>
 
   <h3 class="no-ref no-num heading settled" id="conventions">
-   <span class="content">文書の条件</span>
+
+   <span class="content">文書における規約</span>
+
    <a class="self-link" href="#conventions"></a>
   </h3>
 
   <p>
-   適合性要件は、本文中で明示的に注意したものと、RFC 2119 用語集とによって表現されます。この文書において規範的な箇所で現れる "MUST"、"MUST NOT"、"REQUIRED"、"SHALL"、"SHALL NOT"、"SHOULD"、"SHOULD NOT"、"RECOMMENDED"、"MAY"、そして "OPTIONAL" といったキーワードは、RFC 2119 で述べられている通りに解釈されるべきです。しかし、可読性を考慮して、これらの語句が常に大文字で仕様に現れるとは限りません【訳注: 日本語訳において特別の強調が常に行われるとも限りません】。
+
+   準拠基準は、本文中で明示的に注意をしたものと、RFC 2119 用語集とによって表現されます。この文書中の規範的な箇所で現れる "MUST"、"MUST NOT"、"REQUIRED"、"SHALL"、"SHALL NOT"、"SHOULD"、"SHOULD NOT"、"RECOMMENDED"、"MAY"、そして "OPTIONAL" といったキーワードは、RFC 2119 で述べられている通りに解釈されるべきです。しかし、可読性を考慮して、これらの語句が常に大文字で仕様に現れるとは限りません【訳注: 日本語訳において特別の強調が常に行われるとも限りません】。
+
   </p>
 
   <p>
@@ -681,29 +752,35 @@
   </p>
 
   <h3 class="no-ref no-num heading settled" id="conformant-algorithms">
-   <span class="content">適合するアルゴリズム</span>
+
+   <span class="content">準拠するアルゴリズム</span>
+
    <a class="self-link" href="#conformant-algorithms"></a>
   </h3>
 
   <p>
-   アルゴリズムの部分として命令文で書かれた要件（「先頭にある空白文字をすべて取り除いてくだい」または「false を返し、この手順を中断してください」のようなものです）は、アルゴリズムの説明で用いられるキーワード（"must"、"should"、"may" など）とともに解釈されるべきです。
+
+   アルゴリズムの部分として命令文で書かれた要件（「先頭にある空白文字をすべて取り除きます」または「false を返し、この手順を中断します」のようなもの）は、アルゴリズムの説明で用いられるキーワード（"must"、"should"、"may" など）とともに解釈されるべきです。
   </p>
 
   <p>
-   アルゴリズムや特定の手順で述べられている適合性要件は、結果が等価である限りにおいて、いかなる方法でも解釈することができます。特に、この仕様で定義されるアルゴリズムは理解のしやすさを意識しており、パフォーマンスを意識してはいません。実装者には、アルゴリズム実装の最適化を勧めます。
+   アルゴリズムや特定の手順で述べられている準拠基準は、結果が等価である限りにおいて、どのような方法でも解釈することができます。特に、この仕様で定義されるアルゴリズムは理解のしやすさを意識しており、パフォーマンスを意識してはいません。アルゴリズムの実装が最適化されることは実装者に推奨されています。
   </p>
 
   <h3 class="no-ref no-num heading settled" id="conformance-classes">
-   <span class="content">適合性クラス</span>
+   <span class="content">準拠するクラス</span>
+
    <a class="self-link" href="#conformance-classes"></a>
   </h3>
 
   <p>
-   <dfn data-dfn-type="dfn" data-noexport="" id="conformant-user-agent">適合するユーザエージェント<a class="self-link" href="#conformant-user-agent"></a></dfn>は、この仕様に挙げられている要件のうち、ユーザエージェントに適用可能なものはすべて実装しなくてはなりません。
+
+   <dfn data-dfn-type="dfn" data-noexport="" id="conformant-user-agent">準拠するユーザエージェント<a class="self-link" href="#conformant-user-agent"></a></dfn>は、この仕様に挙げられている要件のうち、ユーザエージェントに適用可能なものはすべて実装しなくてはなりません。
   </p>
 
   <p>
-   <dfn data-dfn-type="dfn" data-noexport="" id="conformant-server">適合するサーバ<a class="self-link" href="#conformant-server"></a></dfn>は、この仕様に挙げられている要件のうち、サーバに関要可能なものはすべて実装しなくてはなりません。
+   <dfn data-dfn-type="dfn" data-noexport="" id="conformant-server">準拠するサーバ<a class="self-link" href="#conformant-server"></a></dfn>は、この仕様に挙げられている要件のうち、サーバに適用可能なものはすべて実装しなくてはなりません。
+
   </p>
 
   <h2 class="no-num heading settled" id="index">
@@ -717,8 +794,10 @@
   </h3>
 
   <ul class="indexlist">
-   <li>適合するサーバ、<a href="#conformant-server">番号のない節</a>
-   <li>適合するユーザエージェント、<a href="#conformant-user-agent">番号のない節</a>
+
+   <li>準拠するサーバ、<a href="#conformant-server">番号のない節</a>
+   <li>準拠するユーザエージェント、<a href="#conformant-user-agent">番号のない節</a>
+
    <li>埋め込み元ドキュメント、<a href="#embedding-document">2</a>
    <li>安全なコンテキスト、<a href="#secure-context">2</a>
    <li>安全なドキュメント、<a href="#secure-document">2</a>
