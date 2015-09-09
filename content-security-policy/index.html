@@ -190,7 +190,7 @@
 
   <div data-fill-with="at-risk">
    <p>
-    以下は "at-risk な" 機能であり、勧告候補期間中に削除されるかもしれません。
+    以下は不安定な機能であり、勧告候補期間中に削除されるかもしれません。
    </p>
 
    <ul>
@@ -199,30 +199,33 @@
    </ul>
 
    <p>
-    "At-risk な" とは W3C Process での専門用語で、将来に機能が廃止、または延期されることを必ずしも意味するものではありません。これは、機能の実装が時宜的に難しいとワーキンググループが考えていることを意味し、勧告案に移行する際に必要であれば機能を廃止し、その機能がない新しい勧告候補を最初から作り直す必要がないようにするために注記をしているものです。
+    「不安定な」とは W3C Process での専門用語で、将来に機能が廃止、または延期されることを必ずしも意味するものではありません。これは、機能の実装が時宜的に難しいとワーキンググループが考えていることを意味し、勧告案に移行する際に必要であれば機能を廃止し、その機能がない新しい勧告候補を最初から作り直す必要がないようにするために注記をしているものです。
    </p>
 
   </div>
 
 
-  <h2 class="no-num no-toc no-ref heading settled" id="contents"><span class="content">Table of Contents</span></h2>
+  <h2 class="no-num no-toc no-ref heading settled" id="contents">
+   <span class="content">目次</span>
+  </h2>
+
   <div data-fill-with="table-of-contents" role="navigation">
    <ul class="toc" role="directory">
     <li>
-     <a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
+     <a href="#intro"><span class="secno">1</span> <span class="content">導入</span></a>
      <ul class="toc">
-      <li><a href="#changes-from-level-2"><span class="secno">1.1</span> <span class="content">Changes from Level 2</span></a>
-      <li><a href="#changes-from-level-1"><span class="secno">1.2</span> <span class="content">Changes from Level 1</span></a>
+      <li><a href="#changes-from-level-2"><span class="secno">1.1</span> <span class="content">Level 2 からの変更点</span></a>
+      <li><a href="#changes-from-level-1"><span class="secno">1.2</span> <span class="content">Level 1 からの変更点</span></a>
      </ul>
-    <li><a href="#key-concepts"><span class="secno">2</span> <span class="content">Key Concepts and Terminology</span></a>
+    <li><a href="#key-concepts"><span class="secno">2</span> <span class="content">中心となる概念と用語</span></a>
     <li>
-     <a href="#policy-delivery"><span class="secno">3</span> <span class="content">Policy Delivery</span></a>
+     <a href="#policy-delivery"><span class="secno">3</span> <span class="content">ポリシーの配送</span></a>
      <ul class="toc">
-      <li><a href="#content-security-policy-header-field"><span class="secno">3.1</span> <span class="content"> <code>Content-Security-Policy</code> Header Field </span></a>
-      <li><a href="#content-security-policy-report-only-header-field"><span class="secno">3.2</span> <span class="content"> <code>Content-Security-Policy-Report-Only</code> Header Field </span></a>
-      <li><a href="#delivery-html-meta-element"><span class="secno">3.3</span> <span class="content"> HTML <code><span>meta</span></code> Element </span></a>
+      <li><a href="#content-security-policy-header-field"><span class="secno">3.1</span> <span class="content"> <code>Content-Security-Policy</code> ヘッダフィールド</span></a>
+      <li><a href="#content-security-policy-report-only-header-field"><span class="secno">3.2</span> <span class="content"> <code>Content-Security-Policy-Report-Only</code> ヘッダフィールド</span></a>
+      <li><a href="#delivery-html-meta-element"><span class="secno">3.3</span> <span class="content"> HTML <code><span>meta</span></code> 要素</span></a>
       <li><a href="#csp-request-header"><span class="secno">3.4</span> <span class="content">The <code>CSP</code> HTTP Request Header</span></a>
-      <li><a href="#enforcing-multiple-policies"><span class="secno">3.5</span> <span class="content">Enforcing multiple policies</span></a>
+      <li><a href="#enforcing-multiple-policies"><span class="secno">3.5</span> <span class="content">複数ポリシーの適用</span></a>
       <li><a href="#which-policy-applies"><span class="secno">3.6</span> <span class="content">Policy applicability</span></a>
      </ul>
     <li>
@@ -383,31 +386,37 @@
   </div>
   <main>
    <section>
-    <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
-    <p><em>This section is not normative.</em></p>
-    <p>This document defines Content Security Policy, a mechanism web applications
-  can use to mitigate a broad class of content injection vulnerabilities, such
-  as cross-site scripting (XSS). Content Security Policy is a declarative policy
-  that lets the authors (or server administrators) of a web application inform
-  the client about the sources from which the application expects to load
-  resources.</p>
-    <p>To mitigate XSS attacks, for example, a web application can declare that it
-  only expects to load script from specific, trusted sources. This declaration
-  allows the client to detect and block malicious scripts injected into the
-  application by an attacker.</p>
-    <p>Content Security Policy (CSP) is not intended as a first line of defense
-  against content injection vulnerabilities. Instead, CSP is best used as
-  defense-in-depth, to reduce the harm caused by content injection attacks. As
-  a first line of defense against content injection, server operators should
-  validate their input and encode their output.</p>
-    <p>There is often a non-trivial amount of work required to apply CSP to an
-  existing web application. To reap the greatest benefit, authors will need to
-  move all inline script and style out-of-line, for example into external
-  scripts, because the user agent cannot determine whether an inline script
-  was injected by an attacker.</p>
-    <p>To take advantage of CSP, a web application opts into using CSP by supplying a <code>Content-Security-Policy</code> HTTP header. Such policies apply to the
-  current resource representation only. To supply a policy for an entire site,
-  the server needs to supply a policy with each resource representation.</p>
+
+    <h2 class="heading settled" data-level="1" id="intro">
+     <span class="secno">1. </span><span class="content">導入</span>
+     <a class="self-link" href="#intro"></a>
+    </h2>
+
+    <p>
+     <em>この節は非規範的です。</em>
+    </p>
+
+    <p>
+     この文書は、クロスサイトスクリプティング（XSS）に代表される、コンテンツを注入する幅広い種類の脆弱性を緩和するために Web アプリケーションが利用できる仕組みである、Content Security Policy を定義します。Content Security Policy は、Web アプリケーションの作成者（またはサーバの管理者）からクライアントに向けて、アプリケーションがリソースを読み込むことを期待する情報源について知らせるのを可能にする、宣言的なポリシーです。
+    </p>
+
+    <p>
+     例えば、XSS 攻撃を緩和するために、Web アプリケーションはスクリプトを明示され信頼された情報源からのみ読み込むことを期待するように宣言することができます。
+     この宣言により、クライアントは、攻撃者がアプリケーションに注入した悪意のあるスクリプトを検知してブロックすることができるようになります。
+    </p>
+
+    <p>
+     Content Security Policy（CSP）は、コンテンツを注入する攻撃に対する防御の第一線として作られてはいません。その代わり CSP は、コンテンツを注入する攻撃によって生じる被害を減らすための、多層防御として使うのに最適です。コンテンツの注入に対する防御の第一線としては、サーバが入力を検査し、エンコードして出力するべきです。
+    </p>
+
+    <p>
+     現存する Web アプリケーションに CSP を適用するには普通ではない仕事量が要求されることがしばしばです。最大限の利益を得るためには、作成者はすべてのインラインスクリプトをスタイルを外に、例えば外部のスクリプトに移動させる必要があります。なぜならば、ユーザエージェントはインラインスクリプトが攻撃者によって注入されたものかどうかを見分けられないからです。
+    </p>
+
+    <p>
+     CSP を利用するには、Web アプリケーションは <code>Content-Security-Policy</code> HTTP ヘッダを提供することで、CSP を利用することを表明します。そのポリシーは現在のリソースの表現のみに適用されます。サイト全体にポリシーを適用するためには、各リソースの表現に対してサーバがポリシーを提供する必要があります。
+    </p>
+
     <h3 class="heading settled" data-level="1.1" id="changes-from-level-2"><span class="secno">1.1. </span><span class="content">Changes from Level 2</span><a class="self-link" href="#changes-from-level-2"></a></h3>
     <p>This document describes an evolution of the <a href="http://www.w3.org/TR/CSP/">Content Security Policy specification</a>.
   Level 3 makes the following changes from Level 2:</p>
