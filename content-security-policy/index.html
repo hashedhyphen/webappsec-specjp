@@ -95,16 +95,22 @@
    <p class="note" role="note">
 
     この文書は、2015年8月29日時点で Editor's Draft である <a href="https://w3c.github.io/webappsec/specs/content-security-policy/">Content Security Policy</a> の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。
-
     <br>
     詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。
    </p>
 
    <hr title="Separator for header">
 
-   <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
+   <p data-fill-with="logo">
+    <a class="logo" href="http://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"></a>
+   </p>
+
    <h1 class="p-name no-ref" id="title">Content Security Policy 日本語訳</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-08-29">29 August 2015</time></span></h2>
+
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle">
+    <span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-08-29">29 August 2015</time></span>
+   </h2>
+
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -129,44 +135,76 @@
       <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:brandon@hackmill.com">Brandon Sterne</a> (<span class="p-org org">formerly of Mozilla Corporation</span>)
     </dl>
    </div>
+
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2015 <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply. </p>
+
+   <p class="copyright" data-fill-with="copyright">
+    <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2015 <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply.
+   </p>
+
    <hr title="Separator for header">
+
   </div>
-  <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
+
+
+  <h2 class="no-num no-toc no-ref heading settled" id="abstract">
+   <span class="content">概要</span>
+  </h2>
+
   <div class="p-summary" data-fill-with="abstract">
-   <p>This document defines a policy language used to declare a set of content restrictions for a web resource, and a mechanism for transmitting the policy from a server to a client where the policy is enforced.</p>
+   <p>
+    この文書は、Web リソースのコンテンツにかける制限を宣言するのに用いるポリシーの言語と、サーバからポリシー適用先のクライアントまでポリシーを伝送する仕組みを定義します。
+   </p>
   </div>
-  <h2 class="no-num no-toc no-ref heading settled" id="status"><span class="content">Status of this document</span></h2>
+
+  <h2 class="no-num no-toc no-ref heading settled" id="status">
+   <span class="content">この文書の位置付け</span>
+  </h2>
+
   <div data-fill-with="status">
-   <p> This is a public copy of the editors’ draft.
-	It is provided for discussion only and may change at any moment.
-	Its publication here does not imply endorsement of its contents by W3C.
-	Don’t cite this document other than as work in progress. </p>
-   <p> <strong>Changes to this document may be tracked at <a href="https://github.com/w3c/webappsec">https://github.com/w3c/webappsec</a>.</strong> </p>
-   <p> The (<a href="http://lists.w3.org/Archives/Public/public-webappsec/">archived</a>) public mailing list <a href="mailto:public-webappsec@w3.org?Subject=%5BCSP3%5D%20PUT%20SUBJECT%20HERE">public-webappsec@w3.org</a> (see <a href="http://www.w3.org/Mail/Request">instructions</a>)
-	is preferred for discussion of this specification.
-	When sending e-mail,
-	please put the text “CSP3” in the subject,
-	preferably like this:
-	“[CSP3] <em>…summary of comment…</em>” </p>
-   <p> This document was produced by the <a href="http://www.w3.org/2011/webappsec/">Web Application Security Working Group</a>. </p>
-   <p> This document was produced by a group operating under
-	the <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 W3C Patent Policy</a>.
-	W3C maintains a <a href="http://www.w3.org/2004/01/pp-impl/49309/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group;
-	that page also includes instructions for disclosing a patent.
-	An individual who has actual knowledge of a patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section 6 of the W3C Patent Policy</a>. </p>
-   <p> This document is governed by the <a href="http://www.w3.org/2014/Process-20140801/" id="w3c_process_revision">1 August 2014 W3C Process Document</a>. </p>
-   <p></p>
+   <p>
+    この文書は Editor's Draft の公式なコピーです。これは議論のみを目的として提供されており、内容が予告なく変更されることがあります。この文書の内容は W3C に公認されたものではありません。作成中の文書であることを踏まえずにこの文書を引用することはしないでください。
+   </p>
+
+   <p>
+    <strong>この文書に関する変更点は <a href="https://github.com/w3c/webappsec">https://github.com/w3c/webappsec</a> に記録されるかもしれません。</strong>
+   </p>
+
+   <p>
+    この仕様に関する議論は、公式メーリングリスト（<a href="http://lists.w3.org/Archives/Public/public-webappsec/">アーカイブ</a>）の <a href="public-webappsec@w3.org">public-webappsec@w3.org</a> が推奨されています（<a href="http://www.w3.org/Mail/Request">利用の手引き</a>を参照してください）。メールを送る際は、題名には "CSP3" のように、より良くは "[CSP3] <em>...コメントの要約...</em>" のように書いてください。
+   </p>
+
+   <p>
+    この文書は <a href="http://www.w3.org/2011/webappsec/">Web Application Security Working Group</a> によって作成されました。
+   </p>
+
+   <p>
+    この文書は <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 W3C Patent Policy</a> の下で活動するグループによって作成されました。W3C は、このグループの成果物に関連する <a href="http://www.w3.org/2004/01/pp-impl/49309/status">開示特許の公開リスト</a> を管理しており、このリストには特許を開示する方法も含まれています。特許について <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> があると考え、実際に特許に関する知識を持っている方は、<a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">W3C Patent Policy の第6章</a> に従って情報を開示しなければなりません。
+   </p>
+
+   <p>
+    この文書は <a href="http://www.w3.org/2014/Process-20140801/" id="w3c_process_revision">1 August 2014 W3C Process Document</a> によって管理されています。
+   </p>
+
   </div>
+
   <div data-fill-with="at-risk">
-   <p>The following features are at-risk, and may be dropped during the CR period: </p>
+   <p>
+    以下は "at-risk な" 機能であり、勧告候補期間中に削除されるかもしれません。
+   </p>
+
    <ul>
     <li><a href="#csp-request-header">§3.4 The CSP HTTP Request Header</a>
     <li><a href="#directive-child-src">§7.2 child-src</a>
    </ul>
-   <p>“At-risk” is a W3C Process term-of-art, and does not necessarily imply that the feature is in danger of being dropped or delayed. It means that the WG believes the feature may have difficulting being interoperably implemented in a timely manner, and marking it as such allows the WG to drop the feature if necessary when transitioning to the Proposed Rec stage, without having to publish a new Candidate Rec without the feature first.</p>
+
+   <p>
+    "At-risk な" とは W3C Process での専門用語で、将来に機能が廃止、または延期されることを必ずしも意味するものではありません。これは、機能の実装が時宜的に難しいとワーキンググループが考えていることを意味し、勧告案に移行する際に必要であれば機能を廃止し、その機能がない新しい勧告候補を最初から作り直す必要がないようにするために注記をしているものです。
+   </p>
+
   </div>
+
+
   <h2 class="no-num no-toc no-ref heading settled" id="contents"><span class="content">Table of Contents</span></h2>
   <div data-fill-with="table-of-contents" role="navigation">
    <ul class="toc" role="directory">
