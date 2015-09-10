@@ -64,9 +64,7 @@
   <div class="head">
 
    <p class="note" role="note">
-
-    この文書は、2015年7月17日時点で Editor's Draft である <a href="https://w3c.github.io/webappsec/specs/powerfulfeatures/">Secure Contexts</a> の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。
-
+    この文書は、2015年9月9日時点で Editor's Draft である <a href="https://w3c.github.io/webappsec/specs/powerfulfeatures/">Secure Contexts</a> の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。
     <br>
     詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。
    </p>
@@ -80,7 +78,7 @@
    <h1 class="p-name no-ref" id="title">Secure Contexts 日本語訳</h1>
 
    <h2 class="no-num no-toc no-ref heading settled" id="subtitle">
-    <span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-07-17">17 July 2015</time></span>
+    <span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-09-09">9 September 2015</time></span>
    </h2>
 
    <div data-fill-with="spec-metadata">
@@ -144,7 +142,7 @@
    </p>
 
    <p>
-    この仕様に関する議論は、公式メーリングリスト（<a href="http://lists.w3.org/Archives/Public/public-webappsec/">アーカイブ</a>）の <a href="public-webappsec@w3.org">public-webappsec@w3.org</a> が推奨されています（<a href="http://www.w3.org/Mail/Request">利用の手引き</a>を参照してください）。メールを送る際は、題名には "powerful-features" のように、より良くは "[powerful-features] <em>...コメントの要約...</em>" のように書いてください。
+    この仕様に関する議論は、公式メーリングリスト（<a href="http://lists.w3.org/Archives/Public/public-webappsec/">アーカイブ</a>）の <a href="mailto:public-webappsec@w3.org?Subject=%5Bpowerful-features%5D%20PUT%20SUBJECT%20HERE">public-webappsec@w3.org</a> が推奨されています（<a href="http://www.w3.org/Mail/Request">利用の手引き</a>を参照してください）。メールを送る際は、題名には "powerful-features" のように、より良くは "[powerful-features] <em>...コメントの要約...</em>" のように書いてください。
    </p>
 
    <p>
@@ -270,11 +268,11 @@
        <ul>
 
         <li>
+         ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> に対する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> に <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが適用されて <code>Secure</code> が返された場合、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> は <dfn data-dfn-type="dfn" data-export="" id="secure-document">安全なドキュメント<a class="self-link" href="#secure-document"></a></dfn> であるといいます。
 
-         ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> に <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが適用されて <code>Secure</code> が返された場合、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> は <dfn data-dfn-type="dfn" data-export="" id="secure-document">安全なドキュメント<a class="self-link" href="#secure-document"></a></dfn> であるといいます。
 
        <li>
-         ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code>、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#sharedworker">SharedWorker</a></code>、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/service-workers/#service-worker-obj">ServiceWorker</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> に <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが適用されて <code>Secure</code> が返された場合、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> は <dfn data-dfn-type="dfn" data-export="" id="secure-worker">安全なワーカー<a class="self-link" href="#secure-worker"></a></dfn> であるといいます。
+         ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code>、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#sharedworker">SharedWorker</a></code>、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/service-workers/#service-worker-obj">ServiceWorker</a></code> に対する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> に <a href="#settings-secure">§5.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが適用されて <code>Secure</code> が返された場合、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> は <dfn data-dfn-type="dfn" data-export="" id="secure-worker">安全なワーカー<a class="self-link" href="#secure-worker"></a></dfn> であるといいます。
 
 
       </ul>
@@ -413,17 +411,13 @@
      <a class="self-link" href="#example-8ce7bce2"></a>
 
      <ol>
-
       <li>
-        もし <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> が <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>でない場合、[ <i>ここに適切な文章を入れてください。 <code>SecurityError</code> が起きた Promise をリジェクトし、エラー時のコールバックを呼び出し、権限リクエストを拒否する、などといった文章が入るかもしれません</i> ] 。
-
+       もし <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> が <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>でない場合
+      <ol>
+       <li>
+        [ <i>ここに適切な文章を入れてください。 <code>SecurityError</code> が起きた Promise をリジェクトする、エラー時のコールバックを呼び出す、権限リクエストを拒否する、などといった文章が入るかもしれません</i> ] 。
+      </ol>
      </ol>
-
-     <p class="note" role="note">
-
-      補足: 自分の仕様に上の文章をコピー、貼り付けする場合は、仕様のユースケースに適した処理を表す文章をプレースホルダの部分へ忘れずに入れてください。
-
-     </p>
 
     </div>
 
@@ -521,7 +515,7 @@
     <ol>
 
      <li>
-      <var>settings</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS state</a> が <code>authenticated</code> で<strong>ない</strong>とき
+      <var>settings</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-https-state">HTTPS state</a> が <code>modern</code> で<strong>ない</strong>とき
 
      <ol>
 
@@ -537,9 +531,9 @@
 
        </p>
 
-       <p class="issue" id="issue-ed0737af">
-        <a class="self-link" href="#issue-ed0737af"></a>
-        "<a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a>" は正しくありません。<a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27146">bug 27146</a> の結果が用いられるべきです。
+       <p class="issue" id="issue-091ab16c">
+        <a class="self-link" href="#issue-091ab16c"></a>
+        ここで必要なプリミティブ値を W3C は定義していないため、<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url">creation URL</a> には WHATWG の HTML を適用しています。
        </p>
 
       <li>
@@ -547,19 +541,19 @@
 
      </ol>
 
-     <p class="issue" id="issue-60c8add0">
-      <a class="self-link" href="#issue-60c8add0"></a>
-      <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> の定義が明確ではありません。例えば、サンドボックス化されたドキュメントは、自身の通信機構に結び付いた <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> を保持するよう保証するべきです。詳細は <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27190">bug 27190</a> を参照してください。
+     <p class="note" role="note">
+      補足: ここでの「潜在的に信頼できる」という語には、<code>http://127.0.0.1</code> のように HTTPS ではないオリジンも含んでいます。
+     </p>
+
+
+     <p class="issue" id="issue-a3d367b1">
+      <a class="self-link" href="#issue-a3d367b1"></a>
+      <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-https-state">HTTPS state</a> の定義が明確ではありません。例えば、サンドボックス化されたドキュメントは、自身の通信機構に結び付いた <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-https-state">HTTPS state</a> を保持するよう保証するべきです。詳細は <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27190">bug 27190</a> を参照してください。
+
      </p>
 
      <li>
-      <var>settings</var> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> の <var>document</var> を持っているとき、
-
-     <p class="note" role="note">
-
-      補足: もし <var>settings</var> が <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> へマッピング（直接、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> として）されている場合は、チェイン全体が安全であることを確認するため、ドキュメントの継承チェインをすべてさかのぼることになります。
-
-     </p>
+      <var>settings</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> が <code>WorkerGlobalScope</code> である場合、<var>settings</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> が持っている <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/workers.html#the-workers-documents">the worker’s <code>Documents</code></a> のリストに含まれる各 <var>document</var> に対して、以下を実行します。
 
      <ol>
 
@@ -590,6 +584,15 @@
       </ol>
 
      </ol>
+
+     <p class="note" role="note">
+      補足: もし <var>settings</var> が1つ以上の <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> へマッピング（直接、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> の <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> における1つとして）されている場合は、チェイン全体が安全であることを確認するため、ドキュメントの継承チェインをすべてさかのぼることになります。
+     </p>
+
+     <p class="issue" id="issue-a30f61b8">
+      <a class="self-link" href="#issue-a30f61b8"></a>
+      W3C による Worker の定義は廃止されているため、<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/workers.html#the-workers-documents">the Worker’s <code>Document</code>s</a> には WHATWG の HTML を適用しています。
+     </p>
 
      <li>
       <code>Secure</code> を返します。
@@ -795,13 +798,13 @@
 
   <ul class="indexlist">
 
-   <li>準拠するサーバ、<a href="#conformant-server">番号のない節</a>
-   <li>準拠するユーザエージェント、<a href="#conformant-user-agent">番号のない節</a>
+   <li><a href="#conformant-server">準拠するサーバ</a><span>、 §番号のない節</span>
+   <li><a href="#conformant-user-agent">準拠するユーザエージェント</a><span>、§番号のない節</span>
+   <li><a href="#embedding-document">埋め込み元ドキュメント</a><span>、§2</span>
+   <li><a href="#secure-context">安全なコンテキスト</a><span>、§2</span>
+   <li><a href="#secure-document">安全なドキュメント</a><span>、§2</span>
+   <li><a href="#secure-worker">安全なワーカー</a><span>、§2</span>
 
-   <li>埋め込み元ドキュメント、<a href="#embedding-document">2</a>
-   <li>安全なコンテキスト、<a href="#secure-context">2</a>
-   <li>安全なドキュメント、<a href="#secure-document">2</a>
-   <li>安全なワーカー、<a href="#secure-worker">2</a>
   </ul>
 
   <h3 class="no-num heading settled" id="index-defined-elsewhere">
@@ -816,12 +819,18 @@
     </ul>
    <li><a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a> は以下の用語を定義します。
     <ul>
-     <li><a href="https://fetch.spec.whatwg.org/#concept-response-tls-state">tls state</a>
+     <li><a href="https://fetch.spec.whatwg.org/#concept-response-https-state">https state</a>
     </ul>
    <li><a data-link-type="biblio" href="#biblio-geolocation-api">[geolocation-API]</a> は以下の用語を定義します。
     <ul>
      <li><a href="http://www.w3.org/TR/geolocation-API/#get-current-position">getCurrentPosition()</a>
      <li><a href="http://www.w3.org/TR/geolocation-API/#watch-position">watchPosition()</a>
+    </ul>
+   <li>
+    <a data-link-type="biblio" href="#biblio-html">[HTML]</a> は以下の用語を定義します。
+    <ul>
+     <li><a href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url">creation url</a>
+     <li><a href="https://html.spec.whatwg.org/multipage/workers.html#the-workers-documents">the worker's documents</a>
     </ul>
    <li><a data-link-type="biblio" href="#biblio-html5">[html5]</a> は以下の用語を定義します。
     <ul>
@@ -881,6 +890,8 @@
   <dl>
    <dt id="biblio-fetch"><a class="self-link" href="#biblio-fetch"></a>[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
+   <dt id="biblio-html"><a class="self-link" href="#biblio-html"></a>[HTML]
+   <dd>Ian Hickson. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-mix"><a class="self-link" href="#biblio-mix"></a>[MIX]
    <dd>Mike West. <a href="https://w3c.github.io/webappsec/specs/mixedcontent/">Mixed Content</a>. LCWD. URL: <a href="https://w3c.github.io/webappsec/specs/mixedcontent/">https://w3c.github.io/webappsec/specs/mixedcontent/</a>
    <dt id="biblio-rfc4632"><a class="self-link" href="#biblio-rfc4632"></a>[RFC4632]
@@ -946,13 +957,16 @@
 
   <div style="counter-reset:issue">
    <div class="issue">
-    "<a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a>" は正しくありません。<a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27146">bug 27146</a> の結果が用いられるべきです。<a href="#issue-ed0737af"> ↵ </a>
+    ここで必要なプリミティブ値を W3C は定義していないため、<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url">creation URL</a> には WHATWG の HTML を適用しています。<a href="#issue-091ab16c"> ↵ </a>
    </div>
 
    <div class="issue">
-    <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> の定義が明確ではありません。 例えば、サンドボックス化されたドキュメントは、自身の通信機構に結び付いた <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> を保持するよう保証するべきです。詳細は <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27190">bug 27190</a> を参照してください。<a href="#issue-60c8add0"> ↵ </a>
+    <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-https-state">HTTPS state</a> の定義が明確ではありません。例えば、サンドボックス化されたドキュメントは、自身の通信機構に結び付いた <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-https-state">HTTPS state</a> を保持するよう保証するべきです。詳細は <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=27190">bug 27190</a> を参照してください。<a href="#issue-a3d367b1"> ↵ </a>
    </div>
 
+   <div class="issue">
+    W3C による Worker の定義は廃止されているため、<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/workers.html#the-workers-documents">the Worker’s <code>Document</code>s</a> には WHATWG の HTML を適用しています。<a href="#issue-a30f61b8"> ↵ </a>
+   </div>
   </div>
 
  </body>
