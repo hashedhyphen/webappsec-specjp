@@ -16,3 +16,4 @@ W3C Web Application Security Working Group が策定している仕様の日本�
 * [Content Security Policy](https://hashedhyphen.github.io/webappsec-specjp/content-security-policy/) （翻訳中）
 
 * [Secure Contexts](https://hashedhyphen.github.io/webappsec-specjp/powerfulfeatures/) (Requirements for Powerful Features)
+  * 2015年9月9日版 Editor's Draft
