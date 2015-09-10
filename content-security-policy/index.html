@@ -490,36 +490,48 @@
 
 
    <section>
-    <h2 class="heading settled" data-level="2" id="key-concepts"><span class="secno">2. </span><span class="content">Key Concepts and Terminology</span><a class="self-link" href="#key-concepts"></a></h2>
-    <p>The Augmented Backus-Naur Form (ABNF) notation used in this document is
-  specified in RFC5234 <a data-link-type="biblio" href="#biblio-abnf">[ABNF]</a>. We use the <code><a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7230#section-7">#rule</a></code> extension
-  defined in <a data-link-type="biblio" href="#biblio-rfc7230">[RFC7230]</a>.</p>
+
+    <h2 class="heading settled" data-level="2" id="key-concepts">
+     <span class="secno">2. </span><span class="content">中心となる概念と用語</span>
+     <a class="self-link" href="#key-concepts"></a>
+    </h2>
+
+    <p>
+     この文書で用いられる Augmented Backus-Naur Form （ABNF） 記法は、RFC5234 <a data-link-type="biblio" href="#biblio-abnf">[ABNF]</a> で明記されています。ここでは、<a data-link-type="biblio" href="#biblio-rfc7230">[RFC7230]</a> に定義されている <code><a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7230#section-7">#rule</a></code> 拡張を用います。
+    </p>
+
     <dl>
-     <dt> <dfn data-dfn-type="dfn" data-export="" data-local-lt="policy" id="security-policy">security policy<a class="self-link" href="#security-policy"></a></dfn>
-     <dt> <dfn data-dfn-type="dfn" data-export="" data-local-lt="directive" id="security-policy-directive">security policy directive<a class="self-link" href="#security-policy-directive"></a></dfn>
-     <dt> <dfn data-dfn-type="dfn" data-export="" data-local-lt="directive name" id="security-policy-directive-name">security policy directive name<a class="self-link" href="#security-policy-directive-name"></a></dfn>
-     <dt> <dfn data-dfn-type="dfn" data-export="" data-local-lt="directive value" id="security-policy-directive-value">security policy directive value<a class="self-link" href="#security-policy-directive-value"></a></dfn>
-     <dd>
-       A <strong>security policy</strong> refers to both a set of security
-      preferences for restrictions within which content can operate, and
-      to a fragment of text that codifies or transmits these preferences.
-      For example, the following string is a policy which restricts script
-      and object content:
-      <div class="example" id="example-f8c8229d"><a class="self-link" href="#example-f8c8229d"></a> <code><a data-link-type="dfn" href="#script_src">script-src</a> 'self'; <a data-link-type="dfn" href="#object_src">object-src</a> 'none'</code> </div>
-      <p>Security policies contain a set of <strong>security policy
-      directives</strong> (<code><a data-link-type="dfn" href="#script_src">script-src</a></code> and <code><a data-link-type="dfn" href="#object_src">object-src</a></code> in the example above), each responsible
-      for declaring the restrictions for a particular resource type, or
-      manipulating a specific aspect of the policy’s restrictions. The list
-      of directives defined by this specification can be found in <a href="#directives">§7 Directives</a>.</p>
-      <p>Each directive has a <strong>name</strong> and <strong>value</strong>; <strong>value</strong> may be optional for some directives.
-      A detailed grammar can be found in <a href="#syntax-and-algorithms">§4 Syntax and Algorithms</a>.</p>
-     <dt> <dfn data-dfn-type="dfn" data-export="" id="protected-resource">protected resource<a class="self-link" href="#protected-resource"></a></dfn>
-     <dd> A <a data-link-type="dfn" href="#security-policy">security policy</a> is applied by a user agent to a specific <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a>, known as the <strong>protected
-      resource</strong>. See <a href="#policy-delivery">§3 Policy Delivery</a> for details regarding
-      the mechanisms by which policies may be applied to a protected
-      resource.
+     <dt><dfn data-dfn-type="dfn" data-export="" data-local-lt="policy" id="security-policy">セキュリティポリシー<a class="self-link" href="#security-policy"></a></dfn>
+     <dt><dfn data-dfn-type="dfn" data-export="" data-local-lt="directive" id="security-policy-directive">セキュリティポリシーディレクティブ<a class="self-link" href="#security-policy-directive"></a></dfn>
+     <dt><dfn data-dfn-type="dfn" data-export="" data-local-lt="directive name" id="security-policy-directive-name">セキュリティポリシーディレクティブ名<a class="self-link" href="#security-policy-directive-name"></a></dfn>
+     <dt><dfn data-dfn-type="dfn" data-export="" data-local-lt="directive value" id="security-policy-directive-value">セキュリティポリシーディレクティブ値<a class="self-link" href="#security-policy-directive-value"></a></dfn>
+
+      <dd>
+       <strong>セキュリティポリシー</strong> とは、コンテンツが課すことのできる制限に対するセキュリティ設定群と、これらの設定群を集め、伝送するテキストの断片とのことを指します。例えば、以下の文字列はスクリプトとオブジェクトのコンテンツを制限するポリシーです。
+
+       <div class="example" id="example-f8c8229d">
+        <a class="self-link" href="#example-f8c8229d"></a>
+        <code><a data-link-type="dfn" href="#script_src">script-src</a> 'self'; <a data-link-type="dfn" href="#object_src">object-src</a> 'none'</code>
+       </div>
+
+       <p>
+        セキュリティポリシーには、<strong>セキュリティポリシーディレクティブ</strong>（上の例では <code><a data-link-type="dfn" href="#script_src">script-src</a></code> と <code><a data-link-type="dfn" href="#object_src">object-src</a></code> に該当します）の集まりを含み、そのそれぞれが、特定のリソースの種類に対する制限の宣言の役割を果たすか、またはそのポリシーの制限の明示的な側面を操作します。この仕様で定義されるディレクティブの一覧は <a href="#directives">§7 Directives</a> で見ることができます。
+       </p>
+
+       <p>
+        各ディレクティブには <strong>名前</strong> と <strong>値</strong> があり、<strong>値</strong> がオプションであってもよいディレクティブもあります。詳細な文法は <a href="#syntax-and-algorithms">§4 Syntax and Algorithms</a> で見ることができます。
+       </p>
+
+     <dt><dfn data-dfn-type="dfn" data-export="" id="protected-resource">protected resource<a class="self-link" href="#protected-resource"></a></dfn>
+
+      <dd>
+       <a data-link-type="dfn" href="#security-policy">セキュリティポリシー</a> は、明示された <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> に対してユーザエージェントによって適用され、この <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> は <strong>protected resource</strong> として知られています。ある protected resource に対してどのポリシーを適用して良いのかを決める仕組みに関する詳細は <a href="#policy-delivery">§3 Policy Delivery</a> を見てください。
+
     </dl>
+
    </section>
+
+
    <section>
     <h2 class="heading settled" data-level="3" id="policy-delivery"><span class="secno">3. </span><span class="content">Policy Delivery</span><a class="self-link" href="#policy-delivery"></a></h2>
     <p>The server delivers a <a data-link-type="dfn" href="#security-policy">policy</a> to the user agent via an HTTP response
