@@ -417,68 +417,78 @@
      CSP を利用するには、Web アプリケーションは <code>Content-Security-Policy</code> HTTP ヘッダを提供することで、CSP を利用することを表明します。そのポリシーは現在のリソースの表現のみに適用されます。サイト全体にポリシーを適用するためには、各リソースの表現に対してサーバがポリシーを提供する必要があります。
     </p>
 
-    <h3 class="heading settled" data-level="1.1" id="changes-from-level-2"><span class="secno">1.1. </span><span class="content">Changes from Level 2</span><a class="self-link" href="#changes-from-level-2"></a></h3>
-    <p>This document describes an evolution of the <a href="http://www.w3.org/TR/CSP/">Content Security Policy specification</a>.
-  Level 3 makes the following changes from Level 2:</p>
+    <h3 class="heading settled" data-level="1.1" id="changes-from-level-2">
+     <span class="secno">1.1. </span><span class="content">Level 2 からの変更点</span>
+     <a class="self-link" href="#changes-from-level-2"></a>
+    </h3>
+
+    <p>
+     この文書は、<a href="http://www.w3.org/TR/CSP/">Content Security Policy 仕様</a>を発展させた内容を説明します。Level 2 から Level 3 への変更点は以下の通りです。
+    </p>
+
     <ol>
      <li>
-       The following directives are brand new in this revision:
+      次のディレクティブは、この改訂で初出なものです。
       <ol>
-       <li> <a data-link-type="dfn" href="#manifest_src"><code>manifest-src</code></a> controls the <a data-link-type="dfn" href="#protected-resource">protected
-          resource</a>’s ability to load application manifests <a data-link-type="biblio" href="#biblio-manifest">[MANIFEST]</a>.
-       <li> <a data-link-type="dfn" href="#reflected_xss"><code>reflected-xss</code></a> controls the user agent’s built-in
-          heuristics to actively protect against XSS. It is meant to supplant
-          the <code>X-XSS-Protection</code> HTTP request header.
+       <li><a data-link-type="dfn" href="#manifest_src"><code>manifest-src</code></a> は、application manifests <a data-link-type="biblio" href="#biblio-manifest">[MANIFEST]</a> を読み込む <a data-link-type="dfn" href="#protected-resource">protected resource</a> の能力を管理します。
+       <li><a data-link-type="dfn" href="#reflected_xss"><code>reflected-xss</code></a> は、ユーザエージェントに組み込まれている、XSS から積極的に保護するヒューリスティクスを管理します。これは、<code>X-XSS-Protection</code> HTTP リクエストヘッダの代わりとなることを意図しています。
       </ol>
     </ol>
     A
-    <h3 class="heading settled" data-level="1.2" id="changes-from-level-1"><span class="secno">1.2. </span><span class="content">Changes from Level 1</span><a class="self-link" href="#changes-from-level-1"></a></h3>
-    <p>Level 2 made two breaking changes from Level 1, and added support for a number
-  of new directives and capabilities which are summarized below:</p>
+
+    <h3 class="heading settled" data-level="1.2" id="changes-from-level-1">
+     <span class="secno">1.2. </span><span class="content">Level 1 からの変更点</span>
+     <a class="self-link" href="#changes-from-level-1"></a>
+    </h3>
+
+    <p>
+     Level 1 から Level 2 へは、以下に要約されている多くの新しいディレクティブと能力に対するサポートを追加するという、2つの大きな変更点がありました。
+    </p>
+
     <ol>
      <li>
-       The following changes are backwards incompatible with the majority of
-      user agent’s implementations of Level 1:
+      次の変更点は、Level 1 を実装している大多数のユーザエージェントにおいては後方互換性がありません。
       <ol>
        <li>
-         The path component of a source expression is now ignored if the
-          resource being loaded is the result of a redirect, as described in <a href="#source-list-paths-and-redirects">§4.2.2.3 Paths and Redirects</a>.
-        <p class="note" role="note">Note: Paths are technically new in Level 2, but they were already
-          implemented in many user agents before this revision of CSP was
-          completed, so noting the change here seems reasonable.</p>
-       <li> A <a data-link-type="dfn" href="#protected-resource">protected resource</a>’s ability to load Workers <a data-link-type="biblio" href="#biblio-workers">[WORKERS]</a> is now controlled via <a data-link-type="dfn" href="#child_src"><code>child-src</code></a> rather than <a data-link-type="dfn" href="#script_src"><code>script-src</code></a>.
-       <li> Workers now have their own policy, separate from the <a data-link-type="dfn" href="#protected-resource">protected
-          resource</a> which loaded them. This is described in <a href="#processing-model-workers">§5.1 Workers</a>.
+        読み込まれるリソースが、<a href="#source-list-paths-and-redirects">§4.2.2.3 Paths and Redirects</a> で述べられているように、リダイレクトによるものである場合、source expression の path component は現在では無視されます。
+
+        <p class="note" role="note">
+         補足: path は技術的には Level 2 による新しいものですが、CSP の改訂が終わる前に多くのユーザエージェントがこれを実装していました。そのため、Level 3 で変更が何もないのも無理はないでしょう。
+        </p>
+
+       <li><a data-link-type="dfn" href="#protected-resource">protected resource</a> が Worker <a data-link-type="biblio" href="#biblio-workers">[WORKERS]</a> を読み込める能力は、現在では <a data-link-type="dfn" href="#script_src"><code>script-src</code></a> よりもむしろ <a data-link-type="dfn" href="#child_src"><code>child-src</code></a> を通して管理されます。
+
+       <li>Worker は現在、それを読み込む <a data-link-type="dfn" href="#protected-resource">protected resource</a> とは別の、自分自身のポリシーを持っています。これについては <a href="#processing-model-workers">§5.1 Workers</a> で説明します。
       </ol>
+
      <li>
-       The following directives are brand new in this revision:
+      次のディレクティブは、この改訂で初出なものです。
       <ol>
-       <li> <a data-link-type="dfn" href="#base_uri"><code>base-uri</code></a> controls the <a data-link-type="dfn" href="#protected-resource">protected
-          resource</a>’s ability to specify the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#document-base-url">document base
-          URL</a>.
-       <li> <a data-link-type="dfn" href="#child_src"><code>child-src</code></a> deprecates and replaces <a data-link-type="dfn" href="#frame_src"><code>frame-src</code></a>, controlling the <a data-link-type="dfn" href="#protected-resource">protected
-          resource</a>’s ability to embed frames, and to load Workers.
-       <li> <a data-link-type="dfn" href="#form_action"><code>form-action</code></a> controls the <a data-link-type="dfn" href="#protected-resource">protected
-          resource</a>’s ability to submit forms.
-       <li> <a data-link-type="dfn" href="#frame_ancestors"><code>frame-ancestors</code></a> controls the <a data-link-type="dfn" href="#protected-resource">protected
-          resource</a>’s ability be embedded in other documents. It is meant
-          to supplant the <code>X-Frame-Options</code> HTTP request header. <a data-link-type="biblio" href="#biblio-rfc7034">[RFC7034]</a>
-       <li> <a data-link-type="dfn" href="#plugin_types"><code>plugin-types</code></a> controls the <a data-link-type="dfn" href="#protected-resource">protected
-          resource</a>’s ability to load specific types of plugins.
+       <li><a data-link-type="dfn" href="#base_uri"><code>base-uri</code></a> は、<a data-link-type="dfn" href="#protected-resource">protected resource</a> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#document-base-url">document base URL</a> を明示できる能力を管理します。
+
+       <li><a data-link-type="dfn" href="#child_src"><code>child-src</code></a> は、<a data-link-type="dfn" href="#frame_src"><code>frame-src</code> を廃止して置き換わり、<a data-link-type="dfn" href="#protected-resource">protected resource</a> がフレームを埋め込んだり、Worker を読み込んだりできる能力を管理します。
+
+       <li><a data-link-type="dfn" href="#form_action"><code>form-action</code></a> は、<a data-link-type="dfn" href="#protected-resource">protected resource</a> がフォームを送信できる能力を管理します。
+
+       <li><a data-link-type="dfn" href="#frame_ancestors"><code>frame-ancestors</code></a> は、<a data-link-type="dfn" href="#protected-resource">protected resource</a> が他のドキュメントに埋め込まれる可能性を管理します。これは、<code>X-Frame-Options</code> HTTP リクエストヘッダ <a data-link-type="biblio" href="#biblio-rfc7034">[RFC7034]</a> を置き換えることを意図しています。
+
+       <li><a data-link-type="dfn" href="#plugin_types"><code>plugin-types</code></a> は、<a data-link-type="dfn" href="#protected-resource">protected resource</a> が明示した種類のプラグインを読み込める能力を管理します。
       </ol>
-     <li> Individual inline scripts and stylesheets may be whitelisted via nonces
-      (as described in <a href="#source-list-valid-nonces">§4.2.4 Valid Nonces</a>) and hashes (as described
-      in <a href="#source-list-valid-hashes">§4.2.5 Valid Hashes</a>).
-     <li> A <code>CSP</code> request header is now sent with relevant requests, as
-      described in <a href="#csp-request-header">§3.4 The CSP HTTP Request Header</a>.
-     <li> A <code class="idl"><a data-link-type="idl" href="#securitypolicyviolationevent">SecurityPolicyViolationEvent</a></code> is fired upon violations, as described
-      in <a href="#firing-securitypolicyviolationevent-events">§6.4 Firing Violation Events</a>.
-     <li> A number of new fields were added to violation reports (both those POSTED
-      via <a data-link-type="dfn" href="#report_uri"><code>report-uri</code></a>, and those handed to the DOM via <code class="idl"><a data-link-type="idl" href="#securitypolicyviolationevent">SecurityPolicyViolationEvent</a></code> events. These include <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-effectivedirective">effectiveDirective</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-statuscode">statusCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-sourcefile">sourceFile</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-linenumber">lineNumber</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-columnnumber">columnNumber</a></code>.
-     <li> Certain flags present in the <code><a data-link-type="dfn" href="#sandbox">sandbox</a></code> directive now
-      affect Worker creation, as described in <a href="#sandboxing-and-workers">§7.16.1 Sandboxing and Workers</a>.
+
+     <li>インラインのスクリプトとスタイルシートのそれぞれは、nonce （<a href="#source-list-valid-nonces">§4.2.4 Valid Nonces</a> で説明されています）とハッシュ値（<a href="#source-list-valid-hashes">§4.2.5 Valid Hashes</a> で説明されています）を通して、ホワイトリストにしても良いでしょう。
+
+     <li><code>CSP</code> リクエストヘッダは、<a href="#csp-request-header">§3.4 The CSP HTTP Request Header</a> で説明されているように、現在では関連するリクエストによって送信されています。
+
+     <li><code class="idl"><a data-link-type="idl" href="#securitypolicyviolationevent">SecurityPolicyViolationEvent</a></code> は、<a href="#firing-securitypolicyviolationevent-events">§6.4 Firing Violation Events</a> で説明されているように、違反に対して発火します。
+
+     <li>多くの新しいフィールドが違反レポート（<a data-link-type="dfn" href="#report_uri"><code>report-uri</code></a> を通じて「投稿された」ものと、<code class="idl"><a data-link-type="idl" href="#securitypolicyviolationevent">SecurityPolicyViolationEvent</a></code> イベントを通じて DOM に引き渡されたものの両方が追加されました。これらには、<code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-effectivedirective">effectiveDirective</a></code> と<code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-statuscode">statusCode</a></code>、<code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-sourcefile">sourceFile</a></code>、<code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-linenumber">lineNumber</a></code>、そして <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-columnnumber">columnNumber</a></code> が含まれています。
+
+     <li><code><a data-link-type="dfn" href="#sandbox">sandbox</a></code> ディレクティブに存在する特定のフラグは、<a href="#sandboxing-and-workers">§7.16.1 Sandboxing and Workers</a> で説明されているように、現在では Worker の作成に影響を与えています。
     </ol>
+
    </section>
+
+
    <section>
     <h2 class="heading settled" data-level="2" id="key-concepts"><span class="secno">2. </span><span class="content">Key Concepts and Terminology</span><a class="self-link" href="#key-concepts"></a></h2>
     <p>The Augmented Backus-Naur Form (ABNF) notation used in this document is
