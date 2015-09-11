@@ -86,9 +86,7 @@
   <div class="head">
 
    <p class="note" role="note">
-    この文書は、2015年9月10日時点で Editor's Draft である <a href="https://w3c.github.io/webappsec/specs/powerfulfeatures/">Secure Contexts</a> の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。
-    <br>
-    詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。
+    この文書は、<a href="https://w3c.github.io/webappsec/specs/powerfulfeatures/">Secure Contexts</a> Editor's Draft （2015年9月11日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。
    </p>
 
    <hr title="Separator for header">
@@ -100,7 +98,7 @@
    <h1 class="p-name no-ref" id="title">Secure Contexts 日本語訳</h1>
 
    <h2 class="no-num no-toc no-ref heading settled" id="subtitle">
-    <span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-09-10">10 September 2015</time></span>
+    <span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-09-11">11 September 2015</time></span>
    </h2>
 
    <div data-fill-with="spec-metadata">
@@ -196,6 +194,7 @@
         <li><a href="#examples-framed"><span class="secno">1.1.2</span> <span class="content">フレーム内のドキュメント</span></a>
         <li><a href="#examples-workers"><span class="secno">1.1.3</span> <span class="content">Web Workers</span></a>
         <li><a href="#examples-shared-workers"><span class="secno">1.1.4</span> <span class="content">Shared Workers</span></a>
+        <li><a href="#examples-service-workers"><span class="secno">1.1.5</span> <span class="content">Service Workers</span></a>
        </ul>
      </ul>
     <li><a href="#terms"><span class="secno">2</span> <span class="content">中心となる概念と用語</span></a>
@@ -558,6 +557,39 @@
      </svg>
     </div>
 
+    <h4 class="heading settled" data-level="1.1.5" id="examples-service-workers">
+     <span class="secno">1.1.5. </span><span class="content">Service Workers</span>
+     <a class="self-link" href="#examples-service-workers"></a>
+    </h4>
+
+    <p>
+     Service Workers は安全なコンテキストからのみ登録され、接続できるのは安全なコンテキストにあるクライアントのみであるため、Service Worker は常に安全なコンテキストであり、必ずそうなるのも無理はないでしょう。
+    </p>
+
+    <div class="example" id="example-58019791">
+     <a class="self-link" href="#example-58019791"></a>
+
+     <p>
+      <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top_level-browsing-context">top-level browsing context</a> の <code>https://example.com/</code> が <code>https://example.com/service.js</code> を登録した場合、ドキュメントと Service Worker はともに安全なコンテキストであると考えます。
+     </p>
+
+     <svg height="200" width="600">
+      <g transform="translate(10,10)">
+       <rect class="secure" height="175" width="300" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">https://example.com/</text>
+
+       <g transform="translate(400, 110)">
+        <circle class="secure" r="50"></circle>
+        <text transform="translate(-75, -55)">https://example.com/service.js</text>
+       </g>
+
+       <g>
+        <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+       </g>
+      </g>
+     </svg>
+    </div>
+
    </section>
 
 
@@ -807,10 +839,10 @@
        <var>origin</var> を <var>settings</var> の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> とします。
 
       <li>
-       もし <var>origin</var> が <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-2.3">globally unique identifier</a> であるならば、<var>settings</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">API base URL</a> を <var>origin</var> とします。
+       もし <var>origin</var> が <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-2.3">globally unique identifier</a> であるならば、<var>settings</var> の <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url">creation URL</a> における <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> へ <var>origin</var> を適用します。
 
        <p class="note" role="note">
-        補足: これはサンドボックス化された <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> に対して、後方互換性を保つための処理です。
+        補足: ここではサンドボックス化されたコンテキストを安全なまま維持するため、URL のオリジンを用いています（サンドボックスとは、コンテキストを利用できる範囲とそのリスクを厳しく制限するものであるため）。
        </p>
 
        <p class="issue" id="issue-091ab16c">
@@ -855,6 +887,10 @@
        <li>
         もし <var>ancestor</var> のアクティブな <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxing-flag-set">sandboxing flag set</a> が、自身の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a> セットを持っていない場合は、<var>origin</var> を <var>ancestor</var> の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> とします。そうでなければ、<var>origin</var> を <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin of <var>ancestor</var>’s
          <code>URL</code></a> とします。
+
+       <p class="note" role="note">
+        補足: ここではサンドボックス化されたコンテキストを安全なまま維持するため、URL のオリジンを用いています（サンドボックスとは、コンテキストを利用できる範囲とそのリスクを厳しく制限するものであるため）。
+       </p>
 
        <li>
         もし <var>origin</var> に対して <a href="#is-origin-trustworthy">§5.2 オリジンは潜在的に信頼できるか？</a> のアルゴリズムを適用した結果が <code>Potentially Trustworthy</code> で<strong>ない</strong>場合は、<code>Not Secure</code> を返します。
