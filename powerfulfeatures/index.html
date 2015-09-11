@@ -54,8 +54,30 @@
   }
   </style>
 
-
   <meta content="Bikeshed 1.0.0" name="generator">
+
+  <style>
+    .secure {
+      fill: #8F8;
+    }
+    .insecure {
+      fill: #F88;
+    }
+    rect, circle {
+      stroke-width: 2;
+      stroke: black;
+      fill-opacity: 0.75;
+    }
+    text {
+      font-family: monospace;
+    }
+    g path {
+      stroke-width: 2px;
+      stroke: #666;
+      fill-opacity: 0;
+      stroke-dasharray: 5px, 5px;
+    }
+  </style>
  </head>
 
 
@@ -64,7 +86,7 @@
   <div class="head">
 
    <p class="note" role="note">
-    この文書は、2015年9月9日時点で Editor's Draft である <a href="https://w3c.github.io/webappsec/specs/powerfulfeatures/">Secure Contexts</a> の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。
+    この文書は、2015年9月10日時点で Editor's Draft である <a href="https://w3c.github.io/webappsec/specs/powerfulfeatures/">Secure Contexts</a> の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。
     <br>
     詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。
    </p>
@@ -78,7 +100,7 @@
    <h1 class="p-name no-ref" id="title">Secure Contexts 日本語訳</h1>
 
    <h2 class="no-num no-toc no-ref heading settled" id="subtitle">
-    <span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-09-09">9 September 2015</time></span>
+    <span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-09-10">10 September 2015</time></span>
    </h2>
 
    <div data-fill-with="spec-metadata">
@@ -171,6 +193,15 @@
   <div data-fill-with="table-of-contents" role="navigation">
    <ul class="toc" role="directory">
     <li><a href="#intro"><span class="secno">1</span> <span class="content">導入</span></a>
+     <ul class="toc">
+      <li><a href="#examples"><span class="secno">1.1</span> <span class="content">例</span></a>
+       <ul class="toc">
+        <li><a href="#examples-top-level"><span class="secno">1.1.1</span> <span class="content">トップレベルのドキュメント</span></a>
+        <li><a href="#examples-framed"><span class="secno">1.1.2</span> <span class="content">フレーム内のドキュメント</span></a>
+        <li><a href="#examples-workers"><span class="secno">1.1.3</span> <span class="content">Web Workers</span></a>
+        <li><a href="#examples-shared-workers"><span class="secno">1.1.4</span> <span class="content">Shared Workers</span></a>
+       </ul>
+     </ul>
     <li><a href="#terms"><span class="secno">2</span> <span class="content">中心となる概念と用語</span></a>
     <li><a href="#threat-models-risks"><span class="secno">3</span> <span class="content">脅威モデルとリスク</span></a>
      <ul class="toc">
@@ -193,6 +224,7 @@
      <ul class="toc">
       <li><a href="#settings-secure"><span class="secno">5.1</span> <span class="content"><var>settings object</var> は安全なコンテキストか？</span></a>
       <li><a href="#is-origin-trustworthy"><span class="secno">5.2</span> <span class="content"><var>オリジン</var> は潜在的に信頼できるか？</span></a>
+      <li><a href="#gather-ancestors"><span class="secno">5.3</span> <span class="content"><var>document</var> と関連のある継承元の列挙</span></a>
      </ul>
     <li><a href="#implementation-considerations"><span class="secno">6</span> <span class="content">実装において考慮すべき事項</span></a>
      <ul class="toc">
@@ -246,6 +278,296 @@
 
     </p>
 
+    <h3 class="heading settled" data-level="1.1" id="examples">
+     <span class="secno">1.1. </span><span class="content">例</span><a class="self-link" href="#examples"></a>
+    </h3>
+
+    <h4 class="heading settled" data-level="1.1.1" id="examples-top-level">
+     <span class="secno">1.1.1. </span><span class="content">トップレベルのドキュメント</span>
+     <a class="self-link" href="#examples-top-level"></a>
+    </h4>
+
+    <p>
+     トップレベルのドキュメントが安全かどうかは、自身のみに依存します。
+    </p>
+
+    <div class="example" id="example-f9c0bcaa">
+     <a class="self-link" href="#example-f9c0bcaa"></a>
+
+     <p>
+      <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top_level-browsing-context">top-level browsing context</a> の中で開かれた <code>https://example.com/</code> は、認証と暗号化がされている通信路で送信されてきたため、<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> です。
+     </p>
+
+     <svg height="200" width="400">
+      <g transform="translate(10,10)">
+       <rect class="secure" height="175" width="297" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">https://example.com/</text>
+      </g>
+     </svg>
+    </div>
+
+    <div class="example" id="example-3b4b8bf5">
+     <a class="self-link" href="#example-3b4b8bf5"></a>
+
+     <p>
+      <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top_level-browsing-context">top-level browsing context</a> の中で開かれた <code>http://insecure.example.com/</code> が、<code>https://example.com/</code> を含む新しいウィンドウを開いた場合を考えます。前者は安全ではないですが、後者は認証と暗号化がされている通信路で送信されてきたため<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>です。開いた側のコンテキストは、ここでの確認の対象にはなりません。
+     </p>
+
+     <svg height="400" width="400">
+      <g transform="translate(10,10)">
+       <rect class="insecure" height="175" width="297" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">http://insecure.example.com/</text>
+      </g>
+
+      <g transform="translate(10,210)">
+       <rect class="secure" height="175" width="297" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">https://example.com/</text>
+      </g>
+
+      <g>
+       <path d="M150, 87 C 200 75, 350 75, 150 287"></path>
+      </g>
+     </svg>
+    </div>
+
+    <h4 class="heading settled" data-level="1.1.2" id="examples-framed">
+     <span class="secno">1.1.2. </span><span class="content">フレーム内のドキュメント</span>
+     <a class="self-link" href="#examples-framed"></a>
+    </h4>
+
+    <p>
+     フレーム内のドキュメントが<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>とみなせるのは、<a data-link-type="dfn" href="#potentially-trustworthy">潜在的に信頼できる</a> オリジンから送信され、<em>かつ</em>、<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>の中に埋め込まれた場合です。以下に例を示します。
+    </p>
+
+    <div class="example" id="example-0e744dfe">
+     <a class="self-link" href="#example-0e744dfe"></a>
+
+     <p>
+      <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top_level-browsing-context">top-level browsing context</a> の中に開かれた <code>https://example.com/</code> のフレーム内に <code>https://sub.example.com/</code> が開かれた場合、両者ともに認証と暗号化がされている通信路で送信されてきたため、どちらも<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>です。
+     </p>
+
+     <svg height="200" width="400">
+      <g transform="translate(10,10)">
+       <rect class="secure" height="175" width="300" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">https://example.com/</text>
+
+       <g transform="translate(20, 50)">
+        <rect class="secure" height="105" width="250" x="0" y="0"></rect>
+        <text transform="translate(10, 20)">https://sub.example.com/</text>
+       </g>
+      </g>
+     </svg>
+    </div>
+
+    <div class="example" id="example-107f6828">
+     <a class="self-link" href="#example-107f6828"></a>
+
+     <p>
+      何らかの理由で <code>https://example.com/</code> が <code>http://insecure.example.com/</code> のフレームを埋め込めた場合（ユーザが混在コンテンツの確認をオーバーライドしているかもしれない？）、トップレベルのフレームは安全なままですが、フレーム内のコンテンツも安全なコンテキストであるとは<em>いえません</em>。
+     </p>
+
+     <svg height="200" width="400">
+      <g transform="translate(10,10)">
+       <rect class="secure" height="175" width="300" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">https://example.com/</text>
+
+       <g transform="translate(20, 50)">
+        <rect class="insecure" height="105" width="250" x="0" y="0"></rect>
+        <text transform="translate(10, 20)">http://insecure.example.com/</text>
+       </g>
+      </g>
+     </svg>
+    </div>
+
+    <div class="example" id="example-3d977fc8">
+     <a class="self-link" href="#example-3d977fc8"></a>
+
+     <p>
+      上の例とは反対に、<code>http://insecure.example.com/</code> の中に <code>https://example.com/</code> のフレームが埋め込まれている場合を考えます。このときの <code>https://example.com/</code> については、継承元が送信された通信路は認証と暗号化がされていないため、安全なコンテキストとは<em>いえません</em>。
+     </p>
+
+     <svg height="200" width="400">
+      <g transform="translate(10,10)">
+       <rect class="insecure" height="175" width="300" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">http://insecure.example.com/</text>
+
+       <g transform="translate(20, 50)">
+        <rect class="insecure" height="105" width="250" x="0" y="0"></rect>
+        <text transform="translate(10, 20)">https://example.com/</text>
+       </g>
+      </g>
+     </svg>
+    </div>
+
+    <h4 class="heading settled" data-level="1.1.3" id="examples-workers">
+     <span class="secno">1.1.3. </span><span class="content">Web Workers</span>
+     <a class="self-link" href="#examples-workers"></a>
+    </h4>
+
+    <p>
+     Dedicated Web Workers は本質的にフレーム内のドキュメントと似ています。Dedicated Web Workers を安全とみなせるのは、<a data-link-type="dfn" href="#potentially-trustworthy">潜在的に信頼できる</a>オリジンから送信され、かつ、自身をホストしているサイトが <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> である場合です。
+    </p>
+
+    <div class="example" id="example-4e331849">
+     <a class="self-link" href="#example-4e331849"></a>
+
+     <p>
+      <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top_level-browsing-context">top-level browsing context</a> である <code>https://example.com/</code> が <code>https://example.com/worker.js</code> を実行する場合、ドキュメントと Worker はどちらも安全なコンテキストと考えます。
+     </p>
+
+     <svg height="200" width="600">
+      <g transform="translate(10,10)">
+       <rect class="secure" height="175" width="300" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">https://example.com/</text>
+
+       <g transform="translate(400, 110)">
+        <circle class="secure" r="50"></circle>
+        <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+       </g>
+
+       <g>
+        <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+       </g>
+      </g>
+     </svg>
+    </div>
+
+    <div class="example" id="example-078b3f9a">
+     <a class="self-link" href="#example-078b3f9a"></a>
+
+     <p>
+      <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top_level-browsing-context">top-level browsing context</a> である <code>http://insecure.example.com/</code> の中に <code>https://example.com/</code> のフレームが埋め込まれていて、その <code>https://example.com/</code> が <code>https://example.com/worker.js</code> を実行する場合を考えます。この場合は、ドキュメントと Worker のどちらも安全なコンテキストとは考えません。
+     </p>
+
+     <svg height="200" width="600">
+      <g transform="translate(10,10)">
+       <rect class="insecure" height="175" width="297" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">http://insecure.example.com/</text>
+
+       <g transform="translate(20, 50)">
+        <rect class="insecure" height="105" width="250" x="0" y="0"></rect>
+        <text transform="translate(10, 20)">https://example.com/</text>
+       </g>
+
+       <g transform="translate(400, 110)">
+        <circle class="insecure" r="50"></circle>
+        <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+       </g>
+
+       <g>
+        <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+       </g>
+      </g>
+     </svg>
+    </div>
+
+
+    <h4 class="heading settled" data-level="1.1.4" id="examples-shared-workers">
+     <span class="secno">1.1.4. </span><span class="content">Shared Workers</span>
+     <a class="self-link" href="#examples-shared-workers"></a>
+    </h4>
+
+    <p>
+     Shared Workers は Dedicated Workers と似ていますが、Worker を共有しているドキュメントのそれぞれについて確認する必要があります。
+    </p>
+
+
+    <div class="example" id="example-7e3c52b5">
+     <a class="self-link" href="#example-7e3c52b5"></a>
+
+     <p>
+      <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top_level-browsing-context">top-level browsing context</a> である <code>https://example.com/</code> が <code>https://example.com/worker.js</code> を Shared Worker として実行する場合、document と worker はどちらも安全なコンテキストとみなされます。
+     </p>
+
+     <svg height="200" width="600">
+      <g transform="translate(10,10)">
+       <rect class="secure" height="175" width="300" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">https://example.com/</text>
+
+       <g transform="translate(400, 110)">
+        <circle class="secure" r="50"></circle>
+        <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+       </g>
+
+       <g>
+        <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+       </g>
+      </g>
+     </svg>
+    </div>
+
+
+    <div class="example" id="example-44bac5c8">
+     <a class="self-link" href="#example-44bac5c8"></a>
+
+     <p>
+      異なる <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top_level-browsing-context">top-level browsing context</a> （例: 新しいウィンドウ）にある <code>https://example.com/</code> が、同じ shared worker にアクセスする場合、アクセス元のドキュメントはどれも安全であるため、この Shared Worker も安全なコンテキストです。
+     </p>
+
+     <svg height="400" width="600">
+      <g transform="translate(10,10)">
+       <rect class="secure" height="175" width="300" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">https://example.com/</text>
+
+       <g transform="translate(400, 110)">
+        <circle class="secure" r="50"></circle>
+        <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+       </g>
+
+       <g>
+        <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+       </g>
+      </g>
+
+      <g transform="translate(10,200)">
+       <rect class="secure" height="175" width="300" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">https://example.com/</text>
+
+       <g>
+        <path d="M150, 87 C 200 75, 350 75, 405 -80"></path>
+       </g>
+      </g>
+     </svg>
+    </div>
+
+    <div class="example" id="example-ba3d2b06">
+     <a class="self-link" href="#example-ba3d2b06"></a>
+
+     <p>
+      <code>http://insecure.example.com/</code> にネストされた <code>https://example.com/</code> が <code>https://example.com/worker.js</code> を Shared Worker として実行する場合は、ドキュメントと Worker のどちらも安全ではないと考えます。
+     </p>
+
+     <svg height="400" width="600">
+      <g transform="translate(10,10)">
+       <rect class="insecure" height="175" width="300" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">http://insecure.example.com/</text>
+
+       <g transform="translate(20, 50)">
+        <rect class="insecure" height="105" width="250" x="0" y="0"></rect>
+        <text transform="translate(10, 20)">https://example.com/</text>
+       </g>
+
+       <g transform="translate(400, 110)">
+        <circle class="insecure" r="50"></circle>
+        <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+       </g>
+
+       <g>
+        <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+       </g>
+      </g>
+
+      <g transform="translate(10,200)">
+       <rect class="secure" height="175" width="300" x="0" y="0"></rect>
+       <text transform="translate(10, 20)">https://example.com/</text>
+
+       <g>
+        <path d="M150, 87 C 200 75, 350 75, 405 -80"></path>
+       </g>
+      </g>
+     </svg>
+    </div>
+
    </section>
 
 
@@ -276,14 +598,6 @@
 
 
       </ul>
-
-     <dt>
-      <dfn data-dfn-type="dfn" data-noexport="" id="embedding-document">埋め込み元ドキュメント<a class="self-link" href="#embedding-document"></a></dfn>
-
-      <dd>
-
-       ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> <var>A</var> の <strong>埋め込み元ドキュメント</strong> とは、 <var>A</var> の<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">ブラウジングコンテキスト</a>が<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context-nested-through">ネストされている</a> <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> のことを指します。
-
 
     </dl>
 
@@ -382,7 +696,7 @@
     </p>
 
     <p class="note" role="note">
-     補足: 機能を <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> に制限することは極めて重要ですが、そのような情報を運ぶ手段（例えば、新しいネットワークにアクセスする仕組み、または他のネットワークの情報にアクセスするための基本的な機能）も、同じく機微なものとして扱うことを忘れてはいけません。
+     補足: 機能を<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>に制限することは極めて重要ですが、そのような情報を運ぶ手段（例えば、新しいネットワークにアクセスする仕組み、または他のネットワークの情報にアクセスするための基本的な機能）も、同じく機微なものとして扱うことを忘れてはいけません。
     </p>
 
    </section>
@@ -401,14 +715,11 @@
     </h3>
 
     <p>
-
-     新しい機能に関する仕様を書く際には、<a href="#settings-secure">§5.1 settings object は安全か？</a>に基づく確認をして機微な API を守ることを
-     仕様の著者と編者に推奨します。良いアプローチの一例として、以下のようなものが挙げられます。
-
+     新しい機能に関する仕様を書く著者と編者には、<a href="#settings-secure">§5.1 settings object は安全か？</a>に基づく確認をして機微な API を守ることが推奨されます。良いアプローチの一例として、以下のようなものが挙げられます。
     </p>
 
-    <div class="example" id="example-8ce7bce2">
-     <a class="self-link" href="#example-8ce7bce2"></a>
+    <div class="example" id="example-e045c7ea">
+     <a class="self-link" href="#example-e045c7ea"></a>
 
      <ol>
       <li>
@@ -428,9 +739,7 @@
 
 
     <p>
-
-     先ほど挙げたリストには、現時点で Web に存在し、かつ安全でない通信路でアクセス可能な機能が明らかに含まれています。そのようなレガシーな機能が<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>内で利用可能となるよう、現実的な範囲で可能な限り早く動き始めることを推奨します。
-
+     先ほど挙げたリストには、現時点で Web に存在し、かつ安全でない通信路でアクセス可能な機能が明らかに含まれています。そのようなレガシーな機能が<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>内で利用可能となるよう、現実的な範囲で少しでも早く動き始めることが推奨されます。
     </p>
 
     <ol>
@@ -558,7 +867,7 @@
      <ol>
 
       <li>
-       <var>document</var> と、それ自身の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">ブラウジングコンテキスト</a> が持つ <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#ancestor-browsing-context">継承元ブラウジングコンテキスト</a> のそれぞれにおける <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#active-document">アクティブドキュメント</a> とを含む <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> のリストを <var>documents to check</var> に設定します。
+       <a href="#gather-ancestors">§5.3 Gather document’s relevant ancestors</a> を <var>document</var> に適用した結果を、<var>document to check</var> に設定します。
 
       <li>
        <var>documents to check</var> の各 <var>ancestor</var> について
@@ -571,7 +880,7 @@
         <code>srcdoc</code> <code>Document</code></a> に対応する場合は、次の <var>ancestor</var> へスキップします。
 
        <li>
-        もし <var>ancestor</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> に対する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> が、<code>Authenticated</code> な <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-tls-state">TLS State</a> を持っている場合は、次の <var>ancestor</var> へスキップします。
+        もし <var>ancestor</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> に対する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> が、<code>modern</code> な <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-https-state">HTTPS state</a> を持っている場合は、次の <var>ancestor</var> へスキップします。
 
        <li>
         もし <var>ancestor</var> のアクティブな <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxing-flag-set">sandboxing flag set</a> が、自身の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#sandboxed-origin-browsing-context-flag">sandboxed origin browsing context flag</a> セットを持っていない場合は、<var>origin</var> を <var>ancestor</var> の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> とします。そうでなければ、<var>origin</var> を <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin of <var>ancestor</var>’s
@@ -659,6 +968,51 @@
       <code>Not Trusted</code> を返します。
 
     </ol>
+
+    <h3 class="heading settled" data-level="5.3" id="gather-ancestors">
+     <span class="secno">5.3. </span>
+     <span class="content"><var>document</var> と関連のある継承元の列挙</span><a class="self-link" href="#gather-ancestors"></a>
+    </h3>
+
+    <p>
+     ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> （<var>document</var>） にこのアルゴリズムを適用すると、<var>document</var> が <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> かどうかを決定する必要がある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> のリストを返します。
+    </p>
+
+    <ol>
+
+     <li>
+      <var>document</var> が含まれているリストを <var>documents to check</var> に設定します。
+
+     <li>
+      <var>document</var> に <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#creator-document">creator <code>Document</code></a> の <var>creator</var> が含まれている間、次の処理を実行します。
+
+     <ol>
+
+      <li>
+       もし <var>creator</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">browsing context</a> が、<var>document</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#ancestor-browsing-context">ancestor browsing context</a> である場合、
+
+      <ol>
+       <li><var>creator</var> を <var>documents to check</var> に挿入します。
+       <li><var>document</var> を <var>creator</var> とします。
+      </ol>
+
+      <li>
+       そうではない場合、
+
+      <ol>
+       <li>このループから抜けます。
+      </ol>
+
+     </ol>
+
+     <li>
+      <var>documents to check</var> を返します。
+
+    </ol>
+
+    <p class="note" role="note">
+     補足: ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> の ancestor を列挙するとき、browsing context の creation document のチェインをさかのぼって確認しますが、そのチェインが1つ以上の <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-window">Window</a></code>
+    </p>
 
    </section>
 
@@ -800,7 +1154,7 @@
 
    <li><a href="#conformant-server">準拠するサーバ</a><span>、 §番号のない節</span>
    <li><a href="#conformant-user-agent">準拠するユーザエージェント</a><span>、§番号のない節</span>
-   <li><a href="#embedding-document">埋め込み元ドキュメント</a><span>、§2</span>
+   <li><a href="#potentially-trustworthy">潜在的に信頼できる</a><span>、 §5.2</span>
    <li><a href="#secure-context">安全なコンテキスト</a><span>、§2</span>
    <li><a href="#secure-document">安全なドキュメント</a><span>、§2</span>
    <li><a href="#secure-worker">安全なワーカー</a><span>、§2</span>
@@ -816,6 +1170,7 @@
    <li><a data-link-type="biblio" href="#biblio-dom">[dom]</a> は以下の用語を定義します。
     <ul>
      <li><a href="http://www.w3.org/TR/dom/#interface-document">Document</a>
+     <li><a href="http://www.w3.org/TR/dom/#interface-window">Window</a>
     </ul>
    <li><a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a> は以下の用語を定義します。
     <ul>
@@ -834,11 +1189,11 @@
     </ul>
    <li><a data-link-type="biblio" href="#biblio-html5">[html5]</a> は以下の用語を定義します。
     <ul>
-     <li><a href="http://www.w3.org/TR/html5/browsers.html#active-document">active document</a>
      <li><a href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an iframe srcdoc document</a>
      <li><a href="http://www.w3.org/TR/html5/browsers.html#ancestor-browsing-context">ancestor browsing context</a>
      <li><a href="http://www.w3.org/TR/html5/webappapis.html#api-base-url">api base url</a>
      <li><a href="http://www.w3.org/TR/html5/browsers.html#browsing-context">browsing context</a>
+     <li><a href="http://www.w3.org/TR/html5/browsers.html#creator-document">creator document</a>
      <li><a href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a>
      <li><a href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a>
      <li><a href="http://www.w3.org/TR/html5/browsers.html#browsing-context-nested-through">nested through</a>
@@ -848,6 +1203,7 @@
      <li><a href="http://www.w3.org/TR/html5/browsers.html#sandboxing-flag-set">sandboxing flag set</a>
      <li><a href="http://www.w3.org/TR/html5/webstorage.html#the-sessionstorage-attribute">sessionStorage</a>
      <li><a href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a>
+     <li><a href="http://www.w3.org/TR/html5/browsers.html#top_level-browsing-context">top-level browsing context</a>
     </ul>
    <li><a data-link-type="biblio" href="#biblio-mix">[MIX]</a> は以下の用語を定義します。
     <ul>
