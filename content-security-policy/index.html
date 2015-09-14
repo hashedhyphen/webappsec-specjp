@@ -533,219 +533,301 @@
 
 
    <section>
-    <h2 class="heading settled" data-level="3" id="policy-delivery"><span class="secno">3. </span><span class="content">Policy Delivery</span><a class="self-link" href="#policy-delivery"></a></h2>
-    <p>The server delivers a <a data-link-type="dfn" href="#security-policy">policy</a> to the user agent via an HTTP response
-  header (defined in <a href="#content-security-policy-header-field">§3.1 Content-Security-Policy Header Field</a> and <a href="#content-security-policy-report-only-header-field">§3.2 Content-Security-Policy-Report-Only Header Field</a>) or an HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element (defined in <a href="#delivery-html-meta-element">§3.3 HTML meta Element</a>).</p>
-    <p>Servers are informed that requests are coming from a <a data-link-type="dfn" href="#protected-resource">protected resource</a> via an HTTP request header (defined in <a href="#csp-request-header">§3.4 The CSP HTTP Request Header</a>).</p>
+
+    <h2 class="heading settled" data-level="3" id="policy-delivery">
+     <span class="secno">3. </span><span class="content">ポリシーの伝送</span>
+     <a class="self-link" href="#policy-delivery"></a>
+    </h2>
+
+    <p>
+     サーバは、HTML レスポンスヘッダ（<a href="#content-security-policy-header-field">§3.1 Content-Security-Policy ヘッダフィールド</a> と <a href="#content-security-policy-report-only-header-field">§3.2 Content-Security-Policy-Report-Only ヘッダフィールド</a> で定義されます）、または HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素（<a href="#delivery-html-meta-element">§3.3 HTML meta 要素</a> で定義されます）を通じて、<a data-link-type="dfn" href="#security-policy">ポリシー</a>をユーザエージェントに伝送します。
+    </p>
+
+    <p>
+    サーバは、HTTP リクエストヘッダ（<a href="#csp-request-header">§3.4 The CSP HTTP リクエストヘッダ</a> で定義されます）を通じて、<a data-link-type="dfn" href="#protected-resource">protected resource</a> からリクエストが来ていることを知ります。
+    </p>
+
     <section>
-     <h3 class="heading settled" data-level="3.1" id="content-security-policy-header-field"><span class="secno">3.1. </span><span class="content"> <code>Content-Security-Policy</code> Header Field </span><a class="self-link" href="#content-security-policy-header-field"></a></h3>
-     <p>The <code><dfn data-dfn-type="dfn" data-export="" id="content_security_policy">Content-Security-Policy<a class="self-link" href="#content_security_policy"></a></dfn></code> header field is
-    the preferred mechanism for delivering a policy. The grammar is as follows:</p>
-<pre>"Content-Security-Policy:" 1#<a data-link-type="dfn" href="#policy_token">policy-token</a>
+
+     <h3 class="heading settled" data-level="3.1" id="content-security-policy-header-field">
+      <span class="secno">3.1. </span><span class="content"> <code>Content-Security-Policy</code> ヘッダフィールド</span>
+      <a class="self-link" href="#content-security-policy-header-field"></a>
+     </h3>
+
+     <p>
+      <code><dfn data-dfn-type="dfn" data-export="" id="content_security_policy">Content-Security-Policy<a class="self-link" href="#content_security_policy"></a></dfn></code> ヘッダフィールドは、ポリシーの伝送にとって推奨される機構です。次のような文法を持ちます。
+     </p>
+
+<pre>
+"Content-Security-Policy:" 1#<a data-link-type="dfn" href="#policy_token">policy-token</a>
 </pre>
-     <p>For example, a response might include the following header field:</p>
-     <div class="example" id="example-be526382"><a class="self-link" href="#example-be526382"></a> <code>Content-Security-Policy: <a data-link-type="dfn" href="#script_src">script-src</a> 'self'</code> </div>
-     <p>A server MUST NOT send more than one HTTP header field named <code>Content-Security-Policy</code> with a given <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource
-    representation</a>.</p>
-     <p>A server MAY send different <code>Content-Security-Policy</code> header field values with different <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">representations</a> of the same
-    resource or with different resources.</p>
-     <p>Upon receiving an HTTP response containing at least one <code>Content-Security-Policy</code> header field, the user agent
-    MUST <a data-link-type="dfn" href="#enforce">enforce</a> each of the policies contained in each such
-    header field.</p>
+
+     <p>
+      例えば、レスポンスには以下のようなヘッダが含まれることになるでしょう。
+     </p>
+
+     <div class="example" id="example-be526382">
+      <a class="self-link" href="#example-be526382"></a>
+      <code>Content-Security-Policy: <a data-link-type="dfn" href="#script_src">script-src</a> 'self'</code>
+     </div>
+
+     <p>
+      サーバは、特定の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> に対して <code>Content-Security-Policy</code> という名の HTTP ヘッダフィールドを 2 つ以上送信してはいけません（MUST NOT）。
+     </p>
+
+     <p>
+      サーバは、同じリソースの異なる <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">representations</a> に対して、または異なるリソースに対して、異なる <code>Content-Security-Policy</code> ヘッダフィールド値を送信してもよいです（MAY）。
+     </p>
+
+     <p>
+      1 つ以上の <code>Content-Security-Policy</code> ヘッダフィールドを含む HTTP レスポンスを受信したユーザエージェントは、各ヘッダフィールドに含まれる各ポリシーを <a data-link-type="dfn" href="#enforce">適用</a> しなければなりません（MUST）。
+     </p>
+
     </section>
+
     <section>
-     <h3 class="heading settled" data-level="3.2" id="content-security-policy-report-only-header-field"><span class="secno">3.2. </span><span class="content"> <code>Content-Security-Policy-Report-Only</code> Header Field </span><a class="self-link" href="#content-security-policy-report-only-header-field"></a></h3>
-     <p>The <code><dfn data-dfn-type="dfn" data-export="" id="content_security_policy_report_only">Content-Security-Policy-Report-Only<a class="self-link" href="#content_security_policy_report_only"></a></dfn></code> header field lets servers experiment with policies by monitoring (rather
-    than enforcing) a policy. The grammar is as follows:</p>
-<pre>"Content-Security-Policy-Report-Only:" 1#<a data-link-type="dfn" href="#policy_token">policy-token</a>
+
+     <h3 class="heading settled" data-level="3.2" id="content-security-policy-report-only-header-field">
+      <span class="secno">3.2. </span><span class="content"> <code>Content-Security-Policy-Report-Only</code> ヘッダフィールド</span>
+      <a class="self-link" href="#content-security-policy-report-only-header-field"></a>
+     </h3>
+
+     <p>
+      <code><dfn data-dfn-type="dfn" data-export="" id="content_security_policy_report_only">Content-Security-Policy-Report-Only<a class="self-link" href="#content_security_policy_report_only"></a></dfn></code> ヘッダフィールドは、（ポリシーを適用するのではなく）モニタリングによってポリシーの検査をサーバができるようにします。文法は次のようになります。
+     </p>
+
+<pre>
+"Content-Security-Policy-Report-Only:" 1#<a data-link-type="dfn" href="#policy_token">policy-token</a>
 </pre>
-     <p>For example, server operators might wish to develop their
-    security policy iteratively. The operators can deploy a report-only
-    policy based on their best estimate of how their site behaves:</p>
+
+     <p>
+      例えば、サーバの管理者はセキュリティポリシーをイテレーションで作成したいかもしれません。管理者は、サイトの振る舞いに関する最善の予測に基づいて report-only ポリシーをデプロイすることができます。
+     </p>
+
      <div class="example" id="example-77886cbd">
       <a class="self-link" href="#example-77886cbd"></a>
-<pre>Content-Security-Policy-Report-Only: <a data-link-type="dfn" href="#script_src">script-src</a> 'self';
+<pre>
+Content-Security-Policy-Report-Only: <a data-link-type="dfn" href="#script_src">script-src</a> 'self';
+
                                      <a data-link-type="dfn" href="#report_uri">report-uri</a> /csp-report-endpoint/
 </pre>
      </div>
-     <p>If their site violates this policy the user agent will <a data-link-type="dfn" href="#send-violation-reports">send violation
-    reports</a> to the URL specified in the policy’s <a data-link-type="dfn" href="#report_uri">report-uri</a> directive, but allow the violating resources to load regardless. Once a site
-    has confidence that the policy is appropriate, they can start enforcing the
-    policy using the <code><a data-link-type="dfn" href="#content_security_policy">Content-Security-Policy</a></code> header field.</p>
-     <p>A server MUST NOT send more than one HTTP header field named <code>Content-Security-Policy-Report-Only</code> with a given <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a>.</p>
-     <p>A server MAY send different <code>Content-Security-Policy-Report-Only</code> header field values
-    with different <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">representations</a> of the same resource or with different
-    resources.</p>
-     <p>Upon receiving an HTTP response containing at least one <code>Content-Security-Policy-Report-Only</code> header field, the
-    user agent MUST <a data-link-type="dfn" href="#monitor">monitor</a> each of the policies
-    contained in each such header field.</p>
-     <p class="note" role="note">Note: The <code><a data-link-type="dfn" href="#content_security_policy_report_only">Content-Security-Policy-Report-Only</a></code> header is <em>not</em> supported inside a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element.</p>
+
+     <p>
+      もし自分のサイトがポリシーに違反する場合は、そのポリシーにおいて <a data-link-type="dfn" href="#report_uri">report-uri</a> ディレクティブで指定された URL に向けてユーザエージェントは <a data-link-type="dfn" href="#send-violation-reports">violation reports を送信</a>しますが、リソースの違反読み込みはそれに関係なく許されます。ポリシーは適切であるとサイトが判断すると、<code><a data-link-type="dfn" href="#content_security_policy">Content-Security-Policy</a></code> ヘッダフィールドを用いてポリシーの適用を開始することができます。
+     </p>
+
+     <p>
+      サーバは、特定の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> に対して <code>Content-Security-Policy-Report-Only</code> という名の HTTP ヘッダフィールドを 2 つ以上送信してはいけません（MUST NOT）。
+     </p>
+
+     <p>
+      サーバは、同じリソースの異なる <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">representations</a> に対して、または異なるリソースに対して、異なる <code>Content-Security-Policy-Report-Only</code> ヘッダフィールド値を送信してもよいです（MAY）。
+     </p>
+
+     <p>
+      1 つ以上の <code>Content-Security-Policy-Report-Only</code> ヘッダフィールドを含む HTTP レスポンスを受信したユーザエージェントは、各ヘッダフィールドに含まれる各ポリシーを <a data-link-type="dfn" href="#monitor">monitor</a> しなければなりません（MUST）。
+     </p>
+
+     <p class="note" role="note">
+      補足: <code><a data-link-type="dfn" href="#content_security_policy_report_only">Content-Security-Policy-Report-Only</a></code> ヘッダは <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素の中ではサポートされて<em>いません</em>。
+     </p>
+
     </section>
+
     <section>
-     <h3 class="heading settled" data-level="3.3" id="delivery-html-meta-element"><span class="secno">3.3. </span><span class="content"> HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> Element </span><a class="self-link" href="#delivery-html-meta-element"></a></h3>
-     <p>The server MAY supply policy via one or more HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> elements
-    with <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> attributes that are an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive
-    match</a> for the string "<code>Content-Security-Policy</code>". For
-    example:</p>
-<pre class="example" id="example-ff79af85"><a class="self-link" href="#example-ff79af85"></a>&lt;meta http-equiv="Content-Security-Policy" content="<a data-link-type="dfn" href="#script_src">script-src</a> 'self'">
+
+     <h3 class="heading settled" data-level="3.3" id="delivery-html-meta-element">
+      <span class="secno">3.3. </span><span class="content">HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素</span>
+      <a class="self-link" href="#delivery-html-meta-element"></a>
+     </h3>
+
+     <p>
+      "<code>Content-Security-Policy</code>" の文字列に対して <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive match</a> な <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> 属性を持った 1 つ以上の HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素を通じて、サーバはポリシーを提供してもよいです（MAY）。例えば次のようになります。
+     </p>
+
+     <div class="example" id="example-ff79af85">
+      <a class="self-link" href="#example-ff79af85"></a>
+<pre>
+&lt;meta http-equiv="Content-Security-Policy" content="<a data-link-type="dfn" href="#script_src">script-src</a> 'self'">
 </pre>
-     <p>Add the following entry to the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/document-metadata.html#pragma-directives">pragma directives</a> for the <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element:</p>
+     </div>
+
+     <p>
+      ここで、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素における <a data-link-type="dfn" href="http://www.w3.org/TR/html5/document-metadata.html#pragma-directives">pragma directives</a> に対して、以下のようなエントリを追加します。
+     </p>
+
      <dl>
-      <dt> Content security policy
-        (<code>http-equiv="content-security-policy"</code>)
+      <dt> Content security policy (<code>http-equiv="content-security-policy"</code>)
       <dd>
        <ol>
-        <li>If the Document’s <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-head-element">head</a></code> element is not an ancestor of the <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element, abort these steps.
-        <li>If the <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element lacks a <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-content">content</a></code> attribute, abort
-          these steps.
-        <li>Let <var>policy</var> be the value of the <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-content">content</a></code> attribute of the <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element.
-        <li>Let <var>directive-set</var> be the result of <a data-link-type="dfn" href="#parse-the-policy">parsing <var>policy</var></a>.
-        <li>
-          Remove all occurrences of <code><a data-link-type="dfn" href="#reflected_xss">reflected-xss</a></code>, <code><a data-link-type="dfn" href="#report_uri">report-uri</a></code>, <code><a data-link-type="dfn" href="#frame_ancestors">frame-ancestors</a></code>,
-            and <code><a data-link-type="dfn" href="#sandbox">sandbox</a></code> directives from <var>directive-set</var>.
-         <p class="note" role="note">Note: User agents are encouraged to issue a warning to developers
-            if one or more of these directives are included in a policy
-            delivered via <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code>.</p>
-        <li>Enforce each of the <a data-link-type="dfn" href="#security-policy-directive">directives</a> in <var>directive-set</var>,
-          as <a href="#directives">defined for each directive type</a>.
+        <li>もし Document の <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-head-element">head</a></code> 要素が <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素の親でない場合、以下の手順には進みません。
+        <li>もし <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素に <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-content">content</a></code> 属性が存在しない場合、以下の手順には進みません。
+        <li><code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素の <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-content">content</a></code> 属性値を <var>policy</var> に設定します。
+        <li><a data-link-type="dfn" href="#parse-the-policy">parsing <var>policy</var></a> の結果を <var>directive-set</var> に設定します。
+        <li><code><a data-link-type="dfn" href="#reflected_xss">reflected-xss</a></code>、<code><a data-link-type="dfn" href="#report_uri">report-uri</a></code>、<code><a data-link-type="dfn" href="#frame_ancestors">frame-ancestors</a></code>、そして <code><a data-link-type="dfn" href="#sandbox">sandbox</a></code> といったディレクティブを <var>directive-set</var> からすべて削除します。
+
+        <p class="note" role="note">
+         補足: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素を用いたポリシーに 1 つ以上のディレクティブが含まれていたとき、ユーザエージェントは開発者に警告を発することが推奨されます。
+        </p>
+
+        <li><var>directive-set</var> に含まれる各 <a data-link-type="dfn" href="#security-policy-directive">ディレクティブ</a> について、<a href="#directives">それぞれのディレクティブの定義</a>に従って適用します。
        </ol>
      </dl>
-     <p>Authors are <em>strongly encouraged</em> to place <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> elements as early
-    in the document as possible, because policies in <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> elements are not
-    applied to content which preceds them. In particular, note that resources
-    fetched or prefetched using the <code>Link</code> HTTP response header
-    field, and resources fetched or prefetched using <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-link-element">link</a></code> and <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> elements which precede a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code>-delivered policy will not be blocked.</p>
-     <p class="note" role="note">Note: A <a data-link-type="dfn" href="#security-policy">policy</a> specified via a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element will be enforced
-    along with any other policies active for the protected resource, regardless
-    of where they’re specified. The general impact of enforcing multiple
-    policies is described in <a href="#enforcing-multiple-policies">§3.5 Enforcing multiple policies</a>.</p>
-     <p class="note" role="note">Note: Modifications to the <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-content">content</a></code> attribute of a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element
-    after the element has been parsed will be ignored.</p>
-     <p class="note" role="note">Note: The <code><a data-link-type="dfn" href="#content_security_policy_report_only">Content-Security-Policy-Report-Only</a></code> header is <em>not</em> supported inside a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element.</p>
+
+     <p>
+      <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素はドキュメントのできるだけ最初のほうに置くことが作者には<em>強く推奨されます</em>。なぜならば、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素にあるポリシーより前に位置するコンテンツに対しては適用されないからです。特に、<code>Link</code> HTTP レスポンスヘッダフィールドを用いてフェッチまたはプリフェッチされたリソースと、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素で宣言されたポリシーより前に位置する、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-link-element">link</a></code> 要素や <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> 要素でフェッチまたはプリフェッチされたリソースはブロックされないことに注意してください。
+     </p>
+
+     <p class="note" role="note">
+      補足: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素で明示された <a data-link-type="dfn" href="#security-policy">ポリシー</a> は protected resource に対して明示の場所に関係なくアクティブな他のすべてのポリシーとともに適用されます。複数のポリシーを適用することによる一般的な影響は <a href="#enforcing-multiple-policies">§3.5 複数ポリシーの適用</a> で説明します。
+     </p>
+
+     <p class="note" role="note">
+      補足: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素がパースされた後の code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-content">content</a></code> 属性の変更は無視されます。
+     </p>
+
+     <p class="note" role="note">
+      補足: <code><a data-link-type="dfn" href="#content_security_policy_report_only">Content-Security-Policy-Report-Only</a></code> ヘッダは <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素の中でサポートされて<em>いません</em>。
+     </p>
+
     </section>
+
     <section>
-     <h3 class="heading settled" data-level="3.4" id="csp-request-header"><span class="secno">3.4. </span><span class="content">The <code>CSP</code> HTTP Request Header</span><a class="self-link" href="#csp-request-header"></a></h3>
-     <p>The <code><dfn data-dfn-type="dfn" data-noexport="" id="csp">CSP<a class="self-link" href="#csp"></a></dfn></code> header field indicates that a particular
-    request is subject to a <a data-link-type="dfn" href="#security-policy">policy</a>, and its value is defined by the
-    following ABNF grammar:</p>
-<pre>"CSP:" 1#<a data-link-type="dfn" href="#csp_header_value">csp-header-value</a>
+
+     <h3 class="heading settled" data-level="3.4" id="csp-request-header">
+      <span class="secno">3.4. </span><span class="content"><code>CSP</code> HTTP リクエストヘッダ</span>
+      <a class="self-link" href="#csp-request-header"></a>
+     </h3>
+
+     <p>
+      <code><dfn data-dfn-type="dfn" data-noexport="" id="csp">CSP<a class="self-link" href="#csp"></a></dfn></code> ヘッダフィールドは特定のリクエストが <a data-link-type="dfn" href="#security-policy">policy</a> に従っていることを示すもので、フィールドの値は以下の ABNF 文法で定義されます。
+     </p>
+
+<pre>
+"CSP:" 1#<a data-link-type="dfn" href="#csp_header_value">csp-header-value</a>
 
 <dfn data-dfn-type="dfn" data-noexport="" id="csp_header_value">csp-header-value<a class="self-link" href="#csp_header_value"></a></dfn> = *<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> "active" *WSP
 </pre>
-     <p>If the user agent is <a data-link-type="dfn" href="#monitor">monitoring</a> or <a data-link-type="dfn" href="#enforce">enforcing</a> a <a data-link-type="dfn" href="#security-policy">policy</a> that includes directives whose value is a <a data-link-type="dfn" href="#source-list">source list</a>, then the user
-    agent MUST send a header field named <code>CSP</code> along with requests
-    for resources whose <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> <em>does not</em> match the <a data-link-type="dfn" href="#protected-resource">protected
-    resource</a>’s origin. The value of this header MUST be <code>active</code>.</p>
-     <p>The user agent MAY choose to send this header only if the request is for a
-    resource type which the active policy would effect. That is, given a policy
-    of <code>img-src example.com</code>, the user agent would send <code>CSP:
-    active</code> along with requests for images, but might choose not to send
-    the header with requests for script.</p>
-     <p class="note" role="note">Note: The central reason for including this header is that it hints to a
-    server that information about redirects might be leaked as a side-effect
-    of a page’s active policy. If this header is present, a server might decline
-    to redirect a logged-out user from <code>example.com</code> to <code>accounts.example.com</code>, for example, as a malicious embedder
-    might otherwise be able to determine the user’s logged-in status.</p>
+
+     <p>
+      もし、ディレクティブの値に <a data-link-type="dfn" href="#source-list">source list</a> を含む<a data-link-type="dfn" href="#security-policy">ポリシー</a>をユーザエージェントが <a data-link-type="dfn" href="#monitor">モニタリング</a> または <a data-link-type="dfn" href="#enforce">適用</a> している場合は、<a data-link-type="dfn" href="#protected-resource">protected resource</a> の <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> と一致しないオリジンを持つリソースに対するリクエストとともに <code>CSP</code> ヘッダフィールドをユーザエージェントは送信しなければなりません（MUST）。このヘッダの値は <code>active</code> でなければなりません（MUST）。
+     </p>
+
+     <p>
+      そのリクエストが、アクティブなポリシーが影響を与えるリソースタイプのものである場合に限り、ユーザエージェントはこのヘッダを送ることを選択してもよいです（MAY）。つまり、<code>img-src example.com</code> のポリシーがあった場合に、ユーザエージェントは画像のリクエストと一緒に <code>CSP: active</code> と送信し、スクリプトのリクエスト時にはこのヘッダを送信しなくてもよいことを意味します。
+     </p>
+
+     <p class="note" role="note">
+      補足: このヘッダを含めることの主な目的は、リダイレクトに関する情報がページのアクティブなポリシーの副作用として漏れている可能性をサーバに伝えることです。例えば、悪意のあるコンテンツを埋め込んだ攻撃者がユーザのログイン状態を他の方法で見分けられるかもしれないため、このヘッダを受信したサーバはログアウトしたユーザが <code>example.com</code> から <code>accounts.example.com</code> へリダイレクトするのを拒否するかもしれません。
+     </p>
+
     </section>
+
     <section>
-     <h3 class="heading settled" data-level="3.5" id="enforcing-multiple-policies"><span class="secno">3.5. </span><span class="content">Enforcing multiple policies</span><a class="self-link" href="#enforcing-multiple-policies"></a></h3>
-     <p><em>This section is not normative.</em></p>
-     <p>The above sections note that when multiple policies are present,
-    each must be enforced or reported, according to its type. An example
-    will help clarify how that ought to work in practice. The behavior of
-    an <code>XMLHttpRequest</code> might seem unclear given a site
-    that, for whatever reason, delivered the following HTTP headers:</p>
-<pre class="example" id="example-baabf26f"><a class="self-link" href="#example-baabf26f"></a>Content-Security-Policy: <a data-link-type="dfn" href="#default_src">default-src</a> 'self' https://example.com https://example.net;
+
+     <h3 class="heading settled" data-level="3.5" id="enforcing-multiple-policies">
+      <span class="secno">3.5. </span><span class="content">複数ポリシーの適用</span>
+      <a class="self-link" href="#enforcing-multiple-policies"></a>
+     </h3>
+
+     <p>
+      <em>この節は非規範的です。</em>
+     </p>
+
+     <p>
+      上の節では、複数のポリシーがある場合には、その種類に応じてそれぞれが適用または報告される必要があると述べました。どのように実践するかを明確にするため、ある例を考えてみます。以下のような HTTP ヘッダを伝送したきたサイトを考えると、<code>XMLHttpRequest</code> の振る舞いが不明確なものに思えるかもしれません。
+     </p>
+
+<pre class="example" id="example-baabf26f">
+<a class="self-link" href="#example-baabf26f"></a>Content-Security-Policy: <a data-link-type="dfn" href="#default_src">default-src</a> 'self' https://example.com https://example.net;
                          <a data-link-type="dfn" href="#connect_src">connect-src</a> 'none';
 Content-Security-Policy: <a data-link-type="dfn" href="#connect_src">connect-src</a> https://example.com/;
                          <a data-link-type="dfn" href="#script_src">script-src</a> https://example.com/
 </pre>
-     <p>Is a connection to <code>example.com</code> allowed or not? The
-    short answer is that the connection is not allowed. Enforcing both
-    policies means that a potential connection would have to pass through
-    both unscathed. Even though the second policy would allow this
-    connection, the first policy contains <code><a data-link-type="dfn" href="#connect_src">connect-src</a> 'none'</code>, so its enforcement blocks the connection. The impact is
-    that adding additional policies to the list of policies to enforce can
-    only further restrict the capabilities of the protected resource.</p>
-     <p>To demonstrate that further, consider a script tag on this page.
-    The first policy would lock scripts down to <code>'self'</code>, <code>https://example.com</code> and <code>https://example.net</code> via the <code><a data-link-type="dfn" href="#default_src">default-src</a></code> directive. The second, however,
-    would only allow script from <code>https://example.com/</code>. Script
-    will only load if it meets both policy’s criteria: in this case, the only
-    origin that can match is <code>https://example.com</code>, as both
-    policies allow it.</p>
+
+     <p>
+      <code>example.com</code> への接続は許可されるでしょうか？端的に言えば、この接続は許可されません。2 つのポリシーを適用することは、潜在的な接続はどちらにも影響されずに通り抜けなくてならないことを意味します。たとえ 2 つ目のポリシーがこの接続を許可していたとしても、1 つ目のポリシーには <code><a data-link-type="dfn" href="#connect_src">connect-src</a> 'none'</code> が含まれているため、今回のポリシーを適用した結果では接続がブロックされます。これによる影響は、適用するポリシーのリストに追加のポリシーを加えることは、protected resource の可動範囲をさらに制限することしかできないということです。
+     </p>
+
+     <p>
+      このことをさらに示すため、このページにある script タグを考えてみましょう。最初のポリシーは <code><a data-link-type="dfn" href="#default_src">default-src</a></code> ディレクティブによって <code>'self'</code>、<code>https://example.com</code> そして <code>https://example.net</code> にスクリプトを制限しているとします。2 つ目のポリシーは前者と異なり、<code>https://example.com/</code> からのスクリプトのみ許可しているものとします。スクリプトは両方のポリシーのクライテリアを満たす場合にのみ読み込まれます。この場合でいえば、両方のポリシーが許可している <code>https://example.com</code> のオリジンに一致する場合にのみ限定されます。
+     </p>
+
     </section>
+
     <section>
-     <h3 class="heading settled" data-level="3.6" id="which-policy-applies"><span class="secno">3.6. </span><span class="content">Policy applicability</span><a class="self-link" href="#which-policy-applies"></a></h3>
-     <p><em>This section is not normative.</em></p>
-     <p>Policies are associated with an <a data-link-type="dfn" href="#protected-resource">protected resource</a>, and <a data-link-type="dfn" href="#enforce">enforced</a> or <a data-link-type="dfn" href="#monitor">monitored</a> for that resource.
-    If a resource does not create a new execution context (for example, when
-    including a script, image, or stylesheet into a document), then any policies
-    delivered with that resource are discarded without effect. Its execution is
-    subject to the policy or policies of the including context. The following
-    table outlines examples of these relationships:</p>
+
+     <h3 class="heading settled" data-level="3.6" id="which-policy-applies">
+      <span class="secno">3.6. </span><span class="content">Policy applicability</span>
+      <a class="self-link" href="#which-policy-applies"></a>
+     </h3>
+
+     <p>
+      <em>この節は非規範的です。</em>
+     </p>
+
+     <p>
+      ポリシーは <a data-link-type="dfn" href="#protected-resource">protected resource</a> と結び付いており、そのリソースに対して <a data-link-type="dfn" href="#enforce">適用</a> または <a data-link-type="dfn" href="#monitor">モニタリング</a> されます。もしリソースが新しい実行コンテキストを作成しない場合は（例えば、スクリプトや画像、またはスタイルシートがドキュメントに含まれている場合）、そのリソースから伝送されたすべてのポリシーは効力を持たずして廃棄されます。その実行は含まれているコンテキストのポリシーに依存します。以下の表はこれらの関係の例を示したものです。
+     </p>
+
      <table>
       <thead>
        <tr>
-        <th colspan="2">Resource Type
-        <th>What <a data-link-type="dfn" href="#security-policy">policy</a> applies?
+        <th colspan="2">リソースの種類
+        <th>適用される <a data-link-type="dfn" href="#security-policy">ポリシー</a>
+
       <tbody>
        <tr class="section">
-        <th rowspan="2">Top-level Contexts
-        <td>HTML as a new, top-level browsing context
-        <td>The policy delivered with the resource applies.
+        <th rowspan="2">トップレベルのコンテキスト
+        <td>新しいトップレベルのブラウジングコンテキストとしての HTML
+        <td>リソースが伝送したポリシー
        <tr>
-        <td>SVG, as a top-level document
-        <td>The policy delivered with the resource applies.
+        <td>トップレベルのドキュメントとしての SVG
+        <td>リソースが伝送したポリシー
+
        <tr class="section">
-        <th rowspan="3">Embedded Contexts
-        <td> Any resource included via <code><a data-link-type="element" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element">iframe</a></code>, <code><a data-link-type="element" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-object-element">object</a></code>, or <code><a data-link-type="element" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-embed-element">embed</a></code>
-        <td> Unless the embedded resource is a globally unique identifier (or a
-            srcdoc iframe), the embedded resource is controlled by the policy
-            delivered with the resource. If the embedded resource is a globally
-            unique identifier or srcdoc iframe, it inherits the policy of the
-            context creating it.  (The frame-src and
-            child-src directives of the embedding context only control
-            what resources are eligible for embedding in that context, not the
-            behavior of the resource once embedded.)
+        <th rowspan="3">埋め込まれたコンテキスト
+        <td><code><a data-link-type="element" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element">iframe</a></code> や <code><a data-link-type="element" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-object-element">object</a></code>、または <code><a data-link-type="element" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-embed-element">embed</a></code> によって埋め込まれたすべてのリソース
+        <td>埋め込まれたリソースが globally unique identifier（または srcdoc iframe）でない場合は、埋め込まれたリソースはリソースが伝送したポリシーに管理されます。埋め込まれたリソースが globally unique identifier か srcdoc iframe のどちらかであれば、自身を作成したコンテキストのポリシーを継承します。（埋め込まれたコンテキストの frame-src と child-src のディレクティブは、そのコンテキストに埋め込むのに適したリソースについてを管理するのみであり、すでに埋め込まれているリソースの振る舞いには関知しません。）
        <tr>
-        <td>SVG, as an embedded document
-        <td> Unless the resource is a globally unique identifier,
-            it is controlled by the policy
-            delivered with the resource. If a globally
-            unique identifier, it inherits the policy of the
-            context creating it.
+        <td>埋め込まれたドキュメントとしての SVG
+        <td>リソースが globally unique identifier でなければ、リソースが伝送したポリシーに管理されます。リソースが globally
+            unique identifier であれば、自身を作成したコンテキストのポリシーを継承します。
        <tr>
-        <td> JavaScript, as a Worker, Shared Worker, or Service Worker
-        <td> Unless the resource is a globally unique identifier,
-            it is controlled by the
-            policy delivered with the resource. If a globally
-            unique identifier, it inherits the policy of the
-            context creating it.
+        <td>Worker、Shared Worker、Service Worker としての JavaScript
+        <td>リソースが globally unique identifier でなければ、リソースが伝送したポリシーに管理されます。リソースが globally
+            unique identifier であれば、自身を作成したコンテキストのポリシーを継承します。
+
        <tr class="section">
-        <th rowspan="7">Subresources
-        <td>SVG, inlined via <code><a data-link-type="element" href="http://www.w3.org/TR/SVG2/struct.html#SVGElement">svg</a></code>
-        <td>The policy of the including context applies.
+        <th rowspan="7">サブリソース
+        <td><code><a data-link-type="element" href="http://www.w3.org/TR/SVG2/struct.html#SVGElement">svg</a></code> によるインラインの SVG
+        <td>SVG を含んでいるコンテキストのポリシー
        <tr>
-        <td>SVG, as a resource document
-        <td>The policy of the including context applies.
+        <td>リソースのドキュメントとしての SVG
+        <td>SVG を含んでいるコンテキストのポリシー
        <tr>
-        <td>HTML via XMLHttpRequest
-        <td>The policy of the context that performed the fetch applies.
+        <td>XMLHttpRequest による HTML
+        <td>フェッチを実行したコンテキストのポリシー
        <tr>
-        <td>Image via <code><a data-link-type="element" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-img-element">img</a></code> element
-        <td>The policy of the including context applies.
+        <td><code><a data-link-type="element" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-img-element">img</a></code> 要素による画像
+        <td>画像を含んでいるコンテキストのポリシー
        <tr>
-        <td>JavaScript via a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> element
-        <td>The policy of the including context applies.
+        <td><code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> 要素による JavaScript
+        <td>JavaScript を含んでいるコンテキストのポリシー
        <tr>
-        <td>SVG, via <code><a data-link-type="element" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-img-element">img</a></code>
-        <td>No policy applies; this should be just as safe as JPG.
+        <td><code><a data-link-type="element" href="http://www.w3.org/TR/html5/embedded-content-0.html#the-img-element">img</a></code> による SVG
+        <td>JPG と同じように安全なはずであり、ポリシーは適用されません。
        <tr>
-        <td>SVG, as a WebFont
-        <td>No policy applies; this should be just as safe as WOFF.
+        <td>WebFont としての SVG
+        <td>WOFF と同じように安全なはずであり、ポリシーは適用されません。
      </table>
+
     </section>
+
    </section>
+
+
    <section>
     <h2 class="heading settled" data-level="4" id="syntax-and-algorithms"><span class="secno">4. </span><span class="content">Syntax and Algorithms</span><a class="self-link" href="#syntax-and-algorithms"></a></h2>
     <section>
