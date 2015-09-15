@@ -86,7 +86,7 @@
   <div class="head">
 
    <p class="note" role="note">
-    この文書は、<a href="https://w3c.github.io/webappsec/specs/powerfulfeatures/">Secure Contexts</a> Editor's Draft （2015年9月11日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。
+    この文書は、<a href="https://w3c.github.io/webappsec/specs/powerfulfeatures/">Secure Contexts</a> Editor's Draft （2015年9月14日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。
    </p>
 
    <hr title="Separator for header">
@@ -98,7 +98,7 @@
    <h1 class="p-name no-ref" id="title">Secure Contexts 日本語訳</h1>
 
    <h2 class="no-num no-toc no-ref heading settled" id="subtitle">
-    <span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-09-11">11 September 2015</time></span>
+    <span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-09-14">14 September 2015</time></span>
    </h2>
 
    <div data-fill-with="spec-metadata">
@@ -475,6 +475,10 @@
      Shared Workers は Dedicated Workers と似ていますが、Worker を共有しているドキュメントのそれぞれについて確認する必要があります。
     </p>
 
+    <p class="issue" id="issue-c5802c14">
+     <a class="self-link" href="#issue-c5802c14"></a>
+     Shared Workers に対する現時点の処理では、Worker の状態が安全か安全でないかは Worker が結び付いているドキュメントに依存してしまいます。これでは開発者に混乱を招くかもしれません。このバグにはいくつかの改善案が提案されています。<a href="https://github.com/w3c/webappsec/issues/406">&lt;https://github.com/w3c/webappsec/issues/406&gt;</a>
+    </p>
 
     <div class="example" id="example-7e3c52b5">
      <a class="self-link" href="#example-7e3c52b5"></a>
@@ -1421,6 +1425,10 @@ partial interface <a class="idl-code" data-link-type="interface" href="https://h
   </h2>
 
   <div style="counter-reset:issue">
+   <div class="issue">
+    Shared Workers に対する現時点の処理では、Worker の状態が安全か安全でないかは Worker が結び付いているドキュメントに依存してしまいます。これでは開発者に混乱を招くかもしれません。このバグにはいくつかの改善案が提案されています。<a href="https://github.com/w3c/webappsec/issues/406">&lt;https://github.com/w3c/webappsec/issues/406&gt;</a><a href="#issue-c5802c14"> ↵ </a>
+   </div>
+
    <div class="issue">
     ここで必要なプリミティブ値を W3C は定義していないため、<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url">creation URL</a> には WHATWG の HTML を適用しています。<a href="#issue-091ab16c"> ↵ </a>
    </div>
