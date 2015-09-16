@@ -219,25 +219,25 @@
      </ul>
     <li><a href="#key-concepts"><span class="secno">2</span> <span class="content">中心となる概念と用語</span></a>
     <li>
-     <a href="#policy-delivery"><span class="secno">3</span> <span class="content">ポリシーの配送</span></a>
+     <a href="#policy-delivery"><span class="secno">3</span> <span class="content">ポリシーの伝送</span></a>
      <ul class="toc">
       <li><a href="#content-security-policy-header-field"><span class="secno">3.1</span> <span class="content"> <code>Content-Security-Policy</code> ヘッダフィールド</span></a>
       <li><a href="#content-security-policy-report-only-header-field"><span class="secno">3.2</span> <span class="content"> <code>Content-Security-Policy-Report-Only</code> ヘッダフィールド</span></a>
       <li><a href="#delivery-html-meta-element"><span class="secno">3.3</span> <span class="content"> HTML <code><span>meta</span></code> 要素</span></a>
-      <li><a href="#csp-request-header"><span class="secno">3.4</span> <span class="content">The <code>CSP</code> HTTP Request Header</span></a>
+      <li><a href="#csp-request-header"><span class="secno">3.4</span> <span class="content">The <code>CSP</code> HTTP リクエストヘッダ</span></a>
       <li><a href="#enforcing-multiple-policies"><span class="secno">3.5</span> <span class="content">複数ポリシーの適用</span></a>
       <li><a href="#which-policy-applies"><span class="secno">3.6</span> <span class="content">Policy applicability</span></a>
      </ul>
     <li>
-     <a href="#syntax-and-algorithms"><span class="secno">4</span> <span class="content">Syntax and Algorithms</span></a>
+     <a href="#syntax-and-algorithms"><span class="secno">4</span> <span class="content">構文とアルゴリズム</span></a>
      <ul class="toc">
       <li>
-       <a href="#policy-syntax"><span class="secno">4.1</span> <span class="content">Policy Syntax</span></a>
+       <a href="#policy-syntax"><span class="secno">4.1</span> <span class="content">ポリシーの構文</span></a>
        <ul class="toc">
-        <li><a href="#policy-parsing"><span class="secno">4.1.1</span> <span class="content">Parsing Policies</span></a>
+        <li><a href="#policy-parsing"><span class="secno">4.1.1</span> <span class="content">ポリシーのパース</span></a>
        </ul>
       <li>
-       <a href="#source-list-syntax"><span class="secno">4.2</span> <span class="content">Source List Syntax</span></a>
+       <a href="#source-list-syntax"><span class="secno">4.2</span> <span class="content">Source List の構文</span></a>
        <ul class="toc">
         <li><a href="#source-list-parsing"><span class="secno">4.2.1</span> <span class="content">Parsing Source Lists</span></a>
         <li>
@@ -829,54 +829,78 @@ Content-Security-Policy: <a data-link-type="dfn" href="#connect_src">connect-src
 
 
    <section>
-    <h2 class="heading settled" data-level="4" id="syntax-and-algorithms"><span class="secno">4. </span><span class="content">Syntax and Algorithms</span><a class="self-link" href="#syntax-and-algorithms"></a></h2>
+
+    <h2 class="heading settled" data-level="4" id="syntax-and-algorithms">
+     <span class="secno">4. </span><span class="content">構文とアルゴリズム</span>
+     <a class="self-link" href="#syntax-and-algorithms"></a>
+    </h2>
+
     <section>
-     <h3 class="heading settled" data-level="4.1" id="policy-syntax"><span class="secno">4.1. </span><span class="content">Policy Syntax</span><a class="self-link" href="#policy-syntax"></a></h3>
-     <p>A Content Security Policy consists of a U+003B SEMICOLON
-    (<code>;</code>) delimited list of directives. Each <a data-link-type="dfn" href="#security-policy-directive">directive</a> consists of a <a data-link-type="dfn" href="#security-policy-directive-name">directive name</a> and (optionally) a <a data-link-type="dfn" href="#security-policy-directive-value">directive value</a>, defined by the following ABNF:</p>
-<pre><dfn data-dfn-type="dfn" data-noexport="" id="policy_token">policy-token<a class="self-link" href="#policy_token"></a></dfn>    = [ <a data-link-type="dfn" href="#directive_token">directive-token</a> *( ";" [ <a data-link-type="dfn" href="#directive_token">directive-token</a> ] ) ]
+
+     <h3 class="heading settled" data-level="4.1" id="policy-syntax">
+      <span class="secno">4.1. </span><span class="content">ポリシーの構文</span>
+      <a class="self-link" href="#policy-syntax"></a>
+     </h3>
+
+     <p>
+      Content Security Policy は、U+003B SEMICOLON（<code>;</code>）区切りのディレクティブのリストから構成されます。それぞれの<a data-link-type="dfn" href="#security-policy-directive">ディレクティブ</a>は<a data-link-type="dfn" href="#security-policy-directive-name">ディレクティブ名</a>と<a data-link-type="dfn" href="#security-policy-directive-value">ディレクティブ値</a>（省略可）から構成され、以下の ABNF で定義されます。
+     </p>
+
+<pre>
+<dfn data-dfn-type="dfn" data-noexport="" id="policy_token">policy-token<a class="self-link" href="#policy_token"></a></dfn>    = [ <a data-link-type="dfn" href="#directive_token">directive-token</a> *( ";" [ <a data-link-type="dfn" href="#directive_token">directive-token</a> ] ) ]
 <dfn data-dfn-type="dfn" data-noexport="" id="directive_token">directive-token<a class="self-link" href="#directive_token"></a></dfn> = *<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> [ <a data-link-type="dfn" href="#directive_name">directive-name</a> [ <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> <a data-link-type="dfn" href="#directive_value">directive-value</a> ] ]
 <dfn data-dfn-type="dfn" data-noexport="" id="directive_name">directive-name<a class="self-link" href="#directive_name"></a></dfn>  = 1*( <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">ALPHA</a> / <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">DIGIT</a> / "-" )
 <dfn data-dfn-type="dfn" data-noexport="" id="directive_value">directive-value<a class="self-link" href="#directive_value"></a></dfn> = *( <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> / &lt;<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">VCHAR</a> except ";" and ","> )
 </pre>
+
      <section>
-      <h4 class="heading settled" data-level="4.1.1" id="policy-parsing"><span class="secno">4.1.1. </span><span class="content">Parsing Policies</span><a class="self-link" href="#policy-parsing"></a></h4>
-      <p>To <dfn data-dfn-type="dfn" data-noexport="" id="parse-the-policy">parse the policy<a class="self-link" href="#parse-the-policy"></a></dfn> <var>policy</var>, the user agent MUST
-      use an algorithm equivalent to the following:</p>
+
+      <h4 class="heading settled" data-level="4.1.1" id="policy-parsing">
+       <span class="secno">4.1.1. </span><span class="content">ポリシーのパース</span>
+       <a class="self-link" href="#policy-parsing"></a>
+      </h4>
+
+      <p>
+       ポリシーを表す <var>policy</var> について、<dfn data-dfn-type="dfn" data-noexport="" id="parse-the-policy">ポリシーをパースする<a class="self-link" href="#parse-the-policy"></a></dfn>ために、ユーザエージェントは以下と等価なアルゴリズムを用いなければなりません（MUST）。
+      </p>
+
       <ol>
-       <li>Let the <var>set of directives</var> be the empty set.
+       <li><var>set of directives</var> を空の set とします。
        <li>
-        For each non-empty token returned by <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#strictly-split-a-string">strictly splitting</a> the string <var>policy</var> on the character U+003B SEMICOLON
-        (<code>;</code>):
+        U+003B SEMICOLON（<code>;</code>）の文字に従って文字列 <var>policy</var> を <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#strictly-split-a-string">strictly splitting</a> した結果から、空でない token のそれぞれに対して以下を実行します。
         <ol>
-         <li><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#skip-whitespace">Skip whitespace</a>.
-         <li><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#collect-a-sequence-of-characters">Collect a sequence of characters</a> that are
-            not <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">space characters</a>. The collected characters
-            are the <var>directive name</var>.
-         <li>If there are characters remaining in <var>token</var>,
-            skip ahead exactly one character (which must be a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">space character</a>).
-         <li>The remaining characters in <var>token</var> (if any) are
-            the <var>directive value</var>.
-         <li>If the <var>set of directives</var> already contains a
-            directive whose name is a case insensitive match for <var>directive name</var>, ignore this instance of the directive
-            and continue to the next token.
-         <li>Add a <var>directive</var> to the <var>set of
-            directives</var> with name <var>directive name</var> and value <var>directive value</var>.
+         <li><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#skip-whitespace">空白を読み飛ばします</a>。
+         <li><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">空白文字</a>ではない<a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#collect-a-sequence-of-characters">文字の並びを集めます</a>。集められた文字の並びは <var>directive name</var> になります。
+         <li><var>token</var> に文字が残っている場合は、ちょうど 1 文字だけ読み飛ばします（この文字は<a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">空白文字</a>でなければなりません）。
+         <li><var>token</var> に残っている文字（もしあれば）は、<var>ディレクティブ値</var>となります。
+         <li>もし <var>set of directives</var> の中に、<var>directive value</var> とケースインセンティブに一致する名前を持つディレクティブがすでに存在する場合は、このディレクティブのインスタンスを無視し、次のトークンへ処理を進めます。
+         <li>名前を <var>directive name</var> とし、値を <var>directive value</var> としたものとともに <var>directive</var> を <var>set of
+            directives</var> に追加します。
         </ol>
-       <li>Return the <var>set of directives</var>.
+       <li><var>set of directives</var> を返します。
       </ol>
+
      </section>
+
     </section>
+
     <section>
-     <h3 class="heading settled" data-level="4.2" id="source-list-syntax"><span class="secno">4.2. </span><span class="content">Source List Syntax</span><a class="self-link" href="#source-list-syntax"></a></h3>
-     <p>Many CSP directives use a value consisting of a <dfn data-dfn-type="dfn" data-noexport="" id="source-list">source
-    list<a class="self-link" href="#source-list"></a></dfn>, defined in the ABNF grammar below.</p>
-     <p>Each <dfn data-dfn-type="dfn" data-noexport="" id="source-expression">source expression<a class="self-link" href="#source-expression"></a></dfn> in the source list represents a
-    location from which content of the specified type can be retrieved.
-    For example, the source expression <code>'none'</code> represents
-    the empty set of URLs, and the source expression <code>'unsafe-inline'</code> represents content supplied inline in the
-    resource itself.</p>
-<pre><dfn data-dfn-type="dfn" data-noexport="" id="source_list">source-list<a class="self-link" href="#source_list"></a></dfn>       = *<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> [ <a data-link-type="dfn" href="#source_expression">source-expression</a> *( 1*<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> <a data-link-type="dfn" href="#source_expression">source-expression</a> ) *<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> ]
+
+     <h3 class="heading settled" data-level="4.2" id="source-list-syntax">
+      <span class="secno">4.2. </span><span class="content">Source List の構文</span>
+      <a class="self-link" href="#source-list-syntax"></a>
+     </h3>
+
+     <p>
+      多くの CSP ディレクティブは、<dfn data-dfn-type="dfn" data-noexport="" id="source-list">source list<a class="self-link" href="#source-list"></a></dfn> からなる値を使用し、以下の ABNF 文法で定義されます。
+     </p>
+
+     <p>
+      source list に含まれる <dfn data-dfn-type="dfn" data-noexport="" id="source-expression">source expression<a class="self-link" href="#source-expression"></a></dfn> のそれぞれは、種類が明示されたコンテンツを送信できる場所を表します。例えば、<code>'none'</code> という source expression は空の URL のセットを表し、<code>'unsafe-inline'</code> という source expression はそのリソース自身のインラインから提供されるコンテンツを表します。
+     </p>
+
+<pre>
+<dfn data-dfn-type="dfn" data-noexport="" id="source_list">source-list<a class="self-link" href="#source_list"></a></dfn>       = *<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> [ <a data-link-type="dfn" href="#source_expression">source-expression</a> *( 1*<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> <a data-link-type="dfn" href="#source_expression">source-expression</a> ) *<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> ]
                   / *<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">WSP</a> "'none'" *WSP
 <dfn data-dfn-type="dfn" data-noexport="" id="source_expression">source-expression<a class="self-link" href="#source_expression"></a></dfn> = <a data-link-type="dfn" href="#scheme_source">scheme-source</a> / <a data-link-type="dfn" href="#host_source">host-source</a> / <a data-link-type="dfn" href="#keyword_source">keyword-source</a> / <a data-link-type="dfn" href="#nonce_source">nonce-source</a> / <a data-link-type="dfn" href="#hash_source">hash-source</a>
 <dfn data-dfn-type="dfn" data-noexport="" id="scheme_source">scheme-source<a class="self-link" href="#scheme_source"></a></dfn>     = <a data-link-type="dfn" href="#scheme_part">scheme-part</a> ":"
@@ -894,252 +918,269 @@ Content-Security-Policy: <a data-link-type="dfn" href="#connect_src">connect-src
 <dfn data-dfn-type="dfn" data-noexport="" id="path_part">path-part<a class="self-link" href="#path_part"></a></dfn>         = &lt;path production from <a href="https://tools.ietf.org/html/rfc3986#section-3.3">RFC 3986, section 3.3</a>>
 <dfn data-dfn-type="dfn" data-noexport="" id="port_part">port-part<a class="self-link" href="#port_part"></a></dfn>         = ":" ( 1*<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">DIGIT</a> / "*" )
 </pre>
-     <p>If the policy contains a <code><a data-link-type="dfn" href="#nonce_source">nonce-source</a></code> expression, the
-    server MUST generate a fresh value for the <code><a data-link-type="dfn" href="#nonce_value">nonce-value</a></code> directive at random and independently each time it transmits a policy.
-    The generated value SHOULD be at least 128 bits long (before encoding),
-    and generated via a cryptographically secure random number generator.
-    This requirement ensures that the <code><a data-link-type="dfn" href="#nonce_value">nonce-value</a></code> is
-    difficult for an attacker to predict.</p>
-     <p class="note" role="note">Note: Using a nonce to whitelist inline script or style is less secure than
-    not using a nonce, as nonces override the restrictions in the directive in
-    which they are present. An attacker who can gain access to the nonce can
-    execute whatever script they like, whenever they like. That said, nonces
-    provide a substantial improvement over <code>'unsafe-inline'</code> when
-    layering a content security policy on top of old code. When considering <code>'unsafe-inline'</code>, authors are encouraged to consider nonces (or
-    hashes) instead.</p>
-     <p>The <code><a data-link-type="dfn" href="#host_char">host-char</a></code> production intentionally contains only
-    ASCII characters; internationalized domain names cannot be entered
-    directly into a policy string, but instead MUST be Punycode-encoded <a data-link-type="biblio" href="#biblio-rfc3492">[RFC3492]</a>. For example, the domain <code>üüüüüü.de</code> would be
-    encoded as <code>xn--tdaaaaaa.de</code>.</p>
-     <p class="note" role="note">NOTE: Though IP addresses do match the grammar above, only <code>127.0.0.1</code> will actually match a URL when used in a source
-    expression (see <a href="#match-source-expression">§4.2.2 Matching Source Expressions</a> for details). The security
-    properties of IP addresses are suspect, and authors ought to prefer
-    hostnames to IP addresses whenever possible.</p>
+
+     <p>
+      もしポリシーに <code><a data-link-type="dfn" href="#nonce_source">nonce-source</a></code> expression が含まれる場合、サーバは <code><a data-link-type="dfn" href="#nonce_value">nonce-value</a></code> ディレクティブについて新しい値をランダムにかつサーバがポリシーを送信する時刻とは独立して生成しなければなりません（MUST）。生成された値は最低でも 128 ビット長（エンコーディング前）であるべきであり（SHOULD）、暗号学的に安全な乱数生成器によって生成されるべきです（SHOULD）。この要件により、<code><a data-link-type="dfn" href="#nonce_value">nonce-value</a></code> を攻撃者が予測するのを難しくなります。
+     </p>
+
+     <p class="note" role="note">
+      補足: ホワイトリストに挙げたインラインのスクリプトないしスタイルに対して nonce を使用すると、nonce を使わない場合よりも安全性が低くなります。なぜならば、nonce が存在するディレクティブの制限を nonce 自身が上書きしてしまうからです。nonce にアクセスできる攻撃者は、任意のスクリプトを任意のタイミングで実行できてしまいます。しかしながら、Content Security Policy を古いコードの最上部に載せるときには、nonce を用いることで <code>'unsafe-inline'</code> を現実的に向上させることができるということです。<code>'unsafe-inline'</code> を考慮する場合は、作者にはその代わりに nonce （またはハッシュ値） を考慮することが推奨されます。
+     </p>
+
+     <p>
+      <code><a data-link-type="dfn" href="#host_char">host-char</a></code> production は意図的に ASCII 文字のみを含むようにしています。国際化ドメイン名はポリシーの文字列に直接入力することはできませんが、その代わりに Punycode でエンコード <a data-link-type="biblio" href="#biblio-rfc3492">[RFC3492]</a> されなければなりません（MUST）。例えば、<code>üüüüüü.de</code> というドメイン名は <code>xn--tdaaaaaa.de</code> にエンコードされるでしょう。
+     </p>
+
+     <p class="note" role="note">
+      補足: IP アドレスは上の文法に合致しませんが、source expression で使われた <code>127.0.0.1</code> のみは URL に実際にマッチします（詳しくは <a href="#match-source-expression">§4.2.2 Matching Source Expressions</a> を参照してください）。IP アドレスに関するセキュリティ上の問題があるかどうかは疑わしく、作者は可能な限り IP アドレスよりもホスト名を用いるべきです。
+     </p>
+
      <section>
-      <h4 class="heading settled" data-level="4.2.1" id="source-list-parsing"><span class="secno">4.2.1. </span><span class="content">Parsing Source Lists</span><a class="self-link" href="#source-list-parsing"></a></h4>
-      <p>To <dfn data-dfn-type="dfn" data-noexport="" id="parse-a-source-list">parse a source list<a class="self-link" href="#parse-a-source-list"></a></dfn> <var>source list</var>, the user agent MUST use an algorithm
-      equivalent to the following:</p>
+
+      <h4 class="heading settled" data-level="4.2.1" id="source-list-parsing">
+       <span class="secno">4.2.1. </span><span class="content">Source List のパース</span>
+       <a class="self-link" href="#source-list-parsing"></a>
+      </h4>
+
+      <p>
+       source list である <var>source list</var> について、<dfn data-dfn-type="dfn" data-noexport="" id="parse-a-source-list">source list をパース<a class="self-link" href="#parse-a-source-list"></a></dfn> するためには、ユーザエージェントは以下と等価なアルゴリズムを使用しなければなりません（MUST）。
+      </p>
+
       <ol>
-       <li><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#strip-leading-and-trailing-whitespace">Strip leading and trailing whitespace</a> from <var>source list</var>.
-       <li>If <var>source list</var> is an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive match</a> for the string <code>'none'</code> (including the quotation
-        marks), return the empty set.
-       <li>Let <var>set of source expressions</var> be the empty
-        set.
-       <li>For each token returned by <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#split-a-string-on-spaces">splitting <var>source
-        list</var> on spaces</a>, if the token matches the grammar for <code><a data-link-type="dfn" href="#source_expression">source-expression</a></code>, add the token to the <var>set
-        of source expressions</var>.
-       <li>Return the <var>set of source expressions</var>.
+       <li><var>source list</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#strip-leading-and-trailing-whitespace">先頭と末尾にある空白を取り除きます</a>。
+       <li>もし <var>source list</var> が文字列 <code>'none'</code> （引用符も含む）と <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII ケースインセンティブに</a> 一致するならば、空の set を返します。
+       <li><var>set of source expressions</var> を空の set とします。
+       <li><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#split-a-string-on-spaces">splitting <var>source list</var> on spaces</a> の結果に含まれる各 token について、token が <code><a data-link-type="dfn" href="#source_expression">source-expression</a></code> の構文に一致する場合は、<var>set of source expressions</var> に token を追加します。
+       <li><var>set of source expressions</var> を返します。
       </ol>
-      <p class="note" role="note">Note: Characters like U+003B SEMICOLON (<code>;</code>) and
-      U+002C COMMA (<code>,</code>) cannot appear in source expressions
-      directly: if you’d like to include these characters in a source
-      expression, they must be <a data-link-type="dfn" href="http://www.w3.org/TR/url/#percent-encode">percent
-      encoded</a> as <code>%3B</code> and <code>%2C</code> respectively.</p>
+
+      <p class="note" role="note">
+       補足: U+003B SEMICOLON （<code>;</code>） や U+002C COMMA （<code>,</code>） に似た文字は source expression の中に直接現れることはできません。もしこのゆおな文字を source expression の中に含めたい場合は、それぞれの文字に対して <code>%3B</code> や <code>%2C</code> のような <a data-link-type="dfn" href="http://www.w3.org/TR/url/#percent-encode">パーセントエンコーディング</a> を施さなくてはなりません。
+      </p>
+
      </section>
+
      <section>
-      <h4 class="heading settled" data-level="4.2.2" id="match-source-expression"><span class="secno">4.2.2. </span><span class="content">Matching Source Expressions</span><a class="self-link" href="#match-source-expression"></a></h4>
-      <p>A URL <var>url</var> is said to <dfn data-dfn-type="dfn" data-noexport="" id="match-a-source-expression">match a source expression<a class="self-link" href="#match-a-source-expression"></a></dfn> for
-      a <var>protected resource</var> if the following algorithm returns <em>does match</em>:</p>
+
+      <h4 class="heading settled" data-level="4.2.2" id="match-source-expression">
+       <span class="secno">4.2.2. </span><span class="content">Source Expressions との一致</span>
+       <a class="self-link" href="#match-source-expression"></a>
+      </h4>
+
+      <p>
+       以下のアルゴリズムが <em>does match</em> を返す場合、URL の <var>url</var> は <var>protected resource</var> に関して <dfn data-dfn-type="dfn" data-noexport="" id="match-a-source-expression">source expression に一致する<a class="self-link" href="#match-a-source-expression"></a></dfn> といいます。
+      </p>
+
       <ol>
-       <li> Let <var>url</var> be the result of processing the URL through the <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-parser">URL parser</a>.
-       <li> If the source expression a consists of a single U+002A ASTERISK
-          character (<code>*</code>), and <var>url</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-scheme">scheme</a> is not
-          one of <code>blob</code>, <code>data</code>, <code>filesystem</code>,
-          then return <em>does match</em>.
+       <li><a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-parser">URL parser</a> に従って URL を処理した結結果を <var>url</var> にセットします。
+       <li>もし source expression が単一の U+002A ASTERISK （<code>*</code>） からなり、かつ <var>url</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-scheme">スキーム</a> が <code>blob</code>、<code>data</code>、 <code>filesystem</code> のいずれかでもないならば、<em>does match</em> を返します。
        <li>
-         If the source expression matches the grammar for <code><a data-link-type="dfn" href="#scheme_source">scheme-source</a></code>:
+        source expression が <code><a data-link-type="dfn" href="#scheme_source">scheme-source</a></code> の構文に一致する場合、
         <ol>
-         <li> If <var>url</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-scheme">scheme</a> is an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive
-              match</a> for the source expression’s <code><a data-link-type="dfn" href="#scheme_part">scheme-part</a></code>, return <em>does match</em>.
-         <li> Otherwise, return <em>does not match</em>.
+         <li>もし <var>url</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-scheme">スキーム</a> が source expression の <code><a data-link-type="dfn" href="#scheme_part">scheme-part</a></code> とケースインセンティブに一致するならば、<em>does match</em> を返します。
+         <li>そうでなければ <em>does not match</em> を返します。
         </ol>
        <li>
-         If the source expression matches the grammar for <code><a data-link-type="dfn" href="#host_source">host-source</a></code>:
+        source expression が <code><a data-link-type="dfn" href="#host_source">host-source</a></code> の構文に一致する場合、
         <ol>
-         <li> If <var>url</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-host">host</a> is <code>null</code>,
-              return <em>does not match</em>.
+         <li>もし <var>url</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-host">ホスト</a> が <code>null</code> ならば、<em>does not match</em> を返します。
          <li>
-           Let <var>url-scheme</var>, <var>url-host</var>, and <var>url-port</var> be the <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-scheme">scheme</a>, <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-host">host</a>, and <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-port">port</a> of <var>url</var>’s origin, respectively.
-          <p class="note" role="note">Note: If <var>url</var> doesn’t specify a port, then its origin’s
-              port will be the <a data-link-type="dfn" href="http://www.w3.org/TR/url/#default-port">default port</a> for <var>url</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-scheme">scheme</a>.</p>
-         <li> Let <var>url-path-list</var> be the <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-path">path</a> of <var>url</var>.
-         <li> If the source expression has a <code><a data-link-type="dfn" href="#scheme_part">scheme-part</a></code> that is not a case insensitive match for <var>url-scheme</var>,
-              then return <em>does not match</em>.
+          <var>url-scheme</var> と <var>url-host</var>、そして <var>url-port</var> をそれぞれ、<var>url</var> のオリジンに対応する<a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-scheme">スキーム</a>、<a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-host">ホスト</a>、<a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-port">ポート</a>とします。
+
+          <p class="note" role="note">
+           補足: <var>url</var> がポートを明示していない場合、<var>url</var> のオリジンのポートはその<a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-scheme">スキーム</a>に対応する<a data-link-type="dfn" href="http://www.w3.org/TR/url/#default-port">デフォルトポート</a>が適用されます。
+          </p>
+
+         <li><var>url-path-list</var> を <var>url</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-path">パス</a> とします。
+         <li>もし <var>url-scheme</var> とケースインセンティブには一致しない <code><a data-link-type="dfn" href="#scheme_part">scheme-part</a></code> が source expression に存在するならば、<em>does not match</em> を返します。
          <li>
-           If the source expression does <strong>not</strong> have a
-              scheme, return <em>does not match</em> if any of the following
-              are true:
+          source expression に scheme が存在 <strong>しない</strong> とき、以下のどれか 1 つでも真であれば <em>does not match</em> を返します。
           <ol>
-           <li> The scheme of the protected resource’s URL is a case
-                  insensitive match for <code>HTTP</code>, and <var>url-scheme</var> is <strong>not</strong> a case
-                  insensitive match for either <code>HTTP</code> or <code>HTTPS</code>.
-           <li> The scheme of the protected resource’s URL is <strong>not</strong> a case insensitive match for <code>HTTP</code>, and <var>url-scheme</var> is <strong>not</strong> a case insensitive match
-                  for the scheme of the protected resource’s URL.
+           <li>protected resource における URL のスキームが <code>HTTP</code> にケースインセンティブに一致し、かつ <var>url-scheme</var> が <code>HTTP</code> にも <code>HTTPS</code> にもケースインセンティブに一致 <strong>しない</strong>
+           <li>protected resource における URL のスキームが <code>HTTP</code> にケースインセンティブに一致<strong>せず</strong>、かつ <var>url-scheme</var> が protected resource の URL のスキームとケースインセンティブに一致<strong>しない</strong>
           </ol>
-         <li> If the first character of the source expression’s <code><a data-link-type="dfn" href="#host_part">host-part</a></code> is an U+002A ASTERISK character
-              (<code>*</code>) and the remaining characters, including the
-              leading U+002E FULL STOP character (<code>.</code>), are not a
-              case insensitive match for the rightmost characters of <var>url-host</var>, then return <em>does not match</em>.
-         <li> If the first character of the source expression’s <code><a data-link-type="dfn" href="#host_part">host-part</a></code> is <em>not</em> an U+002A ASTERISK
-              character (<code>*</code>) and <var>url-host</var> is not a
-              case insensitive match for the source expression’s <code><a data-link-type="dfn" href="#host_part">host-part</a></code>, then return <em>does not
-              match</em>.
+         <li>もし source expression の <code><a data-link-type="dfn" href="#host_part">host-part</a></code> の先頭文字が U+002A ASTERISK （<code>*</code>） であり、かつ残りの文字列が the leading U+002E FULL STOP character （<code>.</code>） を含み、<var>url-host</var> の右側の文字列のケースインセンティブに一致しないならば、<em>does not match</em> を返します。
+         <li>もし source expression の <code><a data-link-type="dfn" href="#host_part">host-part</a></code> の先頭文字が U+002A ASTERISK （<code>*</code>） <em>ではなく</em>、かつ <var>url-host</var> が source expression の <code><a data-link-type="dfn" href="#host_part">host-part</a></code> とケースインセンティブに一致しないならば、<em>does not match</em> を返します。
          <li>
-           If the source expression’s <code><a data-link-type="dfn" href="#host_part">host-part</a></code> matches
-              the <code><a data-link-type="dfn" href="https://tools.ietf.org/html/rfc3986#section-3.2.2">IPv4address</a></code> production from <a data-link-type="biblio" href="#biblio-rfc3986">[RFC3986]</a>,
-              and is not <code>127.0.0.1</code>, or is an <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-ipv6">IPv6 address</a>,
-              return <em>does not match</em>.
-          <p class="note" role="note">Note: A future version of this specification may allow literal
-              IPv6 and IPv4 addresses, depending on usage and demand. Given the
-              weak security properties of IP addresses in relation to named
-              hosts, however, authors are encouraged to prefer the latter
-              whenever possible.</p>
-         <li> If the source expression does <strong>not</strong> contain
-              a <code>port-part</code> and <var>url-port</var> is not the <a data-link-type="dfn" href="http://www.w3.org/TR/url/#default-port">default port</a> for <var>url-scheme</var>, then return <em>does not match</em>.
+          source expression の <code><a data-link-type="dfn" href="#host_part">host-part</a></code> が <a data-link-type="biblio" href="#biblio-rfc3986">[RFC3986]</a> による <code><a data-link-type="dfn" href="https://tools.ietf.org/html/rfc3986#section-3.2.2">IPv4address</a></code> の生成規則に一致しながら <code>127.0.0.1</code> ではない場合、または <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-ipv6">IPv6 address</a> である場合、<em>does not match</em> を返します。
+
+          <p class="note" role="note">
+           補足: この仕様の将来のバージョンにおいては、IPv6 と IPv4 のアドレスリテラルを用法と要求に従って許可するかもしれません。しかしながら、ホスト名と関連して IP アドレスはセキュリティが弱いという特性を考慮し、作者には可能な限りホスト名を用いることが推奨されます。
+          Note: A future version of this specification may allow literal
+          </p>
+
+         <li>もし source expression に <code>port-part</code> が存在<strong>せず</strong>、かつ <var>url-port</var> が <var>url-scheme</var> に対応する <a data-link-type="dfn" href="http://www.w3.org/TR/url/#default-port">デフォルトポート</a> でなければ、<em>does not match</em> を返します。
          <li>
-           If the source expression does contain a <code>port-part</code>,
-              then return <em>does not match</em> if both of the following
-              are true:
+          source expression に <code>port-part</code> が存在しないとき、以下の両方が真であれば <em>does not match</em> を返します。
           <ol>
-           <li> The <code><a data-link-type="dfn" href="#port_part">port-part</a></code> does <strong>not</strong> contain an U+002A ASTERISK character. (<code>*</code>)
-           <li> The <code><a data-link-type="dfn" href="#port_part">port-part</a></code> does <strong>not</strong> represent the same number as <var>url-port</var>.
+           <li><code><a data-link-type="dfn" href="#port_part">port-part</a></code> に U+002A ASTERISK （<code>*</code>） が含まれて<em>いない</em>
+           <li><code><a data-link-type="dfn" href="#port_part">port-part</a></code> が <var>url-port</var> と同じ番号を表して<em>いない</em>
           </ol>
          <li>
-           If the source expression contains a non-empty <code><a data-link-type="dfn" href="#path_part">path-part</a></code>, and the URL is <em>not</em> the
-              result of a redirect, then:
+          もし source expression が空でない <code><a data-link-type="dfn" href="#path_part">path-part</a></code> を含んでおり、かつ URL がリダイレクトによるものでは<em>ない</em>ならば、以下を実行します。
           <ol>
-           <li> Let <var>exact-match</var> be <code>true</code> if the final
-                  character of <var>path-part</var> is not the U+002F SOLIDUS
-                  character (<code>/</code>), and <code>false</code> otherwise.
-           <li> Let <var>source-expression-path-list</var> be the result of
-                  splitting <var>path-part</var> on the U+002F SOLIDUS character
-                  (<code>/</code>).
-           <li> If <var>source-expression-path-list</var>’s length is greater
-                  than <var>url-path-list</var>’s length, return <em>does not
-                  match</em>.
+           <li><var>path-part</var> の最後の文字が U+002F SOLIDUS （<code>/</code>） でなければ、<var>exact-match</var> を <code>true</code> とします。それ以外の場合は <code>false</code> とします。
+           <li><var>source-expression-path-list</var> を、U+002F SOLIDUS （<code>/</code>） で <var>path-part</var> を分割した結果とします。
+           <li>もし <var>source-expression-path-list</var> の長さが <var>url-path-list</var> のよりも長ければ、<em>does not match</em> を返します。
            <li>
-             For each <var>entry</var> in <var>source-expression-path-list</var>:
+            <var>source-expression-path-list</var> に含まれる各 <var>entry</var> について、以下を実行します。
             <ol>
-             <li> <a data-link-type="dfn" href="http://www.w3.org/TR/url/#percent-decode">Percent decode</a> <var>entry</var>.
-             <li> <a data-link-type="dfn" href="http://www.w3.org/TR/url/#percent-decode">Percent decode</a> the first item in <var>url-path-list</var>.
-             <li> If <var>entry</var> is not an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive
-                      match</a> for the first item in <var>url-path-list</var>,
-                      return <em>does not match</em>.
-             <li> Pop the first item in <var>url-path-list</var> off the
-                      list.
+             <li><var>entry</var> を<a data-link-type="dfn" href="http://www.w3.org/TR/url/#percent-decode">パーセントデコード</a>します。
+             <li><var>url-path-list</var> の最初の項目を<a data-link-type="dfn" href="http://www.w3.org/TR/url/#percent-decode">パーセントでコード</a>します。
+             <li>もし <var>entry</var> が <var>url-path-list</var> の最初の項目と<a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII ケースインセンティブに一致</a> しなければ、<em>does not match</em> を返します。
+             <li><var>url-path-list</var> から最初の項目を取り出します。
             </ol>
-           <li> If <var>exact-match</var> is <code>true</code>, and <var>url-path-list</var> is not empty, return <em>does not
-                  match</em>.
+           <li>もし <var>exact-match</var> が <code>true</code> であり、かつ <var>url-path-list</var> が空でなければ、<em>does not match</em> を返します。
           </ol>
-         <li> Otherwise, return <em>does match</em>.
+         <li>そうでなければ、<em>does match</em> を返します。
         </ol>
        <li>
-         If the source expression is a case insensitive match for <code>'self'</code> (including the quotation marks), then:
+        もし source expression が <code>'self'</code> （引用符も含む）とケースインセンティブに一致するならば、以下を実行します。
         <ol>
          <li>
-           Return <em>does match</em> if <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-origin">the
-              origin of <var>url</var></a> matches <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-origin">the origin of <var>protected
-              resource</var>’s URL</a>.
-          <p class="note" role="note">Note: This includes IP addresses. That is, a document at <code>https://111.111.111.111/</code> with a <a data-link-type="dfn" href="#security-policy">policy</a> of <code>img-src 'self'</code> can load the image <code>https://111.111.111.111/image.png</code>, as the origins
-              match.</p>
+          <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-origin"><var>url</var> のオリジン</a>が <a data-link-type="dfn" href="http://www.w3.org/TR/url/#concept-url-origin"><var>protected resource</var> の URL のオリジン</a>と一致する場合、<em>does match</em> を返します。
+
+          <p class="note" role="note">
+           補足: これには IP アドレスも含まれます。つまり、<code>img-src 'self'</code> のポリシーがある <code>https://111.111.111.111/</code> のドキュメントは、オリジンが一致しているので <code>https://111.111.111.111/image.png</code> の画像を読み込むことができます。
+          </p>
         </ol>
-       <li> Otherwise, return <em>does not match</em>.
+       <li>そうでなければ、<em>does not match</em> を返します。
       </ol>
-      <p class="note" role="note">Note: This algorithm treats the URLs <code>https://example.com/</code> and <code>https://example.com./</code> as <em>non-matching</em>. This
-      is consistent with browser behavior which treats documents served from
-      these URLs as existing in distinct origins.</p>
-      <p>A URL <var>url</var> is said to <dfn data-dfn-type="dfn" data-noexport="" id="match-a-source-list">match a source list<a class="self-link" href="#match-a-source-list"></a></dfn> for <var>protected resource</var> if at least one source expression in the set
-      of source expressions obtained by <a data-link-type="dfn" href="#parse-a-source-list">parsing the
-      source list</a> <a data-link-type="dfn" href="#match-a-source-expression">matches <var>url</var> for <var>protected resource</var></a>.</p>
-      <p class="note" role="note">Note: No URLs match an empty set of source expressions, such as the set
-      obtained by parsing the source list <code>'none'</code>.</p>
+
+      <p class="note" role="note">
+       補足: このアルゴリズムでは <code>https://example.com/</code> と <code>https://example.com./</code> といった 2 つの URL は<em>一致しないもの</em>と扱われます。このことは、これらの URL から送信されてきたドキュメントを別々のオリジンに存在するものと扱うブラウザの振る舞いと一貫性を持っています。
+      </p>
+
+      <p>
+       <a data-link-type="dfn" href="#parse-a-source-list">parsing the source list</a> によって得られた source expression の set の中で少なくとも 1 つが <a data-link-type="dfn" href="#match-a-source-expression"><var>protected resource</var> の <var>url</var> と一致する</a>場合に、URL の <var>url</var> は <var>protected resource</var> に関して <dfn data-dfn-type="dfn" data-noexport="" id="match-a-source-list">source list と一致する<a class="self-link" href="#match-a-source-list"></a></dfn> といいます。
+      </p>
+
+      <p class="note" role="note">
+       補足: <code>'none'</code> の source list をパースして得られた set のように、空の source expression の set にはどの URL も一致しません。
+      </p>
+
       <section class="informative">
-       <h5 class="heading settled" data-level="4.2.2.1" id="source-list-guid-matching"><span class="secno">4.2.2.1. </span><span class="content"> Security Considerations for GUID URL schemes </span><a class="self-link" href="#source-list-guid-matching"></a></h5>
-       <p><em>This section is not normative.</em></p>
-       <p>As defined above, special URL schemes that refer to specific pieces of
-        unique content, such as "data:", "blob:" and "filesystem:" are
-        excluded from matching a policy of <code>*</code> and must be
-        explicitly listed. Policy authors should note that the content of
-        such URLs is often derived from a response body or execution in a
-        Document context, which may be unsafe. Especially for the <code><a data-link-type="dfn" href="#default_src">default-src</a></code> and <code><a data-link-type="dfn" href="#script_src">script-src</a></code> directives, policy authors should be aware that allowing "data:" URLs
-        is equivalent to <code>unsafe-inline</code> and allowing "blob:" or
-        "filesystem:" URLs is equivalent to <code>unsafe-eval</code>.</p>
+
+       <h5 class="heading settled" data-level="4.2.2.1" id="source-list-guid-matching">
+        <span class="secno">4.2.2.1. </span><span class="content">GUID URL スキームに関するセキュリティ上の考慮事項</span>
+        <a class="self-link" href="#source-list-guid-matching"></a>
+       </h5>
+
+       <p>
+        <em>この節は非規範的です。</em>
+       </p>
+
+       <p>
+        上で定義されたように、"data:" や "blob:"、"filesystem:" に代表される、ユニークなコンテンツの特定の箇所を参照する特別な URL スキームは、<code>*</code> のポリシーへの一致からは排除され、明示的に挙げられなくてはなりません。ポリシーの作成者は、そのような URL のコンテンツはレスポンスの body から運ばれたり、安全でないおそれがある Document のコンテキストで実行された結果から運ばれることがあることに注意するべきです。特に <code><a data-link-type="dfn" href="#default_src">default-src</a></code> と <code><a data-link-type="dfn" href="#script_src">script-src</a></code> のディレクティブについては、"data:" URL を許可することは <code>unsafe-inline</code> と等価であり、"blob:" や "filesystem:" を許可することは <code>unsafe-eval</code> と等価であることを認識するべきです。
+       </p>
+
       </section>
+
       <section class="informative">
-       <h5 class="heading settled" data-level="4.2.2.2" id="source-list-path-patching"><span class="secno">4.2.2.2. </span><span class="content">Path Matching</span><a class="self-link" href="#source-list-path-patching"></a></h5>
-       <p><em>This section is not normative.</em></p>
-       <p>The rules for matching source expressions that contain paths
-        are simpler than they look: paths that end with the <code>'/'</code> character match all files in a directory and its subdirectories. Paths
-        that do not end with the <code>'/'</code> character match only one
-        specific file. A few examples should make this clear:</p>
+
+       <h5 class="heading settled" data-level="4.2.2.2" id="source-list-path-patching">
+        <span class="secno">4.2.2.2. </span><span class="content">Path との一致</span>
+        <a class="self-link" href="#source-list-path-patching"></a>
+       </h5>
+
+       <p>
+        <em>この節は非規範的です。</em>
+       </p>
+
+       <p>
+        path を含む source epressions と一致するルールは見かけよりもシンプルです。<code>'/'</code> で終わる path はディレクトリとサブディレクトリにあるすべてのファイルに一致します。<code>'/'</code> で終わらない path は明示されたファイルだけに一致します。いくつかの例を出すことでより明確になるはずです。
+       </p>
+
        <ol>
-        <li>The source expression <code>example.com</code> has no path,
-          and therefore matches any file served from that host.
-        <li>The source expression <code>example.com/scripts/</code> matches any file in the <code>scripts</code> directory of <code>example.com</code>, and any of its subdirectories. For
-          example, both <code>https://example.com/scripts/file.js</code> and <code>https://example.com/scripts/js/file.js</code> would
-          match.
-        <li>The source expression <code>example.com/scripts/file.js</code> matches only the file
-          named <code>file.js</code> in the <code>scripts</code> directory
-          of <code>example.com</code>.
-        <li>Likewise, the source expression <code>example.com/js</code> matches only the file named <code>js</code>. In particular, note
-          that it would not match files inside a directory named <code>js</code>. Files like <code>example.com/js/file.js</code> would be matched only if the source expression ended with a
-          trailing "/", as in <code>example.com/js/</code>.
+        <li><code>example.com</code> という source expression には path が含まれていないため、そのホストからサーブされるすべてのファイルに一致します。
+        <li><code>example.com/scripts/</code> という source expression は、<code>example.com</code> の <code>scripts</code> ディレクトリ、およびそのサブディレクトリに含まれるすべてのファイルに一致します。例えば、<code>https://example.com/scripts/file.js</code> と <code>https://example.com/scripts/js/file.js</code> のどちらにも一致します。
+        <li><code>example.com/scripts/file.js</code> という source expression は、<code>example.com</code> の <code>scripts</code> ディレクトリにある <code>file.js</code> という名前のファイルにのみ一致します。
+        <li>同じように、<code>example.com/js</code> という source expressions は <code>js</code> という名前のファイルのみに一致します。<code>js</code> という名前のディレクトリ内のファイルには一致しないことに特に注意してください。<code>example.com/js/file.js</code> のようなファイルについては、source expression の末尾が "/" で終わる場合のみに、例えば <code>example.com/js/</code> のようなときのみに一致します。
        </ol>
-       <p class="note" role="note">Note: Query strings have no impact on matching: the source
-        expression <code>example.com/file</code> matches each of <code>https://example.com/file</code>, <code>https://example.com/file?key=value</code>, <code>https://example.com/file?key=notvalue</code>, and <code>https://example.com/file?notkey=notvalue</code>.</p>
+
+       <p class="note" role="note">
+        補足: 一致に関してクエリストリングは何も影響を与えません。<code>example.com/file</code> という source expression は <code>https://example.com/file</code>、<code>https://example.com/file?key=value</code>、<code>https://example.com/file?key=notvalue</code>、<code>https://example.com/file?notkey=notvalue</code> のいずれにも一致します。
+       </p>
+
       </section>
+
       <section class="informative">
-       <h5 class="heading settled" data-level="4.2.2.3" id="source-list-paths-and-redirects"><span class="secno">4.2.2.3. </span><span class="content">Paths and Redirects</span><a class="self-link" href="#source-list-paths-and-redirects"></a></h5>
-       <p>To avoid leaking path information cross-origin (as discussed
-        in Egor Homakov’s <a href="http://homakov.blogspot.de/2014/01/using-content-security-policy-for-evil.html">Using Content-Security-Policy for Evil</a>),
-        the matching algorithm ignores the path component of a source
-        expression if the resource being loaded is the result of a
-        redirect. For example, given a page with an active policy of <code><a data-link-type="dfn" href="#img_src">img-src</a> example.com not-example.com/path</code>:</p>
+
+       <h5 class="heading settled" data-level="4.2.2.3" id="source-list-paths-and-redirects">
+        <span class="secno">4.2.2.3. </span><span class="content">Paths とリダイレクト</span>
+        <a class="self-link" href="#source-list-paths-and-redirects"></a>
+       </h5>
+
+       <p>
+        path の情報がクロスオリジンに漏えいすること（Egor Homakov の <a href="http://homakov.blogspot.de/2014/01/using-content-security-policy-for-evil.html">Using Content-Security-Policy for Evil</a> で議論されている内容）を防ぐため、リソースがリダイレクトによって読み込まれた場合は、一致のアルゴリズムは source expression の path component を無視します。例として <code><a data-link-type="dfn" href="#img_src">img-src</a> example.com not-example.com/path</code> というアクティブポリシーが適用されたページを考えます。
+       </p>
+
        <ul>
-        <li>Directly loading <code>https://not-example.com/not-path</code> would fail, as it doesn’t match the policy.
-        <li>Directly loading <code>https://example.com/redirector</code> would pass, as it matches <code>example.com</code>.
-        <li>Assuming that <code>https://example.com/redirector</code> delivered a redirect response pointing to <code>https://not-example.com/not-path</code>,
-          the load would succeed, as the initial URL matches <code>example.com</code>,
-          and the redirect target matches <code>not-example.com/path</code> if we ignore its path component.
+        <li><code>https://not-example.com/not-path</code> を直接読み込もうとすると、ポリシーと一致しないために失敗します。
+        <li><code>https://example.com/redirector</code> に関しては <code>example.com</code> と一致するため直接読み込むことができます。
+        <li><code>https://example.com/redirector</code> が <code>https://not-example.com/not-path</code> へのリダイレクトを返す場合を考えると、最初の URL が <code>example.com</code> に一致するために読み込みは成功し、リダイレクト先では path component を無視すれば <code>not-example.com/path</code> に一致します。
        </ul>
-       <p>This restriction reduces the granularity of a document’s
-        policy when redirects are in play, a necessary compromise to
-        avoid brute-forced information leaks of this type.</p>
-       <p>The relatively long thread <a href="https://lists.w3.org/Archives/Public/public-webappsec/2014Feb/0036.html">"Remove paths from CSP?"</a> from public-webappsec@w3.org has more detailed discussion around
-        alternate proposals.</p>
+
+       <p>
+        この制限は、リダイレクトが行われた場合のドキュメントのポリシーの粒度を小さくし、この手のブルートフォース攻撃による情報漏えいを避けるために必要な妥協策です。
+       </p>
+
+       <p>
+        public-webappsec@w3.org の比較的長いスレッド <a href="https://lists.w3.org/Archives/Public/public-webappsec/2014Feb/0036.html">"Remove paths from CSP?"</a> では、代替案に関するより詳しい議論がなされています。
+       </p>
+
       </section>
+
      </section>
+
      <section>
-      <h4 class="heading settled" data-level="4.2.3" id="script-src-the-nonce-attribute"><span class="secno">4.2.3. </span><span class="content"> The <code>nonce</code> attribute </span><a class="self-link" href="#script-src-the-nonce-attribute"></a></h4>
-      <p>Nonce sources require a new <code>nonce</code> attribute to be added to
-      both <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> and <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-style-element">style</a></code> elements.</p>
-<pre class="idl">partial interface <a class="idl-code" data-link-type="interface" href="http://www.w3.org/TR/html5/scripting-1.html#htmlscriptelement">HTMLScriptElement</a> {
+
+      <h4 class="heading settled" data-level="4.2.3" id="script-src-the-nonce-attribute">
+       <span class="secno">4.2.3. </span><span class="content"><code>nonce</code> 属性</span>
+       <a class="self-link" href="#script-src-the-nonce-attribute"></a>
+      </h4>
+
+      <p>
+       Nonce sources は <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> と <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-style-element">style</a></code> 要素に <code>nonce</code> 属性を加えることを要求します。
+      </p>
+
+<pre class="idl">
+partial interface <a class="idl-code" data-link-type="interface" href="http://www.w3.org/TR/html5/scripting-1.html#htmlscriptelement">HTMLScriptElement</a> {
   attribute DOMString <a class="idl-code" data-link-type="attribute" data-type="DOMString " href="#dom-htmlscriptelement-nonce">nonce</a>;
 };
 </pre>
+
       <dl>
-       <dt><dfn class="idl-code" data-dfn-for="HTMLScriptElement" data-dfn-type="attribute" data-export="" id="dom-htmlscriptelement-nonce">nonce<a class="self-link" href="#dom-htmlscriptelement-nonce"></a></dfn>, <span> of type <a data-link-type="idl-name" href="http://heycam.github.io/webidl/#idl-DOMString">DOMString</a></span>
-       <dd>This attribute <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#reflect">reflects</a> the value of the
-        element’s <code><dfn data-dfn-for="script" data-dfn-type="element-attr" data-export="" id="element-attrdef-script-nonce">nonce<a class="self-link" href="#element-attrdef-script-nonce"></a></dfn></code> content attribute.
+       <dt><dfn class="idl-code" data-dfn-for="HTMLScriptElement" data-dfn-type="attribute" data-export="" id="dom-htmlscriptelement-nonce">nonce<a class="self-link" href="#dom-htmlscriptelement-nonce"></a></dfn>, <span><a data-link-type="idl-name" href="http://heycam.github.io/webidl/#idl-DOMString">DOMString</a> 型</span>
+       <dd>この属性は要素の <code><dfn data-dfn-for="script" data-dfn-type="element-attr" data-export="" id="element-attrdef-script-nonce">nonce<a class="self-link" href="#element-attrdef-script-nonce"></a></dfn></code> content 属性の値を<a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#reflect">反射</a>します。
       </dl>
-<pre class="idl">partial interface <a class="idl-code" data-link-type="interface" href="http://www.w3.org/TR/html5/document-metadata.html#htmlstyleelement">HTMLStyleElement</a> {
+
+<pre class="idl">
+partial interface <a class="idl-code" data-link-type="interface" href="http://www.w3.org/TR/html5/document-metadata.html#htmlstyleelement">HTMLStyleElement</a> {
   attribute DOMString <a class="idl-code" data-link-type="attribute" data-type="DOMString " href="#dom-htmlstyleelement-nonce">nonce</a>;
 };
 </pre>
+
       <dl>
-       <dt><dfn class="idl-code" data-dfn-for="HTMLStyleElement" data-dfn-type="attribute" data-export="" id="dom-htmlstyleelement-nonce">nonce<a class="self-link" href="#dom-htmlstyleelement-nonce"></a></dfn>, <span> of type <a data-link-type="idl-name" href="http://heycam.github.io/webidl/#idl-DOMString">DOMString</a></span>
-       <dd>This attribute <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#reflect">reflects</a> the value of the
-        element’s <code><dfn data-dfn-for="style" data-dfn-type="element-attr" data-export="" id="element-attrdef-style-nonce">nonce<a class="self-link" href="#element-attrdef-style-nonce"></a></dfn></code> content attribute.
+       <dt><dfn class="idl-code" data-dfn-for="HTMLStyleElement" data-dfn-type="attribute" data-export="" id="dom-htmlstyleelement-nonce">nonce<a class="self-link" href="#dom-htmlstyleelement-nonce"></a></dfn>, <span><a data-link-type="idl-name" href="http://heycam.github.io/webidl/#idl-DOMString">DOMString</a> 型</span>
+       <dd>この属性は要素の <code><dfn data-dfn-for="script" data-dfn-type="element-attr" data-export="" id="element-attrdef-script-nonce">nonce<a class="self-link" href="#element-attrdef-script-nonce"></a></dfn></code> content 属性の値を<a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#reflect">反射</a>します。
       </dl>
+
      </section>
+
      <section>
-      <h4 class="heading settled" data-level="4.2.4" id="source-list-valid-nonces"><span class="secno">4.2.4. </span><span class="content">Valid Nonces</span><a class="self-link" href="#source-list-valid-nonces"></a></h4>
-      <p>An element has a <dfn data-dfn-type="dfn" data-noexport="" id="valid-nonce">valid nonce<a class="self-link" href="#valid-nonce"></a></dfn> for a <var>set of source
-      expressions</var> if the value of the element’s <code><a data-link-type="element-attr" href="#element-attrdef-script-nonce">nonce</a></code> attribute
-      after <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#strip-leading-and-trailing-whitespace">stripping leading
-      and trailing whitespace</a> is a case-sensitive match for the <code><a data-link-type="dfn" href="#nonce_value">nonce-value</a></code> component of at least one <code><a data-link-type="dfn" href="#nonce_source">nonce-source</a></code> expression in <var>set of source
-      expressions</var>.</p>
+
+      <h4 class="heading settled" data-level="4.2.4" id="source-list-valid-nonces">
+       <span class="secno">4.2.4. </span><span class="content">有効な Nonces</span>
+       <a class="self-link" href="#source-list-valid-nonces"></a>
+      </h4>
+
+      <p>
+       <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#strip-leading-and-trailing-whitespace">先頭と末尾の空白を取り除いた</a> <code><a data-link-type="element-attr" href="#element-attrdef-script-nonce">nonce</a></code> 属性が、<var>set of source expressions</var> に含まれる <code><a data-link-type="dfn" href="#nonce_source">nonce-source</a></code> のうち 1 つ以上にケースインセンティブに一致する場合、その要素は <var>set of source expressions</var> に対して <dfn data-dfn-type="dfn" data-noexport="" id="valid-nonce">有効な nonce<a class="self-link" href="#valid-nonce"></a></dfn> を持ちます。
+      </p>
+
      </section>
+
      <section>
       <h4 class="heading settled" data-level="4.2.5" id="source-list-valid-hashes"><span class="secno">4.2.5. </span><span class="content">Valid Hashes</span><a class="self-link" href="#source-list-valid-hashes"></a></h4>
       <p>An <dfn data-dfn-type="dfn" data-noexport="" id="elements-content">element’s content<a class="self-link" href="#elements-content"></a></dfn> is <a data-link-type="dfn" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-blocks-source">the script block’s
