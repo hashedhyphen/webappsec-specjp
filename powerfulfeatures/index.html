@@ -221,6 +221,7 @@
      </ul>
     <li><a href="#detection"><span class="secno">5</span> <span class="content">検査機能</span></a>
     <li><a href="#algorithms"><span class="secno">6</span> <span class="content">アルゴリズム</span></a>
+
      <ul class="toc">
       <li><a href="#settings-secure"><span class="secno">6.1</span> <span class="content"><var>settings object</var> は安全なコンテキストか？</span></a>
       <li><a href="#is-origin-trustworthy"><span class="secno">6.2</span> <span class="content"><var>オリジン</var> は潜在的に信頼できるか？</span></a>
@@ -279,6 +280,7 @@
 
     <p>
      ここで議論される要件の中で最も明白なのは、機微もしくは私的なデータにアクセスするアプリケーションのコードが配信されるのは、データの完全性が保障され、認証が行われ、かつ機密性が確保された通信路のみであるべきだということです。安全にコードを配信しても、ユーザのセキュリティとプライバシーという要件をアプリケーションが常に満たすことまで保障はできませんが、これは必要な前提条件です。
+
 
     </p>
 
@@ -410,6 +412,7 @@
 
     <p>
      Dedicated Web Workers は本質的にフレーム内のドキュメントと似ています。Dedicated Web Workers を安全とみなせるのは、<a data-link-type="dfn" href="#potentially-trustworthy">潜在的に信頼できる</a>オリジンから送信され、かつ、自身をホストしているサイトが <a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a> である場合です。
+
     </p>
 
     <div class="example" id="example-4e331849">
@@ -585,6 +588,7 @@
      Service Workers は安全なコンテキストからのみ登録され、接続できるのは安全なコンテキストにあるクライアントのみであるため、Service Worker は常に安全なコンテキストであり、必ずそうなるのも無理はないでしょう。
     </p>
 
+
     <div class="example" id="example-58019791">
      <a class="self-link" href="#example-58019791"></a>
 
@@ -636,7 +640,12 @@
          ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code>、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#sharedworker">SharedWorker</a></code>、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/service-workers/#service-worker-obj">ServiceWorker</a></code> に対する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> に <a href="#settings-secure">§6.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが適用されて <code>Secure</code> が返された場合、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> は <dfn data-dfn-type="dfn" data-export="" id="secure-worker">安全なワーカー<a class="self-link" href="#secure-worker"></a></dfn> であるといいます。
 
 
-      </ul>
+       <li>
+         ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code>、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#sharedworker">SharedWorker</a></code>、または <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/service-workers/#service-worker-obj">ServiceWorker</a></code> に対する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> に <a href="#settings-secure">§6.1 settings object は安全なコンテキストか？</a> で定義されるアルゴリズムが適用されて <code>Secure</code> が返された場合、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> は <dfn data-dfn-type="dfn" data-export="" id="secure-worker">安全なワーカー<a class="self-link" href="#secure-worker"></a></dfn> であるといいます。
+
+
+
+
 
     </dl>
 
@@ -754,7 +763,13 @@
     </h3>
 
     <p>
+
+
+
      新しい機能に関する仕様を書く著者と編者には、<a href="#settings-secure">§6.1 settings object は安全か？</a>に基づく確認をして機微な API を守ることが推奨されます。良いアプローチの一例として、以下のようなものが挙げられます。
+
+
+
     </p>
 
     <div class="example" id="example-e045c7ea">
@@ -778,7 +793,13 @@
 
 
     <p>
+
+
+
      先ほど挙げたリストには、現時点で Web に存在し、かつ安全でない通信路でアクセス可能な機能が明らかに含まれています。そのようなレガシーな機能が<a data-link-type="dfn" href="#secure-context">安全なコンテキスト</a>内で利用可能となるよう、現実的な範囲で少しでも早く動き始めることが推奨されます。
+
+
+
     </p>
 
     <ol>
@@ -959,6 +980,7 @@ partial interface <a class="idl-code" data-link-type="interface" href="https://h
         もし <var>origin</var> に対して <a href="#is-origin-trustworthy">§6.2 オリジンは潜在的に信頼できるか？</a> のアルゴリズムを適用した結果が <code>Potentially Trustworthy</code> で<strong>ない</strong>場合は、<code>Not Secure</code> を返します。
 
 
+
       </ol>
 
      </ol>
@@ -1081,10 +1103,13 @@ partial interface <a class="idl-code" data-link-type="interface" href="https://h
      補足: ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> の ancestor を列挙するとき、browsing context の creation document のチェインをさかのぼって確認しますが、そのチェインが1つ以上の <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-window">Window</a></code>
     </p>
 
+
+
    </section>
 
 
    <section>
+
 
     <h2 class="heading settled" data-level="7" id="security-considerations">
      <span class="secno">7. </span><span class="content">セキュリティにおいて考慮すべき事項</span>
@@ -1108,6 +1133,7 @@ partial interface <a class="idl-code" data-link-type="interface" href="https://h
 
 
    <section>
+
 
     <h2 class="heading settled" data-level="8" id="implementation-considerations">
      <span class="secno">8. </span><span class="content">実装について考慮すべき事項</span>
@@ -1240,6 +1266,7 @@ partial interface <a class="idl-code" data-link-type="interface" href="https://h
 
   <ul class="indexlist">
 
+
    <li><a href="#conformant-server">準拠するサーバ</a><span>、 §番号のない節</span>
    <li><a href="#conformant-user-agent">準拠するユーザエージェント</a><span>、§番号のない節</span>
    <li>isSecureContext
@@ -1251,6 +1278,7 @@ partial interface <a class="idl-code" data-link-type="interface" href="https://h
    <li><a href="#secure-context">安全なコンテキスト</a><span>、§2</span>
    <li><a href="#secure-document">安全なドキュメント</a><span>、§2</span>
    <li><a href="#secure-worker">安全なワーカー</a><span>、§2</span>
+
 
   </ul>
 
@@ -1427,6 +1455,7 @@ partial interface <a class="idl-code" data-link-type="interface" href="https://h
   <div style="counter-reset:issue">
    <div class="issue">
     Shared Workers に対する現時点の処理では、Worker の状態が安全か安全でないかは Worker が結び付いているドキュメントに依存してしまいます。これでは開発者に混乱を招くかもしれません。このバグにはいくつかの改善案が提案されています。<a href="https://github.com/w3c/webappsec/issues/406">&lt;https://github.com/w3c/webappsec/issues/406&gt;</a><a href="#issue-c5802c14"> ↵ </a>
+
    </div>
 
    <div class="issue">
@@ -1438,6 +1467,7 @@ partial interface <a class="idl-code" data-link-type="interface" href="https://h
    </div>
 
    <div class="issue">
+
     W3C による Worker の定義は廃止されているため、<a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/workers.html#the-workers-documents">the Worker’s <code>Document</code>s</a> には WHATWG の HTML を適用しています。<a href="#issue-a30f61b8"> ↵ </a>
    </div>
   </div>
