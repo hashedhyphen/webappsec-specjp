@@ -1,0 +1,991 @@
+<h1>Secure Contexts 日本語訳</h1>
+<pre class="metadata">
+Status: ED
+ED: https://w3c.github.io/webappsec-secure-contexts/
+Shortname: powerful-features
+TR: http://www.w3.org/TR/powerful-features/
+Previous Version: http://www.w3.org/TR/2014/WD-powerful-features-20141204/
+Level: 1
+Editor: Mike West 56384, Google Inc., mkwst@google.com
+Editor: Yan Zhu 75060, Yahoo! Inc., yzhu@yahoo-inc.com
+Group: webappsec
+Abstract:
+  この仕様書は「安全なコンテキスト」を定義し、それによって、ユーザエージェントの実装者と仕様の作成者が、指定した最小限の認証・機密性の基準が満たされる場合のみ当該機能を有効にすることを可能にします。
+Version History: https://github.com/w3c/webappsec-secure-contexts/commits/master/index.src.html
+!Participate: <a href="https://github.com/w3c/webappsec-secure-contexts/issues/new">File an issue</a> (<a href="https://github.com/w3c/webappsec-secure-contexts/issues">open issues</a>)
+Indent: 2
+Markup Shorthands: markdown on
+Boilerplate: omit conformance, omit feedback-header
+</pre>
+<pre class="anchors">
+urlPrefix: http://www.w3.org/TR/dom/; spec: DOM
+  type: interface
+    text: Document; url: interface-document
+    text: Window; url: interface-window
+urlPrefix: https://fetch.spec.whatwg.org/; spec: FETCH
+  type: interface
+    text: Response
+  type: dfn
+    text: basic fetch
+urlPrefix: http://www.w3.org/TR/geolocation-API/; spec: GEOLOCATION-API
+  type: method
+    text: getCurrentPosition(); url: get-current-position
+    text: watchPosition(); url: watch-position
+urlPrefix: http://www.w3.org/TR/html5/; spec: HTML5
+  type: dfn
+    urlPrefix: embedded-content-0.html
+      text: an iframe srcdoc document
+    urlPrefix: browsers.html
+      text: active document
+      text: alias; url: concept-origin-alias
+      text: ancestor browsing context
+      text: auxiliary browsing context
+      text: browsing context
+      text: browsing context container
+      text: creating a new Document object
+      text: creator Document
+      text: effective script origin
+      text: nested browsing context
+      text: sandboxed origin browsing context flag
+      text: sandboxing flag set
+      text: top-level browsing context
+      text: origin
+      text: opaque identifier; url: origin
+      text: opener browsing context
+    urlPrefix: webappapis.html
+      text: incumbent settings object
+      text: settings object
+      text: relevant settings object; url: relevant-settings-object-for-a-global-object
+      text: responsible document
+      text: global object
+      text: script settings for browsing contexts
+      text: document environment
+      text: worker environment
+  type: attribute
+    urlPrefix: webstorage.html
+      text: sessionStorage; for: WindowSessionStorage; url: the-sessionstorage-attribute
+urlPrefix: http://www.w3.org/TR/mixed-content/; spec: MIX
+  type: dfn
+    text: a priori authenticated url
+urlPrefix: http://www.w3.org/TR/service-workers/; spec: SERVICE-WORKERS
+  type: interface
+    text: ServiceWorker; url: service-worker-obj
+urlPrefix: http://www.w3.org/2014/Process-20140801/; spec: W3C-PROCESS
+  type: dfn
+    text: modify a specification; url: rec-modify
+urlPrefix: https://url.spec.whatwg.org/; spec: URL
+  type: dfn
+    text: origin of a url; url: concept-url-origin
+    text: scheme; for: URL; url: concept-url-scheme
+  type: interface
+    text: URL
+spec: WORKERS; urlPrefix: http://www.w3.org/TR/workers/
+  type: dfn
+    text: the worker's documents
+    text: set up a worker environment settings object
+  type: interface
+    text: SharedWorker
+    text: Worker
+    text: WorkerGlobalScope
+  type: constructor
+    text: SharedWorker(); url: dom-sharedworker
+urlPrefix: https://html.spec.whatwg.org/multipage/; spec: HTML
+  type: dfn
+    urlPrefix: semantics.html
+      text: noopener; url: link-type-noopener
+    urlPrefix: webappapis.html
+      text: creation URL
+      text: HTTPS state
+spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
+  type: dfn
+    text: exposed; url: dfn-exposed
+</pre>
+<pre class="biblio">
+{
+  "BLUETOOTH": {
+      "href": "https://webbluetoothcg.github.io/web-bluetooth/",
+      "title": "Web Bluetooth",
+      "publisher": "W3C",
+      "authors": [ "Jeffrey Yasskin", "Vincent Scheib" ]
+  },
+  "COMCAST": {
+      "href": "http://arstechnica.com/tech-policy/2014/09/why-comcasts-javascript-ad-injections-threaten-security-net-neutrality/",
+      "title": "Comcast Wi-Fi serving self-promotional ads via JavaScript injection",
+      "publisher": "Ars Technica",
+      "authors": [ "David Kravets" ]
+  },
+  "CREDENTIAL-MANAGEMENT": {
+    "authors": [ "Mike West" ],
+    "href": "https://w3c.github.io/webappsec/specs/credentialmanagement/",
+    "title": "Credential Management",
+    "status": "ED",
+    "publisher": "W3C"
+  },
+  "DISCOVERY": {
+      "href": "https://dvcs.w3.org/hg/dap/raw-file/tip/discovery-api/Overview.html",
+      "title": "Network Service Discovery",
+      "authors": [ "Rich Tibbett" ],
+      "publisher": "W3C"
+  },
+  "VERIZON": {
+      "href": "http://adage.com/article/digital/verizon-target-mobile-subscribers-ads/293356/",
+      "title": "Verizon looks to target its mobile subscribers with ads",
+      "publisher": "Advertising Age",
+      "authors": [ "Mark Bergen", "Alex Kantrowitz" ]
+  },
+  "POWERFUL-NEW-FEATURES": {
+    "authors": [ "Chrome Security Team" ],
+    "href": "https://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features",
+    "title": "Prefer Secure Origins For Powerful New Features"
+  },
+  "W3C-PROCESS": {
+    "authors": [ "Charles McCathie Nevile" ],
+    "title": "World Wide Web Consortium Process Document",
+    "href": "http://www.w3.org/2014/Process-20140801/",
+    "publisher": "W3C"
+  }
+}
+</pre>
+<!--
+████ ██    ██ ████████ ████████   ███████
+ ██  ███   ██    ██    ██     ██ ██     ██
+ ██  ████  ██    ██    ██     ██ ██     ██
+ ██  ██ ██ ██    ██    ████████  ██     ██
+ ██  ██  ████    ██    ██   ██   ██     ██
+ ██  ██   ███    ██    ██    ██  ██     ██
+████ ██    ██    ██    ██     ██  ███████
+-->
+<section>
+  <h2 id="intro">導入</h2>
+
+  <em>この章は非規範的です。</em>
+
+  より便利でより強力なアプリケーションが動作できるように Web プラットフォームが拡張されるに従い、アプリケーションに必要な機能の動作範囲が、最小限のセキュリティ境界を満たすコンテキストの中だけであることを保障する必要性が高まっています。この文書では、Web における機能の濫用(see [[#threat-models]])に対する脅威モデルを説明し、新しい機能を規定する文書が組み込むべき規範的な要件を説明します(see
+  [[#implementation-considerations]])。
+
+  ここで議論される要件の中で最も明白なのは、機微・私的なデータにアクセスするアプリケーションのコードが配信されるのは、データの完全性が保障され、認証が行われ、かつ機密性が確保された通信路のみであるべきだということです。安全な通信路でコードを配信した場合でも、ユーザの安全とプライバシーに関する要件をアプリケーションが常に満たすことまでは保障できませんが、これは必要な前提条件です。
+
+  Less obviously, application code delivered over an authenticated and confidential
+  channel isn't enough in and of itself to limit the use of powerful features by
+  non-secure contexts. As [[#ancestors]] explains, cooperative frames can be
+  abused to bypass otherwise solid restrictions on a feature. The algorithms
+  defined below ensure that these bypasses are difficult and user-visible.
+
+  The following examples summarize the normative text which follows:
+
+  <style>
+    .secure {
+      fill: #8F8;
+    }
+    .non-secure {
+      fill: #F88;
+    }
+    rect, circle {
+      stroke-width: 2;
+      stroke: black;
+      fill-opacity: 0.75;
+    }
+    text {
+      font-family: monospace;
+    }
+    text.rejection {
+      fill: #F00;
+      font-weight: 700;
+      font-size: 2em;
+    }
+    g path {
+      stroke-width: 2px;
+      stroke: #666;
+      fill-opacity: 0;
+      stroke-dasharray: 5px, 5px;
+    }
+  </style>
+
+  <h3 id="examples-top-level">トップレベルのドキュメント</h3>
+
+  トップレベルのドキュメントは、そのドキュメントを開いた <a>opener browsing context</a> が安全なものである限り安全です。やや複雑なため、まずは例で考えてみましょう。
+
+  <div class="example">
+    <p><a>top-level browsing context</a> で開かれた <code>http://example.com/</code> は、認証と暗号化が行われた通信路で送信されていないため、<a>secure context</a> ではありません。</p>
+
+    <svg width="400" height="200">
+      <g transform="translate(10,10)">
+        <rect height="175" width="297" y="0" x="0" class="non-secure" />
+        <text transform="translate(10, 20)">http://example.com/</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="example">
+    <p><a>top-level browsing context</a> で開かれた <code>https://example.com/</code> は、認証と暗号化が行われた通信路で送信されたため、<a>secure context</a> です。</p>
+
+    <svg width="400" height="200">
+      <g transform="translate(10,10)">
+        <rect height="175" width="297" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="example">
+    <p>安全なコンテキストが <code>https://example.com/</code> を新しいウィンドウで開いた場合、開かれた側はもともと安全であり、かつ安全なコンテキストから開かれたため、この新しいウィンドウは安全なコンテキストです。
+
+    <svg width="400" height="400">
+      <g transform="translate(10,10)">
+        <rect height="175" width="297" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://secure.example.com/</text>
+      </g>
+      <g transform="translate(10,210)">
+        <rect height="175" width="297" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://another.example.com/</text>
+      </g>
+      <g>
+        <path d="M150, 87 C 200 75, 350 75, 150 287"></path>
+      </g>
+    </svg>
+  </div>
+
+  <div class="example">
+    <p>安全でないコンテキストが <code>https://example.com/</code> を新しいウィンドウで開いた場合、事情はより複雑になり、その開いた方法によって新しいウィンドウの状態は変わります。もし、安全でないコンテキストが安全なコンテキストに対する参照を得ることが可能な場合、新しいウィンドウは安全なコンテキストにはならず、逆も同様です。
+
+    つまり次の例では、どちらの書き方においても安全でないコンテキストを生成します。
+    <pre>
+      &lt;a href="https://example.com/" target="_blank">Link!&lt;/a>
+
+      &lt;script>
+        var w = window.open("https://example.com/");
+      &lt;/script>
+    </pre>
+
+    <svg width="400" height="400">
+      <g transform="translate(10,10)">
+        <rect height="175" width="297" y="0" x="0" class="non-secure" />
+        <text transform="translate(10, 20)">http://non-secure.example.com/</text>
+      </g>
+      <g transform="translate(10,210)">
+        <rect height="175" width="297" y="0" x="0" class="non-secure" />
+        <text transform="translate(10, 20)">https://another.example.com/</text>
+      </g>
+      <g>
+        <path d="M150, 87 C 200 75, 350 75, 150 287"></path>
+      </g>
+    </svg>
+
+    <a>`noopener`</a> の link relation によって関係性を遮断することができるため、次の 2 つの書き方はどちらも安全なコンテキストを生成します。
+
+    <pre>
+      &lt;a href="https://example.com/" rel="noopener" target="_blank">Link!&lt;/a>
+
+      &lt;script>
+        var w = window.open("https://example.com/", "", "noopener");
+      &lt;/script>
+    </pre>
+
+    <svg width="400" height="400">
+      <g transform="translate(10,10)">
+        <rect height="175" width="297" y="0" x="0" class="non-secure" />
+        <text transform="translate(10, 20)">http://non-secure.example.com/</text>
+      </g>
+      <g transform="translate(10,210)">
+        <rect height="175" width="297" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://another.example.com/</text>
+      </g>
+      <g>
+        <path d="M150, 87 C 200 75, 350 75, 150 287"></path>
+      </g>
+    </svg>
+  </div>
+
+
+  <div class="example">
+    <p><a>top-level browsing context</a> で開かれた <code>http://non-secure.example.com/</code> が、<code>https://example.com/</code> を含む新しいウィンドウで開いた場合を考えます。このとき、前者は <a>secure context</a> ではありませんが、後者は安全でないコンテキストとの関係性を断ち切るように開かれた場合にのみ <a>secure context</a> となります。That is,
+    if the new window can access the non-secure context via `window.opener`, and
+    the non-secure context can access the secure context by grabbing a reference
+    to the window, then it
+    , because it is a new
+    top-level browsing context delivered over an authenticated and encrypted
+    channel.</p>
+
+    <svg width="400" height="400">
+      <g transform="translate(10,10)">
+        <rect height="175" width="297" y="0" x="0" class="non-secure" />
+        <text transform="translate(10, 20)">http://non-secure.example.com/</text>
+      </g>
+      <g transform="translate(10,210)">
+        <rect height="175" width="297" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+      </g>
+      <g>
+        <path d="M150, 87 C 200 75, 350 75, 150 287"></path>
+      </g>
+    </svg>
+  </div>
+
+  <h3 id="examples-framed">フレーム内のドキュメント</h3>
+
+  フレーム内のドキュメントは、<a>potentially trustworthy origin</a> から送信され、<em>かつ</em> <a>secure context</a> の中に埋め込まれた場合、そのドキュメントは <a>secure context</a> になります。例を次に示します。
+
+  <div class="example">
+    <a>top-level browsing context</a> で開かれた <code>https://example.com/</code> が、<code>https://sub.example.com/</code> をフレームの中に開いた場合、両者ともに認証と暗号化が行われた通信路で送信されたため、どちらも <a>secure context</a> になります。</p>
+
+    <svg width="400" height="200">
+      <g transform="translate(10,10)">
+        <rect height="175" width="300" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+        <g transform="translate(20, 50)">
+          <rect height="105" width="250" y="0" x="0" class="secure" />
+          <text transform="translate(10, 20)">https://sub.example.com/</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div class="example">
+    <p><code>https://example.com/</code> のページが、何らかの方法で <code>http://non-secure.example.com/</code> を埋め込むことができた場合（ユーザが混在コンテンツの確認を無視している可能性も考えられますが）、トップレベルのフレームは安全なままですが、埋め込まれたコンテンツは安全なコンテキストでは<em>ありません</em>。</p>
+
+    <svg width="400" height="200">
+      <g transform="translate(10,10)">
+        <rect height="175" width="300" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+        <g transform="translate(20, 50)">
+          <rect height="105" width="250" y="0" x="0" class="non-secure" />
+          <text transform="translate(10, 20)">http://non-secure.example.com/</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div class="example">
+    <p>上とは逆の例として、<code>http://non-secure.example.com/</code> のページ内に <code>https://example.com/</code> が埋め込まれていた場合を考えます。このとき、親が送信されてきた通信路は認証と暗号化が行われていないため、埋め込まれたフレームは <a>secure context</a> では<em>ありません</em>。</p>
+
+    <svg width="400" height="200">
+      <g transform="translate(10,10)">
+        <rect height="175" width="300" y="0" x="0" class="non-secure" />
+        <text transform="translate(10, 20)">http://non-secure.example.com/</text>
+        <g transform="translate(20, 50)">
+          <rect height="105" width="250" y="0" x="0" class="non-secure" />
+          <text transform="translate(10, 20)">https://example.com/</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <h3 id="examples-workers">Web Workers</h3>
+
+  Dedicated Web Workers は本質的にフレーム内のドキュメントと似ています。Dedicated Web Workers を安全とみなせるのは、<a>potentially trustworthy origin</a> から送信され、かつ、自身をホストしているサイトが <a>secure context</a> なコンテキストである場合です。
+
+  <div class="example">
+    <p><a>top-level browsing context</a> の <code>https://example.com/</code> が <code>https://example.com/worker.js</code> を実行する場合、ドキュメントと worker は両者ともに <a>secure contexts</a> です。</p>
+
+    <svg width="600" height="200">
+      <g transform="translate(10,10)">
+        <rect height="175" width="300" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+        <g transform="translate(400, 110)">
+          <circle r="50" class="secure" />
+          <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+        </g>
+        <g>
+          <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="example">
+    <p><a>top-level browsing context</a> の <code>http://non-secure.example.com/</code> がフレームとして <code>https://example.com/</code> を埋め込んでおり、そのフレームが <code>https://example.com/worker.js</code> を実行する場合、埋め込まれたドキュメントと worker はどちらも <a>secure contexts</a> ではありません。</p>
+
+    <svg width="600" height="200">
+      <g transform="translate(10,10)">
+        <rect height="175" width="297" y="0" x="0" class="non-secure" />
+        <text transform="translate(10, 20)">http://non-secure.example.com/</text>
+        <g transform="translate(20, 50)">
+          <rect height="105" width="250" y="0" x="0" class="non-secure" />
+          <text transform="translate(10, 20)">https://example.com/</text>
+        </g>
+        <g transform="translate(400, 110)">
+          <circle r="50" class="non-secure" />
+          <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+        </g>
+        <g>
+          <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <h3 id="examples-shared-workers">Shared Workers</h3>
+
+  Shared Worker は複数のコンテキストを持つ場合があります。<a>secure context</a> が Shared Worker を作成した場合、その Worker は <a>secure context</a> になり、他の <a>secure context</a> によってのみ紐付けられるでしょう。安全でないコンテキストが Shared Worker を作成した場合、その Worker は <a>secure context</a> <em>ではなく</em>、他の安全でないコンテキストによってのみ紐付けられるでしょう。
+
+  <div class="example">
+    <p><a>top-level browsing context</a> の <code>https://example.com/</code> が Shared Worker として <code>https://example.com/worker.js</code> を実行する場合、ドキュメントと worker はともに安全なコンテキストと見なされます。</p>
+
+    <svg width="600" height="200">
+      <g transform="translate(10,10)">
+        <rect height="175" width="300" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+        <g transform="translate(400, 110)">
+          <circle r="50" class="secure" />
+          <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+        </g>
+        <g>
+          <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="example">
+    <p>異なる <a>top-level browsing context</a> の <code>https://example.com/</code>（新しいウィンドウなど）が安全なコンテキストである場合、これらは安全な shared worker にアクセスできます。</p>
+
+    <svg width="600" height="400">
+      <g transform="translate(10,10)">
+        <rect height="175" width="300" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+        <g transform="translate(400, 110)">
+          <circle r="50" class="secure" />
+          <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+        </g>
+        <g>
+          <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+        </g>
+      </g>
+      <g transform="translate(10,200)">
+        <rect height="175" width="300" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+        <g>
+          <path d="M150, 87 C 200 75, 350 75, 405 -80"></path>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="example">
+    <p><code>http://non-secure.example.com/</code> に内包された <code>https://example.com/</code> は安全なコンテキストではないため、安全な worker に接続することはできません。</p>
+
+    <svg width="600" height="400">
+      <g transform="translate(10,10)">
+        <rect height="175" width="300" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+        <g transform="translate(400, 110)">
+          <circle r="50" class="secure" />
+          <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+        </g>
+        <g>
+          <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+        </g>
+      </g>
+      <g transform="translate(10,200)">
+        <rect height="175" width="300" y="0" x="0" class="non-secure" />
+        <text transform="translate(10, 20)">http://non-secure.example.com/</text>
+        <g transform="translate(20, 50)">
+          <rect height="105" width="250" y="0" x="0" class="non-secure" />
+          <text transform="translate(10, 20)">https://example.com/</text>
+        </g>
+        <g>
+          <path d="M150, 87 C 200 75, 350 75, 405 20"></path>
+          <text transform="translate(405, 20)" class="rejection">X</text>
+        </g>
+      </g>
+    </svg>
+
+  </div>
+
+  <div class="example">
+    <p>同じく、<code>http://non-secure.example.com/</code> に内包された <code>https://example.com/</code> Shared Worker として <code>https://example.com/worker.js</code> を実行する場合、ドキュメントと worker はどちらも安全ではないと見なされます。</p>
+
+    <svg width="600" height="400">
+      <g transform="translate(10,10)">
+        <rect height="175" width="300" y="0" x="0" class="non-secure" />
+        <text transform="translate(10, 20)">http://non-secure.example.com/</text>
+        <g transform="translate(20, 50)">
+          <rect height="105" width="250" y="0" x="0" class="non-secure" />
+          <text transform="translate(10, 20)">https://example.com/</text>
+        </g>
+        <g transform="translate(400, 110)">
+          <circle r="50" class="non-secure" />
+          <text transform="translate(-75, -55)">https://example.com/worker.js</text>
+        </g>
+        <g>
+          <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+        </g>
+      </g>
+      <g transform="translate(10,200)">
+        <rect height="175" width="300" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+        <g>
+          <path d="M150, 87 C 200 75, 350 75, 405 20"></path>
+          <text transform="translate(405, 20)" class="rejection">X</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <h3 id="examples-service-workers">Service Workers</h3>
+
+  Service Workers は常に <a>secure contexts</a> です。<a>secure contexts</a> のみが Service Workers を登録でき、Service Worker は <a>secure contexts</a> のクライアントのみを保持できます。
+
+  <div class="example">
+    <p><a>top-level browsing context</a> の <code>https://example.com/</code> が <code>https://example.com/service.js</code> を登録した場合、ドキュメントと Service Worker はどちらも安全なコンテキストと見なされます。</p>
+
+    <svg width="600" height="200">
+      <g transform="translate(10,10)">
+        <rect height="175" width="300" y="0" x="0" class="secure" />
+        <text transform="translate(10, 20)">https://example.com/</text>
+        <g transform="translate(400, 110)">
+          <circle r="50" class="secure" />
+          <text transform="translate(-75, -55)">https://example.com/service.js</text>
+        </g>
+        <g>
+          <path d="M150, 87 C 200 75, 350 75, 405 110"></path>
+        </g>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section>
+  <h2 id="framework">Framework</h2>
+
+  A <a>settings object</a> is considered a <dfn export>secure context</dfn> if
+  the algorithm in [[#settings-object]] returns "`Secure`". The <a>settings
+  object</a> is otherwise <dfn export lt="non-secure context">non-secure</dfn>.
+
+  Likewise, a <a>global object</a> is considered a <a>secure context</a> if its
+  <a>relevant settings object</a> is a <a>secure context</a>.
+
+  <h3 id="monkey-patching-idl">Modifications to WebIDL</h3>
+
+  A new `[SecureContext]` attribute is available for operators, which ensures
+  that they will only be <a>exposed</a> into secure contexts. The following
+  example should help:
+
+  <div class="example">
+    <pre class="idl">
+      interface ExampleFeature {
+        // This call will succeed in all contexts.
+        Promise &lt;double> calculateNotSoSecretResult();
+
+        // This operation will not be exposed to a non-secure context. If such a context
+        // is somehow able to call it despite this precaution, the Promise will be
+        // immedietely rejected with a 'SecurityError' exception.
+        [SecureContext] Promise&lt;double> calculateSecretResult();
+
+        // The same applies here: the operation will not be exposed to a non-secure context,
+        // and if somehow called from a non-secure context, a 'SecurityError'
+        // exception will be thrown.
+        [SecureContext] boolean getSecretBoolean();
+      };
+    </pre>
+  </div>
+
+  Specification authors are encouraged to use this attribute when defining new
+  features.
+
+  ISSUE(heycam/webidl#65): This addition is currently under review.
+
+  <h3 id="monkey-patching-html">Modifications to HTML</h3>
+
+  <h4 id="monkey-patching-shared-workers">Shared Workers</h4>
+
+  The {{SharedWorker()}} constructor will throw a `SecurityError` exception if
+  a <a>secure context</a> attempts to attach to an Worker which is not a
+  <a>secure context</a>, and if a non-secure context attempts to attach to a
+  Worker which is a <a>secure context</a>. The constructor is modified as
+  follows:
+
+  1.  As the first substep of the {{SharedWorker()}} constructor's current step
+      7.7 ("If <var>worker global scope</var> is not `null`, then run these
+      steps:"), run the following step:
+
+      1.  If the result of executing [[#settings-object]] on the <a>incumbent
+          settings object</a> does not match the result of executing the same
+          algorithm on <var>worker global scope</var>'s <a>relevant settings
+          object</a>, then throw a `SecurityError` exception, and abort
+          these steps.
+
+  <h4 id="monkey-patching-global-object">Feature Detection</h4>
+
+  To determine whether a context is capable of making use of features which
+  require <a>secure contexts</a>, a simple boolean attribute is added to the
+  global object:
+
+  <pre class="idl">
+    partial interface Window {
+      readonly attribute boolean isSecureContext;
+    };
+
+    partial interface WorkerGlobalScope {
+      readonly attribute boolean isSecureContext;
+    };
+  </pre>
+
+  Both {{Window}}'s {{Window/isSecureContext}} and {{WorkerGlobalScope}}'s
+  {{WorkerGlobalScope/isSecureContext}} attributes' getters return
+  <code>true</code> if the <a>relevant settings object</a> for the getter's
+  <a>global object</a> is a <a>secure context</a>, and <code>false</code>
+  otherwise.
+</section>
+
+<section>
+  <h2 id="algorithms">アルゴリズム</h2>
+
+  <h3 id="settings-object">
+    |settings object| は安全なコンテキストか？
+  </h3>
+
+  Given a <a>settings object</a> (|settings object|), this algorithm returns
+  "`Secure`" if the object represents a context which the user agent obtained
+  via a secure channel, and "`Not Secure`" otherwise.
+
+  1.  Let |ancestors| be an empty list.
+
+  2.  If |settings object|'s <a>global object</a> is a
+      {{WorkerGlobalScope}}, then:
+
+      1.  Add |settings object| to |ancestors|.
+
+      2.  For each {{Document}} (|document|) in |settings object|'s <a>global
+          object</a>'s list of <a>the worker's `Documents`</a>:
+
+          1.  Add each item in the result of executing [[#gather-ancestors]] on
+              |document| to |ancestors|.
+
+  3.  Otherwise, |settings object|'s <a>global object</a> is a {{Window}}, so:
+
+      1.  Add each item in the result of executing [[#gather-ancestors]] on
+          |settings object|'s <a>responsible document</a> to |ancestors|.
+
+  4.  For each |ancestor settings object| in |ancestors|:
+
+      1.  The user agent MAY return "`Not Secure`" if |ancestor settings
+          object|'s <a>effective script origin</a> is <em>not</em> an
+          <a>alias</a> to its <a>origin</a>.
+
+          Note: This allows user agents the option of treating documents as
+          non-secure contexts if they relax same-origin restrictions via
+          `{{document.domain}}`. This feature's usage is widespread enough to
+          make it difficult for this behavior to be a requirement, but user
+          agents are encouraged to migrate to this behavior over time.
+
+      2.  If |ancestor settings object|'s <a>HTTPS state</a> is "`modern`", skip
+          to the next |ancestor settings object|.
+
+          <div class="note">
+            Most of the time, this check will be enough to determine whether
+            a particular context was securely delivered. Documents delivered over
+            TLS will have the flag set, and `srcdoc` `Document`s inherit their
+            ancestor's flag (as do other kinds of requests which inherit their
+            requestor's origin: see the <a>basic fetch</a> algorithm for details
+            on some of these [[FETCH]]).
+
+            We'll only continue past this check when dealing with resources
+            delivered from "trustworthy" but unauthenticated locations like
+            `http://127.0.0.1/`.
+          </div>
+
+      3.  Let |origin| be |ancestor settings object|'s <a>origin</a>.
+
+      4.  If |origin| is an <a>opaque identifier</a>, set |origin| to the
+          <a lt="origin of a url">origin</a> of |settings object|'s <a>creation
+          URL</a>.
+
+          Note: We use the origin of the URL here in order to allow sandboxed
+          context to remain secure (as sandboxing is a strict reduction in the
+          context's capabilities, and therefore to the risk it poses). This
+          covers scenarios such as `<iframe sandbox src="http://localhost/">`.
+
+      5.  If the result of executing the [[#is-origin-trustworthy]] algorithm
+          on |origin| is <strong>not</strong> `Potentially
+          Trustworthy`, then return "`Not Secure`".
+
+  5.  Return "`Secure`".
+
+  <h3 id="is-origin-trustworthy">
+    <var>origin</var> は潜在的に信頼できるか？
+  </h3>
+
+  A <dfn export>potentially trustworthy origin</dfn> is one which a user agent
+  can generally trust as delivering data securely.
+
+  This algorithms considers certain hosts, scheme, and origins as potentially
+  trustworthy, even though they might not be authenticated and encrypted in the
+  traditional sense. In particular, the user agent SHOULD treat `file` URLs and
+  URLs with hostnames names equivalent to `localhost` as potentially
+  trustworthy. In principle the user agent could treat local files and local web
+  servers as untrustworthy, but, <em>given the information that is available to
+  the user agent at runtime</em>, the resources appear to have been transported
+  securely from disk to the user agent. Additionally, treating such resources as
+  potentially trustworthy is convenient for developers building an application
+  before deploying it to the public.
+
+  This developer-friendlyness is not without risk, however. User agents which
+  prioritize security over such niceties MAY choose to more strictly assign
+  trust in a way which excludes `localhost.` and `file`.
+
+  On the other hand, the user agent MAY choose to extend this trust to other,
+  vendor-specific URL schemes like `app:` or `chrome-extension:` which it can
+  determine <i lang="la">a priori</i> to be trusted (see
+  [[#packaged-applications]] for detail).
+
+  Given an <a>origin</a> (|origin|), the following algorithm returns
+  "`Potentially Trustworthy`" or "`Not Trustworthy`" as appropriate.
+
+  1.  If |origin| is an <a>opaque identifier</a>, return "`Not Trustworthy`".
+
+  2.  If |origin|'s `scheme` is either "`https`" or "`wss`", return
+      "`Potentially Trustworthy`".
+
+      Note: This is meant to be analog to the <a><i lang="la">a priori</i>
+      authenticated URL</a> concept in [[MIX]].
+
+      Note: The origin of `blob:` and `filesystem:` URLs is the origin of the
+      context in which they were created. Therefore, blobs created in a
+      trustworthy origin will themselves be potentially trustworthy. The origin
+      of `data:` and `javascript:` URLs, on the other hand, is an <a>opaque
+      identifier</a>, which will not be considered potentially trustworthy.
+
+  3.  If |origin|'s `host` component is or falls within "`localhost.`"
+      [[!RFC6761]], return "`Potentially Trustworthy`".
+
+  4.  If |origin|'s `host` component matches one of the CIDR notations
+      `127.0.0.0/8` or `::1/128` [[!RFC4632]], return "`Potentially
+      Trustworthy`".
+
+  5.  If |origin|'s `scheme` component is `file`, return "`Potentially
+      Trustworthy`".
+
+  6.  If |origin|'s `scheme` component is one which the user agent considers to
+      be authenticated, return "`Potentially Trustworthy`".
+
+      Note: See [[#packaged-applications]] for detail here.
+
+  7.  If |origin| has been configured as a trustworthy origin, return
+      `Potentially Trustworthy`".
+
+      Note: See [[#development-environments]] for detail here.
+
+  8.  Return "`Not Trusted`".
+
+  <h3 id="gather-ancestors">
+    Gather <var>document</var>'s relevant ancestors
+  </h3>
+
+  Given a {{Document}} (<var>document</var>), this algorithm returns a list of
+  <a>settings objects</a> which ought to be considered when determining whether
+  or not <var>document</var> is a <a>secure context</a>.
+
+  1.  Let <var>ancestors</var> be an empty list.
+
+  2.  If <var>document</var> is not <a>an IFrame `srcdoc` `Document`</a>, add
+      |document|'s <a>relevant settings object</a> to |ancestors|.
+
+  2.  While <var>document</var> has a <a>creator <code>Document</code></a>
+      <var>creator</var>:
+
+      1.  If <var>creator</var>'s <a>browsing context</a> is an <a>ancestor
+          browsing context</a> or <a>opener browsing context</a> of
+          <var>document</var>:
+
+          1.  Insert <var>creator</var>'s <a>relevant settings object</a> into
+              <var>ancestors</var>, unless <var>creator</var> is <a>an IFrame
+              `srcdoc` `Document`</a>.
+
+          2.  Let <var>document</var> be <var>creator</var>.
+
+      2.  Otherwise, exit this loop.
+
+  3.  Return <var>ancestors</var>.
+
+  Note: When gathering a {{Document}}'s ancestors, we walk the browsing context
+  creation document chain, but stop when that chain hits a <a>top-level browsing
+  context</a>. We'll follow the chain for <a>auxiliary browsing contexts</a>,
+  however, which means that popups' status depend on how they're opened, as
+  discussed in [[#examples-top-level]].
+</section>
+
+<section>
+  <h2 id="threat-models-risks">
+    脅威モデルとリスク
+  </h2>
+
+  <em>この章は非規範的です。</em>
+
+  <h3 id="threat-models">脅威モデル</h3>
+
+  ネットワーク上には攻撃者が存在するため、認証されていないオリジンに権限を与えることは、あらゆるオリジンに権限を与えることと等価です。インターネットの現状はひどいものであり、ネットワーク上に攻撃者が存在することを当然のように仮定しなくてはなりません。一般に、ネットワーク上の攻撃者は受動的と能動的との2種類に分類されます。
+
+  <h4 id="threat-passive">ネットワーク上の受動的な攻撃者</h4>
+
+  「ネットワーク上の受動的な攻撃者」とは、通信の流れを観察することはできるが、この仕様に関係するレイヤーでの通信を改変することはできない、または意図的に改変しない集団を指します。
+
+  このように、ネットワークの監視は「通信している人々の承認なしに彼らの意志を裏切り」、そして「誰かが監視を許している限り、人々はその『誰か』をどれだけ慈悲深い存在と考えていようとも、最も非道な連中から自分たちの身を守ることはできない」 [[RFC7258]] のです。そのため、この文書で定義されるアルゴリズムは、アプリケーション層におけるデータの完全性だけでなくプライバシーも提供する仕組みを要求しています。
+
+  <h4 id="threat-active">ネットワーク上の能動的な攻撃者</h4>
+
+  「ネットワーク上の能動的な攻撃者」は、「ネットワーク上の受動的な攻撃者」ができることすべてに加え、ネットワークを流れるあらゆるデータを改変、阻止、再送できる攻撃手段を持っています。セキュリティやプライバシーを揺るがし、個人や団体、さらには国民全体を標的にする潜在的な敵の集団にとって、公共の無線ネットワークを提供、または単に接続しているだけの脆弱なデバイスに限らず、料金の徴収のために通信を操作していながら、セキュリティやプライバシー上の脆弱性を間接的に抱えているインターネットサービスプロバイダ（[[VERIZON]] や [[COMCAST]] が最近の例です）という具合に、対象によってさまざまな攻撃手段をとることができます。
+
+  <h3 id="ancestors">Ancestral Risk</h3>
+
+  The [[#settings-object]] algorithm walks through all the ancestors of a
+  particular context in order to determine whether or not the context itself is
+  secure. Why wouldn't we consider a securely-delivered document in an
+  <{iframe}> to be secure, in and of itself?
+
+  The short answer is that this model would enable abuse. Chrome's
+  implementation of [[WEBCRYPTOAPI]] was an early experiment in locking APIs to
+  secure contexts, and it does not walk through a context's ancestors. The
+  assumption was that locking the API to a resouce which was itself delivered
+  securely would be enough to ensure secure usage. The result, however, was
+  that entities like Netflix built <{iframe}>- and `postMessage()`-based shims
+  that exposed the API to non-secure contexts. The restriction was little more
+  than a speed-bump, slowing down non-secure access to the API, but completely
+  ineffective in preventing such access.
+
+  While the algorithms in this document do not perfectly isolate non-secure
+  contexts from <a>secure contexts</a> (as discussed in [[#isolation]]), the
+  ancestor checks provide a fairly robust protection for the guarantees of
+  authentication, confidentiality, and integrity that such contexts ought to
+  ptovide.
+
+  <h3 id="threat-risks">安全でないコンテキストに関連するリスク</h3>
+
+  上で述べた脅威からユーザを守るために、特定の Web プラットフォームの持つ、ユーザのセキュリティとプライバシーに大きな影響を与える機能は <a>secure contexts</a> の中でのみ利用可能であるべきです。安全でないコンテキストで機能を利用可能にすると、以下の可能性をネットワーク上の攻撃者に与えてしまう危険を冒します
+
+  <ol>
+    <li>
+      機微な情報（個人を識別できる情報、資格情報、支払方法など）を閲覧、改変できる可能性。[[CREDENTIAL-MANAGEMENT]] は機微な情報を扱う API の一例です。
+    </li>
+    <li>
+      ユーザのデバイス（カメラ、マイクロフォン、そして GPS は特に挙げる価値がありますが、これには加速度計のように明らかな危険性のほとんどないセンサも確かに含まれています）からの入力を閲覧、改変できる可能性。[[GEOLOCATION-API]] や [[MEDIACAPTURE-STREAMS]] はセンサの入力を使う機能の歴史的な一例です。
+    </li>
+    <li>
+      ユーザがアクセスできる他のデバイスの情報にアクセスできる可能性。[[DISCOVERY]] や [[BLUETOOTH]] が良い例です。
+    </li>
+    <li>
+      ある一定時間が経過すると自身をリセットする識別子（例: {{sessionStorage}}）や、ユーザが手動でリセットできる識別子（例: [[ENCRYPTED-MEDIA]]、Cookie [[RFC6265]]、そして [[IndexedDB]]）、さらにはユーザが容易にはリセットできないハードウェアの特徴を識別するもの、こういったものを含む一時的、ないしは永続的な識別子を使ってユーザを追跡できる可能性。
+    </li>
+    <li>
+      ブラウザのセッションが切れるまで有効なある状態をオリジンに設定できる可能性。[[SERVICE-WORKERS]] がとても良い例です。
+    </li>
+    <li>
+      削除したり覆い隠したり、またはコンテキストをユーザが理解するのに用いる詳細情報を変更するなどして、ブラウザのネイティブな UI を操作できる可能性。例えば [[FULLSCREEN]] が挙げられます。
+    </li>
+    <li>
+      ユーザの許可が必要な機能を組み込める可能性。
+    </li>
+  </ol>
+
+  このリストにすべて列挙されているわけではありませんが、仕様を作成したり実装する際に考慮すべきリスクに、どういう種類のものがあるかは分かるはずです。
+
+  Note: 機能を <a>secure contexts</a> に制限することは極めて重要ですが、そのような情報を運ぶ手段（例えば、新しいネットワークにアクセスする仕組み、または他のネットワークの情報にアクセスするための基本的な機能）も、同じく機微なものとして扱うことを忘れてはいけません。
+</section>
+
+<section>
+  <h2 id="security-considerations">セキュリティに関して考慮すべき事項</h2>
+
+  <h3 id="isolation">不完全な分離</h3>
+
+  この文書における <a>secure context</a> の定義は、あるオリジン上の「安全な」ビューと、同じオリジン上の「安全でない」ビューとが完全に分離されていません。データを隠し取る手法には、ほぼ誰にも知られていないようなものもあり、`localStorage`/`sessionStorage` や `storage` イベント、`BroadcastChannel` など多岐に渡ります。
+</section>
+
+<section>
+  <h2 id="privacy-considerations">プライバシーに関して考慮すべき事項</h2>
+
+  この文書で定義される <a>secure context</a> は、プライバシーに関して何らかの効果を与えることはありません。しかし、プライバシー上で考慮すべき影響を持つ機能に対して安全なコンテキストを要請することは、完全性・真正性・機密性が担保されたコンテキスト内に動作範囲を制限できることにつながります。
+
+  プライバシーの観点から、仕様の著者は機能の定義に際して、安全なコンテキストの要請を考慮することが推奨されます。
+</section>
+
+<section>
+  <h2 id="implementation-considerations">実装に関して考慮すべき事項</h2>
+
+  <h3 id="packaged-applications">Packaged Applications</h3>
+
+  Packaged Applications をサポートしているユーザエージェントは、自身でコンテンツを認証した特定の URL スキームからなるホワイトリストを作成しても良いでしょう（MAY）。例えば、Firefox OS アプリケーションのリソースは、<a for="URL">scheme</a> の構成部分が `app:` である URL で参照されます。同様に、Chrome 拡張機能と Chrome アプリは `chrome-extension:` スキームで動作します。これらを信頼できるオリジンと見なせても無理はないでしょう。
+
+  <h3 id="development-environments">開発環境</h3>
+
+  ループバックではないホストでステージングサーバを動かしている開発者を支援するため、[[#is-origin-trustworthy]] が通常通り `Not Trusted` を返す場合であっても、ユーザエージェントは信頼できるオリジンをユーザが指定するのを許可しても良いでしょう（MAY）。
+
+  <h3 id="new">新しい機能の制限</h3>
+
+  <em>この章は非規範的です。</em>
+
+  新しい機能に関する仕様を書く著者と編者には、<a>secure context</a> であるかの確認を行って機微な API を守ることが推奨されます。良いアプローチの一例として、以下のようなものが挙げられます。
+
+  <div class="example">
+    <ol>
+      <li>
+        もし <a>incumbent settings object</a> が <a>secure context</a> で<em>ない</em>場合
+
+        <ol>
+          <li>
+            [ ここに適切な文章を入れてください。 SecurityError によって Promise をリジェクトする、エラー時のコールバックを呼び出す、権限リクエストを拒否する、などといった文章が入るかもしれません ]。
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </div>
+
+  機微な API を扱う仕様の著者は、その API を保護するために `[SecureContext]` 属性を利用し、API が <a>secure context</a> のみで利用可能なことを保障するべきです。
+
+  <div class="example">
+    <pre class="idl">
+      [SecureContext]
+      interface SensitiveFeature {
+        Promise&lt;double> getTheSecretDouble();
+      };
+
+      // Or:
+
+      interface AnotherSensitiveFeature {
+        [SecureContext] void doThatPowerfulThing();
+      };
+    </pre>
+  </div>
+
+  <h3 id="legacy">レガシーな機能の制限</h3>
+
+  <em>この章は非規範的です。</em>
+
+  先ほど挙げたリストには、現時点で Web に存在し、かつ安全でない通信路でアクセス可能な機能が明らかに含まれています。そのようなレガシーな機能が <a>secure context</a>内で利用可能となるよう、現実的な範囲で少しでも早く動き始めることが推奨されます。
+
+  1.  そのような機能が広く実装されてはいない場合、<a>secure contexts</a> に関する制限を含めるよう、仕様をすぐに<a lt="modify a specification">修正する</a>ことを勧めます。
+
+  2.  そのような機能が広く実装されているが、広く使われてはいない場合は、[[#new]] で述べた確認手順を現存の実装に追加し、それに従って仕様を<a lt="modify a specification">修正する</a>ことにより、速やかに機能を <a>secure contexts</a> に制限することを勧めます。
+
+  3.  そのような機能が広く使われている場合は、現存の機能を廃止することを勧めます。そして、この文書で説明した制限に仕様が準拠しない旨を記述するために仕様を<a lt="modify a specification">修正し</a>、準拠する将来のバージョンを提供して現在のユーザを新しいバージョンに移行させる計画の立案をするべきです。
+
+  <h4 id="legacy-example">例: Geolocation</h4>
+
+  そのような機能の具体例として良いものには [[GEOLOCATION-API]] があります。この機能は広く実装されており、数多くの安全でないサイトで使われています。無理なく改善するための流れは、以下のようになるかもしれません。
+
+  1.  {{getCurrentPosition()}} や {{watchPosition()}} のアルゴリズムを実行する前に <a>secure context</a> であるかの確認が行われるよう、仕様を<a lt="modify a specification">修正します</a>。
+
+      もし <a>incumbent settings object</a> が <a>secure context</a> ではなかった場合、そのアルゴリズムは中断されるべきであり、かつ `PERMISSION_DENIED` を表す `code` とともに `errorCallback` が呼び出されるべきです。
+
+  2.  安全でないコンテキストにおける API を無効にする明確な意志を、決められた日時に表明するべきであり、それに従って開発者には警告を出すべきです（例えば、コンソールにメッセージを出すなど）。
+
+  3.  プログラムの変更日を迎えるための準備として、コードを変更する必要性をサイトの運営者に認識させるため、加えてその期間中のユーザを守るため、単純に API をすべて停止させる前に、ユーザエージェントは廃止のスケジュールを公表するべきです。そのような計画には次のようなものが含まれるかもしれません。
+
+      1.  安全でないオリジンに与えられていた永続的な権限を無効にする
+
+      2.  安全でないオリジンで API を利用した際の精度を粗雑にする（高精度のデータではなく市区町村単位のデータを継続的に返すかもしれません）
+
+      3.  ユーザとサイトの運営者に対してリスクを伝えるように UI を変更する
+</section>
+
+<!--
+   ███     ██████  ██    ██ ██    ██  ███████  ██      ██ ██       ████████ ████████   ██████   ████████ ██     ██ ████████ ██    ██ ████████  ██████
+  ██ ██   ██    ██ ██   ██  ███   ██ ██     ██ ██  ██  ██ ██       ██       ██     ██ ██    ██  ██       ███   ███ ██       ███   ██    ██    ██    ██
+ ██   ██  ██       ██  ██   ████  ██ ██     ██ ██  ██  ██ ██       ██       ██     ██ ██        ██       ████ ████ ██       ████  ██    ██    ██
+██     ██ ██       █████    ██ ██ ██ ██     ██ ██  ██  ██ ██       ██████   ██     ██ ██   ████ ██████   ██ ███ ██ ██████   ██ ██ ██    ██     ██████
+█████████ ██       ██  ██   ██  ████ ██     ██ ██  ██  ██ ██       ██       ██     ██ ██    ██  ██       ██     ██ ██       ██  ████    ██          ██
+██     ██ ██    ██ ██   ██  ██   ███ ██     ██ ██  ██  ██ ██       ██       ██     ██ ██    ██  ██       ██     ██ ██       ██   ███    ██    ██    ██
+██     ██  ██████  ██    ██ ██    ██  ███████   ███  ███  ████████ ████████ ████████   ██████   ████████ ██     ██ ████████ ██    ██    ██     ██████
+-->
+<section>
+  <h2 id="acknowledgements">謝辞</h2>
+
+  この文書は、Chrome セキュリティチームの [[POWERFUL-NEW-FEATURES]] における成果に大きく依存しています。これには Chris Palmer、Ryan Sleevi、そして David Dorwin 各氏が特に貢献しています。また、Anne van Kesteren と Henri Sivonen 両氏からとても有益なフィードバックをいただきました。
+</section>

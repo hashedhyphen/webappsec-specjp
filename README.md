@@ -13,5 +13,5 @@ W3C Web Application Security Working Group が策定している仕様の日本�
 
 ### 翻訳物
 
-* Secure Contexts (Requirements for Powerful Features)
-  * [Editor's Draft](https://hashedhyphen.github.io/webappsec-specjp/powerfulfeatures/) （2015年9月14日版）
+* Secure Contexts
+  * [Editor's Draft](https://hashedhyphen.github.io/webappsec-specjp/secure-contexts/index.html) （2015年12月11日版）

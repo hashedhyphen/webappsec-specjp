@@ -3,3 +3,6 @@
 
 # css
 *.css
+
+# task runner
+node_modules/
