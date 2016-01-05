@@ -1025,9 +1025,7 @@
  </head>
  <body class="h-entry">
   <div class="head">
-   <p class="note" role="note">
-    この文書は、<a href="https://w3c.github.io/webappsec-secure-contexts/">Secure Contexts</a> Editor's Draft （2015年12月11日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。
-   </p>
+   <p class="note" role="note">この文書は、<a href="https://w3c.github.io/webappsec-secure-contexts/" target="_blank">Secure Contexts</a> Editor's Draft （2015年12月11日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。</p>
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Secure Contexts 日本語訳</h1>
    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2015-12-11">11 December 2015</time></span></h2>
@@ -1051,7 +1049,7 @@
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2015 <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2016 <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
@@ -1120,7 +1118,7 @@
         <li><a href="#threat-passive"><span class="secno">4.1.1</span> <span class="content">ネットワーク上の受動的な攻撃者</span></a>
         <li><a href="#threat-active"><span class="secno">4.1.2</span> <span class="content">ネットワーク上の能動的な攻撃者</span></a>
        </ul>
-      <li><a href="#ancestors"><span class="secno">4.2</span> <span class="content">Ancestral Risk</span></a>
+      <li><a href="#ancestors"><span class="secno">4.2</span> <span class="content">コンテキストの祖先に関するリスク</span></a>
       <li><a href="#threat-risks"><span class="secno">4.3</span> <span class="content">安全でないコンテキストに関連するリスク</span></a>
      </ul>
     <li>
@@ -1172,7 +1170,7 @@
     <p>ここで議論される要件の中で最も明白なのは、機微・私的なデータにアクセスするアプリケーションのコードが配信されるのは、データの完全性が保障され、認証が行われ、かつ機密性が確保された通信路のみであるべきだということです。安全な通信路でコードを配信した場合でも、ユーザの安全とプライバシーに関する要件をアプリケーションが常に満たすことまでは保障できませんが、これは必要な前提条件です。</p>
     <p>Less obviously, application code delivered over an authenticated and confidential
   channel isn’t enough in and of itself to limit the use of powerful features by
-  non-secure contexts. As <a href="#ancestors">§4.2 Ancestral Risk</a> explains, cooperative frames can be
+  non-secure contexts. As <a href="#ancestors">§4.2 コンテキストの祖先に関するリスク</a> explains, cooperative frames can be
   abused to bypass otherwise solid restrictions on a feature. The algorithms
   defined below ensure that these bypasses are difficult and user-visible.</p>
     <p>The following examples summarize the normative text which follows:</p>
@@ -1712,24 +1710,10 @@ partial interface <a class="idl-code" data-link-type="interface" href="http://ww
     <p>このように、ネットワークの監視は「通信している人々の承認なしに彼らの意志を裏切り」、そして「誰かが監視を許している限り、人々はその『誰か』をどれだけ慈悲深い存在と考えていようとも、最も非道な連中から自分たちの身を守ることはできない」 <a data-link-type="biblio" href="#biblio-rfc7258">[RFC7258]</a> のです。そのため、この文書で定義されるアルゴリズムは、アプリケーション層におけるデータの完全性だけでなくプライバシーも提供する仕組みを要求しています。</p>
     <h4 class="heading settled" data-level="4.1.2" id="threat-active"><span class="secno">4.1.2. </span><span class="content">ネットワーク上の能動的な攻撃者</span><a class="self-link" href="#threat-active"></a></h4>
     <p>「ネットワーク上の能動的な攻撃者」は、「ネットワーク上の受動的な攻撃者」ができることすべてに加え、ネットワークを流れるあらゆるデータを改変、阻止、再送できる攻撃手段を持っています。セキュリティやプライバシーを揺るがし、個人や団体、さらには国民全体を標的にする潜在的な敵の集団にとって、公共の無線ネットワークを提供、または単に接続しているだけの脆弱なデバイスに限らず、料金の徴収のために通信を操作していながら、セキュリティやプライバシー上の脆弱性を間接的に抱えているインターネットサービスプロバイダ（<a data-link-type="biblio" href="#biblio-verizon">[VERIZON]</a> や <a data-link-type="biblio" href="#biblio-comcast">[COMCAST]</a> が最近の例です）という具合に、対象によってさまざまな攻撃手段をとることができます。</p>
-    <h3 class="heading settled" data-level="4.2" id="ancestors"><span class="secno">4.2. </span><span class="content">Ancestral Risk</span><a class="self-link" href="#ancestors"></a></h3>
-    <p>The <a href="#settings-object">§3.1 settings object は安全なコンテキストか？</a> algorithm walks through all the ancestors of a
-  particular context in order to determine whether or not the context itself is
-  secure. Why wouldn’t we consider a securely-delivered document in an <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code> to be secure, in and of itself?</p>
-    <p>The short answer is that this model would enable abuse. Chrome’s
-  implementation of <a data-link-type="biblio" href="#biblio-webcryptoapi">[WEBCRYPTOAPI]</a> was an early experiment in locking APIs to
-  secure contexts, and it does not walk through a context’s ancestors. The
-  assumption was that locking the API to a resouce which was itself delivered
-  securely would be enough to ensure secure usage. The result, however, was
-  that entities like Netflix built <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code>- and <code>postMessage()</code>-based shims
-  that exposed the API to non-secure contexts. The restriction was little more
-  than a speed-bump, slowing down non-secure access to the API, but completely
-  ineffective in preventing such access.</p>
-    <p>While the algorithms in this document do not perfectly isolate non-secure
-  contexts from <a data-link-type="dfn" href="#secure-context">secure contexts</a> (as discussed in <a href="#isolation">§5.1 不完全な分離</a>), the
-  ancestor checks provide a fairly robust protection for the guarantees of
-  authentication, confidentiality, and integrity that such contexts ought to
-  ptovide.</p>
+    <h3 class="heading settled" data-level="4.2" id="ancestors"><span class="secno">4.2. </span><span class="content">コンテキストの祖先に関するリスク</span><a class="self-link" href="#ancestors"></a></h3>
+    <p>そのコンテキスト自身が安全かどうかを判断する際、考察の対象とするコンテキストからその祖先すべてに至るまで <a href="#settings-object">§3.1 settings object は安全なコンテキストか？</a> のアルゴリズムが適用されます。ところで、安全な通信路で送信された <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code> 内のドキュメントを、なぜ私たちは安全であると扱わないのでしょうか？</p>
+    <p>簡潔に言えば、このモデルでは機能の濫用を許してしまうからです。API へのアクセスを安全なコンテキストに制限する試みは、Chrome における <a data-link-type="biblio" href="#biblio-webcryptoapi">[WEBCRYPTOAPI]</a> の実装で早くから行われていましたが、コンテキストの祖先まで制限をかけることは当時の実装において考慮されていませんでした。当時はまだ、API へのアクセスを安全に送信されてきたリソースに制限すれば、API の安全な利用は十分に保障されると考えられていました。しかし実際は Netflix のようなコンテンツが埋め込んだ <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code> と <code>postMessage()</code> のブリッジにより、安全でないコンテキストからも API が利用可能になっていました。このときの対策は、安全でないコンテキストによる API へのアクセス速度を遅くする程度のことでしかなく、先程のようなアクセスはまったく防ぎようがありませんでした。</p>
+    <p>この文書におけるアルゴリズムを利用しても、（<a href="#isolation">§5.1 不完全な分離</a> で議論されているように）<a data-link-type="dfn" href="#secure-context">secure contexts</a> と安全でないコンテキストとを完全に分離することはできません。しかしながら、コンテキストが提供すべき真正性、機密性、完全性は、コンテキストの祖先も確認することでかなり強固に保護することができます。</p>
     <h3 class="heading settled" data-level="4.3" id="threat-risks"><span class="secno">4.3. </span><span class="content">安全でないコンテキストに関連するリスク</span><a class="self-link" href="#threat-risks"></a></h3>
     <p>上で述べた脅威からユーザを守るために、特定の Web プラットフォームの持つ、ユーザのセキュリティとプライバシーに大きな影響を与える機能は <a data-link-type="dfn" href="#secure-context">secure contexts</a> の中でのみ利用可能であるべきです。安全でないコンテキストで機能を利用可能にすると、以下の可能性をネットワーク上の攻撃者に与えてしまう危険を冒します</p>
     <ol>

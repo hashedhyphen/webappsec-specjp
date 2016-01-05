@@ -824,28 +824,13 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
 
   「ネットワーク上の能動的な攻撃者」は、「ネットワーク上の受動的な攻撃者」ができることすべてに加え、ネットワークを流れるあらゆるデータを改変、阻止、再送できる攻撃手段を持っています。セキュリティやプライバシーを揺るがし、個人や団体、さらには国民全体を標的にする潜在的な敵の集団にとって、公共の無線ネットワークを提供、または単に接続しているだけの脆弱なデバイスに限らず、料金の徴収のために通信を操作していながら、セキュリティやプライバシー上の脆弱性を間接的に抱えているインターネットサービスプロバイダ（[[VERIZON]] や [[COMCAST]] が最近の例です）という具合に、対象によってさまざまな攻撃手段をとることができます。
 
-  <h3 id="ancestors">Ancestral Risk</h3>
+  <h3 id="ancestors">コンテキストの祖先に関するリスク</h3>
 
-  The [[#settings-object]] algorithm walks through all the ancestors of a
-  particular context in order to determine whether or not the context itself is
-  secure. Why wouldn't we consider a securely-delivered document in an
-  <{iframe}> to be secure, in and of itself?
+  そのコンテキスト自身が安全かどうかを判断する際、考察の対象とするコンテキストからその祖先すべてに至るまで [[#settings-object]] のアルゴリズムが適用されます。ところで、安全な通信路で送信された <{iframe}> 内のドキュメントを、なぜ私たちは安全であると扱わないのでしょうか？
 
-  The short answer is that this model would enable abuse. Chrome's
-  implementation of [[WEBCRYPTOAPI]] was an early experiment in locking APIs to
-  secure contexts, and it does not walk through a context's ancestors. The
-  assumption was that locking the API to a resouce which was itself delivered
-  securely would be enough to ensure secure usage. The result, however, was
-  that entities like Netflix built <{iframe}>- and `postMessage()`-based shims
-  that exposed the API to non-secure contexts. The restriction was little more
-  than a speed-bump, slowing down non-secure access to the API, but completely
-  ineffective in preventing such access.
+  簡潔に言えば、このモデルでは機能の濫用を許してしまうからです。API へのアクセスを安全なコンテキストに制限する試みは、Chrome における [[WEBCRYPTOAPI]] の実装で早くから行われていましたが、コンテキストの祖先まで制限をかけることは当時の実装において考慮されていませんでした。当時はまだ、API へのアクセスを安全に送信されてきたリソースに制限すれば、API の安全な利用は十分に保障されると考えられていました。しかし実際は Netflix のようなコンテンツが埋め込んだ <{iframe}> と `postMessage()` のブリッジにより、安全でないコンテキストからも API が利用可能になっていました。このときの対策は、安全でないコンテキストによる API へのアクセス速度を遅くする程度のことでしかなく、先程のようなアクセスはまったく防ぎようがありませんでした。
 
-  While the algorithms in this document do not perfectly isolate non-secure
-  contexts from <a>secure contexts</a> (as discussed in [[#isolation]]), the
-  ancestor checks provide a fairly robust protection for the guarantees of
-  authentication, confidentiality, and integrity that such contexts ought to
-  ptovide.
+  この文書におけるアルゴリズムを利用しても、（[[#isolation]] で議論されているように）<a>secure contexts</a> と安全でないコンテキストとを完全に分離することはできません。しかしながら、コンテキストが提供すべき真正性、機密性、完全性は、コンテキストの祖先も確認することでかなり強固に保護することができます。
 
   <h3 id="threat-risks">安全でないコンテキストに関連するリスク</h3>
 
