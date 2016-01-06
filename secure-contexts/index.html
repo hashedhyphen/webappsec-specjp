@@ -1092,14 +1092,14 @@
       <li><a href="#examples-service-workers"><span class="secno">1.5</span> <span class="content">Service Workers</span></a>
      </ul>
     <li>
-     <a href="#framework"><span class="secno">2</span> <span class="content">Framework</span></a>
+     <a href="#framework"><span class="secno">2</span> <span class="content">枠組み</span></a>
      <ul class="toc">
-      <li><a href="#monkey-patching-idl"><span class="secno">2.1</span> <span class="content">Modifications to WebIDL</span></a>
+      <li><a href="#monkey-patching-idl"><span class="secno">2.1</span> <span class="content">WebIDL に関する変更点</span></a>
       <li>
-       <a href="#monkey-patching-html"><span class="secno">2.2</span> <span class="content">Modifications to HTML</span></a>
+       <a href="#monkey-patching-html"><span class="secno">2.2</span> <span class="content">HTML に関する変更点</span></a>
        <ul class="toc">
         <li><a href="#monkey-patching-shared-workers"><span class="secno">2.2.1</span> <span class="content">Shared Workers</span></a>
-        <li><a href="#monkey-patching-global-object"><span class="secno">2.2.2</span> <span class="content">Feature Detection</span></a>
+        <li><a href="#monkey-patching-global-object"><span class="secno">2.2.2</span> <span class="content">機能の判別</span></a>
        </ul>
      </ul>
     <li>
@@ -1488,60 +1488,42 @@
     </div>
    </section>
    <section>
-    <h2 class="heading settled" data-level="2" id="framework"><span class="secno">2. </span><span class="content">Framework</span><a class="self-link" href="#framework"></a></h2>
-    <p>A <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a> is considered a <dfn data-dfn-type="dfn" data-export="" id="secure-context">secure context<a class="self-link" href="#secure-context"></a></dfn> if
-  the algorithm in <a href="#settings-object">§3.1 settings object は安全なコンテキストか？</a> returns "<code>Secure</code>". The <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings
-  object</a> is otherwise <dfn data-dfn-type="dfn" data-export="" data-lt="non-secure context" id="non-secure-context">non-secure<a class="self-link" href="#non-secure-context"></a></dfn>.</p>
-    <p>Likewise, a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> is considered a <a data-link-type="dfn" href="#secure-context">secure context</a> if its <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> is a <a data-link-type="dfn" href="#secure-context">secure context</a>.</p>
-    <h3 class="heading settled" data-level="2.1" id="monkey-patching-idl"><span class="secno">2.1. </span><span class="content">Modifications to WebIDL</span><a class="self-link" href="#monkey-patching-idl"></a></h3>
-    <p>A new <code>[SecureContext]</code> attribute is available for operators, which ensures
-  that they will only be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-exposed">exposed</a> into secure contexts. The following
-  example should help:</p>
-    <div class="example" id="example-bb4ea7aa">
-     <a class="self-link" href="#example-bb4ea7aa"></a>
+    <h2 class="heading settled" data-level="2" id="framework"><span class="secno">2. </span><span class="content">枠組み</span><a class="self-link" href="#framework"></a></h2>
+    <p><a href="#settings-object">§3.1 settings object は安全なコンテキストか？</a> に示されるアルゴリズムが "<code>Secure</code>" を返した場合、その <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a> は <dfn data-dfn-type="dfn" data-export="" id="secure-context">secure context<a class="self-link" href="#secure-context"></a></dfn> であると見なされ、その他の場合は <dfn data-dfn-type="dfn" data-export="" data-lt="non-secure context" id="non-secure-context">non-secure<a class="self-link" href="#non-secure-context"></a></dfn> であると見なされます。</p>
+    <p>同様にして、ある <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> が <a data-link-type="dfn" href="#secure-context">secure context</a> と見なされるのは、その <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> が <a data-link-type="dfn" href="#secure-context">secure context</a> である場合です。</p>
+    <h3 class="heading settled" data-level="2.1" id="monkey-patching-idl"><span class="secno">2.1. </span><span class="content">WebIDL に関する変更点</span><a class="self-link" href="#monkey-patching-idl"></a></h3>
+    <p><code>[SecureContext]</code> という新しい属性値は、安全なコンテキストにのみ <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-exposed">exposed</a> されることを保障したい処理に付加できます。以下の例が参考になるはずです。</p>
+    <div class="example" id="example-f9b10981">
+     <a class="self-link" href="#example-f9b10981"></a>
 <pre class="idl">interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="examplefeature">ExampleFeature<a class="self-link" href="#examplefeature"></a></dfn> {
-  // This call will succeed in all contexts.
+  // この呼び出しはすべてのコンテキストで成功します
   Promise &lt;double> <dfn class="idl-code" data-dfn-for="ExampleFeature" data-dfn-type="method" data-export="" data-lt="calculateNotSoSecretResult()" id="dom-examplefeature-calculatenotsosecretresult">calculateNotSoSecretResult<a class="self-link" href="#dom-examplefeature-calculatenotsosecretresult"></a></dfn>();
 
-  // This operation will not be exposed to a non-secure context. If such a context
-  // is somehow able to call it despite this precaution, the Promise will be
-  // immedietely rejected with a 'SecurityError' exception.
+  // この処理は安全でないコンテキストからアクセスできません。もしそのようなコンテキストが何らかの方法によって、
+  // この条件なしに処理を呼び出せた場合、Promise は直ちに 'SecurityError' 例外を送出します。
   [SecureContext] Promise&lt;double> <dfn class="idl-code" data-dfn-for="ExampleFeature" data-dfn-type="method" data-export="" data-lt="calculateSecretResult()" id="dom-examplefeature-calculatesecretresult">calculateSecretResult<a class="self-link" href="#dom-examplefeature-calculatesecretresult"></a></dfn>();
 
-  // The same applies here: the operation will not be exposed to a non-secure context,
-  // and if somehow called from a non-secure context, a 'SecurityError'
-  // exception will be thrown.
+  // 同じことがここにも当てはまります。この処理は安全でないコンテキストからはアクセスできませんが、もし何らかの
+  // 方法によって呼び出された場合は 'SecurityError' 例外が送出されます。
   [SecureContext] boolean <dfn class="idl-code" data-dfn-for="ExampleFeature" data-dfn-type="method" data-export="" data-lt="getSecretBoolean()" id="dom-examplefeature-getsecretboolean">getSecretBoolean<a class="self-link" href="#dom-examplefeature-getsecretboolean"></a></dfn>();
 };
 </pre>
     </div>
-    <p>Specification authors are encouraged to use this attribute when defining new
-  features.</p>
-    <p class="issue" id="issue-020b0dc4"><a class="self-link" href="#issue-020b0dc4"></a> This addition is currently under review. <a href="https://github.com/heycam/webidl/issues/65">&lt;https://github.com/heycam/webidl/issues/65></a></p>
-    <h3 class="heading settled" data-level="2.2" id="monkey-patching-html"><span class="secno">2.2. </span><span class="content">Modifications to HTML</span><a class="self-link" href="#monkey-patching-html"></a></h3>
+    <p>仕様書の著者には、新しい機能を定義する際にこの属性値を用いることを推奨します。</p>
+    <p class="issue" id="issue-4e6a7a90"><a class="self-link" href="#issue-4e6a7a90"></a> この属性値が追加されるかどうかは現在レビュー中です。 <a href="https://github.com/heycam/webidl/issues/65">&lt;https://github.com/heycam/webidl/issues/65></a></p>
+    <h3 class="heading settled" data-level="2.2" id="monkey-patching-html"><span class="secno">2.2. </span><span class="content">HTML に関する変更点</span><a class="self-link" href="#monkey-patching-html"></a></h3>
     <h4 class="heading settled" data-level="2.2.1" id="monkey-patching-shared-workers"><span class="secno">2.2.1. </span><span class="content">Shared Workers</span><a class="self-link" href="#monkey-patching-shared-workers"></a></h4>
-    <p>The <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#dom-sharedworker">SharedWorker()</a></code> constructor will throw a <code>SecurityError</code> exception if
-  a <a data-link-type="dfn" href="#secure-context">secure context</a> attempts to attach to an Worker which is not a <a data-link-type="dfn" href="#secure-context">secure context</a>, and if a non-secure context attempts to attach to a
-  Worker which is a <a data-link-type="dfn" href="#secure-context">secure context</a>. The constructor is modified as
-  follows:</p>
+    <p><a data-link-type="dfn" href="#secure-context">secure context</a> ではない Worker に対して <a data-link-type="dfn" href="#secure-context">secure context</a> を結び付けようとした場合、または <a data-link-type="dfn" href="#secure-context">secure context</a> である Worker に対して <a data-link-type="dfn" href="#secure-context">secure context</a> でないものを結び付けようとした場合、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#dom-sharedworker">SharedWorker()</a></code> のコンストラクタは <code>SecurityError</code> 例外を投げることになります。このコンストラクタは次のように定義されています。</p>
     <ol>
      <li data-md="">
-      <p>As the first substep of the <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#dom-sharedworker">SharedWorker()</a></code> constructor’s current step
-  7.7 ("If <var>worker global scope</var> is not <code>null</code>, then run these
-  steps:"), run the following step:</p>
+      <p>現時点で定義されている <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#dom-sharedworker">SharedWorker()</a></code> コンストラクタの処理 8.7 ("If <var>worker global scope</var> is not <code>null</code>, then run these steps:") について、最初の副手続きとして以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#settings-object">§3.1 settings object は安全なコンテキストか？</a> on the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent
-  settings object</a> does not match the result of executing the same
-  algorithm on <var>worker global scope</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings
-  object</a>, then throw a <code>SecurityError</code> exception, and abort
-  these steps.</p>
+        <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> に対して <a href="#settings-object">§3.1 settings object は安全なコンテキストか？</a> のアルゴリズムを適用した結果と、<var>worker global scope</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> に対して同じアルゴリズムを適用した結果とが一致しない場合、<code>SecurityError</code> 例外を投げてこれらの処理を中止します。</p>
       </ol>
     </ol>
-    <h4 class="heading settled" data-level="2.2.2" id="monkey-patching-global-object"><span class="secno">2.2.2. </span><span class="content">Feature Detection</span><a class="self-link" href="#monkey-patching-global-object"></a></h4>
-    <p>To determine whether a context is capable of making use of features which
-  require <a data-link-type="dfn" href="#secure-context">secure contexts</a>, a simple boolean attribute is added to the
-  global object:</p>
+    <h4 class="heading settled" data-level="2.2.2" id="monkey-patching-global-object"><span class="secno">2.2.2. </span><span class="content">機能の判別</span><a class="self-link" href="#monkey-patching-global-object"></a></h4>
+    <p><a data-link-type="dfn" href="#secure-context">secure contexts</a> であることを必要とする機能があったときに、あるコンテキストからその機能が利用可能かどうかを判断するため、真偽値を持つ単純な属性値をグローバルオブジェクトに追加します。</p>
 <pre class="idl">partial interface <a class="idl-code" data-link-type="interface" href="http://www.w3.org/TR/dom/#interface-window">Window</a> {
   readonly attribute boolean <dfn class="idl-code" data-dfn-for="Window" data-dfn-type="attribute" data-export="" data-readonly="" data-type="boolean " id="dom-window-issecurecontext">isSecureContext<a class="self-link" href="#dom-window-issecurecontext"></a></dfn>;
 };
@@ -1550,7 +1532,7 @@ partial interface <a class="idl-code" data-link-type="interface" href="http://ww
   readonly attribute boolean <dfn class="idl-code" data-dfn-for="WorkerGlobalScope" data-dfn-type="attribute" data-export="" data-readonly="" data-type="boolean " id="dom-workerglobalscope-issecurecontext">isSecureContext<a class="self-link" href="#dom-workerglobalscope-issecurecontext"></a></dfn>;
 };
 </pre>
-    <p>Both <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-window">Window</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-window-issecurecontext">isSecureContext</a></code> and <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#workerglobalscope">WorkerGlobalScope</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-workerglobalscope-issecurecontext">isSecureContext</a></code> attributes' getters return <code>true</code> if the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> for the getter’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> is a <a data-link-type="dfn" href="#secure-context">secure context</a>, and <code>false</code> otherwise.</p>
+    <p><code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-window">Window</a></code> における <code class="idl"><a data-link-type="idl" href="#dom-window-issecurecontext">isSecureContext</a></code>、ならびに <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#workerglobalscope">WorkerGlobalScope</a></code> における <code class="idl"><a data-link-type="idl" href="#dom-workerglobalscope-issecurecontext">isSecureContext</a></code> のゲッターは、そのゲッターの <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> に対する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> が <a data-link-type="dfn" href="#secure-context">secure context</a> であれば <code>true</code> を返し、それ以外の場合は <code>false</code> を返します。</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="3" id="algorithms"><span class="secno">3. </span><span class="content">アルゴリズム</span><a class="self-link" href="#algorithms"></a></h2>
@@ -2004,17 +1986,15 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="ano
   </dl>
   <h2 class="no-num heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
 <pre class="idl">interface <a href="#examplefeature">ExampleFeature</a> {
-  // This call will succeed in all contexts.
+  // この呼び出しはすべてのコンテキストで成功します
   Promise &lt;double> <a href="#dom-examplefeature-calculatenotsosecretresult">calculateNotSoSecretResult</a>();
 
-  // This operation will not be exposed to a non-secure context. If such a context
-  // is somehow able to call it despite this precaution, the Promise will be
-  // immedietely rejected with a 'SecurityError' exception.
+  // この処理は安全でないコンテキストからアクセスできません。もしそのようなコンテキストが何らかの方法によって、
+  // この条件なしに処理を呼び出せた場合、Promise は直ちに 'SecurityError' 例外を送出します。
   [SecureContext] Promise&lt;double> <a href="#dom-examplefeature-calculatesecretresult">calculateSecretResult</a>();
 
-  // The same applies here: the operation will not be exposed to a non-secure context,
-  // and if somehow called from a non-secure context, a 'SecurityError'
-  // exception will be thrown.
+  // 同じことがここにも当てはまります。この処理は安全でないコンテキストからはアクセスできませんが、もし何らかの
+  // 方法によって呼び出された場合は 'SecurityError' 例外が送出されます。
   [SecureContext] boolean <a href="#dom-examplefeature-getsecretboolean">getSecretBoolean</a>();
 };
 
@@ -2040,7 +2020,7 @@ interface <a href="#anothersensitivefeature">AnotherSensitiveFeature</a> {
 </pre>
   <h2 class="no-num heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
-   <div class="issue"> This addition is currently under review. <a href="https://github.com/heycam/webidl/issues/65">&lt;https://github.com/heycam/webidl/issues/65></a><a href="#issue-020b0dc4"> ↵ </a></div>
+   <div class="issue"> この属性値が追加されるかどうかは現在レビュー中です。 <a href="https://github.com/heycam/webidl/issues/65">&lt;https://github.com/heycam/webidl/issues/65></a><a href="#issue-4e6a7a90"> ↵ </a></div>
   </div>
  </body>
 </html>

@@ -544,70 +544,50 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
 </section>
 
 <section>
-  <h2 id="framework">Framework</h2>
+  <h2 id="framework">枠組み</h2>
 
-  A <a>settings object</a> is considered a <dfn export>secure context</dfn> if
-  the algorithm in [[#settings-object]] returns "`Secure`". The <a>settings
-  object</a> is otherwise <dfn export lt="non-secure context">non-secure</dfn>.
+  [[#settings-object]] に示されるアルゴリズムが "`Secure`" を返した場合、その <a>settings object</a> は <dfn export>secure context</dfn> であると見なされ、その他の場合は <dfn export lt="non-secure context">non-secure</dfn> であると見なされます。
 
-  Likewise, a <a>global object</a> is considered a <a>secure context</a> if its
-  <a>relevant settings object</a> is a <a>secure context</a>.
+  同様にして、ある <a>global object</a> が <a>secure context</a> と見なされるのは、その <a>relevant settings object</a> が <a>secure context</a> である場合です。
 
-  <h3 id="monkey-patching-idl">Modifications to WebIDL</h3>
+  <h3 id="monkey-patching-idl">WebIDL に関する変更点</h3>
 
-  A new `[SecureContext]` attribute is available for operators, which ensures
-  that they will only be <a>exposed</a> into secure contexts. The following
-  example should help:
+  `[SecureContext]` という新しい属性値は、安全なコンテキストにのみ <a>exposed</a> されることを保障したい処理に付加できます。以下の例が参考になるはずです。
 
   <div class="example">
     <pre class="idl">
       interface ExampleFeature {
-        // This call will succeed in all contexts.
-        Promise &lt;double> calculateNotSoSecretResult();
+        // この呼び出しはすべてのコンテキストで成功します
+        Promise &lt;double&gt; calculateNotSoSecretResult();
 
-        // This operation will not be exposed to a non-secure context. If such a context
-        // is somehow able to call it despite this precaution, the Promise will be
-        // immedietely rejected with a 'SecurityError' exception.
-        [SecureContext] Promise&lt;double> calculateSecretResult();
+        // この処理は安全でないコンテキストからアクセスできません。もしそのようなコンテキストが何らかの方法によって、
+        // この条件なしに処理を呼び出せた場合、Promise は直ちに 'SecurityError' 例外を送出します。
+        [SecureContext] Promise&lt;double&gt; calculateSecretResult();
 
-        // The same applies here: the operation will not be exposed to a non-secure context,
-        // and if somehow called from a non-secure context, a 'SecurityError'
-        // exception will be thrown.
+        // 同じことがここにも当てはまります。この処理は安全でないコンテキストからはアクセスできませんが、もし何らかの
+        // 方法によって呼び出された場合は 'SecurityError' 例外が送出されます。
         [SecureContext] boolean getSecretBoolean();
       };
     </pre>
   </div>
 
-  Specification authors are encouraged to use this attribute when defining new
-  features.
+  仕様書の著者には、新しい機能を定義する際にこの属性値を用いることを推奨します。
 
-  ISSUE(heycam/webidl#65): This addition is currently under review.
+  ISSUE(heycam/webidl#65): この属性値が追加されるかどうかは現在レビュー中です。
 
-  <h3 id="monkey-patching-html">Modifications to HTML</h3>
+  <h3 id="monkey-patching-html">HTML に関する変更点</h3>
 
   <h4 id="monkey-patching-shared-workers">Shared Workers</h4>
 
-  The {{SharedWorker()}} constructor will throw a `SecurityError` exception if
-  a <a>secure context</a> attempts to attach to an Worker which is not a
-  <a>secure context</a>, and if a non-secure context attempts to attach to a
-  Worker which is a <a>secure context</a>. The constructor is modified as
-  follows:
+  <a>secure context</a> ではない Worker に対して <a>secure context</a> を結び付けようとした場合、または <a>secure context</a> である Worker に対して <a>secure context</a> でないものを結び付けようとした場合、{{SharedWorker()}} のコンストラクタは `SecurityError` 例外を投げることになります。このコンストラクタは次のように定義されています。
 
-  1.  As the first substep of the {{SharedWorker()}} constructor's current step
-      7.7 ("If <var>worker global scope</var> is not `null`, then run these
-      steps:"), run the following step:
+  1.  現時点で定義されている {{SharedWorker()}} コンストラクタの処理 8.7 ("If <var>worker global scope</var> is not `null`, then run these steps:") について、最初の副手続きとして以下を実行します。
 
-      1.  If the result of executing [[#settings-object]] on the <a>incumbent
-          settings object</a> does not match the result of executing the same
-          algorithm on <var>worker global scope</var>'s <a>relevant settings
-          object</a>, then throw a `SecurityError` exception, and abort
-          these steps.
+      1.  <a>incumbent settings object</a> に対して [[#settings-object]] のアルゴリズムを適用した結果と、<var>worker global scope</var> の <a>relevant settings object</a> に対して同じアルゴリズムを適用した結果とが一致しない場合、`SecurityError` 例外を投げてこれらの処理を中止します。
 
-  <h4 id="monkey-patching-global-object">Feature Detection</h4>
+  <h4 id="monkey-patching-global-object">機能の判別</h4>
 
-  To determine whether a context is capable of making use of features which
-  require <a>secure contexts</a>, a simple boolean attribute is added to the
-  global object:
+  <a>secure contexts</a> であることを必要とする機能があったときに、あるコンテキストからその機能が利用可能かどうかを判断するため、真偽値を持つ単純な属性値をグローバルオブジェクトに追加します。
 
   <pre class="idl">
     partial interface Window {
@@ -619,11 +599,7 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
     };
   </pre>
 
-  Both {{Window}}'s {{Window/isSecureContext}} and {{WorkerGlobalScope}}'s
-  {{WorkerGlobalScope/isSecureContext}} attributes' getters return
-  <code>true</code> if the <a>relevant settings object</a> for the getter's
-  <a>global object</a> is a <a>secure context</a>, and <code>false</code>
-  otherwise.
+  {{Window}} における {{Window/isSecureContext}}、ならびに {{WorkerGlobalScope}} における {{WorkerGlobalScope/isSecureContext}} のゲッターは、そのゲッターの <a>global object</a> に対する <a>relevant settings object</a> が <a>secure context</a> であれば <code>true</code> を返し、それ以外の場合は <code>false</code> を返します。
 </section>
 
 <section>
