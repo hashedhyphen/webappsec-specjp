@@ -5,7 +5,10 @@ const server = require('gulp-webserver');
 
 gulp.task('watch', () => {
   return gulp.watch('./**/*.bs', (ev) => {
-    spawn('bikeshed', [], { cwd: path.dirname(ev.path) });
+    spawn('bikeshed', ['-f', 'spec'], {
+      cwd: path.dirname(ev.path),
+      stdio: 'inherit'
+    });
   });
 });
 

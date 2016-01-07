@@ -1537,44 +1537,36 @@ partial interface <a class="idl-code" data-link-type="interface" href="http://ww
    <section>
     <h2 class="heading settled" data-level="3" id="algorithms"><span class="secno">3. </span><span class="content">アルゴリズム</span><a class="self-link" href="#algorithms"></a></h2>
     <h3 class="heading settled" data-level="3.1" id="settings-object"><span class="secno">3.1. </span><span class="content"> <var>settings object</var> は安全なコンテキストか？ </span><a class="self-link" href="#settings-object"></a></h3>
-    <p>Given a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a> (<var>settings object</var>), this algorithm returns
-  "<code>Secure</code>" if the object represents a context which the user agent obtained
-  via a secure channel, and "<code>Not Secure</code>" otherwise.</p>
+    <p>ある <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings object</a> (<var>settings object</var>) に対するこのアルゴリズムは、ユーザエージェントが安全な通信路から取得したコンテキストをそのオブジェクトが表すときに "<code>Secure</code>" を返し、それ以外のときは "<code>Not Secure</code>" を返します。</p>
     <ol>
      <li data-md="">
-      <p>Let <var>ancestors</var> be an empty list.</p>
+      <p><var>ancestors</var> に空のリストを代入します。</p>
      <li data-md="">
-      <p>If <var>settings object</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> is a <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#workerglobalscope">WorkerGlobalScope</a></code>, then:</p>
+      <p>ここで <var>settings object</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> が <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#workerglobalscope">WorkerGlobalScope</a></code> である場合、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>Add <var>settings object</var> to <var>ancestors</var>.</p>
+        <p><var>ancestors</var> に <var>settings object</var> を追加します。</p>
        <li data-md="">
-        <p>For each <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> (<var>document</var>) in <var>settings object</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global
-  object</a>’s list of <a data-link-type="dfn" href="http://www.w3.org/TR/workers/#the-workers-documents">the worker’s <code>Documents</code></a>:</p>
+        <p><var>settings object</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> における <a data-link-type="dfn">worker’s <code>Documents</code></a> のリストに関して、そのリストに含まれている各 <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> (<var>document</var>) について以下を実行します。</p>
         <ol>
          <li data-md="">
-          <p>Add each item in the result of executing <a href="#gather-ancestors">§3.3 Gather document’s relevant ancestors</a> on <var>document</var> to <var>ancestors</var>.</p>
+          <p>アルゴリズム <a href="#gather-ancestors">§3.3 Gather document’s relevant ancestors</a> を <var>document</var> に適用した結果に含まれる各要素を <var>ancestors</var> に追加します。</p>
         </ol>
       </ol>
      <li data-md="">
-      <p>Otherwise, <var>settings object</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> is a <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-window">Window</a></code>, so:</p>
+      <p>そうではない場合、<var>settings object</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> は <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-window">Window</a></code> であるため、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>Add each item in the result of executing <a href="#gather-ancestors">§3.3 Gather document’s relevant ancestors</a> on <var>settings object</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> to <var>ancestors</var>.</p>
+        <p>アルゴリズム <a href="#gather-ancestors">§3.3 Gather document’s relevant ancestors</a> を <var>settings object</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> に適用した結果に含まれる各要素を <var>ancestors</var> に追加します。</p>
       </ol>
      <li data-md="">
-      <p>For each <var>ancestor settings object</var> in <var>ancestors</var>:</p>
+      <p><var>ancestors</var> に含まれる各要素 <var>ancestor settings object</var> に対して以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>The user agent MAY return "<code>Not Secure</code>" if <var>ancestor settings
-  object</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#effective-script-origin">effective script origin</a> is <em>not</em> an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#concept-origin-alias">alias</a> to its <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#origin">origin</a>.</p>
-        <p class="note" role="note">Note: This allows user agents the option of treating documents as
-  non-secure contexts if they relax same-origin restrictions via <code>{{document.domain}}</code>. This feature’s usage is widespread enough to
-  make it difficult for this behavior to be a requirement, but user
-  agents are encouraged to migrate to this behavior over time.</p>
+        <p><var>ancestor settings object</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#effective-script-origin">effective script origin</a> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#origin">origin</a> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#concept-origin-alias">alias</a> <em>ではない</em> 場合、ユーザエージェントは "<code>Not Secure</code>" を返してもよいです（MAY）。</p>
+        <p class="note" role="note">Note: This allows user agents the option of treating documents as non-secure contexts if they relax same-origin restrictions via <code class="idl"><a data-link-type="idl">document.domain</a></code>. This feature’s usage is widespread enough to make it difficult for this behavior to be a requirement, but user agents are encouraged to migrate to this behavior over time.</p>
        <li data-md="">
-        <p>If <var>ancestor settings object</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#https-state">HTTPS state</a> is "<code>modern</code>", skip
-  to the next <var>ancestor settings object</var>.</p>
+        <p>ここで <var>ancestor settings object</var> の <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#https-state">HTTPS state</a> が "<code>modern</code>" である場合、次の <var>ancestor settings object</var> の処理へ移ります。</p>
         <div class="note" role="note">
           Most of the time, this check will be enough to determine whether
     a particular context was securely delivered. Documents delivered over
@@ -1586,20 +1578,18 @@ partial interface <a class="idl-code" data-link-type="interface" href="http://ww
     delivered from "trustworthy" but unauthenticated locations like <code>http://127.0.0.1/</code>.</p>
         </div>
        <li data-md="">
-        <p>Let <var>origin</var> be <var>ancestor settings object</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#origin">origin</a>.</p>
+        <p><var>origin</var> に <var>ancestor settings object</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#origin">origin</a> を代入します。</p>
        <li data-md="">
-        <p>If <var>origin</var> is an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#origin">opaque identifier</a>, set <var>origin</var> to the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> of <var>settings object</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url">creation
-  URL</a>.</p>
+        <p>ここで <var>origin</var> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#origin">opaque identifier</a> である場合、<var>settings object</var> の <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url">creation URL</a> における <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> を <var>origin</var> とします。</p>
         <p class="note" role="note">Note: We use the origin of the URL here in order to allow sandboxed
   context to remain secure (as sandboxing is a strict reduction in the
   context’s capabilities, and therefore to the risk it poses). This
   covers scenarios such as <code>&lt;iframe sandbox src="http://localhost/"></code>.</p>
        <li data-md="">
-        <p>If the result of executing the <a href="#is-origin-trustworthy">§3.2 origin は潜在的に信頼できるか？</a> algorithm
-  on <var>origin</var> is <strong>not</strong> <code>Potentially Trustworthy</code>, then return "<code>Not Secure</code>".</p>
+        <p>ここで、<var>origin</var> に対してアルゴリズム <a href="#is-origin-trustworthy">§3.2 origin は潜在的に信頼できるか？</a> を適用した結果が <code>Potentially Trustworthy</code> <strong>ではない</strong>場合は "<code>Not Secure</code>" を返します。</p>
       </ol>
      <li data-md="">
-      <p>Return "<code>Secure</code>".</p>
+      <p>"<code>Secure</code>" を返します。</p>
     </ol>
     <h3 class="heading settled" data-level="3.2" id="is-origin-trustworthy"><span class="secno">3.2. </span><span class="content"> <var>origin</var> は潜在的に信頼できるか？ </span><a class="self-link" href="#is-origin-trustworthy"></a></h3>
     <p>A <dfn data-dfn-type="dfn" data-export="" id="potentially-trustworthy-origin">potentially trustworthy origin<a class="self-link" href="#potentially-trustworthy-origin"></a></dfn> is one which a user agent
@@ -1915,7 +1905,6 @@ interface <dfn class="idl-code" data-dfn-type="interface" data-export="" id="ano
     <ul>
      <li><a href="http://www.w3.org/TR/workers/#dom-sharedworker">SharedWorker()</a>
      <li><a href="http://www.w3.org/TR/workers/#workerglobalscope">WorkerGlobalScope</a>
-     <li><a href="http://www.w3.org/TR/workers/#the-workers-documents">the worker's documents</a>
     </ul>
    <li>
     <a data-link-type="biblio" href="#biblio-html">[HTML]</a> defines the following terms:

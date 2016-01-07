@@ -609,42 +609,30 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
     |settings object| は安全なコンテキストか？
   </h3>
 
-  Given a <a>settings object</a> (|settings object|), this algorithm returns
-  "`Secure`" if the object represents a context which the user agent obtained
-  via a secure channel, and "`Not Secure`" otherwise.
+  ある <a>settings object</a> (|settings object|) に対するこのアルゴリズムは、ユーザエージェントが安全な通信路から取得したコンテキストをそのオブジェクトが表すときに "`Secure`" を返し、それ以外のときは "`Not Secure`" を返します。
 
-  1.  Let |ancestors| be an empty list.
+  1.  |ancestors| に空のリストを代入します。
 
-  2.  If |settings object|'s <a>global object</a> is a
-      {{WorkerGlobalScope}}, then:
+  2.  ここで |settings object| の <a>global object</a> が
+      {{WorkerGlobalScope}} である場合、以下を実行します。
 
-      1.  Add |settings object| to |ancestors|.
+      1.  |ancestors| に |settings object| を追加します。
 
-      2.  For each {{Document}} (|document|) in |settings object|'s <a>global
-          object</a>'s list of <a>the worker's `Documents`</a>:
+      2.  |settings object| の <a>global object</a> における <a>worker's `Documents`</a> のリストに関して、そのリストに含まれている各 {{Document}} (|document|) について以下を実行します。
 
-          1.  Add each item in the result of executing [[#gather-ancestors]] on
-              |document| to |ancestors|.
+          1.  アルゴリズム [[#gather-ancestors]] を |document| に適用した結果に含まれる各要素を |ancestors| に追加します。
 
-  3.  Otherwise, |settings object|'s <a>global object</a> is a {{Window}}, so:
+  3.  そうではない場合、|settings object| の <a>global object</a> は {{Window}} であるため、以下を実行します。
 
-      1.  Add each item in the result of executing [[#gather-ancestors]] on
-          |settings object|'s <a>responsible document</a> to |ancestors|.
+      1.  アルゴリズム [[#gather-ancestors]] を |settings object| の <a>responsible document</a> に適用した結果に含まれる各要素を |ancestors| に追加します。
 
-  4.  For each |ancestor settings object| in |ancestors|:
+  4.  |ancestors| に含まれる各要素 |ancestor settings object| に対して以下を実行します。
 
-      1.  The user agent MAY return "`Not Secure`" if |ancestor settings
-          object|'s <a>effective script origin</a> is <em>not</em> an
-          <a>alias</a> to its <a>origin</a>.
+      1.  |ancestor settings object| の <a>effective script origin</a> が <a>origin</a> の <a>alias</a> <em>ではない</em> 場合、ユーザエージェントは "`Not Secure`" を返してもよいです（MAY）。
 
-          Note: This allows user agents the option of treating documents as
-          non-secure contexts if they relax same-origin restrictions via
-          `{{document.domain}}`. This feature's usage is widespread enough to
-          make it difficult for this behavior to be a requirement, but user
-          agents are encouraged to migrate to this behavior over time.
+          Note: This allows user agents the option of treating documents as non-secure contexts if they relax same-origin restrictions via {{document.domain}}. This feature’s usage is widespread enough to make it difficult for this behavior to be a requirement, but user agents are encouraged to migrate to this behavior over time.
 
-      2.  If |ancestor settings object|'s <a>HTTPS state</a> is "`modern`", skip
-          to the next |ancestor settings object|.
+      2.  ここで |ancestor settings object| の <a>HTTPS state</a> が "`modern`" である場合、次の |ancestor settings object| の処理へ移ります。
 
           <div class="note">
             Most of the time, this check will be enough to determine whether
@@ -659,22 +647,18 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
             `http://127.0.0.1/`.
           </div>
 
-      3.  Let |origin| be |ancestor settings object|'s <a>origin</a>.
+      3.  |origin| に |ancestor settings object| の <a>origin</a> を代入します。
 
-      4.  If |origin| is an <a>opaque identifier</a>, set |origin| to the
-          <a lt="origin of a url">origin</a> of |settings object|'s <a>creation
-          URL</a>.
+      4.  ここで |origin| が <a>opaque identifier</a> である場合、|settings object| の <a>creation URL</a> における <a lt="origin of a url">origin</a> を |origin| とします。
 
           Note: We use the origin of the URL here in order to allow sandboxed
           context to remain secure (as sandboxing is a strict reduction in the
           context's capabilities, and therefore to the risk it poses). This
           covers scenarios such as `<iframe sandbox src="http://localhost/">`.
 
-      5.  If the result of executing the [[#is-origin-trustworthy]] algorithm
-          on |origin| is <strong>not</strong> `Potentially
-          Trustworthy`, then return "`Not Secure`".
+      5.  ここで、|origin| に対してアルゴリズム [[#is-origin-trustworthy]] を適用した結果が `Potentially Trustworthy` <strong>ではない</strong>場合は "`Not Secure`" を返します。
 
-  5.  Return "`Secure`".
+  5.  "`Secure`" を返します。
 
   <h3 id="is-origin-trustworthy">
     <var>origin</var> は潜在的に信頼できるか？
