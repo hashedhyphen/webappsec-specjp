@@ -609,7 +609,7 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
     |settings object| は安全なコンテキストか？
   </h3>
 
-  ある <a>settings object</a> (|settings object|) に対するこのアルゴリズムは、ユーザエージェントが安全な通信路から取得したコンテキストをそのオブジェクトが表すときに "`Secure`" を返し、それ以外のときは "`Not Secure`" を返します。
+  ある <a>settings object</a> (|settings object|) に適用されるこのアルゴリズムは、そのオブジェクトがユーザエージェントによって安全な通信路から取得されたコンテキストを表すときに "`Secure`" を返し、それ以外のときは "`Not Secure`" を返します。
 
   1.  |ancestors| に空のリストを代入します。
 
@@ -620,41 +620,31 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
 
       2.  |settings object| の <a>global object</a> における <a>worker's `Documents`</a> のリストに関して、そのリストに含まれている各 {{Document}} (|document|) について以下を実行します。
 
-          1.  アルゴリズム [[#gather-ancestors]] を |document| に適用した結果に含まれる各要素を |ancestors| に追加します。
+          1.  アルゴリズム [[#gather-ancestors]] を |document| へ適用した結果に含まれる各要素を |ancestors| に追加します。
 
   3.  そうではない場合、|settings object| の <a>global object</a> は {{Window}} であるため、以下を実行します。
 
-      1.  アルゴリズム [[#gather-ancestors]] を |settings object| の <a>responsible document</a> に適用した結果に含まれる各要素を |ancestors| に追加します。
+      1.  アルゴリズム [[#gather-ancestors]] を |settings object| の <a>responsible document</a> へ適用した結果に含まれる各要素を |ancestors| に追加します。
 
-  4.  |ancestors| に含まれる各要素 |ancestor settings object| に対して以下を実行します。
+  4.  |ancestors| 内の各要素 |ancestor settings object| に対して以下を実行します。
 
       1.  |ancestor settings object| の <a>effective script origin</a> が <a>origin</a> の <a>alias</a> <em>ではない</em> 場合、ユーザエージェントは "`Not Secure`" を返してもよいです（MAY）。
 
-          Note: This allows user agents the option of treating documents as non-secure contexts if they relax same-origin restrictions via {{document.domain}}. This feature’s usage is widespread enough to make it difficult for this behavior to be a requirement, but user agents are encouraged to migrate to this behavior over time.
+          Note: ユーザエージェントが {{document.domain}} を通じて同一オリジンポリシーを緩和させたい場合、上記のことからドキュメントを安全ではないコンテキストとして扱うことが可能になります。この機能の利用範囲はとても幅広く、この動作を仕様として要求するのは難しいですが、ユーザエージェントはこの機能をいずれ実装することが推奨されます。
 
       2.  ここで |ancestor settings object| の <a>HTTPS state</a> が "`modern`" である場合、次の |ancestor settings object| の処理へ移ります。
 
           <div class="note">
-            Most of the time, this check will be enough to determine whether
-            a particular context was securely delivered. Documents delivered over
-            TLS will have the flag set, and `srcdoc` `Document`s inherit their
-            ancestor's flag (as do other kinds of requests which inherit their
-            requestor's origin: see the <a>basic fetch</a> algorithm for details
-            on some of these [[FETCH]]).
+            補足: ほとんどの場合、そのコンテキストが安全に送信されたかどうかを判断するにはこの確認で十分です。TLS で送信されたドキュメントはこのフラグをセットするうえ、`srcdoc` `Document` は自身の親のフラグを継承します（発行元のオリジンを継承するリクエストなども同じ振る舞いをします。これらに関する詳細は <a>basic fetch</a> アルゴリズムを参照してください [[FETCH]]）。
 
-            We'll only continue past this check when dealing with resources
-            delivered from "trustworthy" but unauthenticated locations like
-            `http://127.0.0.1/`.
+            `http://127.0.0.1` のように "trustworthy" ではあるが認証はされていない場所から送信されたリソースに限り、この確認をスキップすることになります。
           </div>
 
       3.  |origin| に |ancestor settings object| の <a>origin</a> を代入します。
 
-      4.  ここで |origin| が <a>opaque identifier</a> である場合、|settings object| の <a>creation URL</a> における <a lt="origin of a url">origin</a> を |origin| とします。
+      4.  ここで |origin| が <a>opaque identifier</a> である場合、|settings object| の <a>creation URL</a> における <a lt="origin of a url">origin</a> を |origin| に代入します。
 
-          Note: We use the origin of the URL here in order to allow sandboxed
-          context to remain secure (as sandboxing is a strict reduction in the
-          context's capabilities, and therefore to the risk it poses). This
-          covers scenarios such as `<iframe sandbox src="http://localhost/">`.
+          Note: ここでは、サンドボックス化されたコンテキストの安全性を維持するために URL のオリジンを用いています（サンドボックスはコンテキストが実行できる内容を厳しく制限するものであり、及ぼすリスクのためです）。これは `<iframe sandbox src="http://localhost/">` のような場合を考慮したものです。
 
       5.  ここで、|origin| に対してアルゴリズム [[#is-origin-trustworthy]] を適用した結果が `Potentially Trustworthy` <strong>ではない</strong>場合は "`Not Secure`" を返します。
 
