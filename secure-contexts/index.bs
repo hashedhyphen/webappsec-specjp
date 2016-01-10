@@ -654,67 +654,38 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
     <var>origin</var> は潜在的に信頼できるか？
   </h3>
 
-  A <dfn export>potentially trustworthy origin</dfn> is one which a user agent
-  can generally trust as delivering data securely.
+  <dfn export>potentially trustworthy origin</dfn> とは、データが安全に送信されるものとユーザエージェントが通常みなせるものを指します。
 
-  This algorithms considers certain hosts, scheme, and origins as potentially
-  trustworthy, even though they might not be authenticated and encrypted in the
-  traditional sense. In particular, the user agent SHOULD treat `file` URLs and
-  URLs with hostnames names equivalent to `localhost` as potentially
-  trustworthy. In principle the user agent could treat local files and local web
-  servers as untrustworthy, but, <em>given the information that is available to
-  the user agent at runtime</em>, the resources appear to have been transported
-  securely from disk to the user agent. Additionally, treating such resources as
-  potentially trustworthy is convenient for developers building an application
-  before deploying it to the public.
+  このアルゴリズムは特定のホストとスキーム、オリジンについて、認証や暗号化が行われていない場合でも慣例に従い、これらは潜在的に信頼できるものとみなします。ユーザエージェントは特に、`file` URL ならびに `localhost` と等価なホスト名を持つ URL を潜在的に信頼できるものとして扱うべきです（SHOULD）。ローカルファイルとローカルサーバを信頼しないことは原理的に可能ですが、実行時にユーザエージェントが取得できる情報を考慮すると、そのリソースはディスクからユーザエージェントへ安全に送信されたと考えられます。加えて、そのようなリソースを潜在的に信頼できるものとみなすことにより、デプロイ前のアプリ開発者にとって都合がよくなります。
 
-  This developer-friendlyness is not without risk, however. User agents which
-  prioritize security over such niceties MAY choose to more strictly assign
-  trust in a way which excludes `localhost.` and `file`.
+  しかし、このように開発者の利便性を優先してもリスクは増えません。ユーザエージェントが先程のような利点よりも安全性を優先する場合、`localhost.` や `file` を除外することでより厳しい信頼性を確保してもよいです（MAY）。
 
-  On the other hand, the user agent MAY choose to extend this trust to other,
-  vendor-specific URL schemes like `app:` or `chrome-extension:` which it can
-  determine <i lang="la">a priori</i> to be trusted (see
-  [[#packaged-applications]] for detail).
+  これとは反対に、信頼できるスキームかどうかを<i>アプリオリに</i>判断できる、`app:`、`chrome-extension:` といったベンダー定義のスキームまで、ユーザエージェントは信頼できるスキームの範囲を広げてもよいです（MAY）（詳しくは [[#packaged-applications]] を参照してください）。
 
-  Given an <a>origin</a> (|origin|), the following algorithm returns
-  "`Potentially Trustworthy`" or "`Not Trustworthy`" as appropriate.
+  ある <a>origin</a> (|origin|) が与えられた際に、以下のアルゴリズムは "`Potentially Trustworthy`" か "`Not Trustworthy`" のどちらか適切な方を返します。
 
-  1.  If |origin| is an <a>opaque identifier</a>, return "`Not Trustworthy`".
+  1.  ここで |origin| が <a>opaque identifier</a> であった場合、"`Not Trustworthy`" を返します。
 
-  2.  If |origin|'s `scheme` is either "`https`" or "`wss`", return
-      "`Potentially Trustworthy`".
+  2.  ここで |origin| の `scheme` が `https`" または "`wss`" のどちらかであった場合、"`Potentially Trustworthy`" を返します。
 
-      Note: This is meant to be analog to the <a><i lang="la">a priori</i>
-      authenticated URL</a> concept in [[MIX]].
+      Note: これは [[MIX]] の <a><i lang="la">a priori</i> authenticated URL</a> という概念と相似になるように意図されています。
 
-      Note: The origin of `blob:` and `filesystem:` URLs is the origin of the
-      context in which they were created. Therefore, blobs created in a
-      trustworthy origin will themselves be potentially trustworthy. The origin
-      of `data:` and `javascript:` URLs, on the other hand, is an <a>opaque
-      identifier</a>, which will not be considered potentially trustworthy.
+      Note: `blob:` と `filesystem:` URL のオリジンは、自身が作られたコンテキストのオリジンになります。したがって、潜在的に信頼できるオリジンで作られた blob は潜在的に信頼できるものになります。これに対して `data:` URL と `javascript:` URL は <a>opaque identifier</a> であり、潜在的に信頼できるものとはみなされません。
 
-  3.  If |origin|'s `host` component is or falls within "`localhost.`"
-      [[!RFC6761]], return "`Potentially Trustworthy`".
+  3.  ここで |origin| の `host` 部が "`localhost.`" [[!RFC6761]] であった場合、"`Potentially Trustworthy`" を返します。
 
-  4.  If |origin|'s `host` component matches one of the CIDR notations
-      `127.0.0.0/8` or `::1/128` [[!RFC4632]], return "`Potentially
-      Trustworthy`".
+  4.  ここで |origin| の `host` 部が `127.0.0.0/8` または `::1/128` といった CIDR 記法 [[!RFC4632]] の一つに一致する場合、"`Potentially Trustworthy`" を返します。
 
-  5.  If |origin|'s `scheme` component is `file`, return "`Potentially
-      Trustworthy`".
+  5.  ここで |origin| の `scheme` 部が `file` であった場合、"`Potentially Trustworthy`". を返します。
 
-  6.  If |origin|'s `scheme` component is one which the user agent considers to
-      be authenticated, return "`Potentially Trustworthy`".
+  6.  ここで |origin| の `scheme` 部がユーザエージェントの認証するものであった場合、"`Potentially Trustworthy`" を返します。
 
-      Note: See [[#packaged-applications]] for detail here.
+      Note: 詳しくは [[#packaged-applications]] を参照してください。
 
-  7.  If |origin| has been configured as a trustworthy origin, return
-      `Potentially Trustworthy`".
+  7.  ここで |origin| が信頼できるオリジンとして設定されていた場合、`Potentially Trustworthy`" を返します。
 
-      Note: See [[#development-environments]] for detail here.
-
-  8.  Return "`Not Trusted`".
+      Note: 詳しくは [[#development-environments]] を参照してください。
+  8.  "`Not Trusted`" を返します。
 
   <h3 id="gather-ancestors">
     Gather <var>document</var>'s relevant ancestors
