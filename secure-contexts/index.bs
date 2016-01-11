@@ -160,18 +160,14 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
 
   <em>この章は非規範的です。</em>
 
-  より便利でより強力なアプリケーションが動作できるように Web プラットフォームが拡張されるに従い、アプリケーションに必要な機能の動作範囲が、最小限のセキュリティ境界を満たすコンテキストの中だけであることを保障する必要性が高まっています。この文書では、Web における機能の濫用(see [[#threat-models]])に対する脅威モデルを説明し、新しい機能を規定する文書が組み込むべき規範的な要件を説明します(see
+  より便利でより強力なアプリケーションが動作できるように Web プラットフォームが拡張されるに従い、アプリケーションに必要な機能の動作範囲が、最小限のセキュリティ境界を満たすコンテキストの中だけであることを保障する必要性が高まっています。この文書では、Web における機能の悪用(see [[#threat-models]])に対する脅威モデルを説明し、新しい機能を規定する文書が組み込むべき規範的な要件を説明します(see
   [[#implementation-considerations]])。
 
   ここで議論される要件の中で最も明白なのは、機微・私的なデータにアクセスするアプリケーションのコードが配信されるのは、データの完全性が保障され、認証が行われ、かつ機密性が確保された通信路のみであるべきだということです。安全な通信路でコードを配信した場合でも、ユーザの安全とプライバシーに関する要件をアプリケーションが常に満たすことまでは保障できませんが、これは必要な前提条件です。
 
-  Less obviously, application code delivered over an authenticated and confidential
-  channel isn't enough in and of itself to limit the use of powerful features by
-  non-secure contexts. As [[#ancestors]] explains, cooperative frames can be
-  abused to bypass otherwise solid restrictions on a feature. The algorithms
-  defined below ensure that these bypasses are difficult and user-visible.
+  それと比べると明確ではありませんが、アプリケーションのコードが配信される通信路において真正性と機密性が確保されていた場合でも、安全ではないコンテキストによって強力な機能が使用されることを十分に防ぐことはできません。[[#ancestors]] で説明されている通り、機能の強固な制限を回避するために共存するフレームが悪用されることがあります。以下に定義されるアルゴリズムによって、このような回避が難しくなること、悪意を持った行動がユーザに見えるようになることとが保障されます。
 
-  The following examples summarize the normative text which follows:
+  以下の例では、この文書における規範的な文章を要約して説明します。
 
   <style>
     .secure {
@@ -298,13 +294,7 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
 
 
   <div class="example">
-    <p><a>top-level browsing context</a> で開かれた <code>http://non-secure.example.com/</code> が、<code>https://example.com/</code> を含む新しいウィンドウで開いた場合を考えます。このとき、前者は <a>secure context</a> ではありませんが、後者は安全でないコンテキストとの関係性を断ち切るように開かれた場合にのみ <a>secure context</a> となります。That is,
-    if the new window can access the non-secure context via `window.opener`, and
-    the non-secure context can access the secure context by grabbing a reference
-    to the window, then it
-    , because it is a new
-    top-level browsing context delivered over an authenticated and encrypted
-    channel.</p>
+    <p><a>top-level browsing context</a> で開かれた <code>http://non-secure.example.com/</code> が、<code>https://example.com/</code> のウィンドウを新しく開いた場合を考えます。このとき、前者は <a>secure context</a> ではありませんが、後者は安全でないコンテキストとの関係性を断ち切るように開かれた場合にのみ <a>secure context</a> となります。 That is, if the new window can access the non-secure context via `window.opener`, and the non-secure context can access the secure context by grabbing a reference to the window, then it, because it is a new top-level browsing context delivered over an authenticated and encrypted channel.</p>
 
     <svg width="400" height="400">
       <g transform="translate(10,10)">
@@ -733,13 +723,13 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
 
   「ネットワーク上の能動的な攻撃者」は、「ネットワーク上の受動的な攻撃者」ができることすべてに加え、ネットワークを流れるあらゆるデータを改変、阻止、再送できる攻撃手段を持っています。セキュリティやプライバシーを揺るがし、個人や団体、さらには国民全体を標的にする潜在的な敵の集団にとって、公共の無線ネットワークを提供、または単に接続しているだけの脆弱なデバイスに限らず、料金の徴収のために通信を操作していながら、セキュリティやプライバシー上の脆弱性を間接的に抱えているインターネットサービスプロバイダ（[[VERIZON]] や [[COMCAST]] が最近の例です）という具合に、対象によってさまざまな攻撃手段をとることができます。
 
-  <h3 id="ancestors">コンテキストの祖先に関するリスク</h3>
+  <h3 id="ancestors">コンテキストの親に関するリスク</h3>
 
-  そのコンテキスト自身が安全かどうかを判断する際、考察の対象とするコンテキストからその祖先すべてに至るまで [[#settings-object]] のアルゴリズムが適用されます。ところで、安全な通信路で送信された <{iframe}> 内のドキュメントを、なぜ私たちは安全であると扱わないのでしょうか？
+  そのコンテキスト自身が安全かどうかを判断する際、考察の対象とするコンテキストからその親すべてに至るまで [[#settings-object]] のアルゴリズムが適用されます。ところで、安全な通信路で送信された <{iframe}> 内のドキュメントを、なぜ私たちは安全であると扱わないのでしょうか？
 
-  簡潔に言えば、このモデルでは機能の濫用を許してしまうからです。API へのアクセスを安全なコンテキストに制限する試みは、Chrome における [[WEBCRYPTOAPI]] の実装で早くから行われていましたが、コンテキストの祖先まで制限をかけることは当時の実装において考慮されていませんでした。当時はまだ、API へのアクセスを安全に送信されてきたリソースに制限すれば、API の安全な利用は十分に保障されると考えられていました。しかし実際は Netflix のようなコンテンツが埋め込んだ <{iframe}> と `postMessage()` のブリッジにより、安全でないコンテキストからも API が利用可能になっていました。このときの対策は、安全でないコンテキストによる API へのアクセス速度を遅くする程度のことでしかなく、先程のようなアクセスはまったく防ぎようがありませんでした。
+  簡潔に言えば、このモデルでは機能の悪用を許してしまうからです。API へのアクセスを安全なコンテキストに制限する試みは、Chrome における [[WEBCRYPTOAPI]] の実装で早くから行われていましたが、コンテキストの祖先まで制限をかけることは当時の実装において考慮されていませんでした。当時はまだ、API へのアクセスを安全に送信されてきたリソースに制限すれば、API の安全な利用は十分に保障されると考えられていました。しかし実際は Netflix のようなコンテンツが埋め込んだ <{iframe}> と `postMessage()` のブリッジにより、安全でないコンテキストからも API が利用可能になっていました。このときの対策は、安全でないコンテキストによる API へのアクセス速度を遅くする程度のことでしかなく、先程のようなアクセスはまったく防ぎようがありませんでした。
 
-  この文書におけるアルゴリズムを利用しても、（[[#isolation]] で議論されているように）<a>secure contexts</a> と安全でないコンテキストとを完全に分離することはできません。しかしながら、コンテキストが提供すべき真正性、機密性、完全性は、コンテキストの祖先も確認することでかなり強固に保護することができます。
+  この文書におけるアルゴリズムを利用しても、（[[#isolation]] で議論されているように）<a>secure contexts</a> と安全でないコンテキストとを完全に分離することはできません。しかしながら、コンテキストが提供すべき真正性、機密性、完全性は、コンテキストの親も確認することでかなり強固に保護することができます。
 
   <h3 id="threat-risks">安全でないコンテキストに関連するリスク</h3>
 

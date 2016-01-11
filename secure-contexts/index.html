@@ -1107,7 +1107,7 @@
      <ul class="toc">
       <li><a href="#settings-object"><span class="secno">3.1</span> <span class="content"> <var>settings object</var> は安全なコンテキストか？ </span></a>
       <li><a href="#is-origin-trustworthy"><span class="secno">3.2</span> <span class="content"> <var>origin</var> は潜在的に信頼できるか？ </span></a>
-      <li><a href="#gather-ancestors"><span class="secno">3.3</span> <span class="content"> Gather <var>document</var>’s relevant ancestors </span></a>
+      <li><a href="#gather-ancestors"><span class="secno">3.3</span> <span class="content"> <var>document</var> に関係する親を集める </span></a>
      </ul>
     <li>
      <a href="#threat-models-risks"><span class="secno">4</span> <span class="content"> 脅威モデルとリスク </span></a>
@@ -1118,7 +1118,7 @@
         <li><a href="#threat-passive"><span class="secno">4.1.1</span> <span class="content">ネットワーク上の受動的な攻撃者</span></a>
         <li><a href="#threat-active"><span class="secno">4.1.2</span> <span class="content">ネットワーク上の能動的な攻撃者</span></a>
        </ul>
-      <li><a href="#ancestors"><span class="secno">4.2</span> <span class="content">コンテキストの祖先に関するリスク</span></a>
+      <li><a href="#ancestors"><span class="secno">4.2</span> <span class="content">コンテキストの親に関するリスク</span></a>
       <li><a href="#threat-risks"><span class="secno">4.3</span> <span class="content">安全でないコンテキストに関連するリスク</span></a>
      </ul>
     <li>
@@ -1166,14 +1166,10 @@
    <section>
     <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">導入</span><a class="self-link" href="#intro"></a></h2>
     <p><em>この章は非規範的です。</em></p>
-    <p>より便利でより強力なアプリケーションが動作できるように Web プラットフォームが拡張されるに従い、アプリケーションに必要な機能の動作範囲が、最小限のセキュリティ境界を満たすコンテキストの中だけであることを保障する必要性が高まっています。この文書では、Web における機能の濫用(see <a href="#threat-models">§4.1 脅威モデル</a>)に対する脅威モデルを説明し、新しい機能を規定する文書が組み込むべき規範的な要件を説明します(see <a href="#implementation-considerations">§7 実装に関して考慮すべき事項</a>)。</p>
+    <p>より便利でより強力なアプリケーションが動作できるように Web プラットフォームが拡張されるに従い、アプリケーションに必要な機能の動作範囲が、最小限のセキュリティ境界を満たすコンテキストの中だけであることを保障する必要性が高まっています。この文書では、Web における機能の悪用(see <a href="#threat-models">§4.1 脅威モデル</a>)に対する脅威モデルを説明し、新しい機能を規定する文書が組み込むべき規範的な要件を説明します(see <a href="#implementation-considerations">§7 実装に関して考慮すべき事項</a>)。</p>
     <p>ここで議論される要件の中で最も明白なのは、機微・私的なデータにアクセスするアプリケーションのコードが配信されるのは、データの完全性が保障され、認証が行われ、かつ機密性が確保された通信路のみであるべきだということです。安全な通信路でコードを配信した場合でも、ユーザの安全とプライバシーに関する要件をアプリケーションが常に満たすことまでは保障できませんが、これは必要な前提条件です。</p>
-    <p>Less obviously, application code delivered over an authenticated and confidential
-  channel isn’t enough in and of itself to limit the use of powerful features by
-  non-secure contexts. As <a href="#ancestors">§4.2 コンテキストの祖先に関するリスク</a> explains, cooperative frames can be
-  abused to bypass otherwise solid restrictions on a feature. The algorithms
-  defined below ensure that these bypasses are difficult and user-visible.</p>
-    <p>The following examples summarize the normative text which follows:</p>
+    <p>それと比べると明確ではありませんが、アプリケーションのコードが配信される通信路において真正性と機密性が確保されていた場合でも、安全ではないコンテキストによって強力な機能が使用されることを十分に防ぐことはできません。<a href="#ancestors">§4.2 コンテキストの親に関するリスク</a> で説明されている通り、機能の強固な制限を回避するために共存するフレームが悪用されることがあります。以下に定義されるアルゴリズムによって、このような回避が難しくなること、悪意を持った行動がユーザに見えるようになることとが保障されます。</p>
+    <p>以下の例では、この文書における規範的な文章を要約して説明します。</p>
     <h3 class="heading settled" data-level="1.1" id="examples-top-level"><span class="secno">1.1. </span><span class="content">トップレベルのドキュメント</span><a class="self-link" href="#examples-top-level"></a></h3>
     <p>トップレベルのドキュメントは、そのドキュメントを開いた <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#opener-browsing-context">opener browsing context</a> が安全なものである限り安全です。やや複雑なため、まずは例で考えてみましょう。</p>
     <div class="example" id="example-bdb870a4">
@@ -1259,15 +1255,9 @@
       </g>
      </svg>
     </div>
-    <div class="example" id="example-3efadc86">
-     <a class="self-link" href="#example-3efadc86"></a>
-     <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing context</a> で開かれた <code>http://non-secure.example.com/</code> が、<code>https://example.com/</code> を含む新しいウィンドウで開いた場合を考えます。このとき、前者は <a data-link-type="dfn" href="#secure-context">secure context</a> ではありませんが、後者は安全でないコンテキストとの関係性を断ち切るように開かれた場合にのみ <a data-link-type="dfn" href="#secure-context">secure context</a> となります。That is,
-    if the new window can access the non-secure context via <code>window.opener</code>, and
-    the non-secure context can access the secure context by grabbing a reference
-    to the window, then it
-    , because it is a new
-    top-level browsing context delivered over an authenticated and encrypted
-    channel.</p>
+    <div class="example" id="example-739b4387">
+     <a class="self-link" href="#example-739b4387"></a>
+     <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing context</a> で開かれた <code>http://non-secure.example.com/</code> が、<code>https://example.com/</code> のウィンドウを新しく開いた場合を考えます。このとき、前者は <a data-link-type="dfn" href="#secure-context">secure context</a> ではありませんが、後者は安全でないコンテキストとの関係性を断ち切るように開かれた場合にのみ <a data-link-type="dfn" href="#secure-context">secure context</a> となります。 That is, if the new window can access the non-secure context via <code>window.opener</code>, and the non-secure context can access the secure context by grabbing a reference to the window, then it, because it is a new top-level browsing context delivered over an authenticated and encrypted channel.</p>
      <svg height="400" width="400">
       <g transform="translate(10,10)">
        <rect class="non-secure" height="175" width="297" x="0" y="0"></rect>
@@ -1550,14 +1540,14 @@ partial interface <a class="idl-code" data-link-type="interface" href="http://ww
         <p><var>settings object</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> における <a data-link-type="dfn">worker’s <code>Documents</code></a> のリストに関して、そのリストに含まれている各 <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> (<var>document</var>) について以下を実行します。</p>
         <ol>
          <li data-md="">
-          <p>アルゴリズム <a href="#gather-ancestors">§3.3 Gather document’s relevant ancestors</a> を <var>document</var> へ適用した結果に含まれる各要素を <var>ancestors</var> に追加します。</p>
+          <p>アルゴリズム <a href="#gather-ancestors">§3.3 document に関係する親を集める</a> を <var>document</var> へ適用した結果に含まれる各要素を <var>ancestors</var> に追加します。</p>
         </ol>
       </ol>
      <li data-md="">
       <p>そうではない場合、<var>settings object</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> は <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-window">Window</a></code> であるため、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>アルゴリズム <a href="#gather-ancestors">§3.3 Gather document’s relevant ancestors</a> を <var>settings object</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> へ適用した結果に含まれる各要素を <var>ancestors</var> に追加します。</p>
+        <p>アルゴリズム <a href="#gather-ancestors">§3.3 document に関係する親を集める</a> を <var>settings object</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#responsible-document">responsible document</a> へ適用した結果に含まれる各要素を <var>ancestors</var> に追加します。</p>
       </ol>
      <li data-md="">
       <p><var>ancestors</var> 内の各要素 <var>ancestor settings object</var> に対して以下を実行します。</p>
@@ -1610,37 +1600,31 @@ partial interface <a class="idl-code" data-link-type="interface" href="http://ww
      <li data-md="">
       <p>"<code>Not Trusted</code>" を返します。</p>
     </ol>
-    <h3 class="heading settled" data-level="3.3" id="gather-ancestors"><span class="secno">3.3. </span><span class="content"> Gather <var>document</var>’s relevant ancestors </span><a class="self-link" href="#gather-ancestors"></a></h3>
-    <p>Given a <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> (<var>document</var>), this algorithm returns a list of <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings objects</a> which ought to be considered when determining whether
-  or not <var>document</var> is a <a data-link-type="dfn" href="#secure-context">secure context</a>.</p>
+    <h3 class="heading settled" data-level="3.3" id="gather-ancestors"><span class="secno">3.3. </span><span class="content"> <var>document</var> に関係する親を集める </span><a class="self-link" href="#gather-ancestors"></a></h3>
+    <p>ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> (<var>document</var>) に適用されるこのアルゴリズムは、その <var>document</var> が <a data-link-type="dfn" href="#secure-context">secure context</a> であるかを判断する際に考慮すべき <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#settings-object">settings objects</a> のリストを返します。</p>
     <ol>
      <li data-md="">
-      <p>Let <var>ancestors</var> be an empty list.</p>
+      <p><var>ancestors</var> に空のリストを代入します。</p>
      <li data-md="">
-      <p>If <var>document</var> is not <a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an IFrame <code>srcdoc</code> <code>Document</code></a>, add <var>document</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> to <var>ancestors</var>.</p>
+      <p>ここで <var>document</var> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an IFrame <code>srcdoc</code> <code>Document</code></a> ではなかった場合、<var>document</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> を <var>ancestors</var> に追加します。</p>
      <li data-md="">
-      <p>While <var>document</var> has a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#creator-document">creator <code>Document</code></a> <var>creator</var>:</p>
+      <p><var>document</var> の中に <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#creator-document">creator <code>Document</code></a> が含まれている間、その要素を <var>creator</var> にセットして以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>If <var>creator</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">browsing context</a> is an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#ancestor-browsing-context">ancestor
-  browsing context</a> or <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#opener-browsing-context">opener browsing context</a> of <var>document</var>:</p>
+        <p>ここで <var>creator</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">browsing context</a> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#ancestor-browsing-context">ancestor browsing context</a> ないしは <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#opener-browsing-context">opener browsing context</a> としての <var>document</var> である場合、以下を実行します。</p>
         <ol>
          <li data-md="">
-          <p>Insert <var>creator</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> into <var>ancestors</var>, unless <var>creator</var> is <a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an IFrame <code>srcdoc</code> <code>Document</code></a>.</p>
+          <p><var>creator</var> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an IFrame <code>srcdoc</code> <code>Document</code></a> ではない場合、<var>creator</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> を <var>ancestors</var> に追加します。</p>
          <li data-md="">
-          <p>Let <var>document</var> be <var>creator</var>.</p>
+          <p><var>document</var> に <var>creator</var> を代入します。</p>
         </ol>
        <li data-md="">
-        <p>Otherwise, exit this loop.</p>
+        <p>それ以外の場合、このループから抜けます。</p>
       </ol>
      <li data-md="">
-      <p>Return <var>ancestors</var>.</p>
+      <p><var>ancestors</var> を返します。</p>
     </ol>
-    <p class="note" role="note">Note: When gathering a <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code>'s ancestors, we walk the browsing context
-  creation document chain, but stop when that chain hits a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing
-  context</a>. We’ll follow the chain for <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#auxiliary-browsing-context">auxiliary browsing contexts</a>,
-  however, which means that popups' status depend on how they’re opened, as
-  discussed in <a href="#examples-top-level">§1.1 トップレベルのドキュメント</a>.</p>
+    <p class="note" role="note">Note: <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-document">Document</a></code> の親を集める際、ここでは browsing context creation document chain を辿りましたが、チェインが <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top-level browsing context</a> に到達した時点で終了しました。とはいえ、<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#auxiliary-browsing-context">auxiliary browsing contexts</a> のチェインを辿ることになりますが、これは <a href="#examples-top-level">§1.1 トップレベルのドキュメント</a> で議論したとおり、どのように開いたかによってポップアップの状態が変わることを考慮しています。</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="4" id="threat-models-risks"><span class="secno">4. </span><span class="content"> 脅威モデルとリスク </span><a class="self-link" href="#threat-models-risks"></a></h2>
@@ -1652,10 +1636,10 @@ partial interface <a class="idl-code" data-link-type="interface" href="http://ww
     <p>このように、ネットワークの監視は「通信している人々の承認なしに彼らの意志を裏切り」、そして「誰かが監視を許している限り、人々はその『誰か』をどれだけ慈悲深い存在と考えていようとも、最も非道な連中から自分たちの身を守ることはできない」 <a data-link-type="biblio" href="#biblio-rfc7258">[RFC7258]</a> のです。そのため、この文書で定義されるアルゴリズムは、アプリケーション層におけるデータの完全性だけでなくプライバシーも提供する仕組みを要求しています。</p>
     <h4 class="heading settled" data-level="4.1.2" id="threat-active"><span class="secno">4.1.2. </span><span class="content">ネットワーク上の能動的な攻撃者</span><a class="self-link" href="#threat-active"></a></h4>
     <p>「ネットワーク上の能動的な攻撃者」は、「ネットワーク上の受動的な攻撃者」ができることすべてに加え、ネットワークを流れるあらゆるデータを改変、阻止、再送できる攻撃手段を持っています。セキュリティやプライバシーを揺るがし、個人や団体、さらには国民全体を標的にする潜在的な敵の集団にとって、公共の無線ネットワークを提供、または単に接続しているだけの脆弱なデバイスに限らず、料金の徴収のために通信を操作していながら、セキュリティやプライバシー上の脆弱性を間接的に抱えているインターネットサービスプロバイダ（<a data-link-type="biblio" href="#biblio-verizon">[VERIZON]</a> や <a data-link-type="biblio" href="#biblio-comcast">[COMCAST]</a> が最近の例です）という具合に、対象によってさまざまな攻撃手段をとることができます。</p>
-    <h3 class="heading settled" data-level="4.2" id="ancestors"><span class="secno">4.2. </span><span class="content">コンテキストの祖先に関するリスク</span><a class="self-link" href="#ancestors"></a></h3>
-    <p>そのコンテキスト自身が安全かどうかを判断する際、考察の対象とするコンテキストからその祖先すべてに至るまで <a href="#settings-object">§3.1 settings object は安全なコンテキストか？</a> のアルゴリズムが適用されます。ところで、安全な通信路で送信された <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code> 内のドキュメントを、なぜ私たちは安全であると扱わないのでしょうか？</p>
-    <p>簡潔に言えば、このモデルでは機能の濫用を許してしまうからです。API へのアクセスを安全なコンテキストに制限する試みは、Chrome における <a data-link-type="biblio" href="#biblio-webcryptoapi">[WEBCRYPTOAPI]</a> の実装で早くから行われていましたが、コンテキストの祖先まで制限をかけることは当時の実装において考慮されていませんでした。当時はまだ、API へのアクセスを安全に送信されてきたリソースに制限すれば、API の安全な利用は十分に保障されると考えられていました。しかし実際は Netflix のようなコンテンツが埋め込んだ <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code> と <code>postMessage()</code> のブリッジにより、安全でないコンテキストからも API が利用可能になっていました。このときの対策は、安全でないコンテキストによる API へのアクセス速度を遅くする程度のことでしかなく、先程のようなアクセスはまったく防ぎようがありませんでした。</p>
-    <p>この文書におけるアルゴリズムを利用しても、（<a href="#isolation">§5.1 不完全な分離</a> で議論されているように）<a data-link-type="dfn" href="#secure-context">secure contexts</a> と安全でないコンテキストとを完全に分離することはできません。しかしながら、コンテキストが提供すべき真正性、機密性、完全性は、コンテキストの祖先も確認することでかなり強固に保護することができます。</p>
+    <h3 class="heading settled" data-level="4.2" id="ancestors"><span class="secno">4.2. </span><span class="content">コンテキストの親に関するリスク</span><a class="self-link" href="#ancestors"></a></h3>
+    <p>そのコンテキスト自身が安全かどうかを判断する際、考察の対象とするコンテキストからその親すべてに至るまで <a href="#settings-object">§3.1 settings object は安全なコンテキストか？</a> のアルゴリズムが適用されます。ところで、安全な通信路で送信された <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code> 内のドキュメントを、なぜ私たちは安全であると扱わないのでしょうか？</p>
+    <p>簡潔に言えば、このモデルでは機能の悪用を許してしまうからです。API へのアクセスを安全なコンテキストに制限する試みは、Chrome における <a data-link-type="biblio" href="#biblio-webcryptoapi">[WEBCRYPTOAPI]</a> の実装で早くから行われていましたが、コンテキストの祖先まで制限をかけることは当時の実装において考慮されていませんでした。当時はまだ、API へのアクセスを安全に送信されてきたリソースに制限すれば、API の安全な利用は十分に保障されると考えられていました。しかし実際は Netflix のようなコンテンツが埋め込んだ <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/embedded-content.html#the-iframe-element">iframe</a></code> と <code>postMessage()</code> のブリッジにより、安全でないコンテキストからも API が利用可能になっていました。このときの対策は、安全でないコンテキストによる API へのアクセス速度を遅くする程度のことでしかなく、先程のようなアクセスはまったく防ぎようがありませんでした。</p>
+    <p>この文書におけるアルゴリズムを利用しても、（<a href="#isolation">§5.1 不完全な分離</a> で議論されているように）<a data-link-type="dfn" href="#secure-context">secure contexts</a> と安全でないコンテキストとを完全に分離することはできません。しかしながら、コンテキストが提供すべき真正性、機密性、完全性は、コンテキストの親も確認することでかなり強固に保護することができます。</p>
     <h3 class="heading settled" data-level="4.3" id="threat-risks"><span class="secno">4.3. </span><span class="content">安全でないコンテキストに関連するリスク</span><a class="self-link" href="#threat-risks"></a></h3>
     <p>上で述べた脅威からユーザを守るために、特定の Web プラットフォームの持つ、ユーザのセキュリティとプライバシーに大きな影響を与える機能は <a data-link-type="dfn" href="#secure-context">secure contexts</a> の中でのみ利用可能であるべきです。安全でないコンテキストで機能を利用可能にすると、以下の可能性をネットワーク上の攻撃者に与えてしまう危険を冒します</p>
     <ol>
