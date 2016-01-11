@@ -688,40 +688,28 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
   8.  "`Not Trusted`" を返します。
 
   <h3 id="gather-ancestors">
-    Gather <var>document</var>'s relevant ancestors
+    <var>document</var> に関係する親を集める
   </h3>
 
-  Given a {{Document}} (<var>document</var>), this algorithm returns a list of
-  <a>settings objects</a> which ought to be considered when determining whether
-  or not <var>document</var> is a <a>secure context</a>.
+  ある {{Document}} (<var>document</var>) に適用されるこのアルゴリズムは、その <var>document</var> が <a>secure context</a> であるかを判断する際に考慮すべき <a>settings objects</a> のリストを返します。
 
-  1.  Let <var>ancestors</var> be an empty list.
+  1.  <var>ancestors</var> に空のリストを代入します。
 
-  2.  If <var>document</var> is not <a>an IFrame `srcdoc` `Document`</a>, add
-      |document|'s <a>relevant settings object</a> to |ancestors|.
+  2.  ここで <var>document</var> が <a>an IFrame `srcdoc` `Document`</a> ではなかった場合、|document| の <a>relevant settings object</a> を |ancestors| に追加します。
 
-  2.  While <var>document</var> has a <a>creator <code>Document</code></a>
-      <var>creator</var>:
+  2.  <var>document</var> の中に <a>creator <code>Document</code></a> が含まれている間、その要素を <var>creator</var> にセットして以下を実行します。
 
-      1.  If <var>creator</var>'s <a>browsing context</a> is an <a>ancestor
-          browsing context</a> or <a>opener browsing context</a> of
-          <var>document</var>:
+      1.  ここで <var>creator</var> の <a>browsing context</a> が <a>ancestor browsing context</a> ないしは <a>opener browsing context</a> としての <var>document</var> である場合、以下を実行します。
 
-          1.  Insert <var>creator</var>'s <a>relevant settings object</a> into
-              <var>ancestors</var>, unless <var>creator</var> is <a>an IFrame
-              `srcdoc` `Document`</a>.
+          1.  <var>creator</var> が <a>an IFrame `srcdoc` `Document`</a> ではない場合、<var>creator</var> の <a>relevant settings object</a> を <var>ancestors</var> に追加します。
 
-          2.  Let <var>document</var> be <var>creator</var>.
+          2.  <var>document</var> に <var>creator</var> を代入します。
 
-      2.  Otherwise, exit this loop.
+      2.  それ以外の場合、このループから抜けます。
 
-  3.  Return <var>ancestors</var>.
+  3.  <var>ancestors</var> を返します。
 
-  Note: When gathering a {{Document}}'s ancestors, we walk the browsing context
-  creation document chain, but stop when that chain hits a <a>top-level browsing
-  context</a>. We'll follow the chain for <a>auxiliary browsing contexts</a>,
-  however, which means that popups' status depend on how they're opened, as
-  discussed in [[#examples-top-level]].
+  Note: {{Document}} の親を集める際、ここでは browsing context creation document chain を辿りましたが、チェインが <a>top-level browsing context</a> に到達した時点で終了しました。とはいえ、<a>auxiliary browsing contexts</a> のチェインを辿ることになりますが、これは [[#examples-top-level]] で議論したとおり、どのように開いたかによってポップアップの状態が変わることを考慮しています。
 </section>
 
 <section>
