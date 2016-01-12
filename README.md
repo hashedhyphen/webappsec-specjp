@@ -15,3 +15,5 @@ W3C Web Application Security Working Group が策定している仕様の日本�
 
 * Secure Contexts
   * [Editor's Draft](https://hashedhyphen.github.io/webappsec-specjp/secure-contexts/index.html) （2015年12月11日版）
+* Content Security Policy Level 3 （翻訳中）
+  * [Editor's Draft](https://hashedhyphen.github.io/webappsec-specjp/csp/index.html) （2016年1月12日版）

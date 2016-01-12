@@ -1,0 +1,2708 @@
+<h1>Content Security Policy Level 3 日本語訳</h1>
+<pre class="metadata">
+Status: ED
+ED: https://w3c.github.io/webappsec-csp/
+TR: http://www.w3.org/TR/CSP3/
+Shortname: CSP
+Level: 3
+Editor: Mike West 56384, Google Inc., mkwst@google.com
+Group: webappsec
+Abstract:
+  この仕様書では、当該の Web ページから読込・実行が可能なリソースや、その Web ページに課されるセキュリティポリシーを、開発者が管理できるようにする仕組みを定義します。
+Indent: 2
+Version History: https://github.com/w3c/webappsec-csp/commits/master/index.src.html
+Boilerplate: omit conformance, omit feedback-header
+!Participate: <a href="https://github.com/w3c/webappsec-csp/issues/new">File an issue</a> (<a href="https://github.com/w3c/webappsec-csp/issues">open issues</a>)
+Markup Shorthands: css off, markdown on
+</pre>
+<pre class="link-defaults">
+spec:dom-ls; type:interface; text:Event
+</pre>
+<pre class="anchors">
+spec: RFC6454; urlPrefix: https://tools.ietf.org/html/rfc6454
+  type: dfn
+    text: globally unique identifier; url: section-2.3
+    text: origin; url: section-3.2
+    text: the same; url: section-5
+spec: ES2015; urlPrefix: http://www.ecma-international.org/ecma-262/6.0/index.html
+  type: method
+    text: eval(); url: sec-eval-x
+    text: Function(); url: sec-function-objects
+    text: JSON.stringify(); url: sec-json.stringify
+spec: DOM; urlPrefix: http://www.w3.org/TR/dom/
+  type: interface
+    text: Element; url: interface-element
+  type: attribute
+    text: textContent; for: Node; url: dom-node-textcontent
+spec: HTML5; urlPrefix: http://www.w3.org/TR/html5/
+  type: dfn
+    urlPrefix: embedded-content-0.html
+      text: an iframe srcdoc document
+    urlPrefix: browsers.html
+      text: active document
+      text: ancestor browsing context
+      text: browsing context
+      text: create a document object
+      text: creator document
+      text: opener browsing context
+      text: nested browsing context
+      text: nested through; url: browsing-context-nested-through
+      text: forced sandboxing flag set
+      text: parse a sandboxing directive
+    urlPrefix: dom.html
+      text: CSP list; for: document; url: concept-document-csp-list
+    urlPrefix: webappapis.html
+      text: environment settings object; url: settings-object
+      text: global object
+      text: incumbent settings object
+      text: relevant settings object; url: relevant-settings-object-for-a-global-object
+      text: responsible browsing context
+      text: queue a task
+    urlPrefix: infrastructure.html
+      text: fire; url: concept-event-fire
+      text: trusted; url: concept-event-trusted
+      text: case-sensitive; url: case-sensitive
+      text: ASCII case-insensitive match; url: ascii-case-insensitive
+      text: reflect
+      text: strictly split a string
+      text: strip leading and trailing whitespace
+      text: collect a sequence of characters
+      text: space characters
+      text: split a string on spaces
+      text: split a string on commas
+    urlPrefix: document-metadata.html
+      text: pragma directives
+      text: set the frozen base url
+    urlPrefix: scripting-1.html
+      text: prepare a script
+      text: the script block's source; url: the-script-block's-source
+  type: element
+    urlPrefix: document-metadata.html
+      text: base; url: the-base-element
+      text: head; url: the-head-element
+      text: link; url: the-link-element
+      text: meta; url: the-meta-element
+      text: style; url: the-style-element
+    urlPrefix: embedded-content-0.html
+      text: embed; url: the-embed-element
+      text: object; url: the-object-element
+      text: iframe; url: the-iframe-element
+    urlPrefix: scripting-1.html
+      text: script; url: the-script-element
+    urlPrefix: text-level-semantics.html
+      text: a; url: the-a-element
+    urlPrefix: obsolete.html
+      text: applet; url: the-applet-element
+      text: frame
+  type: element-attr
+    urlPrefix: document-metadata.html
+      text: content; for: meta; url: attr-meta-content
+      text: http-equiv; for: meta; url: attr-meta-http-equiv
+    urlPrefix: embedded-content-0.html
+      text: srcdoc; for: iframe; url: attr-iframe-srcdoc
+    urlPrefix: scripting-1.html
+      text: src; for: script; url: attr-script-src
+  type: interface
+    urlPrefix: dom.html
+      text: Document
+    urlPrefix: browsers.html
+      text: Window; url: dom-window
+  type: attribute
+    urlPrefix: browsers.html
+      text: document; for: Window; url: dom-document-2
+    urlPrefix: dom.html
+      text: referrer; for: Document; url: dom-document-referrer
+spec: FETCH; urlPrefix: https://fetch.spec.whatwg.org/
+  type: dfn
+    text: fetch; url: concept-fetch
+    text: main fetch
+    text: http-network fetch
+    text: http fetch
+    text: parse a header value; url: concept-header-parse
+    text: request; url: concept-request
+    text: response; url: concept-response
+    text: header; url: concept-header
+    text: header list; url: concept-header-list
+    text: network error; url: concept-network-error
+    for: header
+      text: name; url: concept-header-name
+    for: response
+      text: CSP list; url: concept-response-csp-list
+      text: header list; url: concept-response-header-list
+      text: url; url: concept-response-url
+    for: request
+      text: body; url:concept-request-body
+      text: cache mode; url:concept-request-cache-mode
+      text: client; url: concept-request-client
+      text: credentials mode; url:concept-request-credentials-mode
+      text: current url; url: concept-request-current-url
+      text: destination;  url: concept-request-destination
+      text: global object; url: concept-request-global-object
+      text: header list; url: concept-request-header-list
+      text: initiator; url: concept-request-initiator
+      text: method; url:concept-request-method
+      text: origin; url:concept-request-origin
+      text: redirect mode; url:concept-request-redirect-mode
+      text: target browsing context; url: concept-request-target-browsing-context
+      text: type; url: concept-request-type
+      text: url; url: concept-request-url
+      text: window; url:concept-request-window
+  type: interface
+    text: Request
+spec: MIX; urlPrefix: http://www.w3.org/TR/mixed-content/
+  type: dfn; text: block-all-mixed-content
+spec: URL; urlPrefix: https://url.spec.whatwg.org/
+  type: dfn
+    text: local scheme
+    text: default port
+    text: IPv6 address; url: concept-ipv6
+    text: percent decode
+    text: URL parser; url: concept-url-parser
+    text: URL serializer; url: concept-url-serializer
+  type: attribute
+    text: host; for: URL; url: concept-url-host
+    text: port; for: URL; url: concept-url-port
+    text: path; for: URL; url: concept-url-path
+    text: origin; for: URL; url: concept-url-origin
+    text: scheme; for: URL; url: concept-url-scheme
+  type: interface;
+    text: URL
+spec: SERVICE-WORKERS; urlPrefix: http://www.w3.org/TR/service-workers/
+  type: interface
+    text: ServiceWorker; url: service-worker-interface
+spec: WORKERS; urlPrefix: http://www.w3.org/TR/workers/
+  type: interface
+    text: Worker
+spec: CSSOM; urlPrefix: http://www.w3.org/TR/cssom/
+  type: dfn
+    text: insert a css rule
+    text: parse a css declaration block
+    text: parse a css rule
+    text: parse a group of selectors
+spec: RFC3986; urlPrefix: https://tools.ietf.org/html/rfc3986
+  type: grammar
+    text: path; url: section-3.3
+    text: scheme; url: section-3.1
+    text: IPv4address; url: section-3.2.2
+    text: uri-reference; url: section-4.1
+spec: RFC4648; urlPrefix: https://tools.ietf.org/html/rfc4648
+  type: dfn
+    text: base64 encoding; url: section-4
+spec: RFC5234; urlPrefix: https://tools.ietf.org/html/rfc5234
+  type: grammar
+    text: ALPHA; url: appendix-B.1
+    text: DIGIT; url: appendix-B.1
+    text: VCHAR; url: appendix-B.1
+    text: WSP; url: appendix-B.1
+spec: RFC5890; urlPrefix: https://tools.ietf.org/html/rfc5890
+  type: dfn
+    text: label; url: section-2.2
+spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
+  type: grammar
+    text: BWS; url: section-3.2.3
+    text: OWS; url: section-3.2.3
+    text: RWS; url: section-3.2.3
+    text: quoted-string; url: section-3.2.6
+    text: token; url: section-3.2.6
+spec: RFC7231; urlPrefix: https://tools.ietf.org/html/rfc7231
+  type: dfn
+    url: section-3
+      text: resource representation
+      text: representation
+
+spec: OOB-REPORTING; urlPrefix: https://mikewest.github.io/error-reporting/
+  type: dfn
+    text: group
+    text: queue report; url: queue-report
+
+spec: HTML; urlPrefix: https://html.spec.whatwg.org/
+  type: dfn
+    text: run a worker
+    text: initialising a new Document object
+    text: update a style block
+    text: the worker's documents
+    text: Content-Security-Policy http-equiv processing instructions; url: attr-meta-http-equiv-content-security-policy
+  type: element-attr
+    text: ping; for: a
+    text: nonce; for: script; url: attr-script-nonce
+
+spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf
+  type: dfn
+    text: SHA-256; url: #
+    text: SHA-384; url: #
+    text: SHA-512; url: #
+</pre>
+<pre class="biblio">
+{
+  "CSP-DOCUMENT": {
+    "authors": [ "Mike West" ],
+    "href": "https://w3c.github.io/webappsec-csp/document/",
+    "title": "Content Security Policy: Document Features",
+    "publisher": "W3C"
+  },
+  "HTML-DESIGN": {
+    "authors": [ "Anne Van Kesteren", "Maciej Stachowiak" ],
+    "href": "http://www.w3.org/TR/html-design-principles/",
+    "title": "HTML Design Principles",
+    "publisher": "W3C"
+  },
+  "ES2015": {
+    "authors": [ "Allen Wirfs-Brock" ],
+    "href": "http://www.ecma-international.org/ecma-262/6.0/index.html",
+    "title": "ECMAScript® 2015 Language Specification",
+    "publisher": "ECMA"
+  },
+  "SHA2": {
+    "href": "http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf",
+    "title": "FIPS PUB 180-4, Secure Hash Standard"
+  },
+  "OOB-REPORTING": {
+    "href": "https://mikewest.github.io/error-reporting/",
+    "title": "Out-of-band Reporting",
+    "authors": [ "Ilya Gregorik", "Mike West" ]
+  },
+  "TIMING": {
+      "href": "http://www.contextis.com/documents/2/Browser_Timing_Attacks.pdf",
+      "title": "Pixel Perfect Timing Attacks with HTML5",
+      "authors": [ "Paul Stone" ],
+      "publisher": "Context Information Security"
+  }
+}
+</pre>
+<style>
+  ul.toc ul ul ul {
+    margin: 0 0 0 2em;
+  }
+  ul.toc ul ul ul span.secno {
+    margin-left: -9em;
+  }
+</style>
+<!--
+████ ██    ██ ████████ ████████   ███████
+ ██  ███   ██    ██    ██     ██ ██     ██
+ ██  ████  ██    ██    ██     ██ ██     ██
+ ██  ██ ██ ██    ██    ████████  ██     ██
+ ██  ██  ████    ██    ██   ██   ██     ██
+ ██  ██   ███    ██    ██    ██  ██     ██
+████ ██    ██    ██    ██     ██  ███████
+-->
+<section>
+  <h2 id="intro">Introduction</h2>
+
+  <em>This section is not normative.</em>
+
+  This document defines Content Security Policy (CSP), a tool which developers
+  can use to lock down their applications in various ways, mitigating the risk
+  of content injection vulnerabilities such as cross-site scripting, and
+  reducing the privilege with which their applications execute.
+
+  CSP is not intended as a first line of defense against content injection
+  vulnerabilities. Instead, CSP is best used as defense-in-depth. It reduces
+  the harm that a malicious injection can cause, but it is not a replacement for
+  careful input validation and output encoding.
+
+  This document is an iteration on Content Security Policy Level 2, with the
+  goal of more clearly explaining the interactions between CSP, HTML, and Fetch
+  on the one hand, and providing clear hooks for modular extensibility on the
+  other. Ideally, this will form a stable core upon which we can build new
+  functionality.
+
+  <h3 id="examples">Examples</h3>
+
+  <h4 id="example-basic">Control Execution</h4>
+
+  <div class="example">
+    MegaCorp Inc's developers want to protect themselves against cross-site
+    scripting attacks. They can mitigate the risk of script injection by
+    ensuring that their trusted CDN is the only origin from which script can
+    load and execute. Moreover, they wish to ensure that no plugins can
+    execute in their pages' contexts. The following policy has that effect:
+
+    <pre>
+      Content-Security-Policy: script-src https://cdn.example.com/scripts/; object-src 'none'
+    </pre>
+  </div>
+
+  <h3 id="goals">Goals</h3>
+
+  Content Security Policy aims to do to a few related things:
+
+  1.  Mitigate the risk of content-injection attacks by giving developers
+      fairly granular control over
+
+      *   The resources which can be requested (and subsequently embedded or
+          executed) on behalf of a specific {{Document}} or {{Worker}}
+
+      *   The execution of inline script
+
+      *   Dynamic code execution (via {{eval()}} and similar constructs)
+
+      *   The application of inline style
+
+  2.  Mitigate the risk of attacks which require a resource to be embedded
+      in a malicious context (the "Pixel Perfect" attack described in
+      [[TIMING]], for example) by giving developers granular control over the
+      origins which can embed a given resource.
+
+  3.  Provide a policy framework which allows developers to reduce the privilege
+      of their applications.
+
+  4.  Provide a reporting mechanism which allows developers to detect flaws
+      being exploited in the wild.
+
+  <h3 id="changes-from-level-2">Changes from Level 2</h3>
+
+  This document describes an evolution of the Content Security Policy Level 2
+  specification [[CSP2]]. The following is a high-level overview of the changes:
+
+  1.  The specification has been rewritten from the ground up in terms of the
+      [[FETCH]] specification, which should make it simpler to integrate CSP's
+      requirements and restrictions with other specifications (and with
+      Service Workers in particular).
+
+  2.  The `frame-src` directive, which was deprecated in CSP Level
+      2, has been removed.
+
+  3.  Insecure schemes in source expressions now match their secure variants.
+      That is, `http:` is equivalent to `http: https:`, and `http://a.com`
+      to `http://a.com https://a.com`.
+
+      Likewise, `'self'` now matches `https` and `wss` variants of the page's
+      origin, even on pages whose scheme is `http`.
+
+  4.  Violation reports generated from inline script or style will now report
+      "`inline`" as the blocked resource. Likewise, blocked `eval()` execution
+      will report "`eval`" as the blocked resource.
+
+  5.  Directives with effects on a {{Document}} or {{Worker}} itself (as opposed
+      to the resources such a context can load) have moved out into a separate
+      [[CSP-DOCUMENT]] module. This includes `base-uri`, `form-action`,
+      `frame-ancestors`, `plugin-types`, `sandbox`.
+
+  6.  The `manifest-src` directive has been added.
+
+  7.  The `report-uri` directive is deprecated in favor of the new `report-to`
+      directive, which relies on [[OOB-REPORTING]] as infrastructure.
+
+  <h3 id="open-questions">Open Questions</h3>
+
+  1.  Do we really want to remove `frame-src`? Though the threat model of
+      workers and frames is similar, they have distinct capabilities. Perhaps
+      it makes sense for folks to allow workers while disallowing frames, or
+      vice-versa?
+
+  2.  Can we enable `sandbox` inside <{meta}>? It's not clear what threat we're
+      preventing by dropping support for it (and Chrome and Safari support it
+      today).
+
+  3.  Reporting:
+
+      1.  Do we still need to strip values? I think we've removed much of the
+          risk by using the original URL of a blocked resource; there shouldn't
+          be anything in the report JSON that script can't gather on its own by
+          walking the DOM.
+</section>
+
+<!-- Big Text: Framework -->
+<section>
+  <h2 id="framework">Framework</h2>
+
+  <h3 id="framework-policy">Policies</h3>
+
+  A <dfn local-lt="policies" export>policy</dfn> defines a set of allowed and
+  restricted behaviors, and may be applied to a {{Window}} or
+  {{WorkerGlobalScope}} as described in [[#initialize-global-object-csp]].
+
+  Each policy has an associated <dfn for="policy">directive set</dfn>, which
+  is a set of <a>directives</a> that define the policy's implications when
+  applied.
+
+  Each policy has an associated <dfn for="policy">disposition</dfn>, which is
+  either "`enforce`" or "`report`".
+
+  A <dfn export>serialized CSP</dfn> is an ASCII string, consisting of a
+  semicolon-delimited series of <a>serialized directives</a>, adhering to the
+  following ABNF grammar [[!RFC5234]]:
+
+  <pre dfn-type="grammar" link-type="grammar">
+    <dfn>serialized-policy</dfn> = <a>serialized-directive</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>serialized-directive</a> ] )
+                        ; <a>OWS</a> is defined in section 3.2.3 of RFC 7230
+  </pre>
+
+  <h4 id="parse-serialized-policy" dfn lt="parse a serialized CSP" algorithm>
+    Parse a |serialized CSP| as |disposition|
+  </h4>
+
+  Given a <a>serialized CSP</a> (|serialized CSP|), and a
+  <a for="policy">disposition</a> (|disposition|), this algorithm will return a
+  <a>policy</a> object. If the string cannot be parsed, the resulting
+  <a>policy</a>'s <a>directive set</a> will be empty.
+
+  1.  Let |policy| be a new <a>policy</a> with an empty
+      <a for="policy">directive set</a>, and a <a for="policy">disposition</a>
+      of |disposition|.
+
+  2.  For each |token| returned by
+      <a lt="strictly split a string">strictly splitting</a> |serialized
+      CSP| on the U+003B SEMICOLON character (`;`):
+
+      1.  <a>Strip leading and trailing whitespace</a> from |token|.
+
+      2.  If |token| is an empty string, skip the remaining substeps
+          and continue to the next item.
+
+      3.  Let |directive name| be the result of
+          <a lt="collect a sequence of characters">collecting a sequence of
+          characters</a> from |token| which are not <a>space
+          characters</a>.
+
+      4.  If |policy|'s <a>directive set</a> contains a
+          <a>directive</a> whose <a for="directive">name</a> is |directive
+          name|, skip the remaining substeps and continue to the next item.
+
+          The user agent SHOULD notify developers that a directive was ignored.
+          A console warning might be appropriate, for example.
+
+      5.  Let |directive value| be the result of
+          <a lt="split a string on spaces">splitting |token| on
+          spaces</a>.
+
+      6.  Let |directive| be a new <a>directive</a> whose
+          <a for="directive">name</a> is |directive name|, and
+          <a for="directive">value</a> is |directive value|.
+
+      7.  Add |directive| to |policy|'s <a>directive set</a>.
+
+  3.  Return |policy|.
+
+  <h4 id="parse-serialized-policy-list" algorithm>
+    Parse a serialized CSP |list| as |disposition|
+  </h4>
+
+  Given a string (|list|) and a <a for="policy">disposition</a> (|disposition|)
+  which contains a comma-delimited series of <a>serialized CSP</a> strings, the
+  following algorithm will return a list of <a>policies</a>:
+
+  1.  Let |policies| be an empty list.
+
+  2.  For each |token| returned by
+      <a lt="split a string on commas">splitting |list| on commas</a>:
+
+      1.  Let |policy| be the result of executing
+          [[#parse-serialized-policy]] on |token| with |disposition|.
+
+      2.  If |policy|'s <a>directive set</a> is empty, skip the
+          remaining substeps, and continue to the next item.
+
+      3.  Add |policy| to |policies|.
+
+  3.  Return |policies|.
+
+  <h3 id="framework-directives">Directives</h3>
+
+  <a>Policies</a> contain a set of <dfn>directives</dfn>, each of which controls
+  a specific behavior. The directives defined in this document are described in
+  detail in [[#csp-directives]].
+
+  Each <a>directive</a> is a <dfn for="directive">name</dfn> /
+  <dfn for="directive">value</dfn> pair. The <a for="directive">name</a> is a
+  non-empty string, and the <a>value</a> is a set of non-empty strings. The
+  <a>value</a> set MAY be empty.
+
+  A <dfn>serialized directive</dfn> is an ASCII string, consisting of one or more
+  whitespace-delimited tokens, and adhering to the following ABNF [[!RFC5234]]:
+
+  <pre dfn-type="grammar" link-type="grammar">
+    <dfn>serialized-directive</dfn> = <a>directive-name</a> [ <a>RWS</a> <a>directive-value</a> ]
+    <dfn>directive-name</dfn>       = 1*( <a>ALPHA</a> / <a>DIGIT</a> / "-" )
+    <dfn>directive-value</dfn>      = *( %x09 / %x20-%x2B / %x2D-%x3A / %x3C-%7E )
+                           ; Directive values may contain whitespace and <a>VCHAR</a> characters,
+                           ; excluding ";" and ","
+
+    ; <a>RWS</a> is defined in section 3.2.3 of RFC7230. <a>ALPHA</a>, <a>DIGIT</a>, and
+    ; <a>VCHAR</a> are defined in Appendix B.1 of RFC 5234.
+  </pre>
+
+  <a>Directives</a> have five associated algorithms:
+
+  1.  A <dfn for="directive">pre-request check</dfn>, which takes a
+      <a>request</a> and a <a>policy</a> as an argument, and is executed during
+      [[#should-block-request]]. This algorithm returns "`Allowed`" unless
+      otherwise specified.
+
+  2.  A <dfn for="directive">post-request check</dfn>, which takes a
+      <a>request</a>, a <a>response</a>, and a <a>policy</a> as arguments, and
+      is executed during [[#should-block-response]]. This algorithm returns
+      "`Allowed`" unless otherwise specified.
+
+  3.  A <dfn for="directive">response check</dfn>, which takes a
+      <a>request</a>, a <a>response</a>, and a <a>policy</a> as arguments, and
+      is executed during [[#should-block-response]]. This algorithm returns
+      "`Allowed`" unless otherwise specified.
+
+  4.  An <dfn for="directive">inline check</dfn>, which takes an {{Element}} and
+      a type string as arguments, and is executed during
+      [[#should-block-inline]]. This algorithm returns "`Allowed`" unless
+      otherwise specified.
+
+  5.  An <dfn for="directive">initialization</dfn>, which takes a {{Document}}
+      or <a>global object</a>, a <a>response</a>, and a <a>policy</a> as
+      arguments. This algorithm is executed during [[#initialize-document-csp]],
+      and has no effect unless otherwise specified.
+
+  <h4 id="framework-directive-source-list">Source Lists</h4>
+
+  Many <a>directives</a>' <a>values</a> consist of <dfn>source lists</dfn>: sets
+  of tokens which identify content that can be fetched and potentially embedded
+  or executed. These tokens represent one of the following types of <dfn>source
+  expression</dfn>:
+
+  1.  Keywords such as <a grammar>`'none'`</a> and
+      <a grammar>`'self'`</a> (which match nothing and the current
+      URL's origin, respectively)
+
+  2.  Serialized URLs such as `https://example.com/path/to/file.js`
+      (which matches a specific file) or `https://example.com/`
+      (which matches everything on that origin)
+
+  3.  Schemes such as `https:` (which matches any resource having
+      the specified scheme)
+
+  4.  Hosts such as `example.com` (which matches any resource on
+      the host, regardless of scheme) or `*.example.com` (which
+      matches any resource on the host or any of its subdomains (and any of
+      its subdomains' subdomains, and so on))
+
+  5.  Nonces such as `'nonce-qwertyu12345'` (which can match specific
+      elements on a page)
+
+  6.  Digests such as `'sha256-abcd...'` (which can match specific
+      elements on a page)
+
+  A <dfn>serialized source list</dfn> is an ASCII string, consisting of a
+  space-delimited series of <a>source expressions</a>, adhering to the
+  following ABNF grammar [[!RFC5234]]:
+
+  <pre dfn-type="grammar" link-type="grammar">
+    <dfn>serialized-source-list</dfn> = ( <a>source-expression</a> *( <a>RWS</a> <a>source-expression</a> ) ) / "<dfn>'none'</dfn>"
+    <dfn>source-expression</dfn>      = <a>scheme-source</a> / <a>host-source</a> / <a>keyword-source</a>
+                             / <a>nonce-source</a> / <a>hash-source</a>
+
+    ; Schemes:
+    <dfn>scheme-source</dfn> = <a>scheme</a> ":"
+                    ; <a>scheme</a> is defined in section 3.1 of RFC 3986.
+
+    ; Hosts: "example.com" / "*.example.com" / "https://*.example.com:12/path/to/file.js"
+    <dfn>host-source</dfn> = [ <a>scheme-part</a> "://" ] <a>host-part</a> [ <a>port-part</a> ] [ <a>path-part</a> ]
+    <dfn>scheme-part</dfn> = <a>scheme</a>
+    <dfn>host-part</dfn>   = "*" / [ "*." ] 1*<a>host-char</a> *( "." 1*<a>host-char</a> )
+    <dfn>host-char</dfn>   = <a>ALPHA</a> / <a>DIGIT</a> / "-"
+    <dfn>port-part</dfn>   = ":" ( 1*<a>DIGIT</a> / "*" )
+    <dfn>path-part</dfn>   = <a>path</a>
+                  ; <a>path</a> is defined in section 3.3 of RFC 3986.
+
+    ; Keywords:
+    <dfn>keyword-source</dfn> = "<dfn>'self'</dfn>" / "<dfn>'unsafe-inline'</dfn>" / "<dfn>'unsafe-eval'</dfn>"
+
+    ; Nonces: 'nonce-[nonce goes here]'
+    <dfn>nonce-source</dfn>  = "'nonce-" <a>base64-value</a> "'"
+    <dfn>base64-value</dfn>  = 1*( <a>ALPHA</a> / <a>DIGIT</a> / "+" / "/" / "-" / "_" )*2( "=" )
+
+    ; Digests: 'sha256-[digest goes here]'
+    <dfn>hash-source</dfn>    = "'" <a>hash-algorithm</a> "-" <a>base64-value</a> "'"
+    <dfn>hash-algorithm</dfn> = "sha256" / "sha384" / "sha512"
+  </pre>
+
+  The <a grammar>host-char</a> production intentionally contains only ASCII
+  characters; internationalized domain names cannot be entered directly as part
+  of a <a>serialized CSP</a>, but instead MUST be Punycode-encoded
+  [[!RFC3492]]. For example, the domain `üüüüüü.de` MUST be represented as
+  `xn--tdaaaaaa.de`.
+
+  Note: Though IP address do match the grammar above, only
+  `127.0.0.1` will actually match a URL when used in a source
+  expression (see [[#match-url-to-source-list]] for details). The security
+  properties of IP addresses are suspect, and authors ought to prefer hostnames
+  whenever possible.
+
+  A {{URL}} <dfn>matches a source list</dfn> if the algorithm in
+  [[#match-url-to-source-list]] returns `Matches`.
+
+  <h3 id="framework-violation">Violations</h3>
+
+  A <dfn>violation</dfn> represents an action or resource which goes against the
+  <a>policies</a> associated with a <a>global object</a>.
+
+  Each <a>violation</a> has a
+  <dfn for="violation" id="violation-global-object">global object</dfn>, which
+  is the <a>global object</a> whose <a>policy</a> has been violated.
+
+  Each <a>violation</a> has a <dfn for="violation" id="violation-url">url</dfn>
+  which is its <a for="violation">global object</a>'s {{URL}}.
+
+  Each <a>violation</a> has a
+  <dfn for="violation" id="violation-status">status</dfn> which is a
+  non-negative integer representing the HTTP status code of the resource for
+  which the global object was instantiated.
+
+  Each <a>violation</a> has a
+  <dfn for="violation" id="violation-resource">resource</dfn>, which is
+  either `null`, "`inline`", "`eval`", or a {{URL}}. It represents the resource
+  which violated the policy.
+
+  Each <a>violation</a> has a
+  <dfn for="violation" id="violation-referrer">referrer</dfn>, which is either
+  `null`, or a {{URL}}. It represents the referrer of the resource whose policy
+  was violated.
+
+  Each <a>violation</a> has a
+  <dfn for="violation" id="violation-policy">policy</dfn>, which is the
+  <a>policy</a> that has been violated.
+
+  Each <a>violation</a> has an
+  <dfn for="violation" id="violation-effective-directive">effective directive</dfn>
+  which is a non-empty string representing the <a>directive</a> whose
+  enforcement caused the violation.
+
+  Each <a>violation</a> has a
+  <dfn for="violation" id="violation-source-file">source file</dfn>, which is
+  either `null` or a {{URL}}.
+
+  Each <a>violation</a> has a
+  <dfn for="violation" id="violation-line-number">line number</dfn>, which is
+  a non-negative integer.
+
+  Each <a>violation</a> has a
+  <dfn for="violation" id="violation-column-number">column number</dfn>, which
+  is a non-negative integer.
+
+  <h4 id="create-violation-for-global" algorithm>
+    Create a violation object for |global|, |policy|, and |directive|
+  </h4>
+
+  Given a <a>global object</a> (|global|), a <a>policy</a> (|policy|), and a
+  string (|directive|), the following algorithm creates a new <a>violation</a>
+  object, and populates it with an initial set of data:
+
+  1.  Let |violation| be a new <a>violation</a> whose <a for="violation">global
+      object</a> is |global|, <a for="violation">policy</a> is |policy|,
+      <a for="violation">effective directive</a> is |directive|, and
+      <a for="violation">resource</a> is `null`.
+
+  2.  If the user agent is currently executing script, and can extract a source
+      file's URL, line number, and column number from the |global|, set
+      |violation|'s <a for="violation">source file</a>, <a for="violation">line
+      number</a>, and <a for="violation">column number</a> accordingly.
+
+      ISSUE: Is this kind of thing specified anywhere? I didn't see anything
+      that looked useful in [[ES2015]].
+
+  3.  If |global| is a {{Window}} object, set |violation|'s
+      <a for="violation">referrer</a> to |global|'s {{Window/document}}'s
+      {{Document/referrer}}.
+
+  4.  Set |violation|'s <a for="violation">status</a> to the HTTP status code
+      for the resource associated with |violation|'s <a for="violation">global
+      object</a>.
+
+      ISSUE: How, exactly, do we get the status code? We don't actually store it
+      anywhere.
+
+  5.  Return |violation|.
+
+  <h4 id="create-violation-for-request" algorithm>
+    Create a violation object for |request|, |policy|, and |directive|
+  </h4>
+
+  Given a <a>request</a> (|request|), a <a>policy</a> (|policy|), and a string
+  (|directive|), the following algorithm creates a new <a>violation</a> object,
+  and populates it with an initial set of data:
+
+  1.  Let |violation| be the result of executing
+      [[#create-violation-for-global]] on |request|'s
+      <a for="request">client</a>'s <a for="request">global object</a>,
+      |policy|, and |directive|.
+
+  2.  Set |violation|'s <a for="violation">resource</a> to |request|'s
+      <a for="request">url</a>.
+
+      Note: We use |request|'s <a for="request">url</a>, and <em>not</em> its
+      <a for="request">current url</a>, as the latter might contain information
+      about redirect targets to which the page MUST NOT be given access.
+
+  3.  Return |violation|.
+</section>
+
+<!-- Big Text: Delivery -->
+<section>
+  <h2 id="policy-delivery">
+    Policy Delivery
+  </h2>
+
+  A server MAY declare a <a>policy</a> for a particular <a>resource
+  representation</a> via an HTTP response header field whose value is a
+  <a>serialized CSP</a>. This mechanism is defined in detail in
+  [[#csp-header]] and [[#cspro-header]], and the integration with Fetch
+  and HTML is described in [[#fetch-integration]] and [[#html-integration]].
+
+  A <a>policy</a> may also be declared inline in an HTML document via a
+  <{meta}> element's <{meta/http-equiv}> attribute, as described in
+  [[#meta-element]].
+
+  <h3 id="csp-header">
+    The `Content-Security-Policy` HTTP Response Header Field
+  </h3>
+
+  The <dfn>`Content-Security-Policy`</dfn> HTTP response header field
+  is the preferred mechanism for delivering a policy from a server to a client.
+  The header's value is represented by the following ABNF [[!RFC5234]]:
+
+  <pre>
+    Content-Security-Policy = 1#<a grammar>serialized-policy</a>
+  </pre>
+
+  <div class="example">
+    <pre>
+      <a>Content-Security-Policy</a>: script-src 'self';
+                               reports /csp-reporting-endpoint
+    </pre>
+  </div>
+
+  A server MAY send different `Content-Security-Policy` header field
+  values with different <a>representations</a> of the same resource.
+
+  A server SHOULD NOT send more than one HTTP response header field named
+  "`Content-Security-Policy`" with a given <a>resource
+  representation</a>.
+
+  When the user agent receives a `Content-Security-Policy` header field, it
+  MUST <a lt="parse a serialized CSP">parse</a> and <a>enforce</a> each
+  <a>serialized CSP</a> it contains as described in [[#fetch-integration]],
+  [[#html-integration]].
+
+  <h3 id="cspro-header">
+    The `Content-Security-Policy-Report-Only` HTTP Response Header Field
+  </h3>
+
+  The <dfn>`Content-Security-Policy-Report-Only`</dfn> HTTP response
+  header field allows web developers to experiment with policies by monitoring
+  (but not enforcing) their effects. The header's value is represented by the
+  following ABNF [[!RFC5234]]:
+
+  <pre>
+    Content-Security-Policy-Report-Only = 1#<a grammar>serialized-policy</a>
+  </pre>
+
+  This header field allows developers to piece together their security policy in
+  an iterative fashion, deploying a report-only policy based on their best
+  estimate of how their site behaves, watching for violation reports, and then
+  moving to an enforced policy once they've gained confidence in that behavior.
+
+  <div class="example">
+    <pre>
+      <a>Content-Security-Policy-Report-Only</a>: script-src 'self';
+                                           reports /csp-reporting-endpoint
+    </pre>
+  </div>
+
+  A server MAY send different `Content-Security-Policy-Report-Only`
+  header field values with different <a>representations</a> of the same
+  resource.
+
+  A server SHOULD NOT send more than one HTTP response header field named
+  "`Content-Security-Policy-Report-Only`" with a given <a>resource
+  representation</a>.
+
+  When the user agent receives a `Content-Security-Policy-Report-Only` header
+  field, it MUST <a lt="parse a serialized CSP">parse</a> and <a>monitor</a>
+  each <a>serialized CSP</a> it contains as described in
+  [[#fetch-integration]] and [[#html-integration]].
+
+  Note: The `<a>Content-Security-Policy-Report-Only</a>` header is
+  <strong>not</strong> supported inside a <{meta}> element.
+
+  <h3 id="meta-element">
+    The `<meta>` element
+  </h3>
+
+  A {{Document}} may deliver a policy via one or more HTML <{meta}> elements
+  whose <{meta/http-equiv}> attributes are an <a>ASCII case-insensitive
+  match</a> for the string "`Content-Security-Policy`". For example:
+
+  <div class="example">
+    <pre>
+      &lt;meta http-equiv="Content-Security-Policy" content="script-src 'self'"&gt;
+    </pre>
+  </div>
+
+  Implementation details can be found in HTML's <a>`Content-Security-Policy`
+  `http-equiv` processing instructions</a> [[!HTML]].
+
+  Note: The `<a>Content-Security-Policy-Report-Only</a>` header is <em>not</em>
+  supported inside a <{meta}> element. Neither are the `report-uri`,
+  `frame-ancestors`, and `sandbox` directives.
+
+  ISSUE: Why `sandbox`? Can we loosen that?
+
+  Authors are <em>strongly encouraged</em> to place <{meta}> elements as early
+  in the document as possible, because policies in <{meta}> elements are not
+  applied to content which precedes them. In particular, note that resources
+  fetched or prefetched using the `Link` HTTP response header
+  field, and resources fetched or prefetched using <{link}> and <{script}>
+  elements which precede a <{meta}>-delivered policy will not be blocked.
+
+  Note: A policy specified via a <{meta}> element will be enforced along with
+  any other policies active for the protected resource, regardless
+  of where they're specified. The general impact of enforcing multiple
+  policies is described in [[#multiple-policies]].
+
+  Note: Modifications to the <{meta/content}> attribute of a <{meta}> element
+  after the element has been parsed will be ignored.
+</section>
+
+<!-- Big Text: Integration -->
+<section>
+  <h2 id="integrations">Integrations</h2>
+
+  <em>This section is non-normative.</em>
+
+  This document defines a set of algorithms which are used in other
+  specifications in order to implement the functionality. These
+  integrations are outlined here for clarity, but those external
+  documents are the normative references which ought to be consulted for
+  detailed information.
+
+  <h3 id="fetch-integration">
+    Integration with Fetch
+  </h3>
+
+  A number of <a>directives</a> control resource loading in one way or
+  another. This specification provides algorithms which allow Fetch to make
+  decisions about whether or not a particular <a>request</a> should be blocked
+  or allowed, and about whether a particular <a>response</a> should be replaced
+  with a <a>network error</a>.
+
+  1.  [[#should-block-request]] is called as part of step #4 of its <a>Main
+      Fetch</a> algorithm.
+
+  2.  [[#should-block-response]] is called as part of step #12 of its <a>Main
+      Fetch</a> algorithm.
+
+  A <a>policy</a> is generally enforced upon a <a>global object</a>, but the
+  user agent needs to <a lt="parse a serialized CSP">parse</a> any policy
+  delivered via an HTTP response header field before any <a>global object</a>
+  is created in order to handle directives that require knowledge of a
+  <a>response</a>'s details. To that end:
+
+  1.  A <a>response</a> has an associated <a for="response">CSP list</a> which
+      contains any policy objects delivered in the <a>response</a>'s
+      <a for="response">header list</a>.
+
+  2.  [[#set-response-csp-list]] is called in the <a>HTTP fetch</a> and
+      <a>HTTP-network fetch</a> algorithms.
+
+      Note: These two calls should ensure that a <a>response</a>'s
+      <a for="response">CSP list</a> is set, regardless of how the
+      <a>response</a> is created. If we hit the network (via <a>HTTP-network
+      fetch</a>, then we parse the policy before we handle the `Set-Cookie`
+      header. If we get a response from a Service Worker (via <a>HTTP fetch</a>,
+      we'll process its <a for="response">CSP list</a> before handing the
+      response back to our caller.
+
+  <h4 id="set-response-csp-list" algorithm>
+    Set |response|'s `CSP list`
+  </h4>
+
+  Given a <a>response</a> (|response|), this algorithm evaluates its
+  <a for="response">header list</a> for <a>serialized CSP</a> values, and
+  populates its <a for="response">CSP list</a> accordingly:
+
+  1.  Set |response|'s <a for="response">CSP list</a> to the
+      empty list.
+
+  2.  Let |policies| be the result of executing
+      [[#parse-serialized-policy-list]] on the result of
+      <a lt="parse a header value">parsing</a> `Content-Security-Policy`
+      in |response|'s <a for="response">header list</a>, with a disposition
+      of "`enforce`".
+
+  3.  Append to |policies| the result of executing
+      [[#parse-serialized-policy-list]] on the result of
+      <a lt="parse a header value">parsing</a>
+      `Content-Security-Policy-Report-Only` in |response|'s
+      <a for="response">header list</a>, with a disposition of "`report`".
+
+
+  4.  For each |policy| in |policies|:
+
+      1.  Insert |policy| into |response|'s
+          <a for="response">CSP list</a>.
+
+  <h4 id="report-for-request" algorithm>
+    Report Content Security Policy violations for |request|
+  </h4>
+
+  Given a <a>request</a> (|request|), this algorithm reports violations based
+  on <a for="request">client</a>'s "report only" policies.
+
+  1.  Let |CSP list| be |request|'s
+      <a for="request">client</a>'s <a>global object</a>'s
+      <a for="global object">CSP list</a>.
+
+  2.  For each |policy| in |CSP list|:
+
+      1.  If |policy|'s <a for="policy">disposition</a> is "`enforce`",
+          then skip to the next |policy|.
+
+      2.  Let |violates| be the result of executing
+          [[#does-request-violate-policy]] on |request| and |policy|.
+
+      3.  If |violates| is not "`Does Not Violate`", then execute
+          [[#report-violation]] on the result of executing
+          [[#create-violation-for-request]] on |request|, |policy|, and
+          |violates|.
+
+  <h4 id="should-block-request" algorithm>
+    Should |request| be blocked by Content Security Policy?
+  </h4>
+
+  Given a <a>request</a> (|request|), this algorithm returns
+  `Blocked` or `Allowed` and reports violations based on |request|'s
+  <a for="request">client</a>'s Content Security Policy.
+
+  1.  Let |CSP list| be |request|'s
+      <a for="request">client</a>'s <a>global object</a>'s
+      <a for="global object">CSP list</a>.
+
+  2.  Let |result| be "`Allowed`".
+
+  3.  For each |policy| in |CSP list|:
+
+      1.  If |policy|'s <a for="policy">disposition</a> is "`report`",
+          then skip to the next |policy|.
+
+      2.  Let |violates| be the result of executing
+          [[#does-request-violate-policy]] on |request| and |policy|.
+
+      3.  If |violates| is not "`Does Not Violate`", then:
+
+          1.  Execute [[#report-violation]] on the result of executing
+              [[#create-violation-for-request]] on |request|, |policy|, and
+              |violates|.
+
+          2.  Set |result| to "`Blocked`".
+
+  4.  Return |result|.
+
+  <h4 id="should-block-response" algorithm>
+    Should |response| to |request| be blocked by Content
+    Security Policy?
+  </h4>
+
+  Given a <a>response</a> (|response|) and a <a>request</a>
+  (|request|), this algorithm returns `Blocked` or
+  `Allowed`, and reports violations based on |request|'s
+  <a for="request">client</a>'s Content Security Policy.
+
+  1.  Let |CSP list| be |request|'s
+      <a for="request">client</a>'s <a>global object</a>'s
+      <a for="global object">CSP list</a>.
+
+  2.  Let |result| be "`Allowed`".
+
+  3.  For each |policy| in |CSP list|:
+
+      1.  For each |directive| in |policy|:
+
+          1.  If the result of executing |directive|'s
+              <a for="directive">post-request check</a> is "`Blocked`", then:
+
+              1.  Execute [[#report-violation]] on the result of executing
+                  [[#create-violation-for-request]] on |request|, |policy|, and
+                  |directive|.
+
+              2.  If |policy|'s <a for="policy">disposition</a> is "`enforce`",
+                  then set |result| to "`Blocked`".
+
+      Note: This portion of the check verifies that the page can load the
+      response. That is, that a Service Worker hasn't substituted a file which
+      would violated the page's CSP.
+
+  4.  For each |policy| in |response|'s <a for="response">CSP list</a>:
+
+      1.  For each |directive| in |policy|:
+
+          1.  If the result of executing |directive|'s
+              <a for="directive">response check</a> on |request|, |response|,
+              and |policy| is "`Blocked`", then:
+
+              1.  Execute [[#report-violation]] on the result of executing
+                  [[#create-violation-for-request]] on |request|, |policy|, and
+                  |directive|.
+
+              2.  If |policy|'s <a for="policy">disposition</a> is "`enforce`",
+                  then set |result| to "`Blocked`".
+
+      Note: This portion of the check allows policies delivered with the
+      response to determine whether the response is allowed to be delivered.
+
+  5.  Return |result|.
+
+
+  <h3 id="html-integration">
+    Integration with HTML
+  </h3>
+
+  1.  The {{Document}} and {{WorkerGlobalScope}} objects have a
+      <dfn for="global object" id="global-object-csp-list">CSP list</dfn>,
+      which holds all the <a>policy</a> objects which are active for a given
+      context. This list is empty unless otherwise specified, and is populated
+      via the [[#initialize-global-object-csp]] algorithm.
+
+  2.  A <a>policy</a> is <dfn>enforced</dfn> or <dfn>monitored</dfn> for an
+      <a>global object</a> by inserting it into the <a>global object</a>'s
+      <a for="global object">CSP list</a>.
+
+  3.  [[#initialize-global-object-csp]] is called during the <a>initialising a
+      new `Document` object</a> and <a>run a worker</a> algorithms in order to
+      bind a set of <a>policy</a> objects associated with a <a>response</a> to a
+      newly created <a>global object</a>.
+
+      ISSUE: The algorithm is named "creating a new `Document` object" in W3C's
+      HTML, and isn't well-integrated with Fetch.
+
+      ISSUE: Need to monkey-patch these in: something like "Set the `Window`
+      object's `CSP list` to the `CSP list` of the resource used to
+      generate the document.
+
+  4.  [[#should-block-inline]] is called during the <a>prepare a script</a> and
+      <a>update a `style` block</a> algorithms in order to determine whether or
+      not an inline script or style block is allowed to execute/render.
+
+      ISSUE: The <a>update a `style` block</a> algorithm does not exist in
+      W3C's HTML.
+
+      ISSUE: The `nonce` attribute for <{script}> and <{style}> were added to
+      WHATWG's HTML in
+      <a href="https://github.com/whatwg/html/commit/882803c4cc8fba2fa5472b76f628d95cc82c421d">whatwg/html@882803c</a>.
+      They have not yet been added to W3C's HTML.
+
+      ISSUE: The [[#should-block-inline]] hooks were added to WHATWG's HTML in
+      <a href="https://github.com/whatwg/html/commit/ee3486eb129bc350b5ca684d0c91dff23453ac1a">whatwg/html@ee3486e</a>.
+      They aren't yet in W3C's HTML.
+
+  5.  [[#should-block-inline]] is called during handling of inline event
+      handlers (like `onclick`) and inline `style` attributes in order to
+      determine whether or not they ought to be allowed to execute/render.
+
+      ISSUE(WHATWG/html#384): This hook is in-flight for WHATWG's HTML.
+
+  5.  <a>Policies</a> are <a>enforced</a> during processing of the <{meta}>
+      element's <{meta/http-equiv}>.
+
+      ISSUE: This processing was added to WHATWG's HTML in
+      <a href="https://github.com/whatwg/html/commit/5064a629f22bef29839ab4dc6f1ceef17f010bc5">whatwg/html@5064a62</a>.
+      It has not yet been added to W3C's HTML.
+
+  6.  A {{Document}}'s <dfn>embedding document</dfn> is the {{Document}}
+      <a lt="nested through">through which</a> the {{Document}}'s
+      <a>browsing context</a> is nested.
+
+  <h4 id="initialize-document-csp" algorithm>
+    Initialize a `Document`'s `CSP list`
+  </h4>
+
+  Given a {{Document}} (|document|), and a <a>response</a> (|response|), the
+  user agent performs the following steps in order to initialize |document|'s
+  <a for="document">CSP list</a>:
+
+  1.  If |response|'s <a for="response">url</a>'s {{URL/scheme}} is a
+      <a>local scheme</a>:
+
+      1.  Let |documents| be an empty list.
+
+      2.  If |document| has an <a>embedding document</a> (|embedding|), then add
+          |embedding| to |documents|.
+
+      3.  If |document| has an <a>opener browsing context</a>, then add its
+          <a>active document</a> to |documents|.
+
+      4.  For each |doc| in |documents|:
+
+          1.  For each |policy| in |doc|'s <a for="document">CSP list</a>:
+
+              1.  Insert an alias to |policy| in |document|'s
+                  <a for="document">CSP list</a>.
+
+      Note: <a>local scheme</a> includes `about:`, and this algorithm will
+      therefore alias the <a>embedding document</a>'s policies for <a>an iframe
+      `srcdoc` `Document`</a>.
+
+      Note: We do all this to ensure that a page cannot bypass its <a>policy</a>
+      by embedding a frame or popping up a new window containing content it
+      controls (`blob:` resources, or `document.write()`).
+
+  2.  For each |policy| in |response|'s <a for="response">CSP list</a>, insert
+      |policy| into |document|'s <a for="document">CSP list</a>.
+
+  3.  For each |policy| in |document|'s <a for="document">CSP list</a>:
+
+      1.  For each |directive| in |policy|:
+
+          1.  Execute |directive|'s <a for="directive">initialization</a>
+              algorithm on |document| and |response|.
+
+  <h4 id="initialize-global-object-csp" algorithm>
+    Initialize a global object's `CSP list`
+  </h4>
+
+  Given a <a>global object</a> (|global|), and a <a>response</a>
+  (|response|), the user agent performs the following steps in order
+  to initialize |global|'s <a for="global object">CSP list</a>:
+
+  1.  If |response|'s <a for="response">url</a>'s {{URL/scheme}} is a
+      <a>local scheme</a>:
+
+      1.  Let |documents| be an empty list.
+
+      2.  Add each of |global|'s
+          <a lt="the worker's documents">document</a>s to |documents|.
+
+      4.  For each |document| in |documents|:
+
+          1.  For each |policy| in |document|'s <a>global
+              object</a>'s <a for="global object">CSP list</a>:
+
+              1.  Insert an alias to |policy| in |global|'s
+                  <a for="global object">CSP list</a>.
+
+      Note: <a>local scheme</a> includes `about:`, and this algorithm will
+      therefore alias the <a>embedding document</a>'s policies for <a>an iframe
+      `srcdoc` `Document`</a>.
+
+  2.  For each |policy| in |response|'s
+      <a for="response">CSP list</a>, insert |policy| into
+      |global|'s <a for="global object">CSP list</a>.
+
+  <h4 id="should-block-inline" algorithm>
+    Should |element|'s inline |type| behavior be blocked by Content Security Policy?
+  </h4>
+
+  Given an {{Element}} (|element|), and a string (|type|) this algorithm returns
+  "`Allowed`" if the element is allowed to have inline definition of a
+  particular type of behavior (script execution, style application, event handlers,
+  etc.), and "`Blocked`" otherwise:
+
+  1.  Let |result| be "`Allowed`".
+
+  2.  For each |policy| in |element|'s {{Document}}'s <a>global object</a>'s
+      <a for="global object">CSP list</a>:
+
+      1.  For each |directive| in |policy|:
+
+          1.  If |directive|'s <a for="directive">inline check</a> returns
+              "`Allowed`" when executed upon |element| and |type|, skip to the
+              next |directive|.
+
+          2.  Otherwise, let |violation| be the result of executing
+              [[#create-violation-for-global]] on the <a>incumbent settings
+              object</a>, |policy|, and "`style-src`" if |type| is "`style`" or
+              "`style-attribute`", or "`script-src`" otherwise.
+
+          3.  Set |violation|'s <a for="violation">resource</a> to "`inline`".
+
+          4.  Execute [[#report-violation]] on |violation|.
+
+          5.  If |policy|'s <a for="policy">disposition</a> is "`enforce`", then
+              set |result| to "`Blocked`".
+
+  3.  Return |result|.
+</section>
+
+<!-- Big Text: Reporting -->
+<section>
+  <h2 id="reporting">
+    Reporting
+  </h2>
+
+  When one or more of a <a>policy</a>'s directives is violated, a <dfn>violation
+  report</dfn> may be generated and sent out to a reporting endpoint associated
+  with the <a>policy</a>.
+
+  <h3 id="violation-events">
+    Violation DOM Events
+  </h3>
+
+  <pre class="idl">
+    [Constructor(DOMString type, optional SecurityPolicyViolationEventInit eventInitDict)]
+    interface SecurityPolicyViolationEvent : Event {
+        readonly    attribute DOMString documentURI;
+        readonly    attribute DOMString referrer;
+        readonly    attribute DOMString blockedURI;
+        readonly    attribute DOMString violatedDirective;
+        readonly    attribute DOMString effectiveDirective;
+        readonly    attribute DOMString originalPolicy;
+        readonly    attribute DOMString sourceFile;
+        readonly    attribute DOMString statusCode;
+        readonly    attribute long      lineNumber;
+        readonly    attribute long      columnNumber;
+    };
+
+    dictionary SecurityPolicyViolationEventInit : EventInit {
+        DOMString documentURI;
+        DOMString referrer;
+        DOMString blockedURI;
+        DOMString violatedDirective;
+        DOMString effectiveDirective;
+        DOMString originalPolicy;
+        DOMString sourceFile;
+        long      lineNumber;
+        long      columnNumber;
+    };
+  </pre>
+
+  <h3 id="deprecated-serialize-violation">
+    Obtain the deprecated serialization of |violation|
+  </h3>
+
+  Given a <a>violation</a> (|violation|), this algorithm returns a JSON text
+  string representation of the violation, suitable for submission to a reporting
+  endpoint associated with the deprecated <a>`report-uri`</a> directive.
+
+  1.  Let |object| be a new JavaScript object with properties initialized as
+      follows:
+
+      :  "`document-uri`"
+      :: The result of executing the <a>URL serializer</a> on |violation|'s
+         <a for="violation">url</a>, with the `exclude fragment` flag set.
+      :  "`referrer`"
+      :: The result of executing the <a>URL serializer</a> on |violation|'s
+         <a for="violation">referrer</a>, with the `exclude fragment` flag set.
+      :  "`blocked-uri`"
+      :: The result of executing the <a>URL serializer</a> on |violation|'s
+         <a for="violation">resource</a>, with the `exclude fragment` flag set.
+      :  "`effective-directive`"
+      :: |violation|'s <a for="violation">effective directive</a>
+      :  "`violated-directive`"
+      :: |violation|'s <a for="violation">effective directive</a>
+      :  "`original-policy`"
+      :: The <a lt="serialized CSP">serialization</a> of |violation|'s
+         <a for="violation">policy</a>
+      :  "`status-code`"
+      :: |violation|'s <a for="violation">status</a>
+
+  2.  If |violation|'s <a for="violation">source file</a> is not `null`:
+
+      1.  Set |object|'s "`source-file`" property to the result of executing
+          the <a>URL serializer</a> on |violation|'s <a for="violation">source
+          file</a>, with the `exclude fragment` flag set.
+
+      2.  Set |object|'s "`line-number`" property to |violation|'s
+          <a for="violation">line number</a>.
+
+      3.  Set |object|'s "`column-number`" property to |violation|'s
+          <a for="violation">column number</a>.
+
+  3.  Return the result of executing {{JSON.stringify()}} on |object|.
+
+  <h3 id="report-violation">
+    Report a |violation|
+  </h3>
+
+  Given a <a>violation</a> (|violation|), this algorithm reports it to the
+  endpoint specified in |violation|'s <a for="violation">policy</a>, and
+  fires a <dfn interface>SecurityPolicyViolationEvent</dfn> at |violation|'s
+  <a for="violation">global object</a>.
+
+  1.  <a>Fire</a> a <a>trusted</a> event with the name `securitypolicyviolation`
+      that uses the {{SecurityPolicyViolationEvent}} interface, with its
+      attributes initialized as follows:
+
+      :  {{SecurityPolicyViolationEvent/documentURI}}
+      :: |violation|'s <a for="violation">url</a>
+      :  {{SecurityPolicyViolationEvent/referrer}}
+      :: |violation|'s <a for="violation">referrer</a>
+      :  {{SecurityPolicyViolationEvent/blockedURI}}
+      :: |violation|'s <a for="violation">resource</a>
+      :  {{SecurityPolicyViolationEvent/effectiveDirective}}
+      :: |violation|'s <a for="violation">effective directive</a>
+      :  {{SecurityPolicyViolationEvent/violatedDirective}}
+      :: |violation|'s <a for="violation">effective directive</a>
+      :  {{SecurityPolicyViolationEvent/originalPolicy}}
+      :: |violation|'s <a for="violation">policy</a>
+      :  {{SecurityPolicyViolationEvent/sourceFile}}
+      :: |violation|'s <a for="violation">source file</a>
+      :  {{SecurityPolicyViolationEvent/statusCode}}
+      :: |violation|'s <a for="violation">status</a>
+      :  {{SecurityPolicyViolationEvent/lineNumber}}
+      :: |violation|'s <a for="violation">line number</a>
+      :  {{SecurityPolicyViolationEvent/columnNumber}}
+      :: |violation|'s <a for="violation">column number</a>
+
+      Note: Both {{SecurityPolicyViolationEvent/effectiveDirective}} and
+      {{SecurityPolicyViolationEvent/violatedDirective}} are the same value.
+      This is intentional to maintain backwards compatibility.
+
+  2.  If |violation|'s <a for="violation">policy</a>'s <a for="policy">directive
+      set</a> contains a <a>directive</a> named "<a>`report-uri`</a>"
+      (|directive|):
+
+      1.  If |violation|'s <a for="violation">policy</a>'s
+          <a for="policy">directive set</a> contains a <a>directive</a> named
+          "<a>`report-to`</a>", skip the remaining substeps.
+
+      2.  Let |endpoint| be the result of executing the <a>URL parser</a> on
+          |directive|'s <a for="directive">value</a>.
+
+      3.  If |endpoint| is not a valid URL, skip the remaining substeps.
+
+      4.  Let |request| be a new <a>request</a>, initialized as follows:
+
+          :   <a for="request">method</a>
+          ::  "`POST`"
+          :   <a for="request">url</a>
+          ::  |violation|'s <a for="violation">url</a>
+          :   <a for="request">origin</a>
+          ::  |violation|'s <a for="violation">global object</a>'s <a>origin</a>
+          :   <a for="request">window</a>
+          ::  "`no-window`"
+          :   <a for="request">client</a>
+          ::  |violation|'s <a for="violation">global object</a>'s <a>relevant
+              settings object</a>
+          :   <a for="request">destination</a>
+          ::  ""
+          :   <a for="request">initiator</a>
+          ::  ""
+          :   <a for="request">type</a>
+          ::  ""
+          :   <a for="request">cache mode</a>
+          ::  "`no-cache`"
+          :   <a for="request">credentials mode</a>
+          ::  "`same-origin`"
+          :   <a for="request">header list</a>
+          ::  A <a for=''>header list</a> containing a single header whose name is
+              "`Content-Type`", and value is "`application/csp-report`"
+          :   <a for="request">body</a>
+          ::  The result of executing [[#deprecated-serialize-violation]] on
+              |violation|
+          :   <a for="request">redirect mode</a>
+          ::  "`error`"
+
+      5.  <a>Fetch</a> |request|. The result will be ignored.
+
+      Note: All of this should be considered deprecated. It sends a single
+      request per violation, which simply isn't scalable. As soon as this
+      behavior can be removed from user agents, it will be.
+
+      Note: `report-uri` only takes effect if `report-to` is not present. That'
+      is, the latter overrides the former, allowing for backwards compatibility
+      with browsers that don't support the new mechanism.
+
+  3.  If |violation|'s <a for="violation">policy</a>'s <a for="policy">directive
+      set</a> contains a <a>directive</a> named "<a>`report-to`</a>"
+      (|directive|):
+
+      1.  Let |group| be |directive|'s <a for="directive">value</a>.
+
+      2.  Let |settings object| be |violation|'s <a for="violation">global
+          object</a>'s <a>relevant settings object</a>.
+
+      3.  Execute [[!OOB-REPORTING]]'s <a lt="queue report">Queue |data| as
+          |type| for |endpoint group| on |settings|</a> algorithm with the
+          following arguments:
+
+          :   |data|
+          ::  |violation|
+          :   |type|
+          ::  "CSP"
+          :   |endpoint group|
+          ::  |group|
+          :   |settings|
+          ::  |settings object|
+</section>
+
+<!-- Big Text: Directives -->
+<section>
+  <h2 id="csp-directives">
+    Content Security Policy Directives
+  </h2>
+
+  This specification defines a number of types of <a>directives</a> which allow
+  developers to control certain aspects of their sites' behavior. This document
+  defines directives which govern resource fetching (in [[#directives-fetch]])
+  and directives which govern reporting (in [[#directives-reporting]]). These
+  form the core of Content Security Policy; other directives are defined in a
+  modular fashion in ancillary documents (see [[#directives-elsewhere]] for
+  examples).
+
+  To mitigate the risk of cross-site scripting attacks, web developers SHOULD
+  include directives that regulate sources of script and plugins. They can do
+  so by including:
+
+  *   Both the <a>script-src</a> and <a>object-src</a> directives, or
+  *   a <a>default-src</a> directive
+
+  In either case, developers SHOULD NOT include either
+  <a grammar>`'unsafe-inline'`</a>, or `data:` as valid
+  sources in their policies. Both enable XSS attacks by allowing code to be
+  included directly in the document itself; they are best avoided completely.
+
+  <h3 id="directives-fetch">
+    Fetch Directives
+  </h3>
+
+  <dfn>Fetch directives</dfn> control the locations from which certain resource
+  types may be loaded. For instance, <a>script-src</a> allows developers to
+  whitelist trusted sources of script to execute on a page, while
+  <a>font-src</a> controls the sources of web fonts.
+
+  <h4 id="directive-child-src">`child-src`</h4>
+
+  The <dfn>child-src</dfn> directive governs the creation of <a>nested browsing
+  contexts</a> (e.g. <{iframe}> and <{frame}> navigations) and Worker execution
+  contexts. The syntax for the directive's name and value is described by the
+  following ABNF:
+
+  <pre>
+    directive-name  = "child-src"
+    directive-value = <a grammar>serialized-source-list</a>
+  </pre>
+
+  This directive controls <a>requests</a> which will populate a frame or a
+  worker. More formally, <a>requests</a> falling into one of the
+  following categories:
+
+  *  <a for="request">destination</a> is "`document`", and whose
+     <a for="request">target browsing context</a> is a <a>nested browsing
+     context</a> (e.g. requests which will populate an <{iframe}> or <{frame}>
+     element)
+
+  *  <a for="request">destination</a> is either "`serviceworker`",
+     "`sharedworker`", or "`worker`" (which are fed to the <a>run a worker</a>
+     algorithm for {{ServiceWorker}}, {{SharedWorker}}, and {{Worker}},
+     respectively).
+
+  <div class="example">
+    Given a page with the following Content Security Policy:
+
+    <pre>
+      Content-Security-Policy: <a>child-src</a> https://example.com/
+    </pre>
+
+    Fetches for the following code will all return network errors, as the URLs
+    provided do not match `child-src`'s <a>source list</a>:
+
+    <pre>
+      &lt;iframe src="https://not-example.com"&gt;&lt;/iframe&gt;
+      &lt;script&gt;
+        var blockedWorker = new Worker("data:application/javascript,...");
+      &lt;/script&gt;
+    </pre>
+  </div>
+
+  <h5 id="child-src-algorithms">Algorithms</h5>
+
+  This directive's <a for="directive">pre-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|):
+
+  ISSUE: TODO.
+
+  This directive's <a for="directive">post-request check</a> is as follows:
+
+  ISSUE: TODO.
+
+  <h4 id="directive-connect-src">`connect-src`</h4>
+
+  The <dfn>connect-src</dfn> directive restricts the URLs which can be loaded
+  using script interfaces. The syntax for the directive's name and value is
+  described by the following ABNF:
+
+  <pre>
+    directive-name  = "connect-src"
+    directive-value = <a grammar>serialized-source-list</a>
+  </pre>
+
+  This directive controls <a>requests</a> which transmit or receive data from
+  other origins. This includes APIs like `fetch()`, [[XHR]], [[EVENTSOURCE]],
+  [[BEACON]], and <{a}>'s <{a/ping}>. This directive <em>also</em> controls
+  WebSocket [[WEBSOCKETS]] connections, though those aren't technically part
+  of Fetch.
+
+  <div class="example">
+    JavaScript offers a few mechanisms that directly connect to an external
+    server to send or receive information. `EventSource` maintains an open
+    HTTP connection to a server in order to receive push notifications,
+    `WebSockets` open a bidirectional communication channel between your
+    browser and a server, and `XMLHttpRequest` makes arbitrary HTTP requests
+    on your behalf. These are powerful APIs that enable useful functionality,
+    but also provide tempting avenues for data exfiltration.
+
+    The `connect-src` directive allows you to ensure that these and similar
+    sorts of connections are only opened to origins you trust. Sending a
+    policy that defines a list of source expressions for this directive is
+    straightforward. For example, to limit connections to only
+    `https://example.com`, send the following header:
+
+    <pre>
+      Content-Security-Policy: <a>connect-src</a> https://example.com/
+    </pre>
+
+    Fetches for the following code will all return network errors, as the URLs
+    provided do not match `connect-src`'s <a>source list</a>:
+
+    <pre>
+      &lt;a ping="https://not-example.com"&gt;...
+      &lt;script&gt;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://not-example.com/');
+        xhr.send();
+
+        var ws = new WebSocket("https://not-example.com/");
+
+        var es = new EventSource("https://not-example.com/");
+
+        navigator.sendBeacon("https://not-example.com/", { ... });
+      &gt;/script&gt;
+    </pre>
+  </div>
+
+  <h5 id="connect-src-algorithms">Algorithms</h5>
+
+  This directive's <a for="directive">pre-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">initiator</a> is "`fetch`", or its
+      <a for="request">type</a> is "" and <a for="request">destination</a> is
+      "`subresource`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |request|'s <a for="request">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  This directive's <a for="directive">post-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
+  <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">initiator</a> is "`fetch`", or its
+      <a for="request">type</a> is "" and <a for="request">destination</a> is
+      "`subresource`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |response|'s <a for="response">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  <h4 id="directive-default-src">`default-src`</h4>
+
+  The <dfn>default-src</dfn> directive serves as a fallback for the other
+  <a>fetch directives</a>. The syntax for the directive's name and value is described by
+  the following ABNF:
+
+  <pre>
+    directive-name  = "default-src"
+    directive-value = <a grammar>serialized-source-list</a>
+  </pre>
+
+  If a <a>default-src</a> directive is present in a policy, its value will be
+  used as the policy's default source list. That is, given `default-src 'none';
+  script-src 'self'`, script requests will use `'self'` as the <a>source
+  list</a> to match against. Other requests will use `'none'`. This is spelled
+  out in more detail in the [[#should-block-request]] and
+  [[#should-block-response]] algorithms.
+
+  <div class="example">
+    The following header:
+
+    <pre>
+      <a>Content-Security-Policy</a>: <a>default-src</a> <a grammar>'self'</a>
+    </pre>
+
+    will have the same behavior as the following header:
+
+    <pre>
+      <a>Content-Security-Policy</a>: <a>child-src</a> <a grammar>'self'</a>
+                               <a>connect-src</a> <a grammar>'self'</a>
+                               <a>font-src</a> <a grammar>'self'</a>
+                               <a>img-src</a> <a grammar>'self'</a>
+                               <a>media-src</a> <a grammar>'self'</a>
+                               <a>object-src</a> <a grammar>'self'</a>
+                               <a>script-src</a> <a grammar>'self'</a>
+                               <a>style-src</a> <a grammar>'self'</a>
+    </pre>
+
+    That is, when `default-src` is set, every <a>fetch directive</a> that isn't
+    explicitly set will fall back to the value `default-src` specifies.
+  </div>
+  <div class="example">
+    There is no inheritance. If a `script-src` directive is explicitly
+    specified, for example, then the value of `default-src` has no influence on
+    script requests. That is, the following header:
+
+    <pre>
+      <a>Content-Security-Policy</a>: <a>default-src</a> <a grammar>'self'</a>, <a>script-src</a> https://example.com
+    </pre>
+
+    will have the same behavior as the following header:
+
+    <pre>
+      <a>Content-Security-Policy</a>: <a>child-src</a> <a grammar>'self'</a>
+                               <a>connect-src</a> <a grammar>'self'</a>
+                               <a>font-src</a> <a grammar>'self'</a>
+                               <a>img-src</a> <a grammar>'self'</a>
+                               <a>media-src</a> <a grammar>'self'</a>
+                               <a>object-src</a> <a grammar>'self'</a>
+                               <a>script-src</a> https://example.com
+                               <a>style-src</a> <a grammar>'self'</a>
+    </pre>
+
+    Given this behavior, one good way to build a policy for a site would be to
+    begin with a `default-src` of `'none'`, and to build up a policy from there
+    which allowed only those resource types which are necessary for the
+    particular page the policy will apply to.
+  </div>
+
+  <h5 id="default-src-algorithms">Algorithms</h5>
+
+  This directive's <a for="directive">pre-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+
+  1.  Let |name| be the result of executing
+      [[#effective-directive-for-a-request]] on |request|.
+
+  2.  If |name| is `null`, return "`Allowed`".
+
+  3.  If |policy| contains a <a>directive</a> whose <a for="directive">name</a>
+      is |name|, return "`Allowed`".
+
+  4.  If the result of executing [[#match-url-to-source-list]] on |request|'s
+      <a for="request">url</a> and this directive's <a for="directive">value</a>
+      is "`Does Not Match`", return "`Blocked`".
+
+  5.  Return "`Allowed`".
+
+  This directive's <a for="directive">post-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
+  <a>policy</a> (|policy|):
+
+  1.  Let |name| be the result of executing
+      [[#effective-directive-for-a-request]] on |request|.
+
+  2.  If |name| is `null`, return "`Allowed`".
+
+  3.  If |policy| contains a <a>directive</a> whose <a for="directive">name</a>
+      is |name|, return "`Allowed`".
+
+  4.  If the result of executing [[#match-url-to-source-list]] on |response|'s
+      <a for="response">url</a> and this directive's <a for="directive">value</a>
+      is "`Does Not Match`", return "`Blocked`".
+
+  5.  Return "`Allowed`".
+
+  <h4 id="directive-font-src">`font-src`</h4>
+
+  The <dfn>font-src</dfn> directive restricts the URLs from which font resources
+  may be loaded. The syntax for the directive's name and value is described by
+  the following ABNF:
+
+  <pre>
+    directive-name  = "font-src"
+    directive-value = <a grammar>serialized-source-list</a>
+  </pre>
+  <div class="example">
+    Given a page with the following Content Security Policy:
+
+    <pre>
+      Content-Security-Policy: <a>font-src</a> https://example.com/
+    </pre>
+
+    Fetches for the following code will return a network errors, as the URL
+    provided do not match `font-src`'s <a>source list</a>:
+
+    <pre>
+      &lt;style&gt;
+        @font-face {
+          font-family: "Example Font";
+          src: url("https://not-example.com/font");
+        }
+        body {
+          font-family: "Example Font";
+        }
+      &lt;/style&gt;
+    </pre>
+  </div>
+
+  <h5 id="font-src-algorithms">Algorithms</h5>
+
+  This directive's <a for="directive">pre-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "`font`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |request|'s <a for="request">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  This directive's <a for="directive">post-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
+  <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "`font`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |response|'s <a for="response">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  <h4 id="directive-img-src">`img-src`</h4>
+
+  The <dfn>img-src</dfn> directive restricts the URLs from which image resources
+  may be loaded. The syntax for the directive's name and value is described by
+  the following ABNF:
+
+  <pre>
+    directive-name  = "img-src"
+    directive-value = <a grammar>serialized-source-list</a>
+  </pre>
+
+  This directive controls <a>requests</a> which load images. More formally, this
+  includes <a>requests</a> whose <a for="request">type</a> is "`image`"
+  [[FETCH]].
+
+  <div class="example">
+    Given a page with the following Content Security Policy:
+
+    <pre>
+      Content-Security-Policy: <a>img-src</a> https://example.com/
+    </pre>
+
+    Fetches for the following code will return a network errors, as the URL
+    provided do not match `img-src`'s <a>source list</a>:
+
+    <pre>
+      &lt;img src="https://not-example.com/img"&gt;
+    </pre>
+  </div>
+
+  <h5 id="img-src-algorithms">Algorithms</h5>
+
+  This directive's <a for="directive">pre-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "`image`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |request|'s <a for="request">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  This directive's <a for="directive">post-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
+  <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "`image`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |response|'s <a for="response">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  <h4 id="directive-manifest-src">`manifest-src`</h4>
+
+  The <dfn>manifest-src</dfn> directive restricts the URLs from which application
+  manifests may be loaded [[APPMANIFEST]]. The syntax for the directive's name
+  and value is described by the following ABNF:
+
+  <pre>
+    directive-name  = "manifest-src"
+    directive-value = <a grammar>serialized-source-list</a>
+  </pre>
+
+  <div class="example">
+    Given a page with the following Content Security Policy:
+
+    <pre>
+      Content-Security-Policy: <a>manifest-src</a> https://example.com/
+    </pre>
+
+    Fetches for the following code will return a network errors, as the URL
+    provided do not match `manifest-src`'s <a>source list</a>:
+
+    <pre>
+      &lt;link rel="manifest" href="https://not-example.com/manifest"&gt;
+    </pre>
+  </div>
+
+  <h5 id="manifest-src-algorithms">Algorithms</h5>
+
+  This directive's <a for="directive">pre-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "", and its
+      <a for="request">initiator</a> is "`manifest`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |request|'s <a for="request">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  This directive's <a for="directive">post-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
+  <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "", and its
+      <a for="request">initiator</a> is "`manifest`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |response|'s <a for="response">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  <h4 id="directive-media-src">`media-src`</h4>
+
+  The <dfn>media-src</dfn> directive restricts the URLs from which video, audio,
+  and associated text track resources may be loaded. The syntax for the
+  directive's name and value is described by the following ABNF:
+
+  <pre>
+    directive-name  = "media-src"
+    directive-value = <a grammar>serialized-source-list</a>
+  </pre>
+
+  <div class="example">
+    Given a page with the following Content Security Policy:
+
+    <pre>
+      Content-Security-Policy: <a>media-src</a> https://example.com/
+    </pre>
+
+    Fetches for the following code will return a network errors, as the URL
+    provided do not match `media-src`'s <a>source list</a>:
+
+    <pre>
+      &lt;audio src="https://not-example.com/audio"&gt;&lt;/audio&gt;
+      &lt;video src="https://not-example.com/video"&gt;
+          &lt;track kind="subtitles" src="https://not-example.com/subtitles"&gt;
+      &lt;/video&gt;
+    </pre>
+  </div>
+
+  <h5 id="media-src-algorithms">Algorithms</h5>
+
+  This directive's <a for="directive">pre-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is one of "`audio`", "`video`",
+      or "`track`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |request|'s <a for="request">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  This directive's <a for="directive">post-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
+  <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is one of "`audio`", "`video`",
+      or "`track`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |response|'s <a for="response">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  <h4 id="directive-object-src">`object-src`</h4>
+
+  The <dfn>object-src</dfn> directive restricts the URLs from which plugin
+  content may be loaded. The syntax for the directive's name and value is
+  described by the following ABNF:
+
+  <pre>
+    directive-name  = "object-src"
+    directive-value = <a grammar>serialized-source-list</a>
+  </pre>
+
+  <div class="example">
+    Given a page with the following Content Security Policy:
+
+    <pre>
+      Content-Security-Policy: <a>object-src</a> https://example.com/
+    </pre>
+
+    Fetches for the following code will return a network errors, as the URL
+    provided do not match `object-src`'s <a>source list</a>:
+
+    <pre>
+      &lt;embed src="https://not-example.com/flash"&gt;&lt;/embed&gt;
+      &lt;object data="https://not-example.com/flash"&gt;&lt;/object&gt;
+      &lt;applet archive="https://not-example.com/flash"&gt;&lt;/applet&gt;
+    </pre>
+  </div>
+
+  If plugin content is loaded without an associated URL (perhaps an <{object}>
+  element lacks a <{object/data}> attribute, but loads some default plugin based
+  on the specified `type`), it MUST be blocked if `object-src`'s value is
+  `'none'`, but will otherwise be allowed.
+
+  Note: The `object-src` directive acts upon any request made on behalf of
+  an <{object}>, <{embed}>, or <{applet}> element. This includes requests
+  which would populate the <a>nested browsing context</a> generated by the
+  former two (also including navigations). This is true even when the data is
+  semantically equivalent to content which would otherwise be restricted by
+  another directive, such as an <{object}> element with a `text/html` MIME
+  type.
+
+  <h5 id="object-src-algorithms">Algorithms</h5>
+
+  This directive's <a for="directive">pre-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "", and its
+      <a for="request">destination</a> is "`unknown`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |request|'s <a for="request">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  This directive's <a for="directive">post-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
+  <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "", and its
+      <a for="request">destination</a> is "`unknown`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |response|'s <a for="response">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  <h4 id="directive-script-src">`script-src`</h4>
+
+  The <dfn>script-src</dfn> directive restricts the locations from which scripts
+  may be executed. This includes not only URLs loaded directly into <{script}>
+  elements, but also things like inline script blocks and XSLT stylesheets
+  [[XSLT]] which can trigger script execution. The syntax for the directive's
+  name and value is described by the following ABNF:
+
+  <pre>
+    directive-name  = "script-src"
+    directive-value = <a grammar>serialized-source-list</a>
+  </pre>
+
+  The `script-src` directive governs four things:
+
+  1.  Script <a>requests</a> MUST pass through [[#should-block-request]].
+
+  2.  Script <a>responses</a> MUST pass through [[#should-block-response]].
+
+  3.  Inline <{script}> blocks MUST pass through [[#should-block-inline]]. Their
+      behavior will be blocked unless every policy allows inline script, either
+      implicitly by not specifying a `script-src` (or `default-src`) directive,
+      or explicitly, by whitelisting "`unsafe-inline`", a
+      <a grammar>nonce-source</a> or a <a grammar>hash-source</a> that matches
+      the inline block.
+
+  4.  The following JavaScript execution sinks are gated on the "`unsafe-eval`"
+      source expression:
+
+      *   {{eval()}}
+      *   {{Function()}}
+      *   {{setTimeout()}} with an initial argument which is not callable.
+      *   {{setInterval()}} with an initial argument which is not callable.
+
+      Note: If a user agent implements non-standard sinks like `setImmediate()`
+      or `execScript()`, they SHOULD also be gated on "`unsafe-eval`".
+
+  <h5 id="script-src-algorithms">Algorithms</h5>
+
+  This directive's <a for="directive">pre-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "`script`", and its
+      <a for="request">destination</a> is "`subresource`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |request|'s <a for="request">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  This directive's <a for="directive">post-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
+  <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "`script`", and its
+      <a for="request">destination</a> is "`subresource`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |response|'s <a for="response">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  This directive's <a for="directive">inline check</a> algorithm is as follows:
+
+  Given an {{Element}} (|element|) and a string (|type|):
+
+  1.  If |type| is "`script`" or "`script attribute`":
+
+      1.  If the result of executing [[#match-element-to-source-list]] on
+          |element|, this directive's <a for="directive">value</a>, and
+          |type| is "`Does Not Match`", return "`Blocked`".
+
+  3.  Return "`Allowed`".
+
+  This directive's <a for="directive">initialization</a> algorithm is as follows:
+
+  ISSUE: Do something interesting to the execution context in order to lock down
+  `eval()`, et al. I don't think ECMA gives us any hooks here, so let's work
+  with them to put something reasonable together.
+
+  <h4 id="directive-style-src">`style-src`</h4>
+
+  The <dfn>style-src</dfn> directive restricts the locations from which style
+  may be applied to a {{Document}}. The syntax for the directive's name and
+  value is described by the following ABNF:
+
+  <pre>
+    directive-name  = "style-src"
+    directive-value = <a grammar>serialized-source-list</a>
+  </pre>
+
+  The `style-src` directive governs several things:
+
+  1.  Style <a>requests</a> MUST pass through [[#should-block-request]]. This
+      includes:
+
+      1.  Stylesheet requests originating from a <{link}> element.
+      2.  Stylesheet requests originating from the <a at-rule>`@import`</a>
+          rule.
+      3.  Stylesheet requests originating from a `Link` HTTP response header
+          field [[!RFC5988]].
+
+  2.  <a>Responses</a> to style requests MUST pass through
+      [[#should-block-response]].
+
+  3.  Inline <{style}> blocks MUST pass through [[#should-block-inline]]. The
+      styles will be blocked unless every policy allows inline style, either
+      implicitly by not specifying a `script-src` (or `default-src`) directive,
+      or explicitly, by whitelisting "`unsafe-inline`", a
+      <a grammar>nonce-source</a> or a <a grammar>hash-source</a> that matches
+      the inline block.
+
+  4.  The following CSS algorithms are gated on the `unsafe-eval` source
+      expression:
+
+      1.  <a>insert a CSS rule</a>
+      2.  <a>parse a CSS rule</a>,
+      3.  <a>parse a CSS declaration block</a>
+      4.  <a>parse a group of selectors</a>
+
+      This would include, for example, all invocations of CSSOM's various
+      <code>cssText</code> setters and <code>insertRule</code> methods
+      [[!CSSOM]] [[!HTML5]].
+
+      ISSUE: This needs to be better explained.
+
+  <h5 id="style-src-algorithms">Algorithms</h5>
+
+  This directive's <a for="directive">pre-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "`style`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |request|'s <a for="request">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  This directive's <a for="directive">post-request check</a> is as follows:
+
+  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
+  <a>policy</a> (|policy|):
+
+  1.  If |request|'s <a for="request">type</a> is "`style`":
+
+      1.  If the result of executing [[#match-url-to-source-list]] on
+          |response|'s <a for="response">url</a> and this directive's
+          <a for="directive">value</a> is "`Does Not Match`",
+          return "`Blocked`".
+
+  2.  Return "`Allowed`".
+
+  This directive's <a for="directive">inline check</a> algorithm is as follows:
+
+  Given an {{Element}} (|element|) and a string (|type|):
+
+  1.  If |type| is "`style`" or "`style attribute`":
+
+      1.  If the result of executing [[#match-element-to-source-list]] on
+          |element|, this directive's <a for="directive">value</a>, and
+          |type| is "`Does Not Match`", return "`Blocked`".
+
+  3.  Return "`Allowed`".
+
+  This directive's <a for="directive">initialization</a> algorithm is as follows:
+
+  ISSUE: Do something interesting to the execution context in order to lock down
+  interesting CSSOM algorithms. I don't think CSSOM gives us any hooks here, so
+  let's work with them to put something reasonable together.
+
+  <h4 id="fetch-directive-matching-url">URL Matching Algorithms</h4>
+
+  <h5 id="does-request-violate-policy" algorithm>
+    Does |request| violate |policy|?
+  </h5>
+
+  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|), this
+  algorithm returns the violated <a>directive</a> if the request violates the
+  policy, and "`Does Not Violate`" otherwise.
+
+  1.  Let |violates| be "`Does Not Violate`".
+
+  2.  For each |directive| in |policy|:
+
+      1.  Let |result| be the result of executing |directive|'s
+          <a for="directive">pre-request check</a> on |request| and |policy|.
+
+      2.  If |result| is "`Blocked`", then let |violates| be |directive|.
+
+  3.  Return |violates|.
+
+  <h5 id="match-url-to-source-list" algorithm>
+    Does |url| match |source list|?
+  </h5>
+
+  Given a {{URL}} (|url|), and a <a>source list</a> (|source list|), this
+  algorithm returns "`Matches`" if the URL matches one or more source
+  expressions in |source list|, or "`Does Not Match`" otherwise:
+
+  1.  If |source list| is `null`, return "`Matches`".
+
+  2.  If |source list| contains a single item which is a <a>case-sensitive</a>
+      match for the string "`'none'`", return `Does Not Match`.
+
+  3.  For each |expression| in |source list|:
+
+      1.  If [[#match-url-to-source-expression]] returns "`Matches`" when
+          executed upon |url| and |expression|, return "`Matches`".
+
+  4.  Return "`Does Not Match`".
+
+  <h5 id="match-url-to-source-expression" algorithm>
+    Does |url| match |expression| in |origin| with |redirect count|?
+  </h5>
+
+  Given a {{URL}} (|url|), a <a>source expression</a> (|expression|), an
+  <a>origin</a> (|origin|), and a number (|redirect count|), this algorithm
+  returns "`Matches`" if |url| matches |expression|, and "`Does Not Match`"
+  otherwise.
+
+  Note: |origin| is the <a>origin</a> of the resource relative to which the
+  |expression| should be resolved. "`'self'`", for instance, will have distinct
+  meaning depending on that bit of context.
+
+  1.  If |expression| is the string "*", and |url|'s {{URL/scheme}} is not a
+      <a>local scheme</a>, return "`Matches`".
+
+  2.  If |expression| matches the <a grammar>`scheme-source`</a> or
+      <a grammar>`host-source`</a> grammar:
+
+      1.  If |expression| has a <a grammar>`scheme-part`</a> that is not an
+          <a>ASCII case-insensitive match</a> for |url|'s {{URL/scheme}}, then
+          return "`Does Not Match`" unless one of the following conditions is
+          met:
+
+          1.  |expression|'s <a grammar>`scheme-part`</a> is an <a>ASCII
+              case-insensitive match</a> for "`http`" and |url|'s {{URL/scheme}}
+              is "`https`"
+
+          2.  |expression|'s <a grammar>`scheme-part`</a> is an <a>ASCII
+              case-insensitive match</a> for "`ws`" and |url|'s {{URL/scheme}}
+              is "`wss`"
+
+      2.  If |expression| matches the <a grammar>`scheme-source`</a> grammar,
+          return "`Matches`".
+
+      Note: This logic effectively means that `script-src http:` is
+      equivalent to `script-src http: https:`, and
+      `script-src http://example.com/` is equivalent to `script-src
+      http://example.com https://example.com`. In short, we always allow a
+      secure upgrade from an explicitly insecure expression.
+
+  3.  If |expression| matches the <a grammar>`host-source`</a> grammar:
+
+      1.  If |url|'s {{URL/host}} is `null`, return "`Does Not Match`".
+
+      2.  If |expression| does not have a <a grammar>`scheme-part`</a>, then
+          return "`Does Not Match`" unless one of the following conditions is
+          met:
+
+          1.  |origin|'s {{URL/scheme}} is |url|'s {{URL/scheme}}
+
+          2.  |origin|'s {{URL/scheme}} is "`http`", and |url|'s {{URL/scheme}}
+              one of "`https`", "`ws`", or "`wss`".
+
+          3.  |origin|'s {{URL/scheme}} is "`https`", and |url|'s {{URL/scheme}}
+              is "`wss`".
+
+          Note: As with <a grammar>`scheme-part`</a> above, we allow schemeless
+          <a grammar>`host-source`</a> expressions to be upgraded from insecure
+          schemes to secure schemes.
+
+      3.  If the first character of |expression|'s <a grammar>`host-part`</a>
+          is an U+002A ASTERISK character (`*`):
+
+          1.  Let |remaining| be the result of removing the leading "`*`" from
+              |expression|.
+
+          2.  If |remaining| (including the leading U+002E FULL STOP character
+              (`.`)) is not an <a>ASCII case-insensitive match</a> for the
+              rightmost characters of |url|'s {{URL/host}}, then return "`Does
+              Not Match`".
+
+      4.  If the first character of |expression|'s <a grammar>`host-part`</a>
+          is not an U+002A ASTERISK character (`*`), and |url|'s {{URL/host}}
+          is not an <a>ASCII case-insensitive match</a> for |expression|'s
+          <a grammar>`host-part`</a>, return "`Does Not Match`".
+
+      5.  If |expression|'s <a grammar>`host-part`</a> matches the
+          <a grammar>IPv4address</a> rule from [[!RFC3986]], and is not
+          "`127.0.0.1`"; or if |expression|'s <a grammar>`host-part`</a> is an
+          <a>IPv6 address</a>, return "`Does Not Match`".
+
+          Note: A future version of this specification may allow literal IPv6
+          and IPv4 addresses, depending on usage and demand. Given the weak
+          security properties of IP addresses in relation to named hosts,
+          however, authors are encouraged to prefer the latter whenever
+          possible.
+
+      6.  If |expression| does not contain a <a grammar>`port-part`</a>, and
+          |url|'s {{URL/port}} is not the <a>default port</a> for |url|'s
+          {{URL/scheme}}, return "`Does Not Match`".
+
+      7.  If |expression| does contain a <a grammar>`port-part`</a>:
+
+          1.  If |expression|'s <a grammar>`port-part`</a> is not "`*`", and
+              is not the same number as |url|'s {{URL/port}}, return "`Does Not
+              Match`".
+
+      8.  If |expression| contains a non-empty <a grammar>`path-part`</a>, and
+          |redirect count| is 0, then:
+
+          1.  Let |exact match| be `false` if the final character of
+              |expression|'s <a grammar>`path-part`</a> is the U+002F SOLIDUS
+              character (`/`), and `true` otherwise.
+
+          2.  Let |path list| be the result of
+              <a lt="strictly split a string">strictly splitting</a>
+              |expression|'s <a grammar>`path-part`</a> on the U+002F SOLIDUS
+              character (`/`).
+
+          3.  If |path list| has more items than |url|'s {{URL/path}}, return
+              "`Does Not Match`".
+
+          4.  If |exact match| is `true`, and |path list| does not have the same
+              number of items as |url|'s {{URL/path}}, return "`Does Not
+              Match`".
+
+          5.  For each |expression piece| in |path list|:
+
+              1.  Let |url piece| be the next item in |url|'s {{URL/path}}.
+
+              2.  <a>Percent decode</a> |expression piece|.
+
+              3.  <a>Percent decode</a> |url piece|.
+
+              4.  If |expression piece| is not an <a>ASCII case-insensitive
+                  match</a> for |url piece|, return "`Does Not Match`".
+
+      9. Return "`Matches`".
+
+  4.  If |expression| is an <a>ASCII case-insensitive match</a> for "`'self'`",
+      return "`Matches`" if one or more of the following conditions is met:
+
+      1.  |origin| is the same as |url|'s {{URL/origin}}
+
+      2.  |origin|'s {{URL/host}} is the same as |url|'s {{URL/host}},
+          |origin|'s {{URL/port}} and |url|'s {{URL/port} are either the same
+          or the <a>default ports</a> for their respective {{URL/scheme}}s, and
+          one or more of the following conditions is met:
+
+          1.  |url|'s {{URL/scheme}} is "`https`" or "`wss`"
+          2.  |origin|'s {{URL/scheme}} is "`http`"
+
+      Note: Like the <a grammar>`scheme-part`</a> logic above, the "`'self'`"
+      matching algorithm allows upgrades to secure schemes when it is safe to do
+      so. We limit these upgrades to endpoints running on the default port for a
+      particular scheme or a port that matches the origin of the protected
+      resource, as this seems sufficient to deal with upgrades that can be
+      reasonably expected to succeed.
+
+  5.  Return "`Does Not Match`".
+
+  <h5 id="effective-directive-for-a-request" algorithm>
+    Get the effective directive for |request|
+  </h5>
+
+  Each <a>fetch directive</a> controls a specific type of <a>request</a>. Given
+  a <a>request</a> (|request|), the following algorithm returns either
+  `null` or the <a for="directive">name</a> of the request's
+  <dfn for="request">effective directive</dfn>:
+
+  1.  Switch on |request|'s <a for="request">type</a>, and execute
+      the associated steps:
+
+      : ""
+      ::
+        1.  If the |request|'s <a for="request">initiator</a> is
+            "`fetch`", return `connect-src`.
+        2.  If the |request|'s <a for="request">initiator</a> is
+            "`manifest`", return `manifest-src`.
+        3.  If the |request|'s <a for="request">destination</a> is
+            "`subresource`", return `connect-src`.
+        4.  If the |request|'s <a for="request">destination</a> is
+            "`unknown`", return `object-src`.
+        5.  If the |request|'s <a for="request">destination</a> is
+            "`document`" <em>and</em> the |request|'s
+            <a for="request">target browsing context</a> is a <a>nested browsing
+            context</a>, return `child-src`.
+
+      : "`audio`"
+      : "`track`"
+      : "`video`"
+      ::
+        1.  Return `media-src`.
+
+      : "`font`"
+      ::
+        1.  Return `font-src`.
+
+      : "`image`"
+      ::
+        1.  Return `image-src`.
+
+      : "`style`"
+      ::
+        1.  Return `style-src`.
+
+      : "`script`"
+      ::
+        1.  Switch on |request|'s <a for="request">destination</a>, and
+            execute the associated steps:
+
+            : "`subresource`"
+            ::
+              1.  Return `script-src`.
+
+            : "`serviceworker`"
+            : "`sharedworker`"
+            : "`worker`"
+            ::
+              1.  Return `child-src`.
+
+  2.  Return `null`.
+
+  <h4 id="fetch-directive-matching-element">Element Matching Algorithms</h4>
+
+  <h5 id="match-element-to-source-list" algorthm>
+    Does |element| match source |list|?
+  </h5>
+
+  Given an {{Element}} (|element|), a <a>source list</a> (|list|), and a string
+  (|type|), this algorithm returns "`Matches`" or "`Does Not Match`".
+
+  1.  Let |contains nonce or hash| be `false`.
+
+  2.  For each |expression| in |list|:
+
+      1.  If |expression| matches the <a grammar>`nonce-source`</a> or
+          <a grammar>`hash-source`</a> grammar, set |contains nonce or hash|
+          to `true`.
+
+  3.  If |contains nonce or hash| is `false`, and |list| contains a
+      <a>source expression</a> which is a <a>case-sensitive</a> match for
+      the string "`unsafe-inline`", then return "`Matches`".
+
+  4.  If |type| is not "`script attribute`" or "`style attribute`":
+
+      1.  Let |content| be <a>the script block's source</a> if |element| is a
+          <{script}> element, or the value of |element|'s {{Node/textContent}}
+          IDL attribute for any other element.
+
+      2.  For each |expression| in |list|:
+
+          1.  If |expression| matches the <a grammar>`nonce-source`</a> grammar,
+              and |element| has a <{script/nonce}> attribute whose value is a
+              <a>case-sensitive</a> match for |expression|'s
+              <a grammar>`base64-value`</a> part, return "`Matches`".
+
+          2.  If |expression| matches the <a grammar>`hash-source`</a> grammar:
+
+              1.  Let |algorithm| be `null`.
+
+              2.  If |expression|'s <a grammar>`hash-algorithm`</a> part is an
+                  <a>ASCII case-insensitive match</a> for "sha256", set
+                  |algorithm| to <a>SHA-256</a>.
+
+              3.  If |expression|'s <a grammar>`hash-algorithm`</a> part is an
+                  <a>ASCII case-insensitive match</a> for "sha384", set
+                  |algorithm| to <a>SHA-384</a>.
+
+              4.  If |expression|'s <a grammar>`hash-algorithm`</a> part is an
+                  <a>ASCII case-insensitive match</a> for "sha512", set
+                  |algorithm| to <a>SHA-512</a>.
+
+              5.  If |algorithm| is not `null`:
+
+                  1.  Let |actual| be the result of <a>base64 encoding</a> the
+                      result of applying |algorithm| to |content|.
+
+                  2.  If |actual| is a <a>case-sensitive</a> match for
+                      |expression|'s <a grammar>`base64-value`</a> part, return
+                      "`Matches`".
+
+  5.  Return "`Does Not Match`".
+
+  <h3 id="directives-reporting">
+    Reporting Directives
+  </h3>
+
+  Various algorithms in this document hook into the reporting process by
+  constructing a <a>violation</a> object via [[#create-violation-for-request]]
+  or [[#create-violation-for-global]], and passing that object to
+  [[#report-violation]] to deliver the report.
+
+  <h4 id="directive-report-uri">`report-uri`</h4>
+
+  <div class="note">
+    Note: The <a>`report-uri`</a> directive is deprecated. Please use the
+    <a>`report-to`</a> directive instead. If the latter directive is present,
+    this directive will be ignored. To ensure backwards compatibility, we
+    suggest specifying both, like this:
+
+    <div class="example">
+      <pre>
+        <a>Content-Security-Policy</a>: ...; <a>report-uri</a> https://endpoint.com; <a>report-to</a> groupname
+      </pre>
+    </div>
+  </div>
+
+  The <dfn>`report-uri`</dfn> directive defines a set of endpoints to which
+  <a>violation reports</a> will be sent when particular behaviors are prevented.
+
+  <pre link-type="grammar">
+    directive-name  = "report-uri"
+    directive-value = <a>uri-reference</a> *( <a>RWS</a> <a>uri-reference</a> )
+
+    ; The <a>uri-reference</a> grammar is defined in Section 4.1 of RFC 3986.
+  </pre>
+
+  The directive has no effect in and of itself, but only gains meaning in
+  combination with other directives.
+
+  <h4 id="directive-report-to">`report-to`</h4>
+
+  The <dfn>`report-to`</dfn> directive defines a <a lt="group">reporting
+  group</a> to which violation reports ought to be sent [[OOB-REPORTING]]. The
+  directive's behavior is defined in [[#report-violation]]. The directive's name
+  and value are described by the following ABNF:
+
+  <pre>
+    directive-name  = "report-to"
+    directive-value = <a grammar>token</a>
+  </pre>
+
+  <h3 id="directives-elsewhere">
+    Directives Defined in Other Documents
+  </h3>
+
+  This document defines a core set of directives, and sets up a framework for
+  modular extension by other specifications. At the time this document was
+  produced, the following stable documents extend CSP:
+
+  * [[MIX]] defines `block-all-mixed-content`
+  * [[UPGRADE-INSECURE-REQUESTS]] defines `upgrade-insecure-requests`
+  * [[CSP-DOCUMENT]] defines `base-uri`, `form-action`, `frame-ancestors`,
+    `plugin-types`, and `sandbox`.
+
+  Extensions to CSP MUST register themselves via the process outlined in
+  <a href="https://tools.ietf.org/html/draft-west-webappsec-csp-reg">draft-west-webappsec-csp-reg</a>.
+  In particular, note the criteria discussed in Section 3.2 of that document.
+
+  New directives SHOULD use the <a for="directive">pre-request check</a>,
+  <a for="directive">post-request check</a>, <a for="directive">response
+  check</a>, and <a for="directive">initialization</a> hooks in order to
+  integrate themselves into Fetch and HTML.
+</section>
+
+<!-- Big text: Security -->
+<section>
+  <h2 id="security-considerations">Security Considerations</h2>
+
+  <h3 id="security-nonces">Nonce Reuse</h3>
+
+  Nonces override the other restrictions present in the directive in which
+  they're delivered. It is critical, then, that they remain unguessable, as
+  bypassing a resource's policy is otherwise trivial.
+
+  If a server delivers a <a grammar>nonce-source</a> expression as part of a
+  <a>policy</a>, the server MUST generate a unique value each time it
+  transmits a policy. The generated value SHOULD be at least 128 bits long
+  (before encoding), and SHOULD be generated via a cryptographically secure
+  random number generator in order to ensure that the value is difficult for
+  an attacker to predict.
+
+  Note: Using a nonce to whitelist inline script or style is less secure than
+  not using a nonce, as nonces override the restrictions in the directive in
+  which they are present. An attacker who can gain access to the nonce can
+  execute whatever script they like, whenever they like. That said, nonces
+  provide a substantial improvement over <a grammar>'unsafe-inline'</a> when
+  layering a content security policy on top of old code. When considering
+  <a grammar>'unsafe-inline'</a>, authors are encouraged to consider nonces
+  (or hashes) instead.
+</section>
+
+<!-- Big text: Authoring -->
+<section>
+  <h2 id="authoring-considerations">Authoring Considerations</h2>
+
+  <h3 id="multiple-policies">
+    The effect of multiple policies
+  </h3>
+
+  <em>This section is not normative.</em>
+
+  The above sections note that when multiple policies are present, each must be
+  enforced or reported, according to its type. An example will help clarify how
+  that ought to work in practice. The behavior of an `XMLHttpRequest`
+  might seem unclear given a site that, for whatever reason, delivered the
+  following HTTP headers:
+
+  <div class="example">
+    <pre>
+      Content-Security-Policy: default-src 'self' http://example.com http://example.net;
+                               connect-src 'none';
+      Content-Security-Policy: connect-src http://example.com/;
+                               script-src http://example.com/
+    </pre>
+  </div>
+
+  Is a connection to example.com allowed or not? The short answer is that the
+  connection is not allowed. Enforcing both policies means that a potential
+  connection would have to pass through both unscathed. Even though the second
+  policy would allow this connection, the first policy contains
+  `connect-src 'none'`, so its enforcement blocks the connection. The
+  impact is that adding additional policies to the list of policies to enforce
+  can <em>only</em> further restrict the capabilities of the protected resource.
+
+  To demonstrate that further, consider a script tag on this page. The first
+  policy would lock scripts down to `'self'`, `http://example.com` and
+  `http://example.net` via the `default-src` directive. The second, however,
+  would only allow script from `http://example.com/`. Script will only load if
+  it meets both policy’s criteria: in this case, the only origin that can match
+  is `http://example.com`, as both policies allow it.
+</section>
+
+<section>
+  <h2 id="implementation-considerations">Implementation Considerations</h2>
+
+  <h3 id="extensions">Vendor-specific Extensions and Addons</h3>
+
+  <a>Policy</a> enforced on a resource SHOULD NOT interfere with the operation
+  of user-agent features like addons, extensions, or bookmarklets. These kinds
+  of features generally advance the user's priority over page authors, as
+  espoused in [[HTML-DESIGN]].
+
+  Moreover, applying CSP to these kinds of features produces a substantial
+  amount of noise in violation reports, significantly reducing their value to
+  developers.
+
+  Chrome, for example, excludes the `chrome-extension:` scheme from CSP checks,
+  and does some work to ensure that extension-driven injections are allowed,
+  regardless of a page's policy.
+</section>
+
+<!-- Big Text: IANA -->
+<section>
+  <h2 id="iana-considerations">IANA Considerations</h2>
+
+  The permanent message header field registry should be updated
+  with the following registration: [[!RFC3864]]
+
+  <h3 id="iana-csp">
+    Content-Security-Policy
+  </h3>
+
+  <dl>
+    <dt>Header field name</dt>
+    <dd>Content-Security-Policy</dd>
+
+    <dt>Applicable protocol</dt>
+    <dd>http</dd>
+
+    <dt>Status</dt>
+    <dd>standard</dd>
+
+    <dt>Author/Change controller</dt>
+    <dd>W3C</dd>
+
+    <dt>Specification document</dt>
+    <dd>This specification (See [[#csp-header]])</dd>
+  </dl>
+</section>
+
+<section>
+  <h2 id="acknowledgements">Acknowledgements</h2>
+
+  Lots of people are awesome.
+</section>
