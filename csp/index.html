@@ -1061,7 +1061,7 @@
   <div data-fill-with="table-of-contents" role="navigation">
    <ul class="toc" role="directory">
     <li>
-     <a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
+     <a href="#intro"><span class="secno">1</span> <span class="content">導入</span></a>
      <ul class="toc">
       <li>
        <a href="#examples"><span class="secno">1.1</span> <span class="content">Examples</span></a>
@@ -1250,29 +1250,16 @@
   </div>
   <main>
    <section>
-    <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
-    <p><em>This section is not normative.</em></p>
-    <p>This document defines Content Security Policy (CSP), a tool which developers
-  can use to lock down their applications in various ways, mitigating the risk
-  of content injection vulnerabilities such as cross-site scripting, and
-  reducing the privilege with which their applications execute.</p>
-    <p>CSP is not intended as a first line of defense against content injection
-  vulnerabilities. Instead, CSP is best used as defense-in-depth. It reduces
-  the harm that a malicious injection can cause, but it is not a replacement for
-  careful input validation and output encoding.</p>
-    <p>This document is an iteration on Content Security Policy Level 2, with the
-  goal of more clearly explaining the interactions between CSP, HTML, and Fetch
-  on the one hand, and providing clear hooks for modular extensibility on the
-  other. Ideally, this will form a stable core upon which we can build new
-  functionality.</p>
+    <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">導入</span><a class="self-link" href="#intro"></a></h2>
+    <p><em>この章は非規範的です。</em></p>
+    <p>この仕様書では Content Security Policy (CSP) を定義します。CSP とは、開発者が様々な方法でアプリケーションの影響範囲を限定できるツールであり、クロスサイトスクリプティングのようにコンテンツが注入される脆弱性のリスクを軽減し、アプリケーションが動作する権限を制限することができます。</p>
+    <p>コンテンツが注入される脆弱性に対して、CSP を最前線の防御に用いることは想定していません。むしろ、CSP は多層防御の構成要素として用いるのが最も効果的です。CSP を導入することで、悪意あるコンテンツが注入された際の被害を軽減することは可能ですが、入力時のバリデーションと出力時エンコーディングを注意深く行うことには勝りません。</p>
+    <p>この仕様書は Content Security Policy Level 2 の改訂版です。この改訂では、CSP・HTML・Fetch の三者における連携をより明確に説明すること、ならびにモジュールとしての拡張性に関する情報を明確に提供することが目的となっています。</p>
+    <p>私たちが新しい機能を必要とした際、その上に機能を構築できるような安定した基盤を形成することがこの仕様書の理想です。</p>
     <h3 class="heading settled" data-level="1.1" id="examples"><span class="secno">1.1. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
     <h4 class="heading settled" data-level="1.1.1" id="example-basic"><span class="secno">1.1.1. </span><span class="content">Control Execution</span><a class="self-link" href="#example-basic"></a></h4>
-    <div class="example" id="example-1451d1f8">
-     <a class="self-link" href="#example-1451d1f8"></a> MegaCorp Inc’s developers want to protect themselves against cross-site
-    scripting attacks. They can mitigate the risk of script injection by
-    ensuring that their trusted CDN is the only origin from which script can
-    load and execute. Moreover, they wish to ensure that no plugins can
-    execute in their pages' contexts. The following policy has that effect:
+    <div class="example" id="example-56a4987a">
+     <a class="self-link" href="#example-56a4987a"></a> MegaCorp Inc. の開発者は、自身のサイトをクロスサイトスクリプティング攻撃から守りたいと考えています。このとき、スクリプトの読込と実行が可能なオリジンを信頼した CDN に限定することで、スクリプトが注入されるリスクを軽減できます。加えて、そのページのコンテキストにおいてプラグインを無効にしたい場合、以上の要件を実現するポリシーは次のようになります。
 <pre>Content-Security-Policy: script-src https://cdn.example.com/scripts/; object-src 'none'
 </pre>
     </div>
