@@ -311,32 +311,25 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     </pre>
   </div>
 
-  <h3 id="goals">Goals</h3>
+  <h3 id="goals">目的</h3>
 
-  Content Security Policy aims to do to a few related things:
+  Content Security Policy は以下を目的として設計されています。
 
-  1.  Mitigate the risk of content-injection attacks by giving developers
-      fairly granular control over
+  1.  以下の事柄を管理することができ、かつ粒度の高い方法を開発者に提供することで、コンテンツが注入される攻撃のリスクを軽減します。
 
-      *   The resources which can be requested (and subsequently embedded or
-          executed) on behalf of a specific {{Document}} or {{Worker}}
+      *   指定した {{Document}} や {{Worker}} に対して、リクエストの発行・コンテンツへの埋込・実行が可能なリソース
 
-      *   The execution of inline script
+      *   インラインスクリプトの実行
 
-      *   Dynamic code execution (via {{eval()}} and similar constructs)
+      *   （{{eval()}} や類似の構文を用いる）動的なコード実行
 
-      *   The application of inline style
+      *   インラインスタイルを含むアプリケーション
 
-  2.  Mitigate the risk of attacks which require a resource to be embedded
-      in a malicious context (the "Pixel Perfect" attack described in
-      [[TIMING]], for example) by giving developers granular control over the
-      origins which can embed a given resource.
+  2.  指定したリソースの埋め込み先オリジンを管理でき、かつ粒度の高い方法を開発者に提供することで、悪意あるコンテキストにリソースを埋め込む必要がある攻撃（例えば [[TIMING]] で説明されている "Pixel Perfect" 攻撃）のリスクを軽減します。
 
-  3.  Provide a policy framework which allows developers to reduce the privilege
-      of their applications.
+  3.  アプリケーションの動作権限を管理者が制限できるようなポリシーの枠組みを提供します。
 
-  4.  Provide a reporting mechanism which allows developers to detect flaws
-      being exploited in the wild.
+  4.  本番環境で攻撃を受けている箇所を報告し、開発者が検知できるような仕組みを提供します。
 
   <h3 id="changes-from-level-2">Changes from Level 2</h3>
 

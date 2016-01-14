@@ -1068,7 +1068,7 @@
        <ul class="toc">
         <li><a href="#example-basic"><span class="secno">1.1.1</span> <span class="content">Control Execution</span></a>
        </ul>
-      <li><a href="#goals"><span class="secno">1.2</span> <span class="content">Goals</span></a>
+      <li><a href="#goals"><span class="secno">1.2</span> <span class="content">目的</span></a>
       <li><a href="#changes-from-level-2"><span class="secno">1.3</span> <span class="content">Changes from Level 2</span></a>
       <li><a href="#open-questions"><span class="secno">1.4</span> <span class="content">Open Questions</span></a>
      </ul>
@@ -1263,33 +1263,27 @@
 <pre>Content-Security-Policy: script-src https://cdn.example.com/scripts/; object-src 'none'
 </pre>
     </div>
-    <h3 class="heading settled" data-level="1.2" id="goals"><span class="secno">1.2. </span><span class="content">Goals</span><a class="self-link" href="#goals"></a></h3>
-    <p>Content Security Policy aims to do to a few related things:</p>
+    <h3 class="heading settled" data-level="1.2" id="goals"><span class="secno">1.2. </span><span class="content">目的</span><a class="self-link" href="#goals"></a></h3>
+    <p>Content Security Policy は以下を目的として設計されています。</p>
     <ol>
      <li data-md="">
-      <p>Mitigate the risk of content-injection attacks by giving developers
-  fairly granular control over</p>
+      <p>以下の事柄を管理することができ、かつ粒度の高い方法を開発者に提供することで、コンテンツが注入される攻撃のリスクを軽減します。</p>
       <ul>
        <li data-md="">
-        <p>The resources which can be requested (and subsequently embedded or
-  executed) on behalf of a specific <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> or <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code></p>
+        <p>指定した <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> や <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> に対して、リクエストの発行・コンテンツへの埋込・実行が可能なリソース</p>
        <li data-md="">
-        <p>The execution of inline script</p>
+        <p>インラインスクリプトの実行</p>
        <li data-md="">
-        <p>Dynamic code execution (via <code class="idl"><a data-link-type="idl" href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-eval-x">eval()</a></code> and similar constructs)</p>
+        <p>（<code class="idl"><a data-link-type="idl" href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-eval-x">eval()</a></code> や類似の構文を用いる）動的なコード実行</p>
        <li data-md="">
-        <p>The application of inline style</p>
+        <p>インラインスタイルを含むアプリケーション</p>
       </ul>
      <li data-md="">
-      <p>Mitigate the risk of attacks which require a resource to be embedded
-  in a malicious context (the "Pixel Perfect" attack described in <a data-link-type="biblio" href="#biblio-timing">[TIMING]</a>, for example) by giving developers granular control over the
-  origins which can embed a given resource.</p>
+      <p>指定したリソースの埋め込み先オリジンを管理でき、かつ粒度の高い方法を開発者に提供することで、悪意あるコンテキストにリソースを埋め込む必要がある攻撃（例えば <a data-link-type="biblio" href="#biblio-timing">[TIMING]</a> で説明されている "Pixel Perfect" 攻撃）のリスクを軽減します。</p>
      <li data-md="">
-      <p>Provide a policy framework which allows developers to reduce the privilege
-  of their applications.</p>
+      <p>アプリケーションの動作権限を管理者が制限できるようなポリシーの枠組みを提供します。</p>
      <li data-md="">
-      <p>Provide a reporting mechanism which allows developers to detect flaws
-  being exploited in the wild.</p>
+      <p>本番環境で攻撃を受けている箇所を報告し、開発者が検知できるような仕組みを提供します。</p>
     </ol>
     <h3 class="heading settled" data-level="1.3" id="changes-from-level-2"><span class="secno">1.3. </span><span class="content">Changes from Level 2</span><a class="self-link" href="#changes-from-level-2"></a></h3>
     <p>This document describes an evolution of the Content Security Policy Level 2
