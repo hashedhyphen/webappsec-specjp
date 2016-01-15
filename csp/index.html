@@ -1032,7 +1032,7 @@
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
   <div class="p-summary" data-fill-with="abstract">
-   <p>この仕様書では、当該の Web ページから読込・実行が可能なリソースや、その Web ページに課されるセキュリティポリシーを、開発者が管理できるようにする仕組みを定義します。</p>
+   <p>この仕様書では、Web ページから読込・実行が可能なリソースや、その Web ページに課すセキュリティポリシーを、開発者が制御できるようにする仕組みを定義します。</p>
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="status"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
@@ -1064,13 +1064,13 @@
      <a href="#intro"><span class="secno">1</span> <span class="content">導入</span></a>
      <ul class="toc">
       <li>
-       <a href="#examples"><span class="secno">1.1</span> <span class="content">Examples</span></a>
+       <a href="#examples"><span class="secno">1.1</span> <span class="content">例</span></a>
        <ul class="toc">
-        <li><a href="#example-basic"><span class="secno">1.1.1</span> <span class="content">Control Execution</span></a>
+        <li><a href="#example-basic"><span class="secno">1.1.1</span> <span class="content">Web ページの制御</span></a>
        </ul>
       <li><a href="#goals"><span class="secno">1.2</span> <span class="content">目的</span></a>
-      <li><a href="#changes-from-level-2"><span class="secno">1.3</span> <span class="content">Changes from Level 2</span></a>
-      <li><a href="#open-questions"><span class="secno">1.4</span> <span class="content">Open Questions</span></a>
+      <li><a href="#changes-from-level-2"><span class="secno">1.3</span> <span class="content">Level 2 からの変更点</span></a>
+      <li><a href="#open-questions"><span class="secno">1.4</span> <span class="content">議論中の事項</span></a>
      </ul>
     <li>
      <a href="#framework"><span class="secno">2</span> <span class="content">Framework</span></a>
@@ -1256,8 +1256,8 @@
     <p>コンテンツが注入される脆弱性に対して、CSP を最前線の防御に用いることは想定していません。むしろ、CSP は多層防御の構成要素として用いるのが最も効果的です。CSP を導入することで、悪意あるコンテンツが注入された際の被害を軽減することは可能ですが、入力時のバリデーションと出力時エンコーディングを注意深く行うことには勝りません。</p>
     <p>この仕様書は Content Security Policy Level 2 の改訂版です。この改訂では、CSP・HTML・Fetch の三者における連携をより明確に説明すること、ならびにモジュールとしての拡張性に関する情報を明確に提供することが目的となっています。</p>
     <p>私たちが新しい機能を必要とした際、その上に機能を構築できるような安定した基盤を形成することがこの仕様書の理想です。</p>
-    <h3 class="heading settled" data-level="1.1" id="examples"><span class="secno">1.1. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
-    <h4 class="heading settled" data-level="1.1.1" id="example-basic"><span class="secno">1.1.1. </span><span class="content">Control Execution</span><a class="self-link" href="#example-basic"></a></h4>
+    <h3 class="heading settled" data-level="1.1" id="examples"><span class="secno">1.1. </span><span class="content">例</span><a class="self-link" href="#examples"></a></h3>
+    <h4 class="heading settled" data-level="1.1.1" id="example-basic"><span class="secno">1.1.1. </span><span class="content">Web ページの制御</span><a class="self-link" href="#example-basic"></a></h4>
     <div class="example" id="example-56a4987a">
      <a class="self-link" href="#example-56a4987a"></a> MegaCorp Inc. の開発者は、自身のサイトをクロスサイトスクリプティング攻撃から守りたいと考えています。このとき、スクリプトの読込と実行が可能なオリジンを信頼した CDN に限定することで、スクリプトが注入されるリスクを軽減できます。加えて、そのページのコンテキストにおいてプラグインを無効にしたい場合、以上の要件を実現するポリシーは次のようになります。
 <pre>Content-Security-Policy: script-src https://cdn.example.com/scripts/; object-src 'none'
@@ -1267,7 +1267,7 @@
     <p>Content Security Policy は以下を目的として設計されています。</p>
     <ol>
      <li data-md="">
-      <p>以下の事柄を管理することができ、かつ粒度の高い方法を開発者に提供することで、コンテンツが注入される攻撃のリスクを軽減します。</p>
+      <p>以下の事柄を制御することができ、かつ粒度の高い方法を開発者に提供することで、コンテンツが注入される攻撃のリスクを軽減します。</p>
       <ul>
        <li data-md="">
         <p>指定した <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> や <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> に対して、リクエストの発行・コンテンツへの埋込・実行が可能なリソース</p>
@@ -1279,59 +1279,42 @@
         <p>インラインスタイルを含むアプリケーション</p>
       </ul>
      <li data-md="">
-      <p>指定したリソースの埋め込み先オリジンを管理でき、かつ粒度の高い方法を開発者に提供することで、悪意あるコンテキストにリソースを埋め込む必要がある攻撃（例えば <a data-link-type="biblio" href="#biblio-timing">[TIMING]</a> で説明されている "Pixel Perfect" 攻撃）のリスクを軽減します。</p>
+      <p>指定したリソースの埋め込み先オリジンを制御でき、かつ粒度の高い方法を開発者に提供することで、悪意あるコンテキストにリソースを埋め込む必要がある攻撃（例えば <a data-link-type="biblio" href="#biblio-timing">[TIMING]</a> で説明されている "Pixel Perfect" 攻撃）のリスクを軽減します。</p>
      <li data-md="">
-      <p>アプリケーションの動作権限を管理者が制限できるようなポリシーの枠組みを提供します。</p>
+      <p>開発者がアプリケーションの動作権限を制限できるようなポリシーの枠組みを提供します。</p>
      <li data-md="">
       <p>本番環境で攻撃を受けている箇所を報告し、開発者が検知できるような仕組みを提供します。</p>
     </ol>
-    <h3 class="heading settled" data-level="1.3" id="changes-from-level-2"><span class="secno">1.3. </span><span class="content">Changes from Level 2</span><a class="self-link" href="#changes-from-level-2"></a></h3>
-    <p>This document describes an evolution of the Content Security Policy Level 2
-  specification <a data-link-type="biblio" href="#biblio-csp2">[CSP2]</a>. The following is a high-level overview of the changes:</p>
+    <h3 class="heading settled" data-level="1.3" id="changes-from-level-2"><span class="secno">1.3. </span><span class="content">Level 2 からの変更点</span><a class="self-link" href="#changes-from-level-2"></a></h3>
+    <p>この仕様書は Content Security Policy Level 2 の仕様 <a data-link-type="biblio" href="#biblio-csp2">[CSP2]</a> を発展させたものです。以下に変更点を概説します。</p>
     <ol>
      <li data-md="">
-      <p>The specification has been rewritten from the ground up in terms of the <a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a> specification, which should make it simpler to integrate CSP’s
-  requirements and restrictions with other specifications (and with
-  Service Workers in particular).</p>
+      <p><a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a> の仕様を元にして CSP の仕様を基礎から書き直しました。このことにより、CSP の要請と制限を他の仕様（例えば Service Worker など）と組み合わせるのが容易になるはずです。</p>
      <li data-md="">
-      <p>The <code>frame-src</code> directive, which was deprecated in CSP Level
-  2, has been removed.</p>
+      <p>CSP Level 2 で廃止された <code>frame-src</code> ディレクティブが削除されました。</p>
      <li data-md="">
-      <p>Insecure schemes in source expressions now match their secure variants.
-  That is, <code>http:</code> is equivalent to <code>http: https:</code>, and <code>http://a.com</code> to <code>http://a.com https://a.com</code>.</p>
-      <p>Likewise, <code>'self'</code> now matches <code>https</code> and <code>wss</code> variants of the page’s
-  origin, even on pages whose scheme is <code>http</code>.</p>
+      <p>source expressions に安全でないスキームを指定した際、安全なスキームにもマッチするようになりました。すなわち、<code>http:</code> は <code>http: https:</code> と等価であり、<code>http://a.com</code> は <code>http://a.com https://a.com</code> と等価です。</p>
+      <p>同様に、<code>http</code> スキームのページで <code>'self'</code> を指定した場合、そのページのオリジンにおける <code>https</code> と <code>wss</code> にもマッチするようになりました。</p>
      <li data-md="">
-      <p>Violation reports generated from inline script or style will now report
-  "<code>inline</code>" as the blocked resource. Likewise, blocked <code>eval()</code> execution
-  will report "<code>eval</code>" as the blocked resource.</p>
+      <p>インラインのスクリプトとスタイルから生成された違反レポートは、ブロックされたリソースとして "<code>inline</code>" が報告されることになります。同様に、<code>eval()</code> の実行がブロックされた場合は、ブロックされたリソースとして "<code>eval</code>" が報告されます。</p>
      <li data-md="">
-      <p>Directives with effects on a <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> or <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> itself (as opposed
-  to the resources such a context can load) have moved out into a separate <a data-link-type="biblio" href="#biblio-csp-document">[CSP-DOCUMENT]</a> module. This includes <code>base-uri</code>, <code>form-action</code>, <code>frame-ancestors</code>, <code>plugin-types</code>, <code>sandbox</code>.</p>
+      <p>（コンテキストが読込可能なリソースではなく） <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> や <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/workers/#worker">Worker</a></code> に作用するディレクティブは <a data-link-type="biblio" href="#biblio-csp-document">[CSP-DOCUMENT]</a> モジュールに分離されました。このモジュールには <code>base-uri</code> と <code>form-action</code>、<code>frame-ancestors</code>、<code>plugin-types</code>、<code>sandbox</code> が含まれます。</p>
      <li data-md="">
-      <p>The <code>manifest-src</code> directive has been added.</p>
+      <p><code>manifest-src</code> ディレクティブが追加されました。</p>
      <li data-md="">
-      <p>The <code>report-uri</code> directive is deprecated in favor of the new <code>report-to</code> directive, which relies on <a data-link-type="biblio" href="#biblio-oob-reporting">[OOB-REPORTING]</a> as infrastructure.</p>
+      <p><code>report-uri</code> ディレクティブが廃止され、新しいディレクティブとして <code>report-to</code> が推奨されるようになりました。この <code>report-to</code> ディレクティブは <a data-link-type="biblio" href="#biblio-oob-reporting">[OOB-REPORTING]</a> を基盤として設計されています。</p>
     </ol>
-    <h3 class="heading settled" data-level="1.4" id="open-questions"><span class="secno">1.4. </span><span class="content">Open Questions</span><a class="self-link" href="#open-questions"></a></h3>
+    <h3 class="heading settled" data-level="1.4" id="open-questions"><span class="secno">1.4. </span><span class="content">議論中の事項</span><a class="self-link" href="#open-questions"></a></h3>
     <ol>
      <li data-md="">
-      <p>Do we really want to remove <code>frame-src</code>? Though the threat model of
-  workers and frames is similar, they have distinct capabilities. Perhaps
-  it makes sense for folks to allow workers while disallowing frames, or
-  vice-versa?</p>
+      <p><code>frame-src</code> を本当に削除したほうがいいのでしょうか？Worker とフレームの脅威モデルは似ていますが、それらの上で実行できる内容は異なります。もしかすると、Worker と フレームのどちらか一方のみを許可するほうが良いのかもしれません。</p>
      <li data-md="">
-      <p>Can we enable <code>sandbox</code> inside <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code>? It’s not clear what threat we’re
-  preventing by dropping support for it (and Chrome and Safari support it
-  today).</p>
+      <p><code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> の内側で <code>sandbox</code> を有効にできるのでしょうか？このサポートを打ち切った場合に考慮すべき脅威はまだ明確に分かっていません（今日現在、Chrome と Safari ではサポートされています）。</p>
      <li data-md="">
-      <p>Reporting:</p>
+      <p>Reporting（5章）に関すること</p>
       <ol>
        <li data-md="">
-        <p>Do we still need to strip values? I think we’ve removed much of the
-  risk by using the original URL of a blocked resource; there shouldn’t
-  be anything in the report JSON that script can’t gather on its own by
-  walking the DOM.</p>
+        <p>値を取り除く必要なまだあるのでしょうか？ブロックされたリソースにおける元々の URL を用いることで、そのリスクはほとんど排除されたと考えています。つまり、スクリプトが DOM を走査しても、レポートの JSON に含まれている自分自身の情報は何も収集できないはずです。</p>
       </ol>
     </ol>
    </section>

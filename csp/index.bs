@@ -8,7 +8,7 @@ Level: 3
 Editor: Mike West 56384, Google Inc., mkwst@google.com
 Group: webappsec
 Abstract:
-  この仕様書では、当該の Web ページから読込・実行が可能なリソースや、その Web ページに課されるセキュリティポリシーを、開発者が管理できるようにする仕組みを定義します。
+  この仕様書では、Web ページから読込・実行が可能なリソースや、その Web ページに課すセキュリティポリシーを、開発者が制御できるようにする仕組みを定義します。
 Indent: 2
 Version History: https://github.com/w3c/webappsec-csp/commits/master/index.src.html
 Boilerplate: omit conformance, omit feedback-header
@@ -299,9 +299,9 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   私たちが新しい機能を必要とした際、その上に機能を構築できるような安定した基盤を形成することがこの仕様書の理想です。
 
-  <h3 id="examples">Examples</h3>
+  <h3 id="examples">例</h3>
 
-  <h4 id="example-basic">Control Execution</h4>
+  <h4 id="example-basic">Web ページの制御</h4>
 
   <div class="example">
     MegaCorp Inc. の開発者は、自身のサイトをクロスサイトスクリプティング攻撃から守りたいと考えています。このとき、スクリプトの読込と実行が可能なオリジンを信頼した CDN に限定することで、スクリプトが注入されるリスクを軽減できます。加えて、そのページのコンテキストにおいてプラグインを無効にしたい場合、以上の要件を実現するポリシーは次のようになります。
@@ -315,7 +315,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   Content Security Policy は以下を目的として設計されています。
 
-  1.  以下の事柄を管理することができ、かつ粒度の高い方法を開発者に提供することで、コンテンツが注入される攻撃のリスクを軽減します。
+  1.  以下の事柄を制御することができ、かつ粒度の高い方法を開発者に提供することで、コンテンツが注入される攻撃のリスクを軽減します。
 
       *   指定した {{Document}} や {{Worker}} に対して、リクエストの発行・コンテンツへの埋込・実行が可能なリソース
 
@@ -325,63 +325,41 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
       *   インラインスタイルを含むアプリケーション
 
-  2.  指定したリソースの埋め込み先オリジンを管理でき、かつ粒度の高い方法を開発者に提供することで、悪意あるコンテキストにリソースを埋め込む必要がある攻撃（例えば [[TIMING]] で説明されている "Pixel Perfect" 攻撃）のリスクを軽減します。
+  2.  指定したリソースの埋め込み先オリジンを制御でき、かつ粒度の高い方法を開発者に提供することで、悪意あるコンテキストにリソースを埋め込む必要がある攻撃（例えば [[TIMING]] で説明されている "Pixel Perfect" 攻撃）のリスクを軽減します。
 
-  3.  アプリケーションの動作権限を管理者が制限できるようなポリシーの枠組みを提供します。
+  3.  開発者がアプリケーションの動作権限を制限できるようなポリシーの枠組みを提供します。
 
   4.  本番環境で攻撃を受けている箇所を報告し、開発者が検知できるような仕組みを提供します。
 
-  <h3 id="changes-from-level-2">Changes from Level 2</h3>
+  <h3 id="changes-from-level-2">Level 2 からの変更点</h3>
 
-  This document describes an evolution of the Content Security Policy Level 2
-  specification [[CSP2]]. The following is a high-level overview of the changes:
+  この仕様書は Content Security Policy Level 2 の仕様 [[CSP2]] を発展させたものです。以下に変更点を概説します。
 
-  1.  The specification has been rewritten from the ground up in terms of the
-      [[FETCH]] specification, which should make it simpler to integrate CSP's
-      requirements and restrictions with other specifications (and with
-      Service Workers in particular).
+  1.  [[FETCH]] の仕様を元にして CSP の仕様を基礎から書き直しました。このことにより、CSP の要請と制限を他の仕様（例えば Service Worker など）と組み合わせるのが容易になるはずです。
 
-  2.  The `frame-src` directive, which was deprecated in CSP Level
-      2, has been removed.
+  2.  CSP Level 2 で廃止された `frame-src` ディレクティブが削除されました。
 
-  3.  Insecure schemes in source expressions now match their secure variants.
-      That is, `http:` is equivalent to `http: https:`, and `http://a.com`
-      to `http://a.com https://a.com`.
+  3.  source expressions に安全でないスキームを指定した際、安全なスキームにもマッチするようになりました。すなわち、`http:` は `http: https:` と等価であり、`http://a.com` は `http://a.com https://a.com` と等価です。
 
-      Likewise, `'self'` now matches `https` and `wss` variants of the page's
-      origin, even on pages whose scheme is `http`.
+      同様に、`http` スキームのページで `'self'` を指定した場合、そのページのオリジンにおける `https` と `wss` にもマッチするようになりました。
 
-  4.  Violation reports generated from inline script or style will now report
-      "`inline`" as the blocked resource. Likewise, blocked `eval()` execution
-      will report "`eval`" as the blocked resource.
+  4.  インラインのスクリプトとスタイルから生成された違反レポートは、ブロックされたリソースとして "`inline`" が報告されることになります。同様に、`eval()` の実行がブロックされた場合は、ブロックされたリソースとして "`eval`" が報告されます。
 
-  5.  Directives with effects on a {{Document}} or {{Worker}} itself (as opposed
-      to the resources such a context can load) have moved out into a separate
-      [[CSP-DOCUMENT]] module. This includes `base-uri`, `form-action`,
-      `frame-ancestors`, `plugin-types`, `sandbox`.
+  5.  （コンテキストが読込可能なリソースではなく） {{Document}} や {{Worker}} に作用するディレクティブは [[CSP-DOCUMENT]] モジュールに分離されました。このモジュールには `base-uri` と `form-action`、`frame-ancestors`、`plugin-types`、`sandbox` が含まれます。
 
-  6.  The `manifest-src` directive has been added.
+  6.  `manifest-src` ディレクティブが追加されました。
 
-  7.  The `report-uri` directive is deprecated in favor of the new `report-to`
-      directive, which relies on [[OOB-REPORTING]] as infrastructure.
+  7.  `report-uri` ディレクティブが廃止され、新しいディレクティブとして `report-to` が推奨されるようになりました。この `report-to` ディレクティブは [[OOB-REPORTING]] を基盤として設計されています。
 
-  <h3 id="open-questions">Open Questions</h3>
+  <h3 id="open-questions">議論中の事項</h3>
 
-  1.  Do we really want to remove `frame-src`? Though the threat model of
-      workers and frames is similar, they have distinct capabilities. Perhaps
-      it makes sense for folks to allow workers while disallowing frames, or
-      vice-versa?
+  1.  `frame-src` を本当に削除したほうがいいのでしょうか？Worker とフレームの脅威モデルは似ていますが、それらの上で実行できる内容は異なります。もしかすると、Worker と フレームのどちらか一方のみを許可するほうが良いのかもしれません。
 
-  2.  Can we enable `sandbox` inside <{meta}>? It's not clear what threat we're
-      preventing by dropping support for it (and Chrome and Safari support it
-      today).
+  2.  <{meta}> の内側で `sandbox` を有効にできるのでしょうか？このサポートを打ち切った場合に考慮すべき脅威はまだ明確に分かっていません（今日現在、Chrome と Safari ではサポートされています）。
 
-  3.  Reporting:
+  3.  Reporting（5章）に関すること
 
-      1.  Do we still need to strip values? I think we've removed much of the
-          risk by using the original URL of a blocked resource; there shouldn't
-          be anything in the report JSON that script can't gather on its own by
-          walking the DOM.
+      1.  値を取り除く必要なまだあるのでしょうか？ブロックされたリソースにおける元々の URL を用いることで、そのリスクはほとんど排除されたと考えています。つまり、スクリプトが DOM を走査しても、レポートの JSON に含まれている自分自身の情報は何も収集できないはずです。
 </section>
 
 <!-- Big Text: Framework -->
