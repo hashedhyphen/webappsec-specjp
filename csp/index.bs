@@ -364,24 +364,17 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
 <!-- Big Text: Framework -->
 <section>
-  <h2 id="framework">Framework</h2>
+  <h2 id="framework">枠組み</h2>
 
-  <h3 id="framework-policy">Policies</h3>
+  <h3 id="framework-policy">ポリシー</h3>
 
-  A <dfn local-lt="policies" export>policy</dfn> defines a set of allowed and
-  restricted behaviors, and may be applied to a {{Window}} or
-  {{WorkerGlobalScope}} as described in [[#initialize-global-object-csp]].
+  <dfn local-lt="policies" export>policy</dfn> とは、動作の許可・制限の集合を定義するものです。[[#initialize-global-object-csp]] で説明されているように、{{Window}} や {{WorkerGlobalScope}} に対して適用されることもあります。
 
-  Each policy has an associated <dfn for="policy">directive set</dfn>, which
-  is a set of <a>directives</a> that define the policy's implications when
-  applied.
+  各ポリシーには対応する <dfn for="policy">directive set</dfn> が存在します。<dfn for="policy">directive set</dfn> とは、ポリシー適用時の結果を定義した <a>directive</a> の集合です。
 
-  Each policy has an associated <dfn for="policy">disposition</dfn>, which is
-  either "`enforce`" or "`report`".
+  各ポリシーには対応する <dfn for="policy">disposition</dfn> が存在し、"`enforce`" または "`report`" の値を持ちます。
 
-  A <dfn export>serialized CSP</dfn> is an ASCII string, consisting of a
-  semicolon-delimited series of <a>serialized directives</a>, adhering to the
-  following ABNF grammar [[!RFC5234]]:
+  <dfn export>serialized CSP</dfn> とは、シリアライズされたディレクティブをセミコロン区切りで並べた ASCII 文字列です。[[!RFC5234]] の ABNF 文法を用いると以下のように表現されます。
 
   <pre dfn-type="grammar" link-type="grammar">
     <dfn>serialized-policy</dfn> = <a>serialized-directive</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>serialized-directive</a> ] )
@@ -389,73 +382,50 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   </pre>
 
   <h4 id="parse-serialized-policy" dfn lt="parse a serialized CSP" algorithm>
-    Parse a |serialized CSP| as |disposition|
+    |serialized CSP| を |disposition| としてパースする
   </h4>
 
-  Given a <a>serialized CSP</a> (|serialized CSP|), and a
-  <a for="policy">disposition</a> (|disposition|), this algorithm will return a
-  <a>policy</a> object. If the string cannot be parsed, the resulting
-  <a>policy</a>'s <a>directive set</a> will be empty.
+  <a>serialized CSP</a> (|serialized CSP|) と <a for="policy">disposition</a> (|disposition|) に対して、このアルゴリズムは <a>policy</a> オブジェクトを返します。文字列をパースできなかった場合、空の <a>directive set</a> が含まれた <a>policy</a> が返されます。
 
-  1.  Let |policy| be a new <a>policy</a> with an empty
-      <a for="policy">directive set</a>, and a <a for="policy">disposition</a>
-      of |disposition|.
+  1.  空の <a for="policy">directive set</a> と |disposition| の <a for="policy">disposition</a> を持った <a>policy</a> を |policy| に代入します。
 
-  2.  For each |token| returned by
-      <a lt="strictly split a string">strictly splitting</a> |serialized
-      CSP| on the U+003B SEMICOLON character (`;`):
+  2.  |serialized CSP| を U+003B SEMICOLON (`;`) で <a lt="strictly split a string">厳格に分割し</a>、その結果に含まれる各 |token| に対して以下を実行します。
 
-      1.  <a>Strip leading and trailing whitespace</a> from |token|.
+      1.  |token| から <a>Strip leading and trailing whitespace</a> します。
 
-      2.  If |token| is an empty string, skip the remaining substeps
-          and continue to the next item.
+      2.  ここで |token| が空文字列だった場合、残りの副手続きをスキップし、次の要素の処理に移ります。
 
-      3.  Let |directive name| be the result of
-          <a lt="collect a sequence of characters">collecting a sequence of
-          characters</a> from |token| which are not <a>space
-          characters</a>.
+      3.  |token| から <a>space characters</a> 以外の<a lt="collect a sequence of characters">文字を集めた</a>結果を |directive name| に代入します。
 
-      4.  If |policy|'s <a>directive set</a> contains a
-          <a>directive</a> whose <a for="directive">name</a> is |directive
-          name|, skip the remaining substeps and continue to the next item.
+      4.  ここで、|directive name| と等しい <a for="directive">name</a> を持つ <a>directive</a> が |policy| の <a>directive set</a> に既に存在した場合、残りの副手続きをスキップし、次の要素の処理に移ります。
 
-          The user agent SHOULD notify developers that a directive was ignored.
-          A console warning might be appropriate, for example.
+          ユーザエージェントはディレクティブが無視された旨を開発者に通知すべきです（SHOULD）。例えば、コンソールに警告を出すのが適切かもしれません。
 
-      5.  Let |directive value| be the result of
-          <a lt="split a string on spaces">splitting |token| on
-          spaces</a>.
+      5.  <a lt="split a string on spaces">|token| をスペースで分割</a>した結果を |directive value| に代入します。
 
-      6.  Let |directive| be a new <a>directive</a> whose
-          <a for="directive">name</a> is |directive name|, and
-          <a for="directive">value</a> is |directive value|.
+      6.  <a for="directive">name</a> として |directive name| を、また <a for="directive">value</a> として |directive value| を持った新しい <a>directive</a> を |directive| に代入します。
 
-      7.  Add |directive| to |policy|'s <a>directive set</a>.
+      7.  |directive| を |policy| の <a>directive set</a> に追加します。
 
-  3.  Return |policy|.
+  3.  |policy| を返します。
 
   <h4 id="parse-serialized-policy-list" algorithm>
-    Parse a serialized CSP |list| as |disposition|
+    serialized CSP の |list| を |disposition| としてパースする
   </h4>
 
-  Given a string (|list|) and a <a for="policy">disposition</a> (|disposition|)
-  which contains a comma-delimited series of <a>serialized CSP</a> strings, the
-  following algorithm will return a list of <a>policies</a>:
+  複数の <a>serialized CSP</a> をカンマ区切りで並べた文字列 (|list|) と、<a for="policy">disposition</a> (|disposition|) とに対して、以下のアルゴリズムは <a>policy</a> のリストを返します。
 
-  1.  Let |policies| be an empty list.
+  1.  空のリストを |policies| に代入します。
 
-  2.  For each |token| returned by
-      <a lt="split a string on commas">splitting |list| on commas</a>:
+  2.  <a lt="split a string on commas">|list| をカンマで分割</a>し、その結果に含まれる各 |token| に対して以下を実行します。
 
-      1.  Let |policy| be the result of executing
-          [[#parse-serialized-policy]] on |token| with |disposition|.
+      1.  [[#parse-serialized-policy]] に |token| と |disposition| を適用させた結果を |policy| に代入します。
 
-      2.  If |policy|'s <a>directive set</a> is empty, skip the
-          remaining substeps, and continue to the next item.
+      2.  ここで |policy| の <a>directive set</a> が空だった場合、残りの副手続きをスキップし、次の要素の処理に移ります。
 
-      3.  Add |policy| to |policies|.
+      3.  |policy| を |policies| に追加します。
 
-  3.  Return |policies|.
+  3.  |policies| を返します。
 
   <h3 id="framework-directives">Directives</h3>
 

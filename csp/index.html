@@ -1073,13 +1073,13 @@
       <li><a href="#open-questions"><span class="secno">1.4</span> <span class="content">議論中の事項</span></a>
      </ul>
     <li>
-     <a href="#framework"><span class="secno">2</span> <span class="content">Framework</span></a>
+     <a href="#framework"><span class="secno">2</span> <span class="content">枠組み</span></a>
      <ul class="toc">
       <li>
-       <a href="#framework-policy"><span class="secno">2.1</span> <span class="content">Policies</span></a>
+       <a href="#framework-policy"><span class="secno">2.1</span> <span class="content">ポリシー</span></a>
        <ul class="toc">
-        <li><a href="#parse-serialized-policy"><span class="secno">2.1.1</span> <span class="content"> Parse a <var>serialized CSP</var> as <var>disposition</var> </span></a>
-        <li><a href="#parse-serialized-policy-list"><span class="secno">2.1.2</span> <span class="content"> Parse a serialized CSP <var>list</var> as <var>disposition</var> </span></a>
+        <li><a href="#parse-serialized-policy"><span class="secno">2.1.1</span> <span class="content"> <var>serialized CSP</var> を <var>disposition</var> としてパースする </span></a>
+        <li><a href="#parse-serialized-policy-list"><span class="secno">2.1.2</span> <span class="content"> serialized CSP の <var>list</var> を <var>disposition</var> としてパースする </span></a>
        </ul>
       <li>
        <a href="#framework-directives"><span class="secno">2.2</span> <span class="content">Directives</span></a>
@@ -1319,75 +1319,59 @@
     </ol>
    </section>
    <section>
-    <h2 class="heading settled" data-level="2" id="framework"><span class="secno">2. </span><span class="content">Framework</span><a class="self-link" href="#framework"></a></h2>
-    <h3 class="heading settled" data-level="2.1" id="framework-policy"><span class="secno">2.1. </span><span class="content">Policies</span><a class="self-link" href="#framework-policy"></a></h3>
-    <p>A <dfn data-dfn-type="dfn" data-export="" data-local-lt="policies" id="policy">policy<a class="self-link" href="#policy"></a></dfn> defines a set of allowed and
-  restricted behaviors, and may be applied to a <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/browsers.html#dom-window">Window</a></code> or <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> as described in <a href="#initialize-global-object-csp">§4.2.2 Initialize a global object’s CSP list</a>.</p>
-    <p>Each policy has an associated <dfn data-dfn-for="policy" data-dfn-type="dfn" data-noexport="" id="directive-set">directive set<a class="self-link" href="#directive-set"></a></dfn>, which
-  is a set of <a data-link-type="dfn" href="#directives">directives</a> that define the policy’s implications when
-  applied.</p>
-    <p>Each policy has an associated <dfn data-dfn-for="policy" data-dfn-type="dfn" data-noexport="" id="disposition">disposition<a class="self-link" href="#disposition"></a></dfn>, which is
-  either "<code>enforce</code>" or "<code>report</code>".</p>
-    <p>A <dfn data-dfn-type="dfn" data-export="" id="serialized-csp">serialized CSP<a class="self-link" href="#serialized-csp"></a></dfn> is an ASCII string, consisting of a
-  semicolon-delimited series of <a data-link-type="dfn" href="#serialized-directive">serialized directives</a>, adhering to the
-  following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a>:</p>
+    <h2 class="heading settled" data-level="2" id="framework"><span class="secno">2. </span><span class="content">枠組み</span><a class="self-link" href="#framework"></a></h2>
+    <h3 class="heading settled" data-level="2.1" id="framework-policy"><span class="secno">2.1. </span><span class="content">ポリシー</span><a class="self-link" href="#framework-policy"></a></h3>
+    <p><dfn data-dfn-type="dfn" data-export="" data-local-lt="policies" id="policy">policy<a class="self-link" href="#policy"></a></dfn> とは、動作の許可・制限の集合を定義するものです。<a href="#initialize-global-object-csp">§4.2.2 Initialize a global object’s CSP list</a> で説明されているように、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/browsers.html#dom-window">Window</a></code> や <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> に対して適用されることもあります。</p>
+    <p>各ポリシーには対応する <dfn data-dfn-for="policy" data-dfn-type="dfn" data-noexport="" id="directive-set">directive set<a class="self-link" href="#directive-set"></a></dfn> が存在します。<dfn data-dfn-for="policy" data-dfn-type="dfn" data-noexport="" id="directive-set0">directive set<a class="self-link" href="#directive-set0"></a></dfn> とは、ポリシー適用時の結果を定義した <a data-link-type="dfn" href="#directives">directive</a> の集合です。</p>
+    <p>各ポリシーには対応する <dfn data-dfn-for="policy" data-dfn-type="dfn" data-noexport="" id="disposition">disposition<a class="self-link" href="#disposition"></a></dfn> が存在し、"<code>enforce</code>" または "<code>report</code>" の値を持ちます。</p>
+    <p><dfn data-dfn-type="dfn" data-export="" id="serialized-csp">serialized CSP<a class="self-link" href="#serialized-csp"></a></dfn> とは、シリアライズされたディレクティブをセミコロン区切りで並べた ASCII 文字列です。<a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a> の ABNF 文法を用いると以下のように表現されます。</p>
 <pre><dfn data-dfn-type="grammar" data-export="" id="grammardef-serialized-policy">serialized-policy<a class="self-link" href="#grammardef-serialized-policy"></a></dfn> = <a data-link-type="grammar" href="#grammardef-serialized-directive">serialized-directive</a> *( <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">OWS</a> ";" [ <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">OWS</a> <a data-link-type="grammar" href="#grammardef-serialized-directive">serialized-directive</a> ] )
                     ; <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">OWS</a> is defined in section 3.2.3 of RFC 7230
 </pre>
-    <h4 class="heading settled" data-algorithm="Parse a serialized CSP as disposition" data-dfn-type="dfn" data-level="2.1.1" data-lt="parse a serialized CSP" data-noexport="" id="parse-serialized-policy"><span class="secno">2.1.1. </span><span class="content"> Parse a <var>serialized CSP</var> as <var>disposition</var> </span><a class="self-link" href="#parse-serialized-policy"></a></h4>
-    <p>Given a <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> (<var>serialized CSP</var>), and a <a data-link-type="dfn" href="#disposition">disposition</a> (<var>disposition</var>), this algorithm will return a <a data-link-type="dfn" href="#policy">policy</a> object. If the string cannot be parsed, the resulting <a data-link-type="dfn" href="#policy">policy</a>’s <a data-link-type="dfn" href="#directive-set">directive set</a> will be empty.</p>
+    <h4 class="heading settled" data-algorithm="serialized CSP を disposition としてパースする" data-dfn-type="dfn" data-level="2.1.1" data-lt="parse a serialized CSP" data-noexport="" id="parse-serialized-policy"><span class="secno">2.1.1. </span><span class="content"> <var>serialized CSP</var> を <var>disposition</var> としてパースする </span><a class="self-link" href="#parse-serialized-policy"></a></h4>
+    <p><a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> (<var>serialized CSP</var>) と <a data-link-type="dfn" href="#disposition">disposition</a> (<var>disposition</var>) に対して、このアルゴリズムは <a data-link-type="dfn" href="#policy">policy</a> オブジェクトを返します。文字列をパースできなかった場合、空の <a data-link-type="dfn" href="#directive-set">directive set</a> が含まれた <a data-link-type="dfn" href="#policy">policy</a> が返されます。</p>
     <ol>
      <li data-md="">
-      <p>Let <var>policy</var> be a new <a data-link-type="dfn" href="#policy">policy</a> with an empty <a data-link-type="dfn" href="#directive-set">directive set</a>, and a <a data-link-type="dfn" href="#disposition">disposition</a> of <var>disposition</var>.</p>
+      <p>空の <a data-link-type="dfn" href="#directive-set">directive set</a> と <var>disposition</var> の <a data-link-type="dfn" href="#disposition">disposition</a> を持った <a data-link-type="dfn" href="#policy">policy</a> を <var>policy</var> に代入します。</p>
      <li data-md="">
-      <p>For each <var>token</var> returned by <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#strictly-split-a-string">strictly splitting</a> <var>serialized
-  CSP</var> on the U+003B SEMICOLON character (<code>;</code>):</p>
+      <p><var>serialized CSP</var> を U+003B SEMICOLON (<code>;</code>) で <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#strictly-split-a-string">厳格に分割し</a>、その結果に含まれる各 <var>token</var> に対して以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#strip-leading-and-trailing-whitespace">Strip leading and trailing whitespace</a> from <var>token</var>.</p>
+        <p><var>token</var> から <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#strip-leading-and-trailing-whitespace">Strip leading and trailing whitespace</a> します。</p>
        <li data-md="">
-        <p>If <var>token</var> is an empty string, skip the remaining substeps
-  and continue to the next item.</p>
+        <p>ここで <var>token</var> が空文字列だった場合、残りの副手続きをスキップし、次の要素の処理に移ります。</p>
        <li data-md="">
-        <p>Let <var>directive name</var> be the result of <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#collect-a-sequence-of-characters">collecting a sequence of
-  characters</a> from <var>token</var> which are not <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">space
-  characters</a>.</p>
+        <p><var>token</var> から <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#space-characters">space characters</a> 以外の<a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#collect-a-sequence-of-characters">文字を集めた</a>結果を <var>directive name</var> に代入します。</p>
        <li data-md="">
-        <p>If <var>policy</var>’s <a data-link-type="dfn" href="#directive-set">directive set</a> contains a <a data-link-type="dfn" href="#directives">directive</a> whose <a data-link-type="dfn" href="#name">name</a> is <var>directive
-  name</var>, skip the remaining substeps and continue to the next item.</p>
-        <p>The user agent SHOULD notify developers that a directive was ignored.
-  A console warning might be appropriate, for example.</p>
+        <p>ここで、<var>directive name</var> と等しい <a data-link-type="dfn" href="#name">name</a> を持つ <a data-link-type="dfn" href="#directives">directive</a> が <var>policy</var> の <a data-link-type="dfn" href="#directive-set">directive set</a> に既に存在した場合、残りの副手続きをスキップし、次の要素の処理に移ります。</p>
+        <p>ユーザエージェントはディレクティブが無視された旨を開発者に通知すべきです（SHOULD）。例えば、コンソールに警告を出すのが適切かもしれません。</p>
        <li data-md="">
-        <p>Let <var>directive value</var> be the result of <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#split-a-string-on-spaces">splitting <var>token</var> on
-  spaces</a>.</p>
+        <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#split-a-string-on-spaces"><var>token</var> をスペースで分割</a>した結果を <var>directive value</var> に代入します。</p>
        <li data-md="">
-        <p>Let <var>directive</var> be a new <a data-link-type="dfn" href="#directives">directive</a> whose <a data-link-type="dfn" href="#name">name</a> is <var>directive name</var>, and <a data-link-type="dfn" href="#value">value</a> is <var>directive value</var>.</p>
+        <p><a data-link-type="dfn" href="#name">name</a> として <var>directive name</var> を、また <a data-link-type="dfn" href="#value">value</a> として <var>directive value</var> を持った新しい <a data-link-type="dfn" href="#directives">directive</a> を <var>directive</var> に代入します。</p>
        <li data-md="">
-        <p>Add <var>directive</var> to <var>policy</var>’s <a data-link-type="dfn" href="#directive-set">directive set</a>.</p>
+        <p><var>directive</var> を <var>policy</var> の <a data-link-type="dfn" href="#directive-set">directive set</a> に追加します。</p>
       </ol>
      <li data-md="">
-      <p>Return <var>policy</var>.</p>
+      <p><var>policy</var> を返します。</p>
     </ol>
-    <h4 class="heading settled" data-algorithm="Parse a serialized CSP list as disposition" data-level="2.1.2" id="parse-serialized-policy-list"><span class="secno">2.1.2. </span><span class="content"> Parse a serialized CSP <var>list</var> as <var>disposition</var> </span><a class="self-link" href="#parse-serialized-policy-list"></a></h4>
-    <p>Given a string (<var>list</var>) and a <a data-link-type="dfn" href="#disposition">disposition</a> (<var>disposition</var>)
-  which contains a comma-delimited series of <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> strings, the
-  following algorithm will return a list of <a data-link-type="dfn" href="#policy">policies</a>:</p>
+    <h4 class="heading settled" data-algorithm="serialized CSP の list を disposition としてパースする" data-level="2.1.2" id="parse-serialized-policy-list"><span class="secno">2.1.2. </span><span class="content"> serialized CSP の <var>list</var> を <var>disposition</var> としてパースする </span><a class="self-link" href="#parse-serialized-policy-list"></a></h4>
+    <p>複数の <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> をカンマ区切りで並べた文字列 (<var>list</var>) と、<a data-link-type="dfn" href="#disposition">disposition</a> (<var>disposition</var>) とに対して、以下のアルゴリズムは <a data-link-type="dfn" href="#policy">policy</a> のリストを返します。</p>
     <ol>
      <li data-md="">
-      <p>Let <var>policies</var> be an empty list.</p>
+      <p>空のリストを <var>policies</var> に代入します。</p>
      <li data-md="">
-      <p>For each <var>token</var> returned by <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#split-a-string-on-commas">splitting <var>list</var> on commas</a>:</p>
+      <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#split-a-string-on-commas"><var>list</var> をカンマで分割</a>し、その結果に含まれる各 <var>token</var> に対して以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>Let <var>policy</var> be the result of executing <a href="#parse-serialized-policy">§2.1.1 Parse a serialized CSP as disposition</a> on <var>token</var> with <var>disposition</var>.</p>
+        <p><a href="#parse-serialized-policy">§2.1.1 serialized CSP を disposition としてパースする</a> に <var>token</var> と <var>disposition</var> を適用させた結果を <var>policy</var> に代入します。</p>
        <li data-md="">
-        <p>If <var>policy</var>’s <a data-link-type="dfn" href="#directive-set">directive set</a> is empty, skip the
-  remaining substeps, and continue to the next item.</p>
+        <p>ここで <var>policy</var> の <a data-link-type="dfn" href="#directive-set">directive set</a> が空だった場合、残りの副手続きをスキップし、次の要素の処理に移ります。</p>
        <li data-md="">
-        <p>Add <var>policy</var> to <var>policies</var>.</p>
+        <p><var>policy</var> を <var>policies</var> に追加します。</p>
       </ol>
      <li data-md="">
-      <p>Return <var>policies</var>.</p>
+      <p><var>policies</var> を返します。</p>
     </ol>
     <h3 class="heading settled" data-level="2.2" id="framework-directives"><span class="secno">2.2. </span><span class="content">Directives</span><a class="self-link" href="#framework-directives"></a></h3>
     <p><a data-link-type="dfn" href="#policy">Policies</a> contain a set of <dfn data-dfn-type="dfn" data-noexport="" id="directives">directives<a class="self-link" href="#directives"></a></dfn>, each of which controls
@@ -1675,10 +1659,10 @@
       <p>Set <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> to the
   empty list.</p>
      <li data-md="">
-      <p>Let <var>policies</var> be the result of executing <a href="#parse-serialized-policy-list">§2.1.2 Parse a serialized CSP list as disposition</a> on the result of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-parse">parsing</a> <code>Content-Security-Policy</code> in <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a>, with a disposition
+      <p>Let <var>policies</var> be the result of executing <a href="#parse-serialized-policy-list">§2.1.2 serialized CSP の list を disposition としてパースする</a> on the result of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-parse">parsing</a> <code>Content-Security-Policy</code> in <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a>, with a disposition
   of "<code>enforce</code>".</p>
      <li data-md="">
-      <p>Append to <var>policies</var> the result of executing <a href="#parse-serialized-policy-list">§2.1.2 Parse a serialized CSP list as disposition</a> on the result of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-parse">parsing</a> <code>Content-Security-Policy-Report-Only</code> in <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a>, with a disposition of "<code>report</code>".</p>
+      <p>Append to <var>policies</var> the result of executing <a href="#parse-serialized-policy-list">§2.1.2 serialized CSP の list を disposition としてパースする</a> on the result of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-parse">parsing</a> <code>Content-Security-Policy-Report-Only</code> in <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a>, with a disposition of "<code>report</code>".</p>
      <li data-md="">
       <p>For each <var>policy</var> in <var>policies</var>:</p>
       <ol>
@@ -3304,7 +3288,12 @@ Content-Security-Policy: connect-src http://example.com/;
    <li><a href="#default-src">default-src</a><span>, in §6.1.3</span>
    <li><a href="#grammardef-directive-name">directive-name</a><span>, in §2.2</span>
    <li><a href="#directives">directives</a><span>, in §2.2</span>
-   <li><a href="#directive-set">directive set</a><span>, in §2.1</span>
+   <li>
+    directive set
+    <ul>
+     <li><a href="#directive-set">dfn for policy</a><span>, in §2.1</span>
+     <li><a href="#directive-set0">dfn for policy</a><span>, in §2.1</span>
+    </ul>
    <li><a href="#grammardef-directive-value">directive-value</a><span>, in §2.2</span>
    <li><a href="#disposition">disposition</a><span>, in §2.1</span>
    <li>
