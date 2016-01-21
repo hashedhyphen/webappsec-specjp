@@ -1,7 +1,7 @@
-const gulp   = require('gulp');
-const path   = require('path');
-const spawn  = require('child_process').spawn;
-const server = require('gulp-webserver');
+const gulp  = require('gulp');
+const path  = require('path');
+const spawn = require('child_process').spawn;
+const sync  = require('browser-sync').create();
 
 gulp.task('watch', () => {
   return gulp.watch('./**/*.bs', (ev) => {
@@ -13,8 +13,11 @@ gulp.task('watch', () => {
 });
 
 gulp.task('server', () => {
-  return gulp.src('./')
-  .pipe(server({ port: 9000, livereload: true }));
+  sync.init({
+    server: "./",
+    notify: false
+  });
+  sync.watch("./**/*.html").on('change', sync.reload);
 });
 
 gulp.task('default', ['server', 'watch']);

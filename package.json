@@ -1,0 +1,20 @@
+{
+  "name": "webappsec-specjp",
+  "description": "Japanese translations of the specifications in w3c/webappsec",
+  "version": "1.0.0",
+  "bugs": {
+    "url": "https://github.com/hashedhyphen/webappsec-specjp"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.11.1",
+    "gulp": "^3.9.0"
+  },
+  "homepage": "https://github.com/hashedhyphen/webappsec-specjp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hashedhyphen/webappsec-specjp.git"
+  },
+  "scripts": {
+    "start": "gulp"
+  }
+}

@@ -427,57 +427,36 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   3.  |policies| を返します。
 
-  <h3 id="framework-directives">Directives</h3>
+  <h3 id="framework-directives">ディレクティブ</h3>
 
-  <a>Policies</a> contain a set of <dfn>directives</dfn>, each of which controls
-  a specific behavior. The directives defined in this document are described in
-  detail in [[#csp-directives]].
+  <a>Policies</a> には <dfn>directives</dfn> の集合が含まれており、各ディレクティブは動作を制御します。この仕様書で定義されるディレクティブは [[#csp-directives]] で説明されています。
 
-  Each <a>directive</a> is a <dfn for="directive">name</dfn> /
-  <dfn for="directive">value</dfn> pair. The <a for="directive">name</a> is a
-  non-empty string, and the <a>value</a> is a set of non-empty strings. The
-  <a>value</a> set MAY be empty.
+  各 <a>directive</a> は <dfn for="directive">name</dfn> と <dfn for="directive">value</dfn> の組です。<a for="directive">name</a> は空ではない文字列であり、<a>value</a> は空でない文字列の集合です。<a>value</a> は空であってもよいです（MAY）。
 
-  A <dfn>serialized directive</dfn> is an ASCII string, consisting of one or more
-  whitespace-delimited tokens, and adhering to the following ABNF [[!RFC5234]]:
+  <dfn>serialized directive</dfn> は、空白で区切られた一つ以上のトークンからなる ASCII 文字列であり、[[!RFC5234]] の ABNF を用いると以下のように表現されます
 
   <pre dfn-type="grammar" link-type="grammar">
     <dfn>serialized-directive</dfn> = <a>directive-name</a> [ <a>RWS</a> <a>directive-value</a> ]
     <dfn>directive-name</dfn>       = 1*( <a>ALPHA</a> / <a>DIGIT</a> / "-" )
     <dfn>directive-value</dfn>      = *( %x09 / %x20-%x2B / %x2D-%x3A / %x3C-%7E )
-                           ; Directive values may contain whitespace and <a>VCHAR</a> characters,
-                           ; excluding ";" and ","
+                           ; ディレクティブの値には空白と <a>VCHAR</a> 文字を含めることができます。
+                           ; ただし、";" と "," は除きます。
 
-    ; <a>RWS</a> is defined in section 3.2.3 of RFC7230. <a>ALPHA</a>, <a>DIGIT</a>, and
-    ; <a>VCHAR</a> are defined in Appendix B.1 of RFC 5234.
+    ; <a>RWS</a> は RFC7230 の 3.2.3 節で定義されています。
+    ; <a>ALPHA</a>、<a>DIGIT</a>、<a>VCHAR</a> は RFC5234 の付録 B.1 で定義されています。
   </pre>
 
-  <a>Directives</a> have five associated algorithms:
+  <a>Directives</a> に関連するアルゴリズムは以下の 5 つです。
 
-  1.  A <dfn for="directive">pre-request check</dfn>, which takes a
-      <a>request</a> and a <a>policy</a> as an argument, and is executed during
-      [[#should-block-request]]. This algorithm returns "`Allowed`" unless
-      otherwise specified.
+  1.  <dfn for="directive">pre-request check</dfn> は <a>request</a> と <a>policy</a> を引数に取り、[[#should-block-request]] の中で実行されるアルゴリズムです。実行結果として "`Allowed`" またはその他の指定された値を返します。
 
-  2.  A <dfn for="directive">post-request check</dfn>, which takes a
-      <a>request</a>, a <a>response</a>, and a <a>policy</a> as arguments, and
-      is executed during [[#should-block-response]]. This algorithm returns
-      "`Allowed`" unless otherwise specified.
+  2.  <dfn for="directive">post-request check</dfn> は <a>request</a> と <a>response</a>、そして <a>policy</a> とを引数に取り、[[#should-block-response]] の中で実行されるアルゴリズムです。実行結果として "`Allowed`" またはその他の指定された値を返します。
 
-  3.  A <dfn for="directive">response check</dfn>, which takes a
-      <a>request</a>, a <a>response</a>, and a <a>policy</a> as arguments, and
-      is executed during [[#should-block-response]]. This algorithm returns
-      "`Allowed`" unless otherwise specified.
+  3.  <dfn for="directive">response check</dfn> は <a>request</a> と <a>response</a>、そして <a>policy</a> とを引数に取り、[[#should-block-response]] の中で実行されるアルゴリズムです。実行結果として "`Allowed`" またはその他の値を定義に従って返します。[[#should-block-response]] の中で実行されるアルゴリズムです。実行結果として "`Allowed`" またはその他の指定された値を返します。
 
-  4.  An <dfn for="directive">inline check</dfn>, which takes an {{Element}} and
-      a type string as arguments, and is executed during
-      [[#should-block-inline]]. This algorithm returns "`Allowed`" unless
-      otherwise specified.
+  4.  <dfn for="directive">inline check</dfn> は {{Element}} と type string を引数に取り、[[#should-block-inline]] 　の中で実行されるアルゴリズムです。実行結果として "`Allowed`" またはその他の指定された値を返します。
 
-  5.  An <dfn for="directive">initialization</dfn>, which takes a {{Document}}
-      or <a>global object</a>, a <a>response</a>, and a <a>policy</a> as
-      arguments. This algorithm is executed during [[#initialize-document-csp]],
-      and has no effect unless otherwise specified.
+  5.  <dfn for="directive">initialization</dfn> は {{Document}} または <a>global object</a> と、<a>responce</a>、そして <a>policy</a> との 3 つの引数を取り、[[#initialize-document-csp]] の中で実行されるアルゴリズムです。特に指定がない限り、実行結果で値が返されることはありません。
 
   <h4 id="framework-directive-source-list">Source Lists</h4>
 
@@ -502,7 +481,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
       matches any resource on the host or any of its subdomains (and any of
       its subdomains' subdomains, and so on))
 
-  5.  Nonces such as `'nonce-qwertyu12345'` (which can match specific
+  5.  Nonces such as `'nonce-qwertyu12345'` (which can match  specific
       elements on a page)
 
   6.  Digests such as `'sha256-abcd...'` (which can match specific
