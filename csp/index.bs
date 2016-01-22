@@ -378,7 +378,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   <pre dfn-type="grammar" link-type="grammar">
     <dfn>serialized-policy</dfn> = <a>serialized-directive</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>serialized-directive</a> ] )
-                        ; <a>OWS</a> is defined in section 3.2.3 of RFC 7230
+                        ; <a>OWS</a> は RFC 7230 の 3.2.3 項で定義されています。
   </pre>
 
   <h4 id="parse-serialized-policy" dfn lt="parse a serialized CSP" algorithm>
@@ -442,8 +442,8 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
                            ; ディレクティブの値には空白と <a>VCHAR</a> 文字を含めることができます。
                            ; ただし、";" と "," は除きます。
 
-    ; <a>RWS</a> は RFC7230 の 3.2.3 節で定義されています。
-    ; <a>ALPHA</a>、<a>DIGIT</a>、<a>VCHAR</a> は RFC5234 の付録 B.1 で定義されています。
+    ; <a>RWS</a> は RFC 7230 の 3.2.3 項で定義されています。
+    ; <a>ALPHA</a>、<a>DIGIT</a>、<a>VCHAR</a> は RFC 5234 の付録 B.1 で定義されています。
   </pre>
 
   <a>Directives</a> に関連するアルゴリズムは以下の 5 つです。
@@ -460,81 +460,57 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   <h4 id="framework-directive-source-list">Source Lists</h4>
 
-  Many <a>directives</a>' <a>values</a> consist of <dfn>source lists</dfn>: sets
-  of tokens which identify content that can be fetched and potentially embedded
-  or executed. These tokens represent one of the following types of <dfn>source
-  expression</dfn>:
+  <a>directives</a> における <a>values</a> の多くは <dfn>source lists</dfn> から構成されます。source list とは、読み込まれるコンテンツ、埋め込み・実行の可能性があるコンテンツを特定するトークンの集合です。これらのトークンは、以下に列挙した <dfn>source expression</dfn> の種類のうち、いずれか 1 つを示します。
 
-  1.  Keywords such as <a grammar>`'none'`</a> and
-      <a grammar>`'self'`</a> (which match nothing and the current
-      URL's origin, respectively)
+  1.  <a grammar>`'none'`</a> や <a grammar>`'self'`</a> といったキーワード（要素を持たないものと、その時点における URL のオリジンとにそれぞれマッチします）
 
-  2.  Serialized URLs such as `https://example.com/path/to/file.js`
-      (which matches a specific file) or `https://example.com/`
-      (which matches everything on that origin)
+  2.  `https://example.com/path/to/file.js` のようにシリアライズされた URL （特定のファイルにマッチします）または `https://example.com/` のようにシリアライズされた URL （そのオリジン上のすべてにマッチします）
 
-  3.  Schemes such as `https:` (which matches any resource having
-      the specified scheme)
+  3.  `https:` のようなスキーム（特定のスキームを持つ任意のリソースにマッチします）
 
-  4.  Hosts such as `example.com` (which matches any resource on
-      the host, regardless of scheme) or `*.example.com` (which
-      matches any resource on the host or any of its subdomains (and any of
-      its subdomains' subdomains, and so on))
+  4.  `example.com` のようなホスト名（スキームに関係なく、そのホスト上にある任意のリソースにマッチします）または `*.example.com` のようなホスト（スキームに関係なく、そのホスト上やサブドメイン上にある任意のリソースにマッチします（さらにそのサブドメインについても同様です））
 
-  5.  Nonces such as `'nonce-qwertyu12345'` (which can match  specific
-      elements on a page)
+  5.  `'nonce-qwertyu12345'` のような nonces （ページにおける特定の要素にマッチします）
 
-  6.  Digests such as `'sha256-abcd...'` (which can match specific
-      elements on a page)
+  6.  `'sha256-abcd...'` のようなダイジェスト（ページにおける特定の要素にマッチします）
 
-  A <dfn>serialized source list</dfn> is an ASCII string, consisting of a
-  space-delimited series of <a>source expressions</a>, adhering to the
-  following ABNF grammar [[!RFC5234]]:
+  <dfn>serialized source list</dfn> とは、<a>source expressions</a> を空白区切りで並べた ASCII 文字列であり、[[!RFC5234]] の ABNF を用いると以下のように表現されます。
 
   <pre dfn-type="grammar" link-type="grammar">
     <dfn>serialized-source-list</dfn> = ( <a>source-expression</a> *( <a>RWS</a> <a>source-expression</a> ) ) / "<dfn>'none'</dfn>"
     <dfn>source-expression</dfn>      = <a>scheme-source</a> / <a>host-source</a> / <a>keyword-source</a>
                              / <a>nonce-source</a> / <a>hash-source</a>
 
-    ; Schemes:
+    ; スキーム:
     <dfn>scheme-source</dfn> = <a>scheme</a> ":"
-                    ; <a>scheme</a> is defined in section 3.1 of RFC 3986.
+                    ; <a>scheme</a> は RFC 3986 の 3.1 節で定義されています。
 
-    ; Hosts: "example.com" / "*.example.com" / "https://*.example.com:12/path/to/file.js"
+    ; ホスト: "example.com" / "*.example.com" / "https://*.example.com:12/path/to/file.js"
     <dfn>host-source</dfn> = [ <a>scheme-part</a> "://" ] <a>host-part</a> [ <a>port-part</a> ] [ <a>path-part</a> ]
     <dfn>scheme-part</dfn> = <a>scheme</a>
     <dfn>host-part</dfn>   = "*" / [ "*." ] 1*<a>host-char</a> *( "." 1*<a>host-char</a> )
     <dfn>host-char</dfn>   = <a>ALPHA</a> / <a>DIGIT</a> / "-"
     <dfn>port-part</dfn>   = ":" ( 1*<a>DIGIT</a> / "*" )
     <dfn>path-part</dfn>   = <a>path</a>
-                  ; <a>path</a> is defined in section 3.3 of RFC 3986.
+                  ; <a>path</a> は RFC 3986 の 3.3 節で定義されています。
 
-    ; Keywords:
+    ; キーワード:
     <dfn>keyword-source</dfn> = "<dfn>'self'</dfn>" / "<dfn>'unsafe-inline'</dfn>" / "<dfn>'unsafe-eval'</dfn>"
 
-    ; Nonces: 'nonce-[nonce goes here]'
+    ; Nonces: 'nonce-[ここに nonce 値が入ります]'
     <dfn>nonce-source</dfn>  = "'nonce-" <a>base64-value</a> "'"
     <dfn>base64-value</dfn>  = 1*( <a>ALPHA</a> / <a>DIGIT</a> / "+" / "/" / "-" / "_" )*2( "=" )
 
-    ; Digests: 'sha256-[digest goes here]'
+    ; ダイジェスト: 'sha256-[digest goes here]'
     <dfn>hash-source</dfn>    = "'" <a>hash-algorithm</a> "-" <a>base64-value</a> "'"
     <dfn>hash-algorithm</dfn> = "sha256" / "sha384" / "sha512"
   </pre>
 
-  The <a grammar>host-char</a> production intentionally contains only ASCII
-  characters; internationalized domain names cannot be entered directly as part
-  of a <a>serialized CSP</a>, but instead MUST be Punycode-encoded
-  [[!RFC3492]]. For example, the domain `üüüüüü.de` MUST be represented as
-  `xn--tdaaaaaa.de`.
+  <a grammar>host-char</a> の項では、意図的に ASCII 文字のみが許されています。従って、国際化ドメイン名は <a>serialized CSP</a> の中に直接含めることはできず、その代わりに Punycode で事前にエンコードしなければなりません（MUST）。例えば、`üüüüüü.de` というドメイン名は `xn--tdaaaaaa.de` と表記されなければなりません（MUST）。
 
-  Note: Though IP address do match the grammar above, only
-  `127.0.0.1` will actually match a URL when used in a source
-  expression (see [[#match-url-to-source-list]] for details). The security
-  properties of IP addresses are suspect, and authors ought to prefer hostnames
-  whenever possible.
+  Note: IP アドレスも上記の文法に適合しますが、source expression の中で用いて実際に URL とマッチするのは `127.0.0.1` のみです（詳しくは [[#match-url-to-source-list]] を参照してください）。IP アドレスに関するセキュリティの問題点はまだ明確になっていませんが、管理者は可能な限りホスト名を用いるべきです。
 
-  A {{URL}} <dfn>matches a source list</dfn> if the algorithm in
-  [[#match-url-to-source-list]] returns `Matches`.
+  [[#match-url-to-source-list]] のアルゴリズムが `Matches` を返した場合、その {{URL}} は <dfn>matches a source list</dfn> といいます。
 
   <h3 id="framework-violation">Violations</h3>
 
