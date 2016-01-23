@@ -514,51 +514,27 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   <h3 id="framework-violation">Violations</h3>
 
-  A <dfn>violation</dfn> represents an action or resource which goes against the
-  <a>policies</a> associated with a <a>global object</a>.
+  <dfn>violation</dfn> とは、<a>global object</a> に対する <a>policies</a> の制約に反したアクションやリソースを表現するものです。
 
-  Each <a>violation</a> has a
-  <dfn for="violation" id="violation-global-object">global object</dfn>, which
-  is the <a>global object</a> whose <a>policy</a> has been violated.
+  各 <a>violation</a> は <dfn for="violation" id="violation-global-object">global object</dfn> を持っており、違反が行われた <a>policy</a> に対応する <a>global object</a> がこれに相当します。
 
-  Each <a>violation</a> has a <dfn for="violation" id="violation-url">url</dfn>
-  which is its <a for="violation">global object</a>'s {{URL}}.
+  各 <a>violation</a> は <dfn for="violation" id="violation-url">url</dfn> を持っており、<a for="violation">global object</a> の {{URL}} がこれに相当します。
 
-  Each <a>violation</a> has a
-  <dfn for="violation" id="violation-status">status</dfn> which is a
-  non-negative integer representing the HTTP status code of the resource for
-  which the global object was instantiated.
+  各 <a>violation</a> は <dfn for="violation" id="violation-status">status</dfn> を持っており、グローバルオブジェクトが生成されたリソースについて、このリソースの HTTP ステータスコードを表す非負整数で表現されます。
 
-  Each <a>violation</a> has a
-  <dfn for="violation" id="violation-resource">resource</dfn>, which is
-  either `null`, "`inline`", "`eval`", or a {{URL}}. It represents the resource
-  which violated the policy.
+  各 <a>violation</a> は <dfn for="violation" id="violation-resource">resource</dfn> を持っており、`null`、"`inline`"、"`eval`"、または {{URL}} のいずれかで、ポリシーに違反したリソースを表現します。
 
-  Each <a>violation</a> has a
-  <dfn for="violation" id="violation-referrer">referrer</dfn>, which is either
-  `null`, or a {{URL}}. It represents the referrer of the resource whose policy
-  was violated.
+  各 <a>violation</a> は <dfn for="violation" id="violation-referrer">referrer</dfn> を持っており、`null` または {{URL}} のどちらかで、違反されたポリシーのリソースに対するリファラを表現します。
 
-  Each <a>violation</a> has a
-  <dfn for="violation" id="violation-policy">policy</dfn>, which is the
-  <a>policy</a> that has been violated.
+  各 <a>violation</a> は <dfn for="violation" id="violation-policy">policy</dfn> を持っており、違反が行われた <a>policy</a> がこれに相当します。
 
-  Each <a>violation</a> has an
-  <dfn for="violation" id="violation-effective-directive">effective directive</dfn>
-  which is a non-empty string representing the <a>directive</a> whose
-  enforcement caused the violation.
+  各 <a>violation</a> は <dfn for="violation" id="violation-effective-directive">effective directive</dfn> を持っており、空でない文字列として、違反の対象となった制限を指定した <a>directive</a> を表現します。
 
-  Each <a>violation</a> has a
-  <dfn for="violation" id="violation-source-file">source file</dfn>, which is
-  either `null` or a {{URL}}.
+  各 <a>violation</a> は <dfn for="violation" id="violation-source-file">source file</dfn> を持っており、`null` または {{URL}} で表現されます。
 
-  Each <a>violation</a> has a
-  <dfn for="violation" id="violation-line-number">line number</dfn>, which is
-  a non-negative integer.
+  各 <a>violation</a> は <dfn for="violation" id="violation-line-number">line number</dfn> を持っており、負でない整数値で表現されます。
 
-  Each <a>violation</a> has a
-  <dfn for="violation" id="violation-column-number">column number</dfn>, which
-  is a non-negative integer.
+  各 <a>violation</a> は <dfn for="violation" id="violation-column-number">column number</dfn> を持っており、負でない整数値で表現されます。
 
   <h4 id="create-violation-for-global" algorithm>
     Create a violation object for |global|, |policy|, and |directive|
