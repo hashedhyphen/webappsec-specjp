@@ -537,60 +537,38 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   各 <a>violation</a> は <dfn for="violation" id="violation-column-number">column number</dfn> を持っており、負でない整数値で表現されます。
 
   <h4 id="create-violation-for-global" algorithm>
-    Create a violation object for |global|, |policy|, and |directive|
+    |global|、|policy|、|directive| に対する violation オブジェクトの生成
   </h4>
 
-  Given a <a>global object</a> (|global|), a <a>policy</a> (|policy|), and a
-  string (|directive|), the following algorithm creates a new <a>violation</a>
-  object, and populates it with an initial set of data:
+  ある <a>global object</a> (|global|) と <a>policy</a> (|policy|)、 文字列 (|directive|) に対し、以下のアルゴリズムは新しい <a>violation</a> オブジェクト を生成し、初期値をそれぞれ設定します。
 
-  1.  Let |violation| be a new <a>violation</a> whose <a for="violation">global
-      object</a> is |global|, <a for="violation">policy</a> is |policy|,
-      <a for="violation">effective directive</a> is |directive|, and
-      <a for="violation">resource</a> is `null`.
+  1.  <a for="violation">global object</a> に |global| を、<a for="violation">policy</a> に |policy| を、<a for="violation">effective directive</a> に |directive| を、<a for="violation">resource</a> に `null` をそれぞれセットした新しい <a>violation</a> を |violation| に代入します。
 
-  2.  If the user agent is currently executing script, and can extract a source
-      file's URL, line number, and column number from the |global|, set
-      |violation|'s <a for="violation">source file</a>, <a for="violation">line
-      number</a>, and <a for="violation">column number</a> accordingly.
+  2.  ここで、ユーザエージェントがスクリプトを実行中であり、かつ |global| からソースファイルの URL や行数、列数を読み出せる場合、それらに従って |violation| の <a for="violation">source file</a> と <a for="violation">line number</a>、<a for="violation">column number</a> を設定します。
 
-      ISSUE: Is this kind of thing specified anywhere? I didn't see anything
-      that looked useful in [[ES2015]].
+      ISSUE: このような処理は他でも行われているでしょうか？この処理 は [[ES2015]]　で効果的に用いられていますが、それ以外の例をまだ知りません。
 
-  3.  If |global| is a {{Window}} object, set |violation|'s
-      <a for="violation">referrer</a> to |global|'s {{Window/document}}'s
-      {{Document/referrer}}.
+  3.  ここで |global| が {{Window}} オブジェクトであった場合、|violation| の <a for="violation">referrer</a> を |global| における {{Window/document}} の {{Document/referrer}} に代入します。
 
-  4.  Set |violation|'s <a for="violation">status</a> to the HTTP status code
-      for the resource associated with |violation|'s <a for="violation">global
-      object</a>.
+  4.  |violation| の <a for="violation">global object</a> に対応するリソースの HTTP ステータスコードを |violation| の <a for="violation">status</a> とします。
 
-      ISSUE: How, exactly, do we get the status code? We don't actually store it
-      anywhere.
+      ISSUE: ステータスコードを正確に得るにはどうすれば良いのでしょうか？実際、このステータスコードはどこにも保存されません。
 
-  5.  Return |violation|.
+  5.  |violation| を返します。
 
   <h4 id="create-violation-for-request" algorithm>
-    Create a violation object for |request|, |policy|, and |directive|
+    |request|、|policy|、|directive| に対する violation オブジェクトの生成
   </h4>
 
-  Given a <a>request</a> (|request|), a <a>policy</a> (|policy|), and a string
-  (|directive|), the following algorithm creates a new <a>violation</a> object,
-  and populates it with an initial set of data:
+  ある <a>request</a> (|request|) と <a>policy</a> (|policy|)、そして文字列 (|directive|) に対し、以下のアルゴリズムは新しい <a>violation</a> オブジェクトを生成し、初期値をそれぞれ設定します。
 
-  1.  Let |violation| be the result of executing
-      [[#create-violation-for-global]] on |request|'s
-      <a for="request">client</a>'s <a for="request">global object</a>,
-      |policy|, and |directive|.
+  1.  |request| における <a for="request">client</a> の <a for="request">global object</a> と |policy|、|directive| に対して [[#create-violation-for-global]] を実行し、その結果を |violation| に代入します。
 
-  2.  Set |violation|'s <a for="violation">resource</a> to |request|'s
-      <a for="request">url</a>.
+  2.  |request| の <a for="request">url</a> を |violation| の <a for="violation">resource</a> に代入します。
 
-      Note: We use |request|'s <a for="request">url</a>, and <em>not</em> its
-      <a for="request">current url</a>, as the latter might contain information
-      about redirect targets to which the page MUST NOT be given access.
+      Note: ここで用いるのは |request| の <a for="request">url</a> であり、<a for="request">current url</a> では <em>ありません</em>。なぜなら後者には、リダイレクト先かつアクセスされてはならない（MUST NOT）ページに関する情報が含まれている可能性があるからです。
 
-  3.  Return |violation|.
+  3.  |violation| を返します。
 </section>
 
 <!-- Big Text: Delivery -->
