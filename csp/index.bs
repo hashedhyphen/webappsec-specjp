@@ -548,9 +548,9 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
       ISSUE: このような処理は他でも行われているでしょうか？この処理 は [[ES2015]]　で効果的に用いられていますが、それ以外の例をまだ知りません。
 
-  3.  ここで |global| が {{Window}} オブジェクトであった場合、|violation| の <a for="violation">referrer</a> を |global| における {{Window/document}} の {{Document/referrer}} に代入します。
+  3.  ここで |global| が {{Window}} オブジェクトであった場合、|global| における {{Window/document}} の {{Document/referrer}} を |violation| の <a for="violation">referrer</a> に代入します。
 
-  4.  |violation| の <a for="violation">global object</a> に対応するリソースの HTTP ステータスコードを |violation| の <a for="violation">status</a> とします。
+  4.  |violation| の <a for="violation">global object</a> に対応するリソースの HTTP ステータスコードを |violation| の <a for="violation">status</a> に代入します。
 
       ISSUE: ステータスコードを正確に得るにはどうすれば良いのでしょうか？実際、このステータスコードはどこにも保存されません。
 

@@ -1471,9 +1471,9 @@
       <p>ここで、ユーザエージェントがスクリプトを実行中であり、かつ <var>global</var> からソースファイルの URL や行数、列数を読み出せる場合、それらに従って <var>violation</var> の <a data-link-type="dfn" href="#violation-source-file">source file</a> と <a data-link-type="dfn" href="#violation-line-number">line number</a>、<a data-link-type="dfn" href="#violation-column-number">column number</a> を設定します。</p>
       <p class="issue" id="issue-0e2d0de4"><a class="self-link" href="#issue-0e2d0de4"></a> このような処理は他でも行われているでしょうか？この処理 は <a data-link-type="biblio" href="#biblio-es2015">[ES2015]</a>　で効果的に用いられていますが、それ以外の例をまだ知りません。</p>
      <li data-md="">
-      <p>ここで <var>global</var> が <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/browsers.html#dom-window">Window</a></code> オブジェクトであった場合、<var>violation</var> の <a data-link-type="dfn" href="#violation-referrer">referrer</a> を <var>global</var> における <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/browsers.html#dom-document-2">document</a></code> の <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#dom-document-referrer">referrer</a></code> に代入します。</p>
+      <p>ここで <var>global</var> が <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/browsers.html#dom-window">Window</a></code> オブジェクトであった場合、<var>global</var> における <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/browsers.html#dom-document-2">document</a></code> の <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#dom-document-referrer">referrer</a></code> を <var>violation</var> の <a data-link-type="dfn" href="#violation-referrer">referrer</a> に代入します。</p>
      <li data-md="">
-      <p><var>violation</var> の <a data-link-type="dfn" href="#violation-global-object">global object</a> に対応するリソースの HTTP ステータスコードを <var>violation</var> の <a data-link-type="dfn" href="#violation-status">status</a> とします。</p>
+      <p><var>violation</var> の <a data-link-type="dfn" href="#violation-global-object">global object</a> に対応するリソースの HTTP ステータスコードを <var>violation</var> の <a data-link-type="dfn" href="#violation-status">status</a> に代入します。</p>
       <p class="issue" id="issue-6510dc05"><a class="self-link" href="#issue-6510dc05"></a> ステータスコードを正確に得るにはどうすれば良いのでしょうか？実際、このステータスコードはどこにも保存されません。</p>
      <li data-md="">
       <p><var>violation</var> を返します。</p>
