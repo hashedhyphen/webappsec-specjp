@@ -574,26 +574,18 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 <!-- Big Text: Delivery -->
 <section>
   <h2 id="policy-delivery">
-    Policy Delivery
+    ポリシーの伝達
   </h2>
 
-  A server MAY declare a <a>policy</a> for a particular <a>resource
-  representation</a> via an HTTP response header field whose value is a
-  <a>serialized CSP</a>. This mechanism is defined in detail in
-  [[#csp-header]] and [[#cspro-header]], and the integration with Fetch
-  and HTML is described in [[#fetch-integration]] and [[#html-integration]].
+  フィールド値に <a>serialized CSP</a> を持つ HTTP レスポンスヘッダを利用し、サーバは指定した <a>resource representation</a> に対する <a>policy</a> を宣言してもよいです（MAY）。この仕組みは [[#csp-header]] と [[#cspro-header]] で詳しく定義されており、Fetch や HTML との併用については [[#fetch-integration]] と [[#html-integration]] で詳しく説明されています。
 
-  A <a>policy</a> may also be declared inline in an HTML document via a
-  <{meta}> element's <{meta/http-equiv}> attribute, as described in
-  [[#meta-element]].
+  また、[[#meta-element]] で説明されているように、<{meta}> 要素の <{meta/http-equiv}> 属性を HTML ドキュメント中に用いて <a>policy</a> を宣言してもよいでしょう。
 
   <h3 id="csp-header">
-    The `Content-Security-Policy` HTTP Response Header Field
+    `Content-Security-Policy` HTTP レスポンスヘッダフィールド
   </h3>
 
-  The <dfn>`Content-Security-Policy`</dfn> HTTP response header field
-  is the preferred mechanism for delivering a policy from a server to a client.
-  The header's value is represented by the following ABNF [[!RFC5234]]:
+  サーバからクライアントへポリシーを伝達する仕組みとしては、<dfn>`Content-Security-Policy`</dfn> HTTP レスポンスヘッダフィールドを用いることが望まれます。ヘッダの値は [[!RFC5234]] の ABNF で以下のように表現されます。
 
   <pre>
     Content-Security-Policy = 1#<a grammar>serialized-policy</a>
@@ -606,20 +598,14 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     </pre>
   </div>
 
-  A server MAY send different `Content-Security-Policy` header field
-  values with different <a>representations</a> of the same resource.
+  同じリソースを指す異なる <a>representations</a> について、サーバはそれぞれ異なる `Content-Security-Policy` ヘッダフィールド値を送信してもよいです（MAY）。
 
-  A server SHOULD NOT send more than one HTTP response header field named
-  "`Content-Security-Policy`" with a given <a>resource
-  representation</a>.
+  1 つの <a>resource representation</a> について、サーバは "`Content-Security-Policy`" という名前の HTTP レスポンスヘッダフィールドを 2 つ以上送信するべきではありません（SHOULD NOT）。
 
-  When the user agent receives a `Content-Security-Policy` header field, it
-  MUST <a lt="parse a serialized CSP">parse</a> and <a>enforce</a> each
-  <a>serialized CSP</a> it contains as described in [[#fetch-integration]],
-  [[#html-integration]].
+  `Content-Security-Policy` ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a>serialized CSP</a> のそれぞれを <a lt="parse a serialized CSP">parse</a> し、かつ <a>enforce</a> しなければなりません（MUST）。これについては [[#html-integration]] で説明されています。
 
   <h3 id="cspro-header">
-    The `Content-Security-Policy-Report-Only` HTTP Response Header Field
+    `Content-Security-Policy-Report-Only` HTTP Responce Header Field
   </h3>
 
   The <dfn>`Content-Security-Policy-Report-Only`</dfn> HTTP response

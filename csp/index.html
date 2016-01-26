@@ -1094,10 +1094,10 @@
        </ul>
      </ul>
     <li>
-     <a href="#policy-delivery"><span class="secno">3</span> <span class="content"> Policy Delivery </span></a>
+     <a href="#policy-delivery"><span class="secno">3</span> <span class="content"> ポリシーの伝達 </span></a>
      <ul class="toc">
-      <li><a href="#csp-header"><span class="secno">3.1</span> <span class="content"> The <code>Content-Security-Policy</code> HTTP Response Header Field </span></a>
-      <li><a href="#cspro-header"><span class="secno">3.2</span> <span class="content"> The <code>Content-Security-Policy-Report-Only</code> HTTP Response Header Field </span></a>
+      <li><a href="#csp-header"><span class="secno">3.1</span> <span class="content"> <code>Content-Security-Policy</code> HTTP レスポンスヘッダフィールド </span></a>
+      <li><a href="#cspro-header"><span class="secno">3.2</span> <span class="content"> <code>Content-Security-Policy-Report-Only</code> HTTP Responce Header Field </span></a>
       <li><a href="#meta-element"><span class="secno">3.3</span> <span class="content"> The <code>&lt;meta></code> element </span></a>
      </ul>
     <li>
@@ -1491,15 +1491,11 @@
     </ol>
    </section>
    <section>
-    <h2 class="heading settled" data-level="3" id="policy-delivery"><span class="secno">3. </span><span class="content"> Policy Delivery </span><a class="self-link" href="#policy-delivery"></a></h2>
-    <p>A server MAY declare a <a data-link-type="dfn" href="#policy">policy</a> for a particular <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource
-  representation</a> via an HTTP response header field whose value is a <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a>. This mechanism is defined in detail in <a href="#csp-header">§3.1 The Content-Security-Policy HTTP Response Header Field</a> and <a href="#cspro-header">§3.2 The Content-Security-Policy-Report-Only HTTP Response Header Field</a>, and the integration with Fetch
-  and HTML is described in <a href="#fetch-integration">§4.1 Integration with Fetch</a> and <a href="#html-integration">§4.2 Integration with HTML</a>.</p>
-    <p>A <a data-link-type="dfn" href="#policy">policy</a> may also be declared inline in an HTML document via a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element’s <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> attribute, as described in <a href="#meta-element">§3.3 The &lt;meta> element</a>.</p>
-    <h3 class="heading settled" data-level="3.1" id="csp-header"><span class="secno">3.1. </span><span class="content"> The <code>Content-Security-Policy</code> HTTP Response Header Field </span><a class="self-link" href="#csp-header"></a></h3>
-    <p>The <dfn data-dfn-type="dfn" data-noexport="" id="content-security-policy"><code>Content-Security-Policy</code><a class="self-link" href="#content-security-policy"></a></dfn> HTTP response header field
-  is the preferred mechanism for delivering a policy from a server to a client.
-  The header’s value is represented by the following ABNF <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a>:</p>
+    <h2 class="heading settled" data-level="3" id="policy-delivery"><span class="secno">3. </span><span class="content"> ポリシーの伝達 </span><a class="self-link" href="#policy-delivery"></a></h2>
+    <p>フィールド値に <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> を持つ HTTP レスポンスヘッダを利用し、サーバは指定した <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> に対する <a data-link-type="dfn" href="#policy">policy</a> を宣言してもよいです（MAY）。この仕組みは <a href="#csp-header">§3.1 Content-Security-Policy HTTP レスポンスヘッダフィールド</a> と <a href="#cspro-header">§3.2 Content-Security-Policy-Report-Only HTTP Responce Header Field</a> で詳しく定義されており、Fetch や HTML との併用については <a href="#fetch-integration">§4.1 Integration with Fetch</a> と <a href="#html-integration">§4.2 Integration with HTML</a> で詳しく説明されています。</p>
+    <p>また、<a href="#meta-element">§3.3 The &lt;meta> element</a> で説明されているように、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素の <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> 属性を HTML ドキュメント中に用いて <a data-link-type="dfn" href="#policy">policy</a> を宣言してもよいでしょう。</p>
+    <h3 class="heading settled" data-level="3.1" id="csp-header"><span class="secno">3.1. </span><span class="content"> <code>Content-Security-Policy</code> HTTP レスポンスヘッダフィールド </span><a class="self-link" href="#csp-header"></a></h3>
+    <p>サーバからクライアントへポリシーを伝達する仕組みとしては、<dfn data-dfn-type="dfn" data-noexport="" id="content-security-policy"><code>Content-Security-Policy</code><a class="self-link" href="#content-security-policy"></a></dfn> HTTP レスポンスヘッダフィールドを用いることが望まれます。ヘッダの値は <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a> の ABNF で以下のように表現されます。</p>
 <pre>Content-Security-Policy = 1#<a data-link-type="grammar" href="#grammardef-serialized-policy">serialized-policy</a>
 </pre>
     <div class="example" id="example-731af1ba">
@@ -1508,14 +1504,10 @@
                          reports /csp-reporting-endpoint
 </pre>
     </div>
-    <p>A server MAY send different <code>Content-Security-Policy</code> header field
-  values with different <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">representations</a> of the same resource.</p>
-    <p>A server SHOULD NOT send more than one HTTP response header field named
-  "<code>Content-Security-Policy</code>" with a given <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource
-  representation</a>.</p>
-    <p>When the user agent receives a <code>Content-Security-Policy</code> header field, it
-  MUST <a data-link-type="dfn" href="#parse-serialized-policy">parse</a> and <a data-link-type="dfn" href="#enforced">enforce</a> each <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> it contains as described in <a href="#fetch-integration">§4.1 Integration with Fetch</a>, <a href="#html-integration">§4.2 Integration with HTML</a>.</p>
-    <h3 class="heading settled" data-level="3.2" id="cspro-header"><span class="secno">3.2. </span><span class="content"> The <code>Content-Security-Policy-Report-Only</code> HTTP Response Header Field </span><a class="self-link" href="#cspro-header"></a></h3>
+    <p>同じリソースを指す異なる <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">representations</a> について、サーバはそれぞれ異なる <code>Content-Security-Policy</code> ヘッダフィールド値を送信してもよいです（MAY）。</p>
+    <p>1 つの <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> について、サーバは "<code>Content-Security-Policy</code>" という名前の HTTP レスポンスヘッダフィールドを 2 つ以上送信するべきではありません（SHOULD NOT）。</p>
+    <p><code>Content-Security-Policy</code> ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> のそれぞれを <a data-link-type="dfn" href="#parse-serialized-policy">parse</a> し、かつ <a data-link-type="dfn" href="#enforced">enforce</a> しなければなりません（MUST）。これについては <a href="#html-integration">§4.2 Integration with HTML</a> で説明されています。</p>
+    <h3 class="heading settled" data-level="3.2" id="cspro-header"><span class="secno">3.2. </span><span class="content"> <code>Content-Security-Policy-Report-Only</code> HTTP Responce Header Field </span><a class="self-link" href="#cspro-header"></a></h3>
     <p>The <dfn data-dfn-type="dfn" data-noexport="" id="content-security-policy-report-only"><code>Content-Security-Policy-Report-Only</code><a class="self-link" href="#content-security-policy-report-only"></a></dfn> HTTP response
   header field allows web developers to experiment with policies by monitoring
   (but not enforcing) their effects. The header’s value is represented by the
@@ -3174,7 +3166,7 @@ Content-Security-Policy: connect-src http://example.com/;
      <dt>Author/Change controller
      <dd>W3C
      <dt>Specification document
-     <dd>This specification (See <a href="#csp-header">§3.1 The Content-Security-Policy HTTP Response Header Field</a>)
+     <dd>This specification (See <a href="#csp-header">§3.1 Content-Security-Policy HTTP レスポンスヘッダフィールド</a>)
     </dl>
    </section>
    <section>
