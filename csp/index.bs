@@ -602,25 +602,19 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   1 つの <a>resource representation</a> について、サーバは "`Content-Security-Policy`" という名前の HTTP レスポンスヘッダフィールドを 2 つ以上送信するべきではありません（SHOULD NOT）。
 
-  `Content-Security-Policy` ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a>serialized CSP</a> のそれぞれを <a lt="parse a serialized CSP">parse</a> し、かつ <a>enforce</a> しなければなりません（MUST）。これについては [[#html-integration]] で説明されています。
+  `Content-Security-Policy` ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a>serialized CSP</a> のそれぞれを <a lt="parse a serialized CSP">parse</a> し、かつ <a>enforce</a> しなければなりません（MUST）。これについては [[#fetch-integration]] と [[#html-integration]] で説明されています。
 
   <h3 id="cspro-header">
-    `Content-Security-Policy-Report-Only` HTTP Responce Header Field
+    `Content-Security-Policy-Report-Only` HTTP レスポンスヘッダフィールド
   </h3>
 
-  The <dfn>`Content-Security-Policy-Report-Only`</dfn> HTTP response
-  header field allows web developers to experiment with policies by monitoring
-  (but not enforcing) their effects. The header's value is represented by the
-  following ABNF [[!RFC5234]]:
+  Web 開発者がポリシーの影響範囲を（実際に適用するのではなく）モニタリングしたい場合、<dfn>`Content-Security-Policy-Report-Only`</dfn> HTTP レスポンスヘッダフィールドを用いて実験することができます。ヘッダの値は [[!RFC5234]] の ABNF で以下のように表現されます。
 
   <pre>
     Content-Security-Policy-Report-Only = 1#<a grammar>serialized-policy</a>
   </pre>
 
-  This header field allows developers to piece together their security policy in
-  an iterative fashion, deploying a report-only policy based on their best
-  estimate of how their site behaves, watching for violation reports, and then
-  moving to an enforced policy once they've gained confidence in that behavior.
+  Web 開発者はこのヘッダフィールドを用いることで、実験を繰り返しつつセキュリティポリシーを組み立てることができます。つまり、サイトの動作を入念に設計した状態で report-only ポリシーをデプロイし、その結果を違反レポートとして検証することで、サイトの動作に自信を持ってから実際にポリシーを適用することができます。
 
   <div class="example">
     <pre>
@@ -629,21 +623,13 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     </pre>
   </div>
 
-  A server MAY send different `Content-Security-Policy-Report-Only`
-  header field values with different <a>representations</a> of the same
-  resource.
+  同じリソースを指す異なる <a>representations</a> について、サーバはそれぞれ異なる `Content-Security-Policy-Report-Only` ヘッダフィールド値を送信してもよいです（MAY）。
 
-  A server SHOULD NOT send more than one HTTP response header field named
-  "`Content-Security-Policy-Report-Only`" with a given <a>resource
-  representation</a>.
+  1 つの <a>resource representation</a> について、サーバは "`Content-Security-Policy-Report-Only`" という名前の HTTP レスポンスヘッダフィールドを 2 つ以上送信するべきではありません（SHOULD NOT）。
 
-  When the user agent receives a `Content-Security-Policy-Report-Only` header
-  field, it MUST <a lt="parse a serialized CSP">parse</a> and <a>monitor</a>
-  each <a>serialized CSP</a> it contains as described in
-  [[#fetch-integration]] and [[#html-integration]].
+  `Content-Security-Policy-Report-Only` ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a>serialized CSP</a> のそれぞれを <a lt="parse a serialized CSP">parse</a> し、かつ <a>monitor</a> しなければなりません（MUST）。これについては [[#fetch-integration]] と [[#html-integration]] で説明されています。
 
-  Note: The `<a>Content-Security-Policy-Report-Only</a>` header is
-  <strong>not</strong> supported inside a <{meta}> element.
+  Note: <{meta}> 要素における `<a>Content-Security-Policy-Report-Only</a>` ヘッダはサポートされて<strong>いません</strong>。
 
   <h3 id="meta-element">
     The `<meta>` element
