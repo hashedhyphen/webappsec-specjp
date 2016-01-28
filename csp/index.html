@@ -1098,7 +1098,7 @@
      <ul class="toc">
       <li><a href="#csp-header"><span class="secno">3.1</span> <span class="content"> <code>Content-Security-Policy</code> HTTP レスポンスヘッダフィールド </span></a>
       <li><a href="#cspro-header"><span class="secno">3.2</span> <span class="content"> <code>Content-Security-Policy-Report-Only</code> HTTP レスポンスヘッダフィールド </span></a>
-      <li><a href="#meta-element"><span class="secno">3.3</span> <span class="content"> The <code>&lt;meta></code> element </span></a>
+      <li><a href="#meta-element"><span class="secno">3.3</span> <span class="content"> <code>&lt;meta></code> 要素 </span></a>
      </ul>
     <li>
      <a href="#integrations"><span class="secno">4</span> <span class="content">Integrations</span></a>
@@ -1493,7 +1493,7 @@
    <section>
     <h2 class="heading settled" data-level="3" id="policy-delivery"><span class="secno">3. </span><span class="content"> ポリシーの伝達 </span><a class="self-link" href="#policy-delivery"></a></h2>
     <p>フィールド値に <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> を持つ HTTP レスポンスヘッダを利用し、サーバは指定した <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> に対する <a data-link-type="dfn" href="#policy">policy</a> を宣言してもよいです（MAY）。この仕組みは <a href="#csp-header">§3.1 Content-Security-Policy HTTP レスポンスヘッダフィールド</a> と <a href="#cspro-header">§3.2 Content-Security-Policy-Report-Only HTTP レスポンスヘッダフィールド</a> で詳しく定義されており、Fetch や HTML との併用については <a href="#fetch-integration">§4.1 Integration with Fetch</a> と <a href="#html-integration">§4.2 Integration with HTML</a> で詳しく説明されています。</p>
-    <p>また、<a href="#meta-element">§3.3 The &lt;meta> element</a> で説明されているように、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素の <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> 属性を HTML ドキュメント中に用いて <a data-link-type="dfn" href="#policy">policy</a> を宣言してもよいでしょう。</p>
+    <p>また、<a href="#meta-element">§3.3 &lt;meta> 要素</a> で説明されているように、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素の <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> 属性を HTML ドキュメント中に用いて <a data-link-type="dfn" href="#policy">policy</a> を宣言してもよいでしょう。</p>
     <h3 class="heading settled" data-level="3.1" id="csp-header"><span class="secno">3.1. </span><span class="content"> <code>Content-Security-Policy</code> HTTP レスポンスヘッダフィールド </span><a class="self-link" href="#csp-header"></a></h3>
     <p>サーバからクライアントへポリシーを伝達する仕組みとしては、<dfn data-dfn-type="dfn" data-noexport="" id="content-security-policy"><code>Content-Security-Policy</code><a class="self-link" href="#content-security-policy"></a></dfn> HTTP レスポンスヘッダフィールドを用いることが望まれます。ヘッダの値は <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a> の ABNF で以下のように表現されます。</p>
 <pre>Content-Security-Policy = 1#<a data-link-type="grammar" href="#grammardef-serialized-policy">serialized-policy</a>
@@ -1522,29 +1522,19 @@
     <p>1 つの <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> について、サーバは "<code>Content-Security-Policy-Report-Only</code>" という名前の HTTP レスポンスヘッダフィールドを 2 つ以上送信するべきではありません（SHOULD NOT）。</p>
     <p><code>Content-Security-Policy-Report-Only</code> ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> のそれぞれを <a data-link-type="dfn" href="#parse-serialized-policy">parse</a> し、かつ <a data-link-type="dfn" href="#monitored">monitor</a> しなければなりません（MUST）。これについては <a href="#fetch-integration">§4.1 Integration with Fetch</a> と <a href="#html-integration">§4.2 Integration with HTML</a> で説明されています。</p>
     <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素における <code>&lt;a>Content-Security-Policy-Report-Only&lt;/a></code> ヘッダはサポートされて<strong>いません</strong>。</p>
-    <h3 class="heading settled" data-level="3.3" id="meta-element"><span class="secno">3.3. </span><span class="content"> The <code>&lt;meta></code> element </span><a class="self-link" href="#meta-element"></a></h3>
-    <p>A <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> may deliver a policy via one or more HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> elements
-  whose <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> attributes are an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive
-  match</a> for the string "<code>Content-Security-Policy</code>". For example:</p>
+    <h3 class="heading settled" data-level="3.3" id="meta-element"><span class="secno">3.3. </span><span class="content"> <code>&lt;meta></code> 要素 </span><a class="self-link" href="#meta-element"></a></h3>
+    <p>"<code>Content-Security-Policy</code>" に対して <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive match</a> な文字列を <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> 属性値に持つ HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素について、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> はこの要素を 1 つ以上用いてポリシーを伝達してもよいです（MAY）。具体例を以下に示します。</p>
     <div class="example" id="example-cff5e786">
      <a class="self-link" href="#example-cff5e786"></a>
 <pre>&lt;meta http-equiv="Content-Security-Policy" content="script-src 'self'">
 </pre>
     </div>
-    <p>Implementation details can be found in HTML’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/#attr-meta-http-equiv-content-security-policy"><code>Content-Security-Policy</code> <code>http-equiv</code> processing instructions</a> <a data-link-type="biblio" href="#biblio-html">[HTML]</a>.</p>
-    <p class="note" role="note">Note: The <code>&lt;a>Content-Security-Policy-Report-Only&lt;/a></code> header is <em>not</em> supported inside a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element. Neither are the <code>report-uri</code>, <code>frame-ancestors</code>, and <code>sandbox</code> directives.</p>
-    <p class="issue" id="issue-6521ca1c"><a class="self-link" href="#issue-6521ca1c"></a> Why <code>sandbox</code>? Can we loosen that?</p>
-    <p>Authors are <em>strongly encouraged</em> to place <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> elements as early
-  in the document as possible, because policies in <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> elements are not
-  applied to content which precedes them. In particular, note that resources
-  fetched or prefetched using the <code>Link</code> HTTP response header
-  field, and resources fetched or prefetched using <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-link-element">link</a></code> and <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> elements which precede a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code>-delivered policy will not be blocked.</p>
-    <p class="note" role="note">Note: A policy specified via a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element will be enforced along with
-  any other policies active for the protected resource, regardless
-  of where they’re specified. The general impact of enforcing multiple
-  policies is described in <a href="#multiple-policies">§8.1 The effect of multiple policies</a>.</p>
-    <p class="note" role="note">Note: Modifications to the <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-content">content</a></code> attribute of a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> element
-  after the element has been parsed will be ignored.</p>
+    <p>実装に関する詳細は、HTML 仕様の <a data-link-type="dfn" href="https://html.spec.whatwg.org/#attr-meta-http-equiv-content-security-policy"><code>Content-Security-Policy</code> <code>http-equiv</code> processing instructions</a> <a data-link-type="biblio" href="#biblio-html">[HTML]</a> を参照してください。</p>
+    <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素における <code>&lt;a>Content-Security-Policy-Report-Only&lt;/a></code> ヘッダはサポートされて<em>いません</em>。また、<code>report-uri</code>、<code>frame-ancestors</code>、<code>sandbox</code> 各ディレクティブも <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内ではサポートされていません。</p>
+    <p class="issue" id="issue-44b673d0"><a class="self-link" href="#issue-44b673d0"></a> 制限を緩めて <code>sandbox</code> も利用可にできるでしょうか？</p>
+    <p>Web 開発者は、できるだけドキュメントの先頭近くに <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素を書くように<em>強く推奨されます</em>。なぜなら、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内で指定されたポリシーは、その書かれた位置より前のコンテンツには適用されないからです。特に、<code>Link</code> HTTP レスポンスヘッダフィールドを使って読込・先読みされるリソース、また <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素で伝達されたポリシーより前に位置する <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-link-element">link</a></code> 要素や <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> 要素で読込・先読みされるリソースについて、これらがブロックの対象とならないことに注意してください。</p>
+    <p class="note" role="note">Note: あるポリシーが <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内で指定されており、かつ保護されたリソースに対するアクティブなポリシーが他にもあった場合、後者のポリシーを指定した位置に関係なく、両方のポリシーが同時に適用されます。複数ポリシーの適用時における一般的な影響については <a href="#multiple-policies">§8.1 The effect of multiple policies</a> で説明されています。</p>
+    <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素がパースされた後に <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-content">content</a></code> 属性値を変更した場合、この変更は無視されます。</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="4" id="integrations"><span class="secno">4. </span><span class="content">Integrations</span><a class="self-link" href="#integrations"></a></h2>
@@ -3654,7 +3644,7 @@ dictionary <a href="#dictdef-securitypolicyviolationeventinit">SecurityPolicyVio
   <div style="counter-reset:issue">
    <div class="issue"> このような処理は他でも行われているでしょうか？この処理 は <a data-link-type="biblio" href="#biblio-es2015">[ES2015]</a>　で効果的に用いられていますが、それ以外の例をまだ知りません。<a href="#issue-0e2d0de4"> ↵ </a></div>
    <div class="issue"> ステータスコードを正確に得るにはどうすれば良いのでしょうか？実際、このステータスコードはどこにも保存されません。<a href="#issue-6510dc05"> ↵ </a></div>
-   <div class="issue"> Why <code>sandbox</code>? Can we loosen that?<a href="#issue-6521ca1c"> ↵ </a></div>
+   <div class="issue"> 制限を緩めて <code>sandbox</code> も利用可にできるでしょうか？<a href="#issue-44b673d0"> ↵ </a></div>
    <div class="issue"> The algorithm is named "creating a new <code>Document</code> object" in W3C’s
   HTML, and isn’t well-integrated with Fetch.<a href="#issue-106a0c5c"> ↵ </a></div>
    <div class="issue"> Need to monkey-patch these in: something like "Set the <code>Window</code> object’s <code>CSP list</code> to the <code>CSP list</code> of the resource used to

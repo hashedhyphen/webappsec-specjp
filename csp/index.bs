@@ -632,12 +632,10 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   Note: <{meta}> 要素における `<a>Content-Security-Policy-Report-Only</a>` ヘッダはサポートされて<strong>いません</strong>。
 
   <h3 id="meta-element">
-    The `<meta>` element
+    `<meta>` 要素
   </h3>
 
-  A {{Document}} may deliver a policy via one or more HTML <{meta}> elements
-  whose <{meta/http-equiv}> attributes are an <a>ASCII case-insensitive
-  match</a> for the string "`Content-Security-Policy`". For example:
+  "`Content-Security-Policy`" に対して <a>ASCII case-insensitive match</a> な文字列を <{meta/http-equiv}> 属性値に持つ HTML <{meta}> 要素について、{{Document}} はこの要素を 1 つ以上用いてポリシーを伝達してもよいです（MAY）。具体例を以下に示します。
 
   <div class="example">
     <pre>
@@ -645,29 +643,17 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     </pre>
   </div>
 
-  Implementation details can be found in HTML's <a>`Content-Security-Policy`
-  `http-equiv` processing instructions</a> [[!HTML]].
+  実装に関する詳細は、HTML 仕様の <a>`Content-Security-Policy` `http-equiv` processing instructions</a> [[!HTML]] を参照してください。
 
-  Note: The `<a>Content-Security-Policy-Report-Only</a>` header is <em>not</em>
-  supported inside a <{meta}> element. Neither are the `report-uri`,
-  `frame-ancestors`, and `sandbox` directives.
+  Note: <{meta}> 要素における `<a>Content-Security-Policy-Report-Only</a>` ヘッダはサポートされて<em>いません</em>。また、`report-uri`、`frame-ancestors`、`sandbox` 各ディレクティブも <{meta}> 要素内ではサポートされていません。
 
-  ISSUE: Why `sandbox`? Can we loosen that?
+  ISSUE: 制限を緩めて `sandbox` も利用可にできるでしょうか？
 
-  Authors are <em>strongly encouraged</em> to place <{meta}> elements as early
-  in the document as possible, because policies in <{meta}> elements are not
-  applied to content which precedes them. In particular, note that resources
-  fetched or prefetched using the `Link` HTTP response header
-  field, and resources fetched or prefetched using <{link}> and <{script}>
-  elements which precede a <{meta}>-delivered policy will not be blocked.
+  Web 開発者は、できるだけドキュメントの先頭近くに <{meta}> 要素を書くように<em>強く推奨されます</em>。なぜなら、<{meta}> 要素内で指定されたポリシーは、その書かれた位置より前のコンテンツには適用されないからです。特に、`Link` HTTP レスポンスヘッダフィールドを使って読込・先読みされるリソース、また <{meta}> 要素で伝達されたポリシーより前に位置する <{link}> 要素や <{script}> 要素で読込・先読みされるリソースについて、これらがブロックの対象とならないことに注意してください。
 
-  Note: A policy specified via a <{meta}> element will be enforced along with
-  any other policies active for the protected resource, regardless
-  of where they're specified. The general impact of enforcing multiple
-  policies is described in [[#multiple-policies]].
+  Note: あるポリシーが <{meta}> 要素内で指定されており、かつ保護されたリソースに対するアクティブなポリシーが他にもあった場合、後者のポリシーを指定した位置に関係なく、両方のポリシーが同時に適用されます。複数ポリシーの適用時における一般的な影響については [[#multiple-policies]] で説明されています。
 
-  Note: Modifications to the <{meta/content}> attribute of a <{meta}> element
-  after the element has been parsed will be ignored.
+  Note: <{meta}> 要素がパースされた後に <{meta/content}> 属性値を変更した場合、この変更は無視されます。
 </section>
 
 <!-- Big Text: Integration -->
