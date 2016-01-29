@@ -1101,10 +1101,10 @@
       <li><a href="#meta-element"><span class="secno">3.3</span> <span class="content"> <code>&lt;meta></code> 要素 </span></a>
      </ul>
     <li>
-     <a href="#integrations"><span class="secno">4</span> <span class="content">Integrations</span></a>
+     <a href="#integrations"><span class="secno">4</span> <span class="content">連携</span></a>
      <ul class="toc">
       <li>
-       <a href="#fetch-integration"><span class="secno">4.1</span> <span class="content"> Integration with Fetch </span></a>
+       <a href="#fetch-integration"><span class="secno">4.1</span> <span class="content"> Fetch との連携 </span></a>
        <ul class="toc">
         <li><a href="#set-response-csp-list"><span class="secno">4.1.1</span> <span class="content"> Set <var>response</var>’s <code>CSP list</code> </span></a>
         <li><a href="#report-for-request"><span class="secno">4.1.2</span> <span class="content"> Report Content Security Policy violations for <var>request</var> </span></a>
@@ -1492,7 +1492,7 @@
    </section>
    <section>
     <h2 class="heading settled" data-level="3" id="policy-delivery"><span class="secno">3. </span><span class="content"> ポリシーの伝達 </span><a class="self-link" href="#policy-delivery"></a></h2>
-    <p>フィールド値に <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> を持つ HTTP レスポンスヘッダを利用し、サーバは指定した <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> に対する <a data-link-type="dfn" href="#policy">policy</a> を宣言してもよいです（MAY）。この仕組みは <a href="#csp-header">§3.1 Content-Security-Policy HTTP レスポンスヘッダフィールド</a> と <a href="#cspro-header">§3.2 Content-Security-Policy-Report-Only HTTP レスポンスヘッダフィールド</a> で詳しく定義されており、Fetch や HTML との併用については <a href="#fetch-integration">§4.1 Integration with Fetch</a> と <a href="#html-integration">§4.2 Integration with HTML</a> で詳しく説明されています。</p>
+    <p>フィールド値に <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> を持つ HTTP レスポンスヘッダを利用し、サーバは指定した <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> に対する <a data-link-type="dfn" href="#policy">policy</a> を宣言してもよいです（MAY）。この仕組みは <a href="#csp-header">§3.1 Content-Security-Policy HTTP レスポンスヘッダフィールド</a> と <a href="#cspro-header">§3.2 Content-Security-Policy-Report-Only HTTP レスポンスヘッダフィールド</a> で詳しく定義されており、Fetch や HTML との併用については <a href="#fetch-integration">§4.1 Fetch との連携</a> と <a href="#html-integration">§4.2 Integration with HTML</a> で詳しく説明されています。</p>
     <p>また、<a href="#meta-element">§3.3 &lt;meta> 要素</a> で説明されているように、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素の <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> 属性を HTML ドキュメント中に用いて <a data-link-type="dfn" href="#policy">policy</a> を宣言してもよいでしょう。</p>
     <h3 class="heading settled" data-level="3.1" id="csp-header"><span class="secno">3.1. </span><span class="content"> <code>Content-Security-Policy</code> HTTP レスポンスヘッダフィールド </span><a class="self-link" href="#csp-header"></a></h3>
     <p>サーバからクライアントへポリシーを伝達する仕組みとしては、<dfn data-dfn-type="dfn" data-noexport="" id="content-security-policy"><code>Content-Security-Policy</code><a class="self-link" href="#content-security-policy"></a></dfn> HTTP レスポンスヘッダフィールドを用いることが望まれます。ヘッダの値は <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a> の ABNF で以下のように表現されます。</p>
@@ -1506,7 +1506,7 @@
     </div>
     <p>同じリソースを指す異なる <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">representations</a> について、サーバはそれぞれ異なる <code>Content-Security-Policy</code> ヘッダフィールド値を送信してもよいです（MAY）。</p>
     <p>1 つの <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> について、サーバは "<code>Content-Security-Policy</code>" という名前の HTTP レスポンスヘッダフィールドを 2 つ以上送信するべきではありません（SHOULD NOT）。</p>
-    <p><code>Content-Security-Policy</code> ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> のそれぞれを <a data-link-type="dfn" href="#parse-serialized-policy">parse</a> し、かつ <a data-link-type="dfn" href="#enforced">enforce</a> しなければなりません（MUST）。これについては <a href="#fetch-integration">§4.1 Integration with Fetch</a> と <a href="#html-integration">§4.2 Integration with HTML</a> で説明されています。</p>
+    <p><code>Content-Security-Policy</code> ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> のそれぞれを <a data-link-type="dfn" href="#parse-serialized-policy">parse</a> し、かつ <a data-link-type="dfn" href="#enforced">enforce</a> しなければなりません（MUST）。これについては <a href="#fetch-integration">§4.1 Fetch との連携</a> と <a href="#html-integration">§4.2 Integration with HTML</a> で説明されています。</p>
     <h3 class="heading settled" data-level="3.2" id="cspro-header"><span class="secno">3.2. </span><span class="content"> <code>Content-Security-Policy-Report-Only</code> HTTP レスポンスヘッダフィールド </span><a class="self-link" href="#cspro-header"></a></h3>
     <p>Web 開発者がポリシーの影響範囲を（実際に適用するのではなく）モニタリングしたい場合、<dfn data-dfn-type="dfn" data-noexport="" id="content-security-policy-report-only"><code>Content-Security-Policy-Report-Only</code><a class="self-link" href="#content-security-policy-report-only"></a></dfn> HTTP レスポンスヘッダフィールドを用いて実験することができます。ヘッダの値は <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a> の ABNF で以下のように表現されます。</p>
 <pre>Content-Security-Policy-Report-Only = 1#<a data-link-type="grammar" href="#grammardef-serialized-policy">serialized-policy</a>
@@ -1520,7 +1520,7 @@
     </div>
     <p>同じリソースを指す異なる <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">representations</a> について、サーバはそれぞれ異なる <code>Content-Security-Policy-Report-Only</code> ヘッダフィールド値を送信してもよいです（MAY）。</p>
     <p>1 つの <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> について、サーバは "<code>Content-Security-Policy-Report-Only</code>" という名前の HTTP レスポンスヘッダフィールドを 2 つ以上送信するべきではありません（SHOULD NOT）。</p>
-    <p><code>Content-Security-Policy-Report-Only</code> ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> のそれぞれを <a data-link-type="dfn" href="#parse-serialized-policy">parse</a> し、かつ <a data-link-type="dfn" href="#monitored">monitor</a> しなければなりません（MUST）。これについては <a href="#fetch-integration">§4.1 Integration with Fetch</a> と <a href="#html-integration">§4.2 Integration with HTML</a> で説明されています。</p>
+    <p><code>Content-Security-Policy-Report-Only</code> ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> のそれぞれを <a data-link-type="dfn" href="#parse-serialized-policy">parse</a> し、かつ <a data-link-type="dfn" href="#monitored">monitor</a> しなければなりません（MUST）。これについては <a href="#fetch-integration">§4.1 Fetch との連携</a> と <a href="#html-integration">§4.2 Integration with HTML</a> で説明されています。</p>
     <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素における <code>&lt;a>Content-Security-Policy-Report-Only&lt;/a></code> ヘッダはサポートされて<strong>いません</strong>。</p>
     <h3 class="heading settled" data-level="3.3" id="meta-element"><span class="secno">3.3. </span><span class="content"> <code>&lt;meta></code> 要素 </span><a class="self-link" href="#meta-element"></a></h3>
     <p>"<code>Content-Security-Policy</code>" に対して <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive match</a> な文字列を <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> 属性値に持つ HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素について、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> はこの要素を 1 つ以上用いてポリシーを伝達してもよいです（MAY）。具体例を以下に示します。</p>
@@ -1537,41 +1537,25 @@
     <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素がパースされた後に <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-content">content</a></code> 属性値を変更した場合、この変更は無視されます。</p>
    </section>
    <section>
-    <h2 class="heading settled" data-level="4" id="integrations"><span class="secno">4. </span><span class="content">Integrations</span><a class="self-link" href="#integrations"></a></h2>
-    <p><em>This section is non-normative.</em></p>
-    <p>This document defines a set of algorithms which are used in other
-  specifications in order to implement the functionality. These
-  integrations are outlined here for clarity, but those external
-  documents are the normative references which ought to be consulted for
-  detailed information.</p>
-    <h3 class="heading settled" data-level="4.1" id="fetch-integration"><span class="secno">4.1. </span><span class="content"> Integration with Fetch </span><a class="self-link" href="#fetch-integration"></a></h3>
-    <p>A number of <a data-link-type="dfn" href="#directives">directives</a> control resource loading in one way or
-  another. This specification provides algorithms which allow Fetch to make
-  decisions about whether or not a particular <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> should be blocked
-  or allowed, and about whether a particular <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> should be replaced
-  with a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-network-error">network error</a>.</p>
+    <h2 class="heading settled" data-level="4" id="integrations"><span class="secno">4. </span><span class="content">連携</span><a class="self-link" href="#integrations"></a></h2>
+    <p><em>この章は非規範的です。</em></p>
+    <p>この仕様書で定義されるアルゴリズムには、機能実装を目的として他の仕様書で利用されるものがあります。このような連携を明らかにするため以下に概要を説明しますが、それら外部の仕様書は規範的な文書であり、詳細はその仕様書で確認すべきものです。</p>
+    <h3 class="heading settled" data-level="4.1" id="fetch-integration"><span class="secno">4.1. </span><span class="content"> Fetch との連携 </span><a class="self-link" href="#fetch-integration"></a></h3>
+    <p>リソースを読み込む様々な方法は、多くの <a data-link-type="dfn" href="#directives">directives</a> によって制御されます。この仕様書で提供するアルゴリズムにより、特定の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a>に対するブロック・許可の判断、または特定の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> を <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-network-error">network error</a> で置き換える判断を Fetch が行えるようになります。</p>
     <ol>
      <li data-md="">
-      <p><a href="#should-block-request">§4.1.3 Should request be blocked by Content Security Policy?</a> is called as part of step #4 of its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#main-fetch">Main
-  Fetch</a> algorithm.</p>
+      <p><a href="#should-block-request">§4.1.3 Should request be blocked by Content Security Policy?</a> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#main-fetch">Main Fetch</a> アルゴリズム中のステップ #4 で呼び出されます。</p>
      <li data-md="">
       <p><a href="#should-block-response">§4.1.4 Should response to request be blocked by Content
-    Security Policy?</a> is called as part of step #12 of its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#main-fetch">Main
-  Fetch</a> algorithm.</p>
+    Security Policy?</a> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#main-fetch">Main Fetch</a> アルゴリズム中のステップ #12 で呼び出されます。</p>
     </ol>
-    <p>A <a data-link-type="dfn" href="#policy">policy</a> is generally enforced upon a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a>, but the
-  user agent needs to <a data-link-type="dfn" href="#parse-serialized-policy">parse</a> any policy
-  delivered via an HTTP response header field before any <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> is created in order to handle directives that require knowledge of a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a>’s details. To that end:</p>
+    <p><a data-link-type="dfn" href="#policy">policy</a> は <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> に適用されるのが通常ですが、<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> の内容を必要とするディレクティブを処理するため、ユーザエージェントは HTTP レスポンスヘッダフィールドで伝達されてきたすべてのポリシーについて、<a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> を生成する前に <a data-link-type="dfn" href="#parse-serialized-policy">parse</a> する必要があります。そのため、</p>
     <ol>
      <li data-md="">
-      <p>A <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> has an associated <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> which
-  contains any policy objects delivered in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a>.</p>
+      <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> を持ちます。<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> とは、<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> で伝達されたすべてのポリシーオブジェクトを含むものです。</p>
      <li data-md="">
-      <p><a href="#set-response-csp-list">§4.1.1 Set response’s CSP list</a> is called in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-fetch">HTTP fetch</a> and <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-network-fetch">HTTP-network fetch</a> algorithms.</p>
-      <p class="note" role="note">Note: These two calls should ensure that a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> is set, regardless of how the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> is created. If we hit the network (via <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-network-fetch">HTTP-network
-  fetch</a>, then we parse the policy before we handle the <code>Set-Cookie</code> header. If we get a response from a Service Worker (via <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-fetch">HTTP fetch</a>,
-  we’ll process its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> before handing the
-  response back to our caller.</p>
+      <p><a href="#set-response-csp-list">§4.1.1 Set response’s CSP list</a> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-fetch">HTTP fetch</a> と <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-network-fetch">HTTP-network fetch</a> アルゴリズムの中で呼び出されます。</p>
+      <p class="note" role="note">Note: この 2 つの呼び出しについては、どのように <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> を生成したかに関係なく、<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> がセットされていることを保障すべきです。（<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-network-fetch">HTTP-network fetch</a> を用いて）ネットワークに接続した場合、<code>Set-Cookie</code> ヘッダを処理する前にポリシーをパースします。（<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-fetch">HTTP fetch</a> を用いて）Service Worker からレスポンスを受けた場合、そのレスポンスを呼び出し元に返す前に <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> を処理します。</p>
     </ol>
     <h4 class="heading settled" data-algorithm="Set response’s CSP list" data-level="4.1.1" id="set-response-csp-list"><span class="secno">4.1.1. </span><span class="content"> Set <var>response</var>’s <code>CSP list</code> </span><a class="self-link" href="#set-response-csp-list"></a></h4>
     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> (<var>response</var>), this algorithm evaluates its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> for <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> values, and

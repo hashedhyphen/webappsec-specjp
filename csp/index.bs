@@ -658,52 +658,29 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
 <!-- Big Text: Integration -->
 <section>
-  <h2 id="integrations">Integrations</h2>
+  <h2 id="integrations">連携</h2>
 
-  <em>This section is non-normative.</em>
+  <em>この章は非規範的です。</em>
 
-  This document defines a set of algorithms which are used in other
-  specifications in order to implement the functionality. These
-  integrations are outlined here for clarity, but those external
-  documents are the normative references which ought to be consulted for
-  detailed information.
+  この仕様書で定義されるアルゴリズムには、機能実装を目的として他の仕様書で利用されるものがあります。このような連携を明らかにするため以下に概要を説明しますが、それら外部の仕様書は規範的な文書であり、詳細はその仕様書で確認すべきものです。
 
   <h3 id="fetch-integration">
-    Integration with Fetch
+    Fetch との連携
   </h3>
 
-  A number of <a>directives</a> control resource loading in one way or
-  another. This specification provides algorithms which allow Fetch to make
-  decisions about whether or not a particular <a>request</a> should be blocked
-  or allowed, and about whether a particular <a>response</a> should be replaced
-  with a <a>network error</a>.
+  リソースを読み込む様々な方法は、多くの <a>directives</a> によって制御されます。この仕様書で提供するアルゴリズムにより、特定の <a>request</a>に対するブロック・許可の判断、または特定の <a>response</a> を <a>network error</a> で置き換える判断を Fetch が行えるようになります。
 
-  1.  [[#should-block-request]] is called as part of step #4 of its <a>Main
-      Fetch</a> algorithm.
+  1.  [[#should-block-request]] は <a>Main Fetch</a> アルゴリズム中のステップ #4 で呼び出されます。
 
-  2.  [[#should-block-response]] is called as part of step #12 of its <a>Main
-      Fetch</a> algorithm.
+  2.  [[#should-block-response]] は <a>Main Fetch</a> アルゴリズム中のステップ #12 で呼び出されます。
 
-  A <a>policy</a> is generally enforced upon a <a>global object</a>, but the
-  user agent needs to <a lt="parse a serialized CSP">parse</a> any policy
-  delivered via an HTTP response header field before any <a>global object</a>
-  is created in order to handle directives that require knowledge of a
-  <a>response</a>'s details. To that end:
+  <a>policy</a> は <a>global object</a> に適用されるのが通常ですが、<a>response</a> の内容を必要とするディレクティブを処理するため、ユーザエージェントは HTTP レスポンスヘッダフィールドで伝達されてきたすべてのポリシーについて、<a>global object</a> を生成する前に <a lt="parse a serialized CSP">parse</a> する必要があります。そのため、
 
-  1.  A <a>response</a> has an associated <a for="response">CSP list</a> which
-      contains any policy objects delivered in the <a>response</a>'s
-      <a for="response">header list</a>.
+  1.  <a>response</a> は <a for="response">CSP list</a> を持ちます。<a for="response">CSP list</a> とは、<a>response</a> の <a for="response">header list</a> で伝達されたすべてのポリシーオブジェクトを含むものです。
 
-  2.  [[#set-response-csp-list]] is called in the <a>HTTP fetch</a> and
-      <a>HTTP-network fetch</a> algorithms.
+  2.  [[#set-response-csp-list]] は <a>HTTP fetch</a> と <a>HTTP-network fetch</a> アルゴリズムの中で呼び出されます。
 
-      Note: These two calls should ensure that a <a>response</a>'s
-      <a for="response">CSP list</a> is set, regardless of how the
-      <a>response</a> is created. If we hit the network (via <a>HTTP-network
-      fetch</a>, then we parse the policy before we handle the `Set-Cookie`
-      header. If we get a response from a Service Worker (via <a>HTTP fetch</a>,
-      we'll process its <a for="response">CSP list</a> before handing the
-      response back to our caller.
+      Note: この 2 つの呼び出しについては、どのように <a>response</a> を生成したかに関係なく、<a>response</a> の <a for="response">CSP list</a> がセットされていることを保障すべきです。（<a>HTTP-network fetch</a> を用いて）ネットワークに接続した場合、`Set-Cookie` ヘッダを処理する前にポリシーをパースします。（<a>HTTP fetch</a> を用いて）Service Worker からレスポンスを受けた場合、そのレスポンスを呼び出し元に返す前に <a for="response">CSP list</a> を処理します。
 
   <h4 id="set-response-csp-list" algorithm>
     Set |response|'s `CSP list`
