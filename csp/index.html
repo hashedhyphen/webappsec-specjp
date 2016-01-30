@@ -1106,7 +1106,7 @@
       <li>
        <a href="#fetch-integration"><span class="secno">4.1</span> <span class="content"> Fetch との連携 </span></a>
        <ul class="toc">
-        <li><a href="#set-response-csp-list"><span class="secno">4.1.1</span> <span class="content"> Set <var>response</var>’s <code>CSP list</code> </span></a>
+        <li><a href="#set-response-csp-list"><span class="secno">4.1.1</span> <span class="content"> <var>response</var> の <code>CSP list</code> を設定する </span></a>
         <li><a href="#report-for-request"><span class="secno">4.1.2</span> <span class="content"> Report Content Security Policy violations for <var>request</var> </span></a>
         <li><a href="#should-block-request"><span class="secno">4.1.3</span> <span class="content"> Should <var>request</var> be blocked by Content Security Policy? </span></a>
         <li><a href="#should-block-response"><span class="secno">4.1.4</span> <span class="content"> Should <var>response</var> to <var>request</var> be blocked by Content
@@ -1554,26 +1554,23 @@
      <li data-md="">
       <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> を持ちます。<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> とは、<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> で伝達されたすべてのポリシーオブジェクトを含むものです。</p>
      <li data-md="">
-      <p><a href="#set-response-csp-list">§4.1.1 Set response’s CSP list</a> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-fetch">HTTP fetch</a> と <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-network-fetch">HTTP-network fetch</a> アルゴリズムの中で呼び出されます。</p>
+      <p><a href="#set-response-csp-list">§4.1.1 response の CSP list を設定する</a> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-fetch">HTTP fetch</a> と <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-network-fetch">HTTP-network fetch</a> アルゴリズムの中で呼び出されます。</p>
       <p class="note" role="note">Note: この 2 つの呼び出しについては、どのように <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> を生成したかに関係なく、<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> がセットされていることを保障すべきです。（<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-network-fetch">HTTP-network fetch</a> を用いて）ネットワークに接続した場合、<code>Set-Cookie</code> ヘッダを処理する前にポリシーをパースします。（<a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-fetch">HTTP fetch</a> を用いて）Service Worker からレスポンスを受けた場合、そのレスポンスを呼び出し元に返す前に <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> を処理します。</p>
     </ol>
-    <h4 class="heading settled" data-algorithm="Set response’s CSP list" data-level="4.1.1" id="set-response-csp-list"><span class="secno">4.1.1. </span><span class="content"> Set <var>response</var>’s <code>CSP list</code> </span><a class="self-link" href="#set-response-csp-list"></a></h4>
-    <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> (<var>response</var>), this algorithm evaluates its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> for <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> values, and
-  populates its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> accordingly:</p>
+    <h4 class="heading settled" data-algorithm="response の CSP list を設定する" data-level="4.1.1" id="set-response-csp-list"><span class="secno">4.1.1. </span><span class="content"> <var>response</var> の <code>CSP list</code> を設定する </span><a class="self-link" href="#set-response-csp-list"></a></h4>
+    <p>ある <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> (<var>response</var>) に対して、このアルゴリズムは <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> を値に持つ <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> を評価し、その結果に基づいて <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> を以下のように設定します。</p>
     <ol>
      <li data-md="">
-      <p>Set <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> to the
-  empty list.</p>
+      <p>空のリストを <var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> に代入します。</p>
      <li data-md="">
-      <p>Let <var>policies</var> be the result of executing <a href="#parse-serialized-policy-list">§2.1.2 serialized CSP の list を disposition としてパースする</a> on the result of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-parse">parsing</a> <code>Content-Security-Policy</code> in <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a>, with a disposition
-  of "<code>enforce</code>".</p>
+      <p>disposition を "<code>enforce</code>" とし、<var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> における <code>Content-Security-Policy</code> を <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-parse">parsing</a> した結果に <a href="#parse-serialized-policy-list">§2.1.2 serialized CSP の list を disposition としてパースする</a> を適用した結果を <var>policies</var> に代入します。</p>
      <li data-md="">
-      <p>Append to <var>policies</var> the result of executing <a href="#parse-serialized-policy-list">§2.1.2 serialized CSP の list を disposition としてパースする</a> on the result of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-parse">parsing</a> <code>Content-Security-Policy-Report-Only</code> in <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a>, with a disposition of "<code>report</code>".</p>
+      <p>disposition を "<code>report</code>" とし、<var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> における <code>Content-Security-Policy-Report-Only</code> を <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-parse">parsing</a> し、その結果について <a href="#parse-serialized-policy-list">§2.1.2 serialized CSP の list を disposition としてパースする</a> を適用した結果を <var>policies</var> に追加します。</p>
      <li data-md="">
-      <p>For each <var>policy</var> in <var>policies</var>:</p>
+      <p><var>policies</var> に含まれる要素 <var>policy</var> のそれぞれについて以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>Insert <var>policy</var> into <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a>.</p>
+        <p><var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> に <var>policy</var> を挿入します。</p>
       </ol>
     </ol>
     <h4 class="heading settled" data-algorithm="Report Content Security Policy violations for request" data-level="4.1.2" id="report-for-request"><span class="secno">4.1.2. </span><span class="content"> Report Content Security Policy violations for <var>request</var> </span><a class="self-link" href="#report-for-request"></a></h4>

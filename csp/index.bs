@@ -683,33 +683,20 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
       Note: この 2 つの呼び出しについては、どのように <a>response</a> を生成したかに関係なく、<a>response</a> の <a for="response">CSP list</a> がセットされていることを保障すべきです。（<a>HTTP-network fetch</a> を用いて）ネットワークに接続した場合、`Set-Cookie` ヘッダを処理する前にポリシーをパースします。（<a>HTTP fetch</a> を用いて）Service Worker からレスポンスを受けた場合、そのレスポンスを呼び出し元に返す前に <a for="response">CSP list</a> を処理します。
 
   <h4 id="set-response-csp-list" algorithm>
-    Set |response|'s `CSP list`
+    |response| の `CSP list` を設定する
   </h4>
 
-  Given a <a>response</a> (|response|), this algorithm evaluates its
-  <a for="response">header list</a> for <a>serialized CSP</a> values, and
-  populates its <a for="response">CSP list</a> accordingly:
+  ある <a>response</a> (|response|) に対して、このアルゴリズムは <a>serialized CSP</a> を値に持つ <a for="response">header list</a> を評価し、その結果に基づいて <a for="response">CSP list</a> を以下のように設定します。
 
-  1.  Set |response|'s <a for="response">CSP list</a> to the
-      empty list.
+  1.  空のリストを |response| の <a for="response">CSP list</a> に代入します。
 
-  2.  Let |policies| be the result of executing
-      [[#parse-serialized-policy-list]] on the result of
-      <a lt="parse a header value">parsing</a> `Content-Security-Policy`
-      in |response|'s <a for="response">header list</a>, with a disposition
-      of "`enforce`".
+  2.  disposition を "`enforce`" とし、|response| の <a for="response">header list</a> における `Content-Security-Policy` を <a lt="parse a header value">parsing</a> した結果に [[#parse-serialized-policy-list]] を適用した結果を |policies| に代入します。
 
-  3.  Append to |policies| the result of executing
-      [[#parse-serialized-policy-list]] on the result of
-      <a lt="parse a header value">parsing</a>
-      `Content-Security-Policy-Report-Only` in |response|'s
-      <a for="response">header list</a>, with a disposition of "`report`".
+  3.  disposition を "`report`" とし、|response| の <a for="response">header list</a> における `Content-Security-Policy-Report-Only` を <a lt="parse a header value">parsing</a> し、その結果について [[#parse-serialized-policy-list]] を適用した結果を |policies| に追加します。
 
+  4.  |policies| に含まれる要素 |policy| のそれぞれについて以下を実行します。
 
-  4.  For each |policy| in |policies|:
-
-      1.  Insert |policy| into |response|'s
-          <a for="response">CSP list</a>.
+      1.  |response| の <a for="response">CSP list</a> に |policy| を挿入します。
 
   <h4 id="report-for-request" algorithm>
     Report Content Security Policy violations for |request|
