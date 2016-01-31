@@ -1006,10 +1006,9 @@
  </head>
  <body class="h-entry">
   <div class="head">
-   <p class="note" role="note">この文書は、<a href="https://w3c.github.io/webappsec-csp/" target="_blank">Content Security Policy Level 3</a> Editor's Draft （2016年1月12日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。</p>
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Content Security Policy Level 3 日本語訳</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-01-12">12 January 2016</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-01-31">31 January 2016</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1107,7 +1106,7 @@
        <a href="#fetch-integration"><span class="secno">4.1</span> <span class="content"> Fetch との連携 </span></a>
        <ul class="toc">
         <li><a href="#set-response-csp-list"><span class="secno">4.1.1</span> <span class="content"> <var>response</var> の <code>CSP list</code> を設定する </span></a>
-        <li><a href="#report-for-request"><span class="secno">4.1.2</span> <span class="content"> Report Content Security Policy violations for <var>request</var> </span></a>
+        <li><a href="#report-for-request"><span class="secno">4.1.2</span> <span class="content"> <var>request</var> における Content Security Policy 違反を報告する </span></a>
         <li><a href="#should-block-request"><span class="secno">4.1.3</span> <span class="content"> Should <var>request</var> be blocked by Content Security Policy? </span></a>
         <li><a href="#should-block-response"><span class="secno">4.1.4</span> <span class="content"> Should <var>response</var> to <var>request</var> be blocked by Content
     Security Policy? </span></a>
@@ -1259,7 +1258,7 @@
     <h3 class="heading settled" data-level="1.1" id="examples"><span class="secno">1.1. </span><span class="content">例</span><a class="self-link" href="#examples"></a></h3>
     <h4 class="heading settled" data-level="1.1.1" id="example-basic"><span class="secno">1.1.1. </span><span class="content">Web ページの制御</span><a class="self-link" href="#example-basic"></a></h4>
     <div class="example" id="example-56a4987a">
-     <a class="self-link" href="#example-56a4987a"></a> MegaCorp Inc. の開発者は、自身のサイトをクロスサイトスクリプティング攻撃から守りたいと考えています。このとき、スクリプトの読込と実行が可能なオリジンを信頼した CDN に限定することで、スクリプトが注入されるリスクを軽減できます。加えて、そのページのコンテキストにおいてプラグインを無効にしたい場合、以上の要件を実現するポリシーは次のようになります。
+     <a class="self-link" href="#example-56a4987a"></a> MegaCorp Inc. の開発者は、自身のサイトをクロスサイトスクリプティング攻撃から守りたいと考えています。このとき、スクリプトの読込と実行が可能なオリジンを信頼した CDN に限定することで、スクリプトが注入されるリスクを軽減できます。加えて、そのページのコンテキストにおいてプラグインを無効にしたい場合、以上の要件を実現するポリシーは次のようになります。 
 <pre>Content-Security-Policy: script-src https://cdn.example.com/scripts/; object-src 'none'
 </pre>
     </div>
@@ -1499,7 +1498,7 @@
 <pre>Content-Security-Policy = 1#<a data-link-type="grammar" href="#grammardef-serialized-policy">serialized-policy</a>
 </pre>
     <div class="example" id="example-731af1ba">
-     <a class="self-link" href="#example-731af1ba"></a>
+     <a class="self-link" href="#example-731af1ba"></a> 
 <pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: script-src 'self';
                          reports /csp-reporting-endpoint
 </pre>
@@ -1513,7 +1512,7 @@
 </pre>
     <p>Web 開発者はこのヘッダフィールドを用いることで、実験を繰り返しつつセキュリティポリシーを組み立てることができます。つまり、サイトの動作を入念に設計した状態で report-only ポリシーをデプロイし、その結果を違反レポートとして検証することで、サイトの動作に自信を持ってから実際にポリシーを適用することができます。</p>
     <div class="example" id="example-89c50ad6">
-     <a class="self-link" href="#example-89c50ad6"></a>
+     <a class="self-link" href="#example-89c50ad6"></a> 
 <pre><a data-link-type="dfn" href="#content-security-policy-report-only">Content-Security-Policy-Report-Only</a>: script-src 'self';
                                      reports /csp-reporting-endpoint
 </pre>
@@ -1525,7 +1524,7 @@
     <h3 class="heading settled" data-level="3.3" id="meta-element"><span class="secno">3.3. </span><span class="content"> <code>&lt;meta></code> 要素 </span><a class="self-link" href="#meta-element"></a></h3>
     <p>"<code>Content-Security-Policy</code>" に対して <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive match</a> な文字列を <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> 属性値に持つ HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素について、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> はこの要素を 1 つ以上用いてポリシーを伝達してもよいです（MAY）。具体例を以下に示します。</p>
     <div class="example" id="example-cff5e786">
-     <a class="self-link" href="#example-cff5e786"></a>
+     <a class="self-link" href="#example-cff5e786"></a> 
 <pre>&lt;meta http-equiv="Content-Security-Policy" content="script-src 'self'">
 </pre>
     </div>
@@ -1573,22 +1572,20 @@
         <p><var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> に <var>policy</var> を挿入します。</p>
       </ol>
     </ol>
-    <h4 class="heading settled" data-algorithm="Report Content Security Policy violations for request" data-level="4.1.2" id="report-for-request"><span class="secno">4.1.2. </span><span class="content"> Report Content Security Policy violations for <var>request</var> </span><a class="self-link" href="#report-for-request"></a></h4>
-    <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> (<var>request</var>), this algorithm reports violations based
-  on <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-client">client</a>’s "report only" policies.</p>
+    <h4 class="heading settled" data-algorithm="request における Content Security Policy 違反を報告する" data-level="4.1.2" id="report-for-request"><span class="secno">4.1.2. </span><span class="content"> <var>request</var> における Content Security Policy 違反を報告する </span><a class="self-link" href="#report-for-request"></a></h4>
+    <p>ある <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> (<var>request</var>) に対して、このアルゴリズムは <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-client">client</a> の "report only" ポリシーに基づいて違反を報告します。</p>
     <ol>
      <li data-md="">
-      <p>Let <var>CSP list</var> be <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-client">client</a>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a>’s <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a>.</p>
+      <p><var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-client">client</a> が持つ <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> の <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a> を <var>CSP list</var> に代入します。</p>
      <li data-md="">
-      <p>For each <var>policy</var> in <var>CSP list</var>:</p>
+      <p><var>CSP list</var> に含まれる要素 <var>policy</var> のそれぞれについて以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>If <var>policy</var>’s <a data-link-type="dfn" href="#disposition">disposition</a> is "<code>enforce</code>",
-  then skip to the next <var>policy</var>.</p>
+        <p>ここで <var>policy</var> の <a data-link-type="dfn" href="#disposition">disposition</a> が "<code>enforce</code>" だった場合、以降の処理を飛ばして次の <var>policy</var> に移ります。</p>
        <li data-md="">
-        <p>Let <var>violates</var> be the result of executing <a href="#does-request-violate-policy">§6.1.11.1 Does request violate policy?</a> on <var>request</var> and <var>policy</var>.</p>
+        <p><var>request</var> と <var>policy</var> に対して <a href="#does-request-violate-policy">§6.1.11.1 Does request violate policy?</a> を適用した結果を <var>violates</var> に代入します。</p>
        <li data-md="">
-        <p>If <var>violates</var> is not "<code>Does Not Violate</code>", then execute <a href="#report-violation">§5.3 Report a violation</a> on the result of executing <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> on <var>request</var>, <var>policy</var>, and <var>violates</var>.</p>
+        <p>ここで <var>violates</var> が "<code>Does Not Violate</code>" でなかった場合、<var>request</var> と <var>policy</var> と <var>violates</var> に対して <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> を適用し、その結果に対して <a href="#report-violation">§5.3 Report a violation</a> を適用します。</p>
       </ol>
     </ol>
     <h4 class="heading settled" data-algorithm="Should request be blocked by Content Security Policy?" data-level="4.1.3" id="should-block-request"><span class="secno">4.1.3. </span><span class="content"> Should <var>request</var> be blocked by Content Security Policy? </span><a class="self-link" href="#should-block-request"></a></h4>
@@ -2110,7 +2107,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
  respectively).</p>
     </ul>
     <div class="example" id="example-1cff8d33">
-     <a class="self-link" href="#example-1cff8d33"></a> Given a page with the following Content Security Policy:
+     <a class="self-link" href="#example-1cff8d33"></a> Given a page with the following Content Security Policy: 
 <pre>Content-Security-Policy: <a data-link-type="dfn" href="#child-src">child-src</a> https://example.com/
 </pre>
      <p>Fetches for the following code will all return network errors, as the URLs
@@ -2144,7 +2141,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
     HTTP connection to a server in order to receive push notifications, <code>WebSockets</code> open a bidirectional communication channel between your
     browser and a server, and <code>XMLHttpRequest</code> makes arbitrary HTTP requests
     on your behalf. These are powerful APIs that enable useful functionality,
-    but also provide tempting avenues for data exfiltration.
+    but also provide tempting avenues for data exfiltration. 
      <p>The <code>connect-src</code> directive allows you to ensure that these and similar
     sorts of connections are only opened to origins you trust. Sending a
     policy that defines a list of source expressions for this directive is
@@ -2208,7 +2205,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   out in more detail in the <a href="#should-block-request">§4.1.3 Should request be blocked by Content Security Policy?</a> and <a href="#should-block-response">§4.1.4 Should response to request be blocked by Content
     Security Policy?</a> algorithms.</p>
     <div class="example" id="example-cd6e259c">
-     <a class="self-link" href="#example-cd6e259c"></a> The following header:
+     <a class="self-link" href="#example-cd6e259c"></a> The following header: 
 <pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: <a data-link-type="dfn" href="#default-src">default-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
 </pre>
      <p>will have the same behavior as the following header:</p>
@@ -2227,7 +2224,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
     <div class="example" id="example-3e3c915b">
      <a class="self-link" href="#example-3e3c915b"></a> There is no inheritance. If a <code>script-src</code> directive is explicitly
     specified, for example, then the value of <code>default-src</code> has no influence on
-    script requests. That is, the following header:
+    script requests. That is, the following header: 
 <pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: <a data-link-type="dfn" href="#default-src">default-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>, <a data-link-type="dfn" href="#script-src">script-src</a> https://example.com
 </pre>
      <p>will have the same behavior as the following header:</p>
@@ -2282,7 +2279,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
 directive-value = <a data-link-type="grammar" href="#grammardef-serialized-source-list">serialized-source-list</a>
 </pre>
     <div class="example" id="example-38056220">
-     <a class="self-link" href="#example-38056220"></a> Given a page with the following Content Security Policy:
+     <a class="self-link" href="#example-38056220"></a> Given a page with the following Content Security Policy: 
 <pre>Content-Security-Policy: <a data-link-type="dfn" href="#font-src">font-src</a> https://example.com/
 </pre>
      <p>Fetches for the following code will return a network errors, as the URL
@@ -2335,7 +2332,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
     <p>This directive controls <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">requests</a> which load images. More formally, this
   includes <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">requests</a> whose <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>image</code>" <a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a>.</p>
     <div class="example" id="example-8e5ffeae">
-     <a class="self-link" href="#example-8e5ffeae"></a> Given a page with the following Content Security Policy:
+     <a class="self-link" href="#example-8e5ffeae"></a> Given a page with the following Content Security Policy: 
 <pre>Content-Security-Policy: <a data-link-type="dfn" href="#img-src">img-src</a> https://example.com/
 </pre>
      <p>Fetches for the following code will return a network errors, as the URL
@@ -2378,7 +2375,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
 directive-value = <a data-link-type="grammar" href="#grammardef-serialized-source-list">serialized-source-list</a>
 </pre>
     <div class="example" id="example-165f453d">
-     <a class="self-link" href="#example-165f453d"></a> Given a page with the following Content Security Policy:
+     <a class="self-link" href="#example-165f453d"></a> Given a page with the following Content Security Policy: 
 <pre>Content-Security-Policy: <a data-link-type="dfn" href="#manifest-src">manifest-src</a> https://example.com/
 </pre>
      <p>Fetches for the following code will return a network errors, as the URL
@@ -2421,7 +2418,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
 directive-value = <a data-link-type="grammar" href="#grammardef-serialized-source-list">serialized-source-list</a>
 </pre>
     <div class="example" id="example-557d9dba">
-     <a class="self-link" href="#example-557d9dba"></a> Given a page with the following Content Security Policy:
+     <a class="self-link" href="#example-557d9dba"></a> Given a page with the following Content Security Policy: 
 <pre>Content-Security-Policy: <a data-link-type="dfn" href="#media-src">media-src</a> https://example.com/
 </pre>
      <p>Fetches for the following code will return a network errors, as the URL
@@ -2469,7 +2466,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
 directive-value = <a data-link-type="grammar" href="#grammardef-serialized-source-list">serialized-source-list</a>
 </pre>
     <div class="example" id="example-3469e20e">
-     <a class="self-link" href="#example-3469e20e"></a> Given a page with the following Content Security Policy:
+     <a class="self-link" href="#example-3469e20e"></a> Given a page with the following Content Security Policy: 
 <pre>Content-Security-Policy: <a data-link-type="dfn" href="#object-src">object-src</a> https://example.com/
 </pre>
      <p>Fetches for the following code will return a network errors, as the URL
@@ -3010,9 +3007,9 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
     <div class="note" role="note">
       Note: The <a data-link-type="dfn" href="#report-uri"><code>report-uri</code></a> directive is deprecated. Please use the <a data-link-type="dfn" href="#report-to"><code>report-to</code></a> directive instead. If the latter directive is present,
     this directive will be ignored. To ensure backwards compatibility, we
-    suggest specifying both, like this:
+    suggest specifying both, like this: 
      <div class="example" id="example-9d2ef57e">
-      <a class="self-link" href="#example-9d2ef57e"></a>
+      <a class="self-link" href="#example-9d2ef57e"></a> 
 <pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: ...; <a data-link-type="dfn" href="#report-uri">report-uri</a> https://endpoint.com; <a data-link-type="dfn" href="#report-to">report-to</a> groupname
 </pre>
      </div>
@@ -3079,7 +3076,7 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
   that ought to work in practice. The behavior of an <code>XMLHttpRequest</code> might seem unclear given a site that, for whatever reason, delivered the
   following HTTP headers:</p>
     <div class="example" id="example-ef0bfc7a">
-     <a class="self-link" href="#example-ef0bfc7a"></a>
+     <a class="self-link" href="#example-ef0bfc7a"></a> 
 <pre>Content-Security-Policy: default-src 'self' http://example.com http://example.net;
                          connect-src 'none';
 Content-Security-Policy: connect-src http://example.com/;
@@ -3150,7 +3147,7 @@ Content-Security-Policy: connect-src http://example.com/;
     or are set apart from the normative text with <code>class="example"</code>,
     like this: </p>
   <div class="example" id="example-f839f6c8">
-   <a class="self-link" href="#example-f839f6c8"></a>
+   <a class="self-link" href="#example-f839f6c8"></a> 
    <p>This is an example of an informative example.</p>
   </div>
   <p>Informative notes begin with the word "Note" and are set apart from the
