@@ -277,15 +277,8 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     margin-left: -9em;
   }
 </style>
-<!--
-████ ██    ██ ████████ ████████   ███████
- ██  ███   ██    ██    ██     ██ ██     ██
- ██  ████  ██    ██    ██     ██ ██     ██
- ██  ██ ██ ██    ██    ████████  ██     ██
- ██  ██  ████    ██    ██   ██   ██     ██
- ██  ██   ███    ██    ██    ██  ██     ██
-████ ██    ██    ██    ██     ██  ███████
--->
+
+<!-- Big Text: Introduction -->
 <section>
   <h2 id="intro">導入</h2>
 
@@ -715,36 +708,28 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
       3.  ここで |violates| が "`Does Not Violate`" でなかった場合、|request| と |policy| と |violates| に対して [[#create-violation-for-request]] を適用し、その結果に対して [[#report-violation]] を適用します。
 
   <h4 id="should-block-request" algorithm>
-    Should |request| be blocked by Content Security Policy?
+    |request| は Content Security Policy によってブロックされるべきか？
   </h4>
 
-  Given a <a>request</a> (|request|), this algorithm returns
-  `Blocked` or `Allowed` and reports violations based on |request|'s
-  <a for="request">client</a>'s Content Security Policy.
+  ある <a>request</a> (|request|) に対し、このアルゴリズムは |request| の <a for="request">client</a> における Content Security Policy に基づいて `Blocked` または `Allowed` のどちらかを返します。
 
-  1.  Let |CSP list| be |request|'s
-      <a for="request">client</a>'s <a>global object</a>'s
-      <a for="global object">CSP list</a>.
+  1.  |request| の <a for="request">client</a> が持つ <a>global object</a> の <a for="global object">CSP list</a> を |CSP list| に代入します。
 
-  2.  Let |result| be "`Allowed`".
+  2.  |result| に "`Allowed`" を代入します。
 
-  3.  For each |policy| in |CSP list|:
+  3.  |CSP list| に含まれる要素 |policy| のそれぞれについて以下を実行します。
 
-      1.  If |policy|'s <a for="policy">disposition</a> is "`report`",
-          then skip to the next |policy|.
+      1.  ここで |policy| の <a for="policy">disposition</a> が "`report`" だった場合、以降の処理を飛ばして次の |policy| に移ります。
 
-      2.  Let |violates| be the result of executing
-          [[#does-request-violate-policy]] on |request| and |policy|.
+      2.  |request| と |policy| に対して [[#does-request-violate-policy]] を適用した結果を |violates| に代入します。
 
-      3.  If |violates| is not "`Does Not Violate`", then:
+      3.  ここで |violates| が "`Does Not Violate`" ではなかった場合、以下を実行します。
 
-          1.  Execute [[#report-violation]] on the result of executing
-              [[#create-violation-for-request]] on |request|, |policy|, and
-              |violates|.
+          1.  |request| と |policy| と |violates| に対して [[#report-violation]] を実行します。
 
-          2.  Set |result| to "`Blocked`".
+          2.  |result| に "`Blocked`" を代入します。
 
-  4.  Return |result|.
+  4.  |result| を返します。
 
   <h4 id="should-block-response" algorithm>
     Should |response| to |request| be blocked by Content
