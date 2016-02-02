@@ -732,58 +732,40 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   4.  |result| を返します。
 
   <h4 id="should-block-response" algorithm>
-    Should |response| to |request| be blocked by Content
-    Security Policy?
+    |request| に対する |response| は Content Security Policy によってブロックされるべきか？
   </h4>
 
-  Given a <a>response</a> (|response|) and a <a>request</a>
-  (|request|), this algorithm returns `Blocked` or
-  `Allowed`, and reports violations based on |request|'s
-  <a for="request">client</a>'s Content Security Policy.
+  ある <a>response</a> (|response|) と a <a>request</a> (|request|) に対し、このアルゴリズムは |request| の <a for="request">client</a> における Content Security Policy に基づいて `Blocked` または `Allowed` のどちらかを返します。
 
-  1.  Let |CSP list| be |request|'s
-      <a for="request">client</a>'s <a>global object</a>'s
-      <a for="global object">CSP list</a>.
+  1.  |request| の <a for="request">client</a> が持つ <a>global object</a> の <a for="global object">CSP list</a> を |CSP list| に代入します。
 
-  2.  Let |result| be "`Allowed`".
+  2.  |result| に "`Allowed`" を代入します。
 
-  3.  For each |policy| in |CSP list|:
+  3.  |CSP list| に含まれる要素 |policy| のそれぞれについて以下を実行します。
 
-      1.  For each |directive| in |policy|:
+      1.  |policy| に含まれる要素 |directive| のそれぞれについて以下を実行します。
 
-          1.  If the result of executing |directive|'s
-              <a for="directive">post-request check</a> is "`Blocked`", then:
+          1.  ここで |directive| の <a for="directive">post-request check</a> を実行し、その結果が "`Blocked`" だった場合、以下を実行します。
 
-              1.  Execute [[#report-violation]] on the result of executing
-                  [[#create-violation-for-request]] on |request|, |policy|, and
-                  |directive|.
+              1.  |request| と |policy| と |directive| に対して [[#create-violation-for-request]] を適用し、その結果をもとに [[#report-violation]] を実行します。
 
-              2.  If |policy|'s <a for="policy">disposition</a> is "`enforce`",
-                  then set |result| to "`Blocked`".
+              2.  ここで |policy| の <a for="policy">disposition</a> が "`enforce`" だった場合、|result| に "`Blocked`" を代入します。
 
-      Note: This portion of the check verifies that the page can load the
-      response. That is, that a Service Worker hasn't substituted a file which
-      would violated the page's CSP.
+      Note: この箇所では、ページがレスポンスを読み込み可能であることを検証しています。すなわち、ページの CSP に違反したファイルを Service Worker が差し替えていない場合などを想定したものです。
 
-  4.  For each |policy| in |response|'s <a for="response">CSP list</a>:
+  4.  |response| の <a for="response">CSP list</a> に含まれる要素 |policy| のそれぞれについて以下を実行します。
 
-      1.  For each |directive| in |policy|:
+      1.  |policy| に含まれる要素 |directive| のそれぞれについて以下を実行します。
 
-          1.  If the result of executing |directive|'s
-              <a for="directive">response check</a> on |request|, |response|,
-              and |policy| is "`Blocked`", then:
+          1.  ここで |request| と |response| と |policy| に対して |directive| の <a for="directive">response check</a> を適用し、その結果が "`Blocked`" だった場合、以下を実行します。
 
-              1.  Execute [[#report-violation]] on the result of executing
-                  [[#create-violation-for-request]] on |request|, |policy|, and
-                  |directive|.
+              1.  |request| と |policy| と |directive| に対して [[#create-violation-for-request]] を適用し、その結果をもとに [[#report-violation]] を実行します。
 
-              2.  If |policy|'s <a for="policy">disposition</a> is "`enforce`",
-                  then set |result| to "`Blocked`".
+              2.  ここで |policy| の <a for="policy">disposition</a> が "`enforce`" だった場合、|result| に "`Blocked`" を代入します。
 
-      Note: This portion of the check allows policies delivered with the
-      response to determine whether the response is allowed to be delivered.
+      Note: この箇所では、レスポンスと一緒に伝達されてきたポリシーをもとに、そのレスポンスは読み込むべきものかどうかを判断しています。
 
-  5.  Return |result|.
+  5.  |result| を返します。
 
 
   <h3 id="html-integration">
