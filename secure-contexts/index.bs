@@ -292,25 +292,6 @@ spec: WEBIDL; urlPrefix: https://heycam.github.io/webidl/
     </svg>
   </div>
 
-
-  <div class="example">
-    <p><a>top-level browsing context</a> で開かれた <code>http://non-secure.example.com/</code> が、<code>https://example.com/</code> のウィンドウを新しく開いた場合を考えます。このとき、前者は <a>secure context</a> ではありませんが、後者は安全でないコンテキストとの関係性を断ち切るように開かれた場合にのみ <a>secure context</a> となります。 That is, if the new window can access the non-secure context via `window.opener`, and the non-secure context can access the secure context by grabbing a reference to the window, then it, because it is a new top-level browsing context delivered over an authenticated and encrypted channel.</p>
-
-    <svg width="400" height="400">
-      <g transform="translate(10,10)">
-        <rect height="175" width="297" y="0" x="0" class="non-secure" />
-        <text transform="translate(10, 20)">http://non-secure.example.com/</text>
-      </g>
-      <g transform="translate(10,210)">
-        <rect height="175" width="297" y="0" x="0" class="secure" />
-        <text transform="translate(10, 20)">https://example.com/</text>
-      </g>
-      <g>
-        <path d="M150, 87 C 200 75, 350 75, 150 287"></path>
-      </g>
-    </svg>
-  </div>
-
   <h3 id="examples-framed">フレーム内のドキュメント</h3>
 
   フレーム内のドキュメントは、<a>potentially trustworthy origin</a> から送信され、<em>かつ</em> <a>secure context</a> の中に埋め込まれた場合、そのドキュメントは <a>secure context</a> になります。例を次に示します。
