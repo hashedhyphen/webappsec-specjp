@@ -2306,29 +2306,15 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
 <!-- Big text: Security -->
 <section>
-  <h2 id="security-considerations">Security Considerations</h2>
+  <h2 id="security-considerations">セキュリティに関して考慮すべき事項</h2>
 
-  <h3 id="security-nonces">Nonce Reuse</h3>
+  <h3 id="security-nonces">nonce の再利用</h3>
 
-  Nonces override the other restrictions present in the directive in which
-  they're delivered. It is critical, then, that they remain unguessable, as
-  bypassing a resource's policy is otherwise trivial.
+  ディレクティブに nonce が指定されている場合、そのディレクティブで指定された他の制限を nonce で回避することが可能です。従って、nonce を推定できないように維持することが肝心であり、さもないとリソースに適用されたポリシーを容易に回避できてしまいます。
 
-  If a server delivers a <a grammar>nonce-source</a> expression as part of a
-  <a>policy</a>, the server MUST generate a unique value each time it
-  transmits a policy. The generated value SHOULD be at least 128 bits long
-  (before encoding), and SHOULD be generated via a cryptographically secure
-  random number generator in order to ensure that the value is difficult for
-  an attacker to predict.
+  サーバが <a>policy</a> の一部として <a grammar>nonce-source</a> を伝達する場合、サーバはポリシーを送信するごとに固有な値を生成しなければなりません（MUST）。生成された値は（エンコーディング前で）最低 128 ビット 以上の長さを持つべきです（SHOULD）。また、攻撃者による値の予想を困難にするため、値の生成方法は暗号論的に安全な乱数生成器を用いるべきです（SHOULD）。
 
-  Note: Using a nonce to whitelist inline script or style is less secure than
-  not using a nonce, as nonces override the restrictions in the directive in
-  which they are present. An attacker who can gain access to the nonce can
-  execute whatever script they like, whenever they like. That said, nonces
-  provide a substantial improvement over <a grammar>'unsafe-inline'</a> when
-  layering a content security policy on top of old code. When considering
-  <a grammar>'unsafe-inline'</a>, authors are encouraged to consider nonces
-  (or hashes) instead.
+  補足: インラインのスクリプトやスタイルをホワイトリスト化するために nonce を用いてしまうと、nonce を使わない場合よりも安全性が失われます。なぜなら、nonce を指定したディレクティブの制限を nonce によって回避できるからです。その nonce の値を知っている攻撃者は、任意のタイミングで任意のスクリプトを実行できてしまいます。しかしながら、既存のコードの上に Content Security Policy を構築する場合、<a grammar>'unsafe-inline'</a> を用いるよりも nonce のほうが防御策として価値があります。もしあなたが開発者として <a grammar>'unsafe-inline'</a> の利用を検討している場合、代わりに nonce （またはハッシュ値）を用いることを推奨します。
 </section>
 
 <!-- Big text: Authoring -->
