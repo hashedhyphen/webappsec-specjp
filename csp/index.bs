@@ -2359,30 +2359,22 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 </section>
 
 <section>
-  <h2 id="implementation-considerations">Implementation Considerations</h2>
+  <h2 id="implementation-considerations">実装に関して考慮すべき事項</h2>
 
-  <h3 id="extensions">Vendor-specific Extensions and Addons</h3>
+  <h3 id="extensions">ベンダー独自の拡張機能やアドオン</h3>
 
-  <a>Policy</a> enforced on a resource SHOULD NOT interfere with the operation
-  of user-agent features like addons, extensions, or bookmarklets. These kinds
-  of features generally advance the user's priority over page authors, as
-  espoused in [[HTML-DESIGN]].
+  リソースに適用された <a>policy</a> は、ユーザエージェントの機能（アドオン、拡張機能、ブックマークレットなど）の動作に干渉するべきではありません（SHOULD NOT）。[[HTML-DESIGN]] で提唱されている通り、一般にこれらの機能によって Web ページの作成者よりもユーザが優先されます。
 
-  Moreover, applying CSP to these kinds of features produces a substantial
-  amount of noise in violation reports, significantly reducing their value to
-  developers.
+  加えて、このような機能に CSP を適用してしまうと、大量の違反レポートがノイズのように発生し、開発者から見た CSP の価値を大きく下げてしまいます。
 
-  Chrome, for example, excludes the `chrome-extension:` scheme from CSP checks,
-  and does some work to ensure that extension-driven injections are allowed,
-  regardless of a page's policy.
+  例えば Chrome の場合、CSP の検査項目から `chrome-extension:` スキームを除くことが一定の役割を果たします。すなわちページのポリシーに関係なく、拡張機能からコンテンツを注入できることが保障されます。
 </section>
 
 <!-- Big Text: IANA -->
 <section>
-  <h2 id="iana-considerations">IANA Considerations</h2>
+  <h2 id="iana-considerations">IANA に関して考慮すべき事項</h2>
 
-  The permanent message header field registry should be updated
-  with the following registration: [[!RFC3864]]
+  permanent message header field のレジストリは、以下の登録手続きによって更新されるはずです。[[!RFC3864]]
 
   <h3 id="iana-csp">
     Content-Security-Policy
@@ -2407,7 +2399,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 </section>
 
 <section>
-  <h2 id="acknowledgements">Acknowledgements</h2>
+  <h2 id="acknowledgements">謝辞</h2>
 
-  Lots of people are awesome.
+  偉大なる多くの方々
 </section>

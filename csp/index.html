@@ -1508,16 +1508,16 @@
       <li><a href="#multiple-policies"><span class="secno">8.1</span> <span class="content"> The effect of multiple policies </span></a>
      </ol>
     <li>
-     <a href="#implementation-considerations"><span class="secno">9</span> <span class="content">Implementation Considerations</span></a>
+     <a href="#implementation-considerations"><span class="secno">9</span> <span class="content">実装に関して考慮すべき事項</span></a>
      <ol class="toc">
-      <li><a href="#extensions"><span class="secno">9.1</span> <span class="content">Vendor-specific Extensions and Addons</span></a>
+      <li><a href="#extensions"><span class="secno">9.1</span> <span class="content">ベンダー独自の拡張機能やアドオン</span></a>
      </ol>
     <li>
-     <a href="#iana-considerations"><span class="secno">10</span> <span class="content">IANA Considerations</span></a>
+     <a href="#iana-considerations"><span class="secno">10</span> <span class="content">IANA に関して考慮すべき事項</span></a>
      <ol class="toc">
       <li><a href="#iana-csp"><span class="secno">10.1</span> <span class="content"> Content-Security-Policy </span></a>
      </ol>
-    <li><a href="#acknowledgements"><span class="secno">11</span> <span class="content">Acknowledgements</span></a>
+    <li><a href="#acknowledgements"><span class="secno">11</span> <span class="content">謝辞</span></a>
     <li>
      <a href="#conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
      <ol class="toc">
@@ -3361,23 +3361,15 @@ Content-Security-Policy: connect-src http://example.com/;
   is <code>http://example.com</code>, as both policies allow it.</p>
    </section>
    <section>
-    <h2 class="heading settled" data-level="9" id="implementation-considerations"><span class="secno">9. </span><span class="content">Implementation Considerations</span><a class="self-link" href="#implementation-considerations"></a></h2>
-    <h3 class="heading settled" data-level="9.1" id="extensions"><span class="secno">9.1. </span><span class="content">Vendor-specific Extensions and Addons</span><a class="self-link" href="#extensions"></a></h3>
-    <p><a data-link-type="dfn" href="#policy">Policy</a> enforced on a resource SHOULD NOT interfere with the operation
-  of user-agent features like addons, extensions, or bookmarklets. These kinds
-  of features generally advance the user’s priority over page authors, as
-  espoused in <a data-link-type="biblio" href="#biblio-html-design">[HTML-DESIGN]</a>.</p>
-    <p>Moreover, applying CSP to these kinds of features produces a substantial
-  amount of noise in violation reports, significantly reducing their value to
-  developers.</p>
-    <p>Chrome, for example, excludes the <code>chrome-extension:</code> scheme from CSP checks,
-  and does some work to ensure that extension-driven injections are allowed,
-  regardless of a page’s policy.</p>
+    <h2 class="heading settled" data-level="9" id="implementation-considerations"><span class="secno">9. </span><span class="content">実装に関して考慮すべき事項</span><a class="self-link" href="#implementation-considerations"></a></h2>
+    <h3 class="heading settled" data-level="9.1" id="extensions"><span class="secno">9.1. </span><span class="content">ベンダー独自の拡張機能やアドオン</span><a class="self-link" href="#extensions"></a></h3>
+    <p>リソースに適用された <a data-link-type="dfn" href="#policy">policy</a> は、ユーザエージェントの機能（アドオン、拡張機能、ブックマークレットなど）の動作に干渉するべきではありません（SHOULD NOT）。<a data-link-type="biblio" href="#biblio-html-design">[HTML-DESIGN]</a> で提唱されている通り、一般にこれらの機能によって Web ページの作成者よりもユーザが優先されます。</p>
+    <p>加えて、このような機能に CSP を適用してしまうと、大量の違反レポートがノイズのように発生し、開発者から見た CSP の価値を大きく下げてしまいます。</p>
+    <p>例えば Chrome の場合、CSP の検査項目から <code>chrome-extension:</code> スキームを除くことが一定の役割を果たします。すなわちページのポリシーに関係なく、拡張機能からコンテンツを注入できることが保障されます。</p>
    </section>
    <section>
-    <h2 class="heading settled" data-level="10" id="iana-considerations"><span class="secno">10. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
-    <p>The permanent message header field registry should be updated
-  with the following registration: <a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a></p>
+    <h2 class="heading settled" data-level="10" id="iana-considerations"><span class="secno">10. </span><span class="content">IANA に関して考慮すべき事項</span><a class="self-link" href="#iana-considerations"></a></h2>
+    <p>permanent message header field のレジストリは、以下の登録手続きによって更新されるはずです。<a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a></p>
     <h3 class="heading settled" data-level="10.1" id="iana-csp"><span class="secno">10.1. </span><span class="content"> Content-Security-Policy </span><a class="self-link" href="#iana-csp"></a></h3>
     <dl>
      <dt>Header field name
@@ -3393,8 +3385,8 @@ Content-Security-Policy: connect-src http://example.com/;
     </dl>
    </section>
    <section>
-    <h2 class="heading settled" data-level="11" id="acknowledgements"><span class="secno">11. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
-    <p>Lots of people are awesome.</p>
+    <h2 class="heading settled" data-level="11" id="acknowledgements"><span class="secno">11. </span><span class="content">謝辞</span><a class="self-link" href="#acknowledgements"></a></h2>
+    <p>偉大なる多くの方々</p>
    </section>
   </main>
   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content">Conformance</span><a class="self-link" href="#conformance"></a></h2>
