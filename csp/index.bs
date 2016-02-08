@@ -769,63 +769,36 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
 
   <h3 id="html-integration">
-    Integration with HTML
+    HTML との連携
   </h3>
 
-  1.  The {{Document}} and {{WorkerGlobalScope}} objects have a
-      <dfn for="global object" id="global-object-csp-list">CSP list</dfn>,
-      which holds all the <a>policy</a> objects which are active for a given
-      context. This list is empty unless otherwise specified, and is populated
-      via the [[#initialize-global-object-csp]] algorithm.
+  1.  {{Document}} オブジェクトと {{WorkerGlobalScope}} オブジェクトは <dfn for="global object" id="global-object-csp-list">CSP list</dfn> を持ちます。この CSP list は、そのコンテキストでアクティブな <a>policy</a> オブジェクトすべてを含むリストです。特に指定のない限り、このリストが空になることはなく、アルゴリズム [[#initialize-global-object-csp]] によって初期化されます。
 
-  2.  A <a>policy</a> is <dfn>enforced</dfn> or <dfn>monitored</dfn> for an
-      <a>global object</a> by inserting it into the <a>global object</a>'s
-      <a for="global object">CSP list</a>.
+  2.  ある <a>policy</a> が <a>global object</a> の <a for="global object">CSP list</a> に挿入されると、その <a>policy</a> は <a>global object</a> に対して <dfn>enforced</dfn> されるか <dfn>monitored</dfn> されます。
 
-  3.  [[#initialize-global-object-csp]] is called during the <a>initialising a
-      new `Document` object</a> and <a>run a worker</a> algorithms in order to
-      bind a set of <a>policy</a> objects associated with a <a>response</a> to a
-      newly created <a>global object</a>.
+  3.  ある <a>response</a> に対する <a>policy</a> オブジェクトの集合を、新しく生成した <a>global object</a> と関連付けるため、アルゴリズム [[#initialize-global-object-csp]] は <a>initialising a new `Document` object</a> と <a>run a worker</a> のアルゴリズム中で呼び出されます。
 
-      ISSUE: The algorithm is named "creating a new `Document` object" in W3C's
-      HTML, and isn't well-integrated with Fetch.
+      ISSUE: W3C's HTML で定義されるアルゴリズム "creating a new `Document` object" は、Fetch との相性が良くありません。
 
-      ISSUE: Need to monkey-patch these in: something like "Set the `Window`
-      object's `CSP list` to the `CSP list` of the resource used to
-      generate the document.
+      ISSUE: ここで、"document を生成する際に用いられたリソースの `CSP list` を `Window` オブジェクトの `CSP list` に代入する" といったモンキーパッチが必要です。
 
-  4.  [[#should-block-inline]] is called during the <a>prepare a script</a> and
-      <a>update a `style` block</a> algorithms in order to determine whether or
-      not an inline script or style block is allowed to execute/render.
+  4.  インラインのスクリプトやスタイルを実行・レンダリングしてもよいかを判断するため、アルゴリズム [[#should-block-inline]] は <a>prepare a script</a> と <a>update a `style` block</a> のアルゴリズム中で呼び出されます。
 
-      ISSUE: The <a>update a `style` block</a> algorithm does not exist in
-      W3C's HTML.
+      ISSUE: アルゴリズム <a>update a `style` block</a> は W3C's HTML には存在しません。
 
-      ISSUE: The `nonce` attribute for <{script}> and <{style}> were added to
-      WHATWG's HTML in
-      <a href="https://github.com/whatwg/html/commit/882803c4cc8fba2fa5472b76f628d95cc82c421d">whatwg/html@882803c</a>.
-      They have not yet been added to W3C's HTML.
+      ISSUE: <{script}> と <{style}> の `nonce` 属性が WHATWG's HTML に追加されました（<a href="https://github.com/whatwg/html/commit/882803c4cc8fba2fa5472b76f628d95cc82c421d">whatwg/html@882803c</a>）。しかし、まだ W3C's HTML には追加されていません。
 
-      ISSUE: The [[#should-block-inline]] hooks were added to WHATWG's HTML in
-      <a href="https://github.com/whatwg/html/commit/ee3486eb129bc350b5ca684d0c91dff23453ac1a">whatwg/html@ee3486e</a>.
-      They aren't yet in W3C's HTML.
+      ISSUE: [[#should-block-inline]] のフックが WHATWG's HTML に追加されました（<a href="https://github.com/whatwg/html/commit/ee3486eb129bc350b5ca684d0c91dff23453ac1a">whatwg/html@ee3486e</a>）。しかし、まだ W3C's HTML には追加されていません。
 
-  5.  [[#should-block-inline]] is called during handling of inline event
-      handlers (like `onclick`) and inline `style` attributes in order to
-      determine whether or not they ought to be allowed to execute/render.
+  5.  アルゴリズム [[#should-block-inline]] は、インラインのイベントハンドラ（`onclick` など）や、インラインの `style` 属性を処理する過程で呼び出され、これらを実行・レンダリングしてもよいかを判断するのに用いられます。
 
-      ISSUE(WHATWG/html#384): This hook is in-flight for WHATWG's HTML.
+      ISSUE(WHATWG/html#384): このフックは現在 WHATWG's HTML で検討中です。
 
-  5.  <a>Policies</a> are <a>enforced</a> during processing of the <{meta}>
-      element's <{meta/http-equiv}>.
+  6.  <a>policies</a> は <{meta}> 要素中の <{meta/http-equiv}> を処理する過程で <a>enforced</a> されます。
 
-      ISSUE: This processing was added to WHATWG's HTML in
-      <a href="https://github.com/whatwg/html/commit/5064a629f22bef29839ab4dc6f1ceef17f010bc5">whatwg/html@5064a62</a>.
-      It has not yet been added to W3C's HTML.
+      ISSUE: この処理は WHATWG's HTML に追加されました（<a href="https://github.com/whatwg/html/commit/5064a629f22bef29839ab4dc6f1ceef17f010bc5">whatwg/html@5064a62</a>）。しかし、まだ W3C's HTML には追加されていません。
 
-  6.  A {{Document}}'s <dfn>embedding document</dfn> is the {{Document}}
-      <a lt="nested through">through which</a> the {{Document}}'s
-      <a>browsing context</a> is nested.
+  7.  ある {{Document}} の <dfn>embedding document</dfn> とは、その {{Document}} の <a>browsing context</a> が<a lt="nested through">ネストされている</a> {{Document}} です。
 
   <h4 id="initialize-document-csp" algorithm>
     Initialize a `Document`'s `CSP list`
