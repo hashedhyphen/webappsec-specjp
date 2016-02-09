@@ -1407,7 +1407,7 @@
       <li>
        <a href="#html-integration"><span class="secno">4.2</span> <span class="content"> HTML との連携 </span></a>
        <ol class="toc">
-        <li><a href="#initialize-document-csp"><span class="secno">4.2.1</span> <span class="content"> Initialize a <code>Document</code>'s <code>CSP list</code> </span></a>
+        <li><a href="#initialize-document-csp"><span class="secno">4.2.1</span> <span class="content"> <code>Document</code> の <code>CSP list</code> に対する初期化 </span></a>
         <li><a href="#initialize-global-object-csp"><span class="secno">4.2.2</span> <span class="content"> Initialize a global object’s <code>CSP list</code> </span></a>
         <li><a href="#should-block-inline"><span class="secno">4.2.3</span> <span class="content"> Should <var>element</var>’s inline <var>type</var> behavior be blocked by Content Security Policy? </span></a>
        </ol>
@@ -1689,7 +1689,7 @@
      <li data-md="">
       <p><dfn data-dfn-for="directive" data-dfn-type="dfn" data-noexport="" id="directive-inline-check">inline check<a class="self-link" href="#directive-inline-check"></a></dfn> は <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-element">Element</a></code> と type string を引数に取り、<a href="#should-block-inline">§4.2.3 Should element’s inline type behavior be blocked by Content Security Policy?</a> 　の中で実行されるアルゴリズムです。実行結果として "<code>Allowed</code>" またはその他の指定された値を返します。</p>
      <li data-md="">
-      <p><dfn data-dfn-for="directive" data-dfn-type="dfn" data-noexport="" id="directive-initialization">initialization<a class="self-link" href="#directive-initialization"></a></dfn> は <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> または <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> と、<a data-link-type="dfn">responce</a>、そして <a data-link-type="dfn" href="#policy">policy</a> との 3 つの引数を取り、<a href="#initialize-document-csp">§4.2.1 Initialize a Document's CSP list</a> の中で実行されるアルゴリズムです。特に指定がない限り、実行結果で値が返されることはありません。</p>
+      <p><dfn data-dfn-for="directive" data-dfn-type="dfn" data-noexport="" id="directive-initialization">initialization<a class="self-link" href="#directive-initialization"></a></dfn> は <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> または <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> と、<a data-link-type="dfn">responce</a>、そして <a data-link-type="dfn" href="#policy">policy</a> との 3 つの引数を取り、<a href="#initialize-document-csp">§4.2.1 Document の CSP list に対する初期化</a> の中で実行されるアルゴリズムです。特に指定がない限り、実行結果で値が返されることはありません。</p>
     </ol>
     <h4 class="heading settled" data-level="2.2.1" id="framework-directive-source-list"><span class="secno">2.2.1. </span><span class="content">Source Lists</span><a class="self-link" href="#framework-directive-source-list"></a></h4>
     <p><a data-link-type="dfn" href="#directives">directives</a> における <a data-link-type="dfn" href="#directive-value">values</a> の多くは <dfn data-dfn-type="dfn" data-noexport="" id="source-lists">source lists<a class="self-link" href="#source-lists"></a></dfn> から構成されます。source list とは、読み込まれるコンテンツ、埋め込み・実行の可能性があるコンテンツを特定するトークンの集合です。これらのトークンは、以下に列挙した <dfn data-dfn-type="dfn" data-noexport="" id="source-expression">source expression<a class="self-link" href="#source-expression"></a></dfn> の種類のうち、いずれか 1 つを示します。</p>
@@ -1971,44 +1971,41 @@
      <li data-md="">
       <p>ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> の <dfn data-dfn-type="dfn" data-noexport="" id="embedding-document">embedding document<a class="self-link" href="#embedding-document"></a></dfn> とは、その <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context">browsing context</a> が<a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#browsing-context-nested-through">ネストされている</a> <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> です。</p>
     </ol>
-    <h4 class="heading settled" data-algorithm="Initialize a Document&apos;s CSP list" data-level="4.2.1" id="initialize-document-csp"><span class="secno">4.2.1. </span><span class="content"> Initialize a <code>Document</code>'s <code>CSP list</code> </span><a class="self-link" href="#initialize-document-csp"></a></h4>
-    <p>Given a <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> (<var>document</var>), and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> (<var>response</var>), the
-  user agent performs the following steps in order to initialize <var>document</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a>:</p>
+    <h4 class="heading settled" data-algorithm="Document の CSP list に対する初期化" data-level="4.2.1" id="initialize-document-csp"><span class="secno">4.2.1. </span><span class="content"> <code>Document</code> の <code>CSP list</code> に対する初期化 </span><a class="self-link" href="#initialize-document-csp"></a></h4>
+    <p>ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> (<var>document</var>) と <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> (<var>response</var>) に対し、ユーザエージェントは <var>document</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a> を初期化するために以下の処理を実行します。</p>
     <ol>
      <li data-md="">
-      <p>If <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-scheme">scheme</a></code> is a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#local-scheme">local scheme</a>:</p>
+      <p>ここで <var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> における <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-scheme">scheme</a></code> が <a data-link-type="dfn" href="https://url.spec.whatwg.org/#local-scheme">local scheme</a> だった場合、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>Let <var>documents</var> be an empty list.</p>
+        <p><var>documents</var> に空リストを代入します。</p>
        <li data-md="">
-        <p>If <var>document</var> has an <a data-link-type="dfn" href="#embedding-document">embedding document</a> (<var>embedding</var>), then add <var>embedding</var> to <var>documents</var>.</p>
+        <p>ここで <var>document</var> が <a data-link-type="dfn" href="#embedding-document">embedding document</a> (<var>embedding</var>) を持っていた場合、その <var>embedding</var> を <var>documents</var> に追加します。</p>
        <li data-md="">
-        <p>If <var>document</var> has an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#opener-browsing-context">opener browsing context</a>, then add its <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#active-document">active document</a> to <var>documents</var>.</p>
+        <p>ここで <var>document</var> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#opener-browsing-context">opener browsing context</a> を持っていた場合、そのブラウジングコンテキストの <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#active-document">active document</a> を <var>documents</var> に追加します。</p>
        <li data-md="">
-        <p>For each <var>doc</var> in <var>documents</var>:</p>
+        <p><var>documents</var> に含まれる各要素 <var>doc</var> のそれぞれについて以下を実行します。</p>
         <ol>
          <li data-md="">
-          <p>For each <var>policy</var> in <var>doc</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a>:</p>
+          <p><var>doc</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a> に含まれる <var>policy</var> のそれぞれについて以下を実行します。</p>
           <ol>
            <li data-md="">
-            <p>Insert an alias to <var>policy</var> in <var>document</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a>.</p>
+            <p><var>policy</var> に対するエイリアスを <var>document</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a> に挿入します。</p>
           </ol>
         </ol>
       </ol>
-      <p class="note" role="note">Note: <a data-link-type="dfn" href="https://url.spec.whatwg.org/#local-scheme">local scheme</a> includes <code>about:</code>, and this algorithm will
-  therefore alias the <a data-link-type="dfn" href="#embedding-document">embedding document</a>’s policies for <a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an iframe <code>srcdoc</code> <code>Document</code></a>.</p>
-      <p class="note" role="note">Note: We do all this to ensure that a page cannot bypass its <a data-link-type="dfn" href="#policy">policy</a> by embedding a frame or popping up a new window containing content it
-  controls (<code>blob:</code> resources, or <code>document.write()</code>).</p>
+      <p class="note" role="note">Note: <a data-link-type="dfn" href="https://url.spec.whatwg.org/#local-scheme">local scheme</a> には <code>about:</code> も含まれているため、<a data-link-type="dfn" href="#embedding-document">embedding document</a> の有するポリシーのうち、<a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an iframe <code>srcdoc</code> <code>Document</code></a> に対するポリシーのエイリアスが挿入されます。</p>
+      <p class="note" role="note">Note: このアルゴリズムは、ページが制御するコンテンツ（<code>blob:</code> リソースや <code>document.write()</code>）を含むフレームを埋め込んだり、またはコンテンツを含む新しいウィンドウを開いたりしても、そのページが自身の <a data-link-type="dfn" href="#policy">policy</a> を回避できないことを保障するために実行されます。</p>
      <li data-md="">
-      <p>For each <var>policy</var> in <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a>, insert <var>policy</var> into <var>document</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a>.</p>
+      <p><var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> に含まれる <var>policy</var> について、それぞれの <var>policy</var> を <var>document</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a> に挿入します。</p>
      <li data-md="">
-      <p>For each <var>policy</var> in <var>document</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a>:</p>
+      <p><var>document</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a> に含まれる <var>policy</var> のそれぞれについて以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>For each <var>directive</var> in <var>policy</var>:</p>
+        <p><var>policy</var> に含まれる <var>directive</var> のそれぞれについて以下を実行します。</p>
         <ol>
          <li data-md="">
-          <p>Execute <var>directive</var>’s <a data-link-type="dfn" href="#directive-initialization">initialization</a> algorithm on <var>document</var> and <var>response</var>.</p>
+          <p><var>document</var> と <var>response</var> に対して <var>directive</var> の <a data-link-type="dfn" href="#directive-initialization">initialization</a> アルゴリズムを実行します。</p>
         </ol>
       </ol>
     </ol>

@@ -801,48 +801,36 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   7.  ある {{Document}} の <dfn>embedding document</dfn> とは、その {{Document}} の <a>browsing context</a> が<a lt="nested through">ネストされている</a> {{Document}} です。
 
   <h4 id="initialize-document-csp" algorithm>
-    Initialize a `Document`'s `CSP list`
+    `Document` の `CSP list` に対する初期化
   </h4>
 
-  Given a {{Document}} (|document|), and a <a>response</a> (|response|), the
-  user agent performs the following steps in order to initialize |document|'s
-  <a for="document">CSP list</a>:
+  ある {{Document}} (|document|) と <a>response</a> (|response|) に対し、ユーザエージェントは |document| の <a for="document">CSP list</a> を初期化するために以下の処理を実行します。
 
-  1.  If |response|'s <a for="response">url</a>'s {{URL/scheme}} is a
-      <a>local scheme</a>:
+  1.  ここで |response| の <a for="response">url</a> における {{URL/scheme}} が <a>local scheme</a> だった場合、以下を実行します。
 
-      1.  Let |documents| be an empty list.
+      1.  |documents| に空リストを代入します。
 
-      2.  If |document| has an <a>embedding document</a> (|embedding|), then add
-          |embedding| to |documents|.
+      2.  ここで |document| が <a>embedding document</a> (|embedding|) を持っていた場合、その |embedding| を |documents| に追加します。
 
-      3.  If |document| has an <a>opener browsing context</a>, then add its
-          <a>active document</a> to |documents|.
+      3.  ここで |document| が <a>opener browsing context</a> を持っていた場合、そのブラウジングコンテキストの <a>active document</a> を |documents| に追加します。
 
-      4.  For each |doc| in |documents|:
+      4.  |documents| に含まれる各要素 |doc| のそれぞれについて以下を実行します。
 
-          1.  For each |policy| in |doc|'s <a for="document">CSP list</a>:
+          1.  |doc| の <a for="document">CSP list</a> に含まれる |policy| のそれぞれについて以下を実行します。
 
-              1.  Insert an alias to |policy| in |document|'s
-                  <a for="document">CSP list</a>.
+              1.  |policy| に対するエイリアスを |document| の <a for="document">CSP list</a> に挿入します。
 
-      Note: <a>local scheme</a> includes `about:`, and this algorithm will
-      therefore alias the <a>embedding document</a>'s policies for <a>an iframe
-      `srcdoc` `Document`</a>.
+      Note: <a>local scheme</a> には `about:` も含まれているため、<a>embedding document</a> の有するポリシーのうち、<a>an iframe `srcdoc` `Document`</a> に対するポリシーのエイリアスが挿入されます。
 
-      Note: We do all this to ensure that a page cannot bypass its <a>policy</a>
-      by embedding a frame or popping up a new window containing content it
-      controls (`blob:` resources, or `document.write()`).
+      Note: このアルゴリズムは、ページが制御するコンテンツ（`blob:` リソースや `document.write()`）を含むフレームを埋め込んだり、またはコンテンツを含む新しいウィンドウを開いたりしても、そのページが自身の <a>policy</a> を回避できないことを保障するために実行されます。
 
-  2.  For each |policy| in |response|'s <a for="response">CSP list</a>, insert
-      |policy| into |document|'s <a for="document">CSP list</a>.
+  2.  |response| の <a for="response">CSP list</a> に含まれる |policy| について、それぞれの |policy| を |document| の <a for="document">CSP list</a> に挿入します。
 
-  3.  For each |policy| in |document|'s <a for="document">CSP list</a>:
+  3.  |document| の <a for="document">CSP list</a> に含まれる |policy| のそれぞれについて以下を実行します。
 
-      1.  For each |directive| in |policy|:
+      1.  |policy| に含まれる |directive| のそれぞれについて以下を実行します。
 
-          1.  Execute |directive|'s <a for="directive">initialization</a>
-              algorithm on |document| and |response|.
+          1.  |document| と |response| に対して |directive| の <a for="directive">initialization</a> アルゴリズムを実行します。
 
   <h4 id="initialize-global-object-csp" algorithm>
     Initialize a global object's `CSP list`
