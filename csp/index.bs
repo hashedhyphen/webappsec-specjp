@@ -806,7 +806,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   ある {{Document}} (|document|) と <a>response</a> (|response|) に対し、ユーザエージェントは |document| の <a for="document">CSP list</a> を初期化するために以下の処理を実行します。
 
-  1.  ここで |response| の <a for="response">url</a> における {{URL/scheme}} が <a>local scheme</a> だった場合、以下を実行します。
+  1.  ここで |response| における <a for="response">url</a> の {{URL/scheme}} が <a>local scheme</a> だった場合、以下を実行します。
 
       1.  |documents| に空リストを代入します。
 
@@ -833,36 +833,27 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
           1.  |document| と |response| に対して |directive| の <a for="directive">initialization</a> アルゴリズムを実行します。
 
   <h4 id="initialize-global-object-csp" algorithm>
-    Initialize a global object's `CSP list`
+    グローバルオブジェクトの `CSP list` に対する初期化
   </h4>
 
-  Given a <a>global object</a> (|global|), and a <a>response</a>
-  (|response|), the user agent performs the following steps in order
-  to initialize |global|'s <a for="global object">CSP list</a>:
+  ある <a>global object</a> (|global|) と <a>response</a>
+  (|response|) に対し、ユーザエージェントは |global| の <a for="global object">CSP list</a> を初期化するために以下の処理を実行します。
 
-  1.  If |response|'s <a for="response">url</a>'s {{URL/scheme}} is a
-      <a>local scheme</a>:
+  1.  ここで |response| における <a for="response">url</a> の {{URL/scheme}} が <a>local scheme</a> だった場合、以下を実行します。
 
-      1.  Let |documents| be an empty list.
+      1.  |documents| に空リストを代入します。
 
-      2.  Add each of |global|'s
-          <a lt="the worker's documents">document</a>s to |documents|.
+      2.  |global| に含まれる <a lt="the worker's documents">document</a> のそれぞれを |documents| に追加します。
 
-      4.  For each |document| in |documents|:
+      3.  |documents| に含まれる要素 |document| のそれぞれについて以下を実行します。
 
-          1.  For each |policy| in |document|'s <a>global
-              object</a>'s <a for="global object">CSP list</a>:
+          1.  |document| の <a>global object</a> が有する <a for="global object">CSP list</a> に含まれる要素 |policy| のそれぞれについて以下を実行します。
 
-              1.  Insert an alias to |policy| in |global|'s
-                  <a for="global object">CSP list</a>.
+              1.  |policy| に対するエイリアスを |global| の a for="global object">CSP list</a> に挿入します。
 
-      Note: <a>local scheme</a> includes `about:`, and this algorithm will
-      therefore alias the <a>embedding document</a>'s policies for <a>an iframe
-      `srcdoc` `Document`</a>.
+      Note: <a>local scheme</a> には `about:` も含まれているため、<a>embedding document</a> の有するポリシーのうち、<a>an iframe `srcdoc` `Document`</a> に対するポリシーのエイリアスが挿入されます。
 
-  2.  For each |policy| in |response|'s
-      <a for="response">CSP list</a>, insert |policy| into
-      |global|'s <a for="global object">CSP list</a>.
+  2.  |response| の <a for="response">CSP list</a> に含まれる |policy| について、それぞれの |policy| を |global| の <a for="document">CSP list</a> に挿入します。
 
   <h4 id="should-block-inline" algorithm>
     Should |element|'s inline |type| behavior be blocked by Content Security Policy?

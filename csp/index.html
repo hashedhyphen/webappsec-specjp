@@ -1408,7 +1408,7 @@
        <a href="#html-integration"><span class="secno">4.2</span> <span class="content"> HTML との連携 </span></a>
        <ol class="toc">
         <li><a href="#initialize-document-csp"><span class="secno">4.2.1</span> <span class="content"> <code>Document</code> の <code>CSP list</code> に対する初期化 </span></a>
-        <li><a href="#initialize-global-object-csp"><span class="secno">4.2.2</span> <span class="content"> Initialize a global object’s <code>CSP list</code> </span></a>
+        <li><a href="#initialize-global-object-csp"><span class="secno">4.2.2</span> <span class="content"> グローバルオブジェクトの <code>CSP list</code> に対する初期化 </span></a>
         <li><a href="#should-block-inline"><span class="secno">4.2.3</span> <span class="content"> Should <var>element</var>’s inline <var>type</var> behavior be blocked by Content Security Policy? </span></a>
        </ol>
      </ol>
@@ -1613,7 +1613,7 @@
    <section>
     <h2 class="heading settled" data-level="2" id="framework"><span class="secno">2. </span><span class="content">枠組み</span><a class="self-link" href="#framework"></a></h2>
     <h3 class="heading settled" data-level="2.1" id="framework-policy"><span class="secno">2.1. </span><span class="content">ポリシー</span><a class="self-link" href="#framework-policy"></a></h3>
-    <p><dfn data-dfn-type="dfn" data-export="" data-local-lt="policies" id="policy">policy<a class="self-link" href="#policy"></a></dfn> とは、動作の許可・制限の集合を定義するものです。<a href="#initialize-global-object-csp">§4.2.2 Initialize a global object’s CSP list</a> で説明されているように、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/browsers.html#dom-window">Window</a></code> や <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> に対して適用されることもあります。</p>
+    <p><dfn data-dfn-type="dfn" data-export="" data-local-lt="policies" id="policy">policy<a class="self-link" href="#policy"></a></dfn> とは、動作の許可・制限の集合を定義するものです。<a href="#initialize-global-object-csp">§4.2.2 グローバルオブジェクトの CSP list に対する初期化</a> で説明されているように、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/browsers.html#dom-window">Window</a></code> や <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> に対して適用されることもあります。</p>
     <p>各ポリシーには対応する <dfn data-dfn-for="policy" data-dfn-type="dfn" data-noexport="" id="policy-directive-set">directive set<a class="self-link" href="#policy-directive-set"></a></dfn> が存在します。<dfn data-dfn-for="policy" data-dfn-type="dfn" data-noexport="" id="policy-directive-set0">directive set<a class="self-link" href="#policy-directive-set0"></a></dfn> とは、ポリシー適用時の結果を定義した <a data-link-type="dfn" href="#directives">directive</a> の集合です。</p>
     <p>各ポリシーには対応する <dfn data-dfn-for="policy" data-dfn-type="dfn" data-noexport="" id="policy-disposition">disposition<a class="self-link" href="#policy-disposition"></a></dfn> が存在し、"<code>enforce</code>" または "<code>report</code>" の値を持ちます。</p>
     <p><dfn data-dfn-type="dfn" data-export="" id="serialized-csp">serialized CSP<a class="self-link" href="#serialized-csp"></a></dfn> とは、シリアライズされたディレクティブをセミコロン区切りで並べた ASCII 文字列です。<a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a> の ABNF 文法を用いると以下のように表現されます。</p>
@@ -1950,11 +1950,11 @@
     <h3 class="heading settled" data-level="4.2" id="html-integration"><span class="secno">4.2. </span><span class="content"> HTML との連携 </span><a class="self-link" href="#html-integration"></a></h3>
     <ol>
      <li data-md="">
-      <p><code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> オブジェクトと <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> オブジェクトは <dfn data-dfn-for="global object" data-dfn-type="dfn" data-noexport="" id="global-object-csp-list">CSP list<a class="self-link" href="#global-object-csp-list"></a></dfn> を持ちます。この CSP list は、そのコンテキストでアクティブな <a data-link-type="dfn" href="#policy">policy</a> オブジェクトすべてを含むリストです。特に指定のない限り、このリストが空になることはなく、アルゴリズム <a href="#initialize-global-object-csp">§4.2.2 Initialize a global object’s CSP list</a> によって初期化されます。</p>
+      <p><code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> オブジェクトと <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a></code> オブジェクトは <dfn data-dfn-for="global object" data-dfn-type="dfn" data-noexport="" id="global-object-csp-list">CSP list<a class="self-link" href="#global-object-csp-list"></a></dfn> を持ちます。この CSP list は、そのコンテキストでアクティブな <a data-link-type="dfn" href="#policy">policy</a> オブジェクトすべてを含むリストです。特に指定のない限り、このリストが空になることはなく、アルゴリズム <a href="#initialize-global-object-csp">§4.2.2 グローバルオブジェクトの CSP list に対する初期化</a> によって初期化されます。</p>
      <li data-md="">
       <p>ある <a data-link-type="dfn" href="#policy">policy</a> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> の <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a> に挿入されると、その <a data-link-type="dfn" href="#policy">policy</a> は <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> に対して <dfn data-dfn-type="dfn" data-noexport="" id="enforced">enforced<a class="self-link" href="#enforced"></a></dfn> されるか <dfn data-dfn-type="dfn" data-noexport="" id="monitored">monitored<a class="self-link" href="#monitored"></a></dfn> されます。</p>
      <li data-md="">
-      <p>ある <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> に対する <a data-link-type="dfn" href="#policy">policy</a> オブジェクトの集合を、新しく生成した <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> と関連付けるため、アルゴリズム <a href="#initialize-global-object-csp">§4.2.2 Initialize a global object’s CSP list</a> は <a data-link-type="dfn" href="https://html.spec.whatwg.org/#initialising-a-new-document-object">initialising a new <code>Document</code> object</a> と <a data-link-type="dfn" href="https://html.spec.whatwg.org/#run-a-worker">run a worker</a> のアルゴリズム中で呼び出されます。</p>
+      <p>ある <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> に対する <a data-link-type="dfn" href="#policy">policy</a> オブジェクトの集合を、新しく生成した <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> と関連付けるため、アルゴリズム <a href="#initialize-global-object-csp">§4.2.2 グローバルオブジェクトの CSP list に対する初期化</a> は <a data-link-type="dfn" href="https://html.spec.whatwg.org/#initialising-a-new-document-object">initialising a new <code>Document</code> object</a> と <a data-link-type="dfn" href="https://html.spec.whatwg.org/#run-a-worker">run a worker</a> のアルゴリズム中で呼び出されます。</p>
       <p class="issue" id="issue-ba1e08e5"><a class="self-link" href="#issue-ba1e08e5"></a> W3C’s HTML で定義されるアルゴリズム "creating a new <code>Document</code> object" は、Fetch との相性が良くありません。</p>
       <p class="issue" id="issue-dd85eabd"><a class="self-link" href="#issue-dd85eabd"></a> ここで、"document を生成する際に用いられたリソースの <code>CSP list</code> を <code>Window</code> オブジェクトの <code>CSP list</code> に代入する" といったモンキーパッチが必要です。</p>
      <li data-md="">
@@ -1975,7 +1975,7 @@
     <p>ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> (<var>document</var>) と <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> (<var>response</var>) に対し、ユーザエージェントは <var>document</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a> を初期化するために以下の処理を実行します。</p>
     <ol>
      <li data-md="">
-      <p>ここで <var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> における <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-scheme">scheme</a></code> が <a data-link-type="dfn" href="https://url.spec.whatwg.org/#local-scheme">local scheme</a> だった場合、以下を実行します。</p>
+      <p>ここで <var>response</var> における <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> の <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-scheme">scheme</a></code> が <a data-link-type="dfn" href="https://url.spec.whatwg.org/#local-scheme">local scheme</a> だった場合、以下を実行します。</p>
       <ol>
        <li data-md="">
         <p><var>documents</var> に空リストを代入します。</p>
@@ -2009,33 +2009,30 @@
         </ol>
       </ol>
     </ol>
-    <h4 class="heading settled" data-algorithm="Initialize a global object’s CSP list" data-level="4.2.2" id="initialize-global-object-csp"><span class="secno">4.2.2. </span><span class="content"> Initialize a global object’s <code>CSP list</code> </span><a class="self-link" href="#initialize-global-object-csp"></a></h4>
-    <p>Given a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> (<var>global</var>), and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> (<var>response</var>), the user agent performs the following steps in order
-  to initialize <var>global</var>’s <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a>:</p>
+    <h4 class="heading settled" data-algorithm="グローバルオブジェクトの CSP list に対する初期化" data-level="4.2.2" id="initialize-global-object-csp"><span class="secno">4.2.2. </span><span class="content"> グローバルオブジェクトの <code>CSP list</code> に対する初期化 </span><a class="self-link" href="#initialize-global-object-csp"></a></h4>
+    <p>ある <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> (<var>global</var>) と <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> (<var>response</var>) に対し、ユーザエージェントは <var>global</var> の <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a> を初期化するために以下の処理を実行します。</p>
     <ol>
      <li data-md="">
-      <p>If <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-scheme">scheme</a></code> is a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#local-scheme">local scheme</a>:</p>
+      <p>ここで <var>response</var> における <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> の <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-scheme">scheme</a></code> が <a data-link-type="dfn" href="https://url.spec.whatwg.org/#local-scheme">local scheme</a> だった場合、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>Let <var>documents</var> be an empty list.</p>
+        <p><var>documents</var> に空リストを代入します。</p>
        <li data-md="">
-        <p>Add each of <var>global</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/#the-workers-documents">document</a>s to <var>documents</var>.</p>
+        <p><var>global</var> に含まれる <a data-link-type="dfn" href="https://html.spec.whatwg.org/#the-workers-documents">document</a> のそれぞれを <var>documents</var> に追加します。</p>
        <li data-md="">
-        <p>For each <var>document</var> in <var>documents</var>:</p>
+        <p><var>documents</var> に含まれる要素 <var>document</var> のそれぞれについて以下を実行します。</p>
         <ol>
          <li data-md="">
-          <p>For each <var>policy</var> in <var>document</var>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global
-  object</a>’s <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a>:</p>
+          <p><var>document</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> が有する <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a> に含まれる要素 <var>policy</var> のそれぞれについて以下を実行します。</p>
           <ol>
            <li data-md="">
-            <p>Insert an alias to <var>policy</var> in <var>global</var>’s <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a>.</p>
+            <p><var>policy</var> に対するエイリアスを <var>global</var> の a for="global object">CSP list に挿入します。</p>
           </ol>
         </ol>
       </ol>
-      <p class="note" role="note">Note: <a data-link-type="dfn" href="https://url.spec.whatwg.org/#local-scheme">local scheme</a> includes <code>about:</code>, and this algorithm will
-  therefore alias the <a data-link-type="dfn" href="#embedding-document">embedding document</a>’s policies for <a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an iframe <code>srcdoc</code> <code>Document</code></a>.</p>
+      <p class="note" role="note">Note: <a data-link-type="dfn" href="https://url.spec.whatwg.org/#local-scheme">local scheme</a> には <code>about:</code> も含まれているため、<a data-link-type="dfn" href="#embedding-document">embedding document</a> の有するポリシーのうち、<a data-link-type="dfn" href="http://www.w3.org/TR/html5/embedded-content-0.html#an-iframe-srcdoc-document">an iframe <code>srcdoc</code> <code>Document</code></a> に対するポリシーのエイリアスが挿入されます。</p>
      <li data-md="">
-      <p>For each <var>policy</var> in <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a>, insert <var>policy</var> into <var>global</var>’s <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a>.</p>
+      <p><var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> に含まれる <var>policy</var> について、それぞれの <var>policy</var> を <var>global</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a> に挿入します。</p>
     </ol>
     <h4 class="heading settled" data-algorithm="Should element’s inline type behavior be blocked by Content Security Policy?" data-level="4.2.3" id="should-block-inline"><span class="secno">4.2.3. </span><span class="content"> Should <var>element</var>’s inline <var>type</var> behavior be blocked by Content Security Policy? </span><a class="self-link" href="#should-block-inline"></a></h4>
     <p>Given an <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-element">Element</a></code> (<var>element</var>), and a string (<var>type</var>) this algorithm returns
