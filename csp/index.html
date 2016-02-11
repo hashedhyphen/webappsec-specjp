@@ -1409,7 +1409,7 @@
        <ol class="toc">
         <li><a href="#initialize-document-csp"><span class="secno">4.2.1</span> <span class="content"> <code>Document</code> の <code>CSP list</code> に対する初期化 </span></a>
         <li><a href="#initialize-global-object-csp"><span class="secno">4.2.2</span> <span class="content"> グローバルオブジェクトの <code>CSP list</code> に対する初期化 </span></a>
-        <li><a href="#should-block-inline"><span class="secno">4.2.3</span> <span class="content"> Should <var>element</var>’s inline <var>type</var> behavior be blocked by Content Security Policy? </span></a>
+        <li><a href="#should-block-inline"><span class="secno">4.2.3</span> <span class="content"> <var>element</var> においてインラインの <var>type</var> に関する挙動は Content Security Policy によってブロックされるべきか？ </span></a>
        </ol>
      </ol>
     <li>
@@ -1687,7 +1687,7 @@
      <li data-md="">
       <p><dfn data-dfn-for="directive" data-dfn-type="dfn" data-noexport="" id="directive-response-check">response check<a class="self-link" href="#directive-response-check"></a></dfn> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> と <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a>、そして <a data-link-type="dfn" href="#policy">policy</a> とを引数に取り、<a href="#should-block-response">§4.1.4 request に対する response は Content Security Policy によってブロックされるべきか？</a> の中で実行されるアルゴリズムです。実行結果として "<code>Allowed</code>" またはその他の値を定義に従って返します。<a href="#should-block-response">§4.1.4 request に対する response は Content Security Policy によってブロックされるべきか？</a> の中で実行されるアルゴリズムです。実行結果として "<code>Allowed</code>" またはその他の指定された値を返します。</p>
      <li data-md="">
-      <p><dfn data-dfn-for="directive" data-dfn-type="dfn" data-noexport="" id="directive-inline-check">inline check<a class="self-link" href="#directive-inline-check"></a></dfn> は <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-element">Element</a></code> と type string を引数に取り、<a href="#should-block-inline">§4.2.3 Should element’s inline type behavior be blocked by Content Security Policy?</a> 　の中で実行されるアルゴリズムです。実行結果として "<code>Allowed</code>" またはその他の指定された値を返します。</p>
+      <p><dfn data-dfn-for="directive" data-dfn-type="dfn" data-noexport="" id="directive-inline-check">inline check<a class="self-link" href="#directive-inline-check"></a></dfn> は <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-element">Element</a></code> と type string を引数に取り、<a href="#should-block-inline">§4.2.3 element においてインラインの type に関する挙動は Content Security Policy によってブロックされるべきか？</a> 　の中で実行されるアルゴリズムです。実行結果として "<code>Allowed</code>" またはその他の指定された値を返します。</p>
      <li data-md="">
       <p><dfn data-dfn-for="directive" data-dfn-type="dfn" data-noexport="" id="directive-initialization">initialization<a class="self-link" href="#directive-initialization"></a></dfn> は <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> または <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> と、<a data-link-type="dfn">responce</a>、そして <a data-link-type="dfn" href="#policy">policy</a> との 3 つの引数を取り、<a href="#initialize-document-csp">§4.2.1 Document の CSP list に対する初期化</a> の中で実行されるアルゴリズムです。特に指定がない限り、実行結果で値が返されることはありません。</p>
     </ol>
@@ -1958,12 +1958,12 @@
       <p class="issue" id="issue-ba1e08e5"><a class="self-link" href="#issue-ba1e08e5"></a> W3C’s HTML で定義されるアルゴリズム "creating a new <code>Document</code> object" は、Fetch との相性が良くありません。</p>
       <p class="issue" id="issue-dd85eabd"><a class="self-link" href="#issue-dd85eabd"></a> ここで、"document を生成する際に用いられたリソースの <code>CSP list</code> を <code>Window</code> オブジェクトの <code>CSP list</code> に代入する" といったモンキーパッチが必要です。</p>
      <li data-md="">
-      <p>インラインのスクリプトやスタイルを実行・レンダリングしてもよいかを判断するため、アルゴリズム <a href="#should-block-inline">§4.2.3 Should element’s inline type behavior be blocked by Content Security Policy?</a> は <a data-link-type="dfn" href="http://www.w3.org/TR/html5/scripting-1.html#prepare-a-script">prepare a script</a> と <a data-link-type="dfn" href="https://html.spec.whatwg.org/#update-a-style-block">update a <code>style</code> block</a> のアルゴリズム中で呼び出されます。</p>
+      <p>インラインのスクリプト・スタイルを実行・レンダリングしてもよいかを判断するため、アルゴリズム <a href="#should-block-inline">§4.2.3 element においてインラインの type に関する挙動は Content Security Policy によってブロックされるべきか？</a> は <a data-link-type="dfn" href="http://www.w3.org/TR/html5/scripting-1.html#prepare-a-script">prepare a script</a> と <a data-link-type="dfn" href="https://html.spec.whatwg.org/#update-a-style-block">update a <code>style</code> block</a> のアルゴリズム中で呼び出されます。</p>
       <p class="issue" id="issue-f87a8865"><a class="self-link" href="#issue-f87a8865"></a> アルゴリズム <a data-link-type="dfn" href="https://html.spec.whatwg.org/#update-a-style-block">update a <code>style</code> block</a> は W3C’s HTML には存在しません。</p>
       <p class="issue" id="issue-d00ffd43"><a class="self-link" href="#issue-d00ffd43"></a> <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> と <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-style-element">style</a></code> の <code>nonce</code> 属性が WHATWG’s HTML に追加されました（<a href="https://github.com/whatwg/html/commit/882803c4cc8fba2fa5472b76f628d95cc82c421d">whatwg/html@882803c</a>）。しかし、まだ W3C’s HTML には追加されていません。</p>
-      <p class="issue" id="issue-5cab039f"><a class="self-link" href="#issue-5cab039f"></a> <a href="#should-block-inline">§4.2.3 Should element’s inline type behavior be blocked by Content Security Policy?</a> のフックが WHATWG’s HTML に追加されました（<a href="https://github.com/whatwg/html/commit/ee3486eb129bc350b5ca684d0c91dff23453ac1a">whatwg/html@ee3486e</a>）。しかし、まだ W3C’s HTML には追加されていません。</p>
+      <p class="issue" id="issue-5cab039f"><a class="self-link" href="#issue-5cab039f"></a> <a href="#should-block-inline">§4.2.3 element においてインラインの type に関する挙動は Content Security Policy によってブロックされるべきか？</a> のフックが WHATWG’s HTML に追加されました（<a href="https://github.com/whatwg/html/commit/ee3486eb129bc350b5ca684d0c91dff23453ac1a">whatwg/html@ee3486e</a>）。しかし、まだ W3C’s HTML には追加されていません。</p>
      <li data-md="">
-      <p>アルゴリズム <a href="#should-block-inline">§4.2.3 Should element’s inline type behavior be blocked by Content Security Policy?</a> は、インラインのイベントハンドラ（<code>onclick</code> など）や、インラインの <code>style</code> 属性を処理する過程で呼び出され、これらを実行・レンダリングしてもよいかを判断するのに用いられます。</p>
+      <p>アルゴリズム <a href="#should-block-inline">§4.2.3 element においてインラインの type に関する挙動は Content Security Policy によってブロックされるべきか？</a> は、インラインのイベントハンドラ（<code>onclick</code> など）や、インラインの <code>style</code> 属性を処理する過程で呼び出され、これらを実行・レンダリングしてもよいかを判断するのに用いられます。</p>
       <p class="issue" id="issue-64efaac2"><a class="self-link" href="#issue-64efaac2"></a> このフックは現在 WHATWG’s HTML で検討中です。 <a href="https://github.com/WHATWG/html/issues/384">&lt;https://github.com/WHATWG/html/issues/384></a></p>
      <li data-md="">
       <p><a data-link-type="dfn" href="#policy">policies</a> は <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素中の <code><a data-link-type="element-attr" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> を処理する過程で <a data-link-type="dfn" href="#enforced">enforced</a> されます。</p>
@@ -2034,39 +2034,31 @@
      <li data-md="">
       <p><var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-csp-list">CSP list</a> に含まれる <var>policy</var> について、それぞれの <var>policy</var> を <var>global</var> の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/dom.html#concept-document-csp-list">CSP list</a> に挿入します。</p>
     </ol>
-    <h4 class="heading settled" data-algorithm="Should element’s inline type behavior be blocked by Content Security Policy?" data-level="4.2.3" id="should-block-inline"><span class="secno">4.2.3. </span><span class="content"> Should <var>element</var>’s inline <var>type</var> behavior be blocked by Content Security Policy? </span><a class="self-link" href="#should-block-inline"></a></h4>
-    <p>Given an <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-element">Element</a></code> (<var>element</var>), and a string (<var>type</var>) this algorithm returns
-  "<code>Allowed</code>" if the element is allowed to have inline definition of a
-  particular type of behavior (script execution, style application, event handlers,
-  etc.), and "<code>Blocked</code>" otherwise:</p>
+    <h4 class="heading settled" data-algorithm="element においてインラインの type に関する挙動は Content Security Policy によってブロックされるべきか？" data-level="4.2.3" id="should-block-inline"><span class="secno">4.2.3. </span><span class="content"> <var>element</var> においてインラインの <var>type</var> に関する挙動は Content Security Policy によってブロックされるべきか？ </span><a class="self-link" href="#should-block-inline"></a></h4>
+    <p>ある <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#interface-element">Element</a></code> (<var>element</var>) と文字列 (<var>type</var>) に対するこのアルゴリズムは、（スクリプト実行、スタイル適用、イベントハンドラなどといった）特定の挙動に関するインライン定義を、その要素に与えることが許されていれば "Allowed" を返し、そうでなければ "Blocked" を返します。</p>
     <ol>
      <li data-md="">
-      <p>Let <var>result</var> be "<code>Allowed</code>".</p>
+      <p><var>result</var> に "<code>Allowed</code>" を代入します。</p>
      <li data-md="">
-      <p>For each <var>policy</var> in <var>element</var>’s <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code>'s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a>’s <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a>:</p>
+      <p><var>element</var> の <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> が持つ <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> の <a data-link-type="dfn" href="#global-object-csp-list">CSP list</a> に含まれる要素 <var>policy</var> のそれぞれについて以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>For each <var>directive</var> in <var>policy</var>:</p>
+        <p><var>policy</var> に含まれる <var>directive</var> のそれぞれについて以下を実行します。</p>
         <ol>
          <li data-md="">
-          <p>If <var>directive</var>’s <a data-link-type="dfn" href="#directive-inline-check">inline check</a> returns
-  "<code>Allowed</code>" when executed upon <var>element</var> and <var>type</var>, skip to the
-  next <var>directive</var>.</p>
+          <p>ここで <var>element</var> と <var>type</var> に対して <var>directive</var> の <a data-link-type="dfn" href="#directive-inline-check">inline check</a> を実行した結果が "<code>Allowed</code>" だった場合、以下の処理を飛ばして次の <var>directive</var> に移ります。</p>
          <li data-md="">
-          <p>Otherwise, let <var>violation</var> be the result of executing <a href="#create-violation-for-global">§2.3.1 global、policy、directive に対する violation オブジェクトの生成</a> on the <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings
-  object</a>, <var>policy</var>, and "<code>style-src</code>" if <var>type</var> is "<code>style</code>" or
-  "<code>style-attribute</code>", or "<code>script-src</code>" otherwise.</p>
+          <p>"<code>Allowed</code>" ではなく、かつ <var>type</var> が "<code>style</code>" か "<code>style-attribute</code>" のどちらかである、または "<code>script-src</code>" 以外である場合、<a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#incumbent-settings-object">incumbent settings object</a> と <var>policy</var> と "<code>style-src</code>" に対して <a href="#create-violation-for-global">§2.3.1 global、policy、directive に対する violation オブジェクトの生成</a> を適用し、その結果を <var>violation</var> に代入します。</p>
          <li data-md="">
-          <p>Set <var>violation</var>’s <a data-link-type="dfn" href="#violation-resource">resource</a> to "<code>inline</code>".</p>
+          <p><var>violation</var> の <a data-link-type="dfn" href="#violation-resource">resource</a> に "<code>inline</code>" を代入します。</p>
          <li data-md="">
-          <p>Execute <a href="#report-violation">§5.3 Report a violation</a> on <var>violation</var>.</p>
+          <p><var>violation</var> に対して <a href="#report-violation">§5.3 Report a violation</a> を適用します。</p>
          <li data-md="">
-          <p>If <var>policy</var>’s <a data-link-type="dfn" href="#policy-disposition">disposition</a> is "<code>enforce</code>", then
-  set <var>result</var> to "<code>Blocked</code>".</p>
+          <p>ここで <var>policy</var> の <a data-link-type="dfn" href="#policy-disposition">disposition</a> が "<code>enforce</code>" だった場合、<var>result</var> に "<code>Blocked</code>" を代入します。</p>
         </ol>
       </ol>
      <li data-md="">
-      <p>Return <var>result</var>.</p>
+      <p><var>result</var> を返します。</p>
     </ol>
    </section>
    <section>
@@ -2783,7 +2775,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p>Script <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">responses</a> MUST pass through <a href="#should-block-response">§4.1.4 request に対する response は Content Security Policy によってブロックされるべきか？</a>.</p>
      <li data-md="">
-      <p>Inline <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> blocks MUST pass through <a href="#should-block-inline">§4.2.3 Should element’s inline type behavior be blocked by Content Security Policy?</a>. Their
+      <p>Inline <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> blocks MUST pass through <a href="#should-block-inline">§4.2.3 element においてインラインの type に関する挙動は Content Security Policy によってブロックされるべきか？</a>. Their
   behavior will be blocked unless every policy allows inline script, either
   implicitly by not specifying a <code>script-src</code> (or <code>default-src</code>) directive,
   or explicitly, by whitelisting "<code>unsafe-inline</code>", a <a data-link-type="grammar" href="#grammardef-nonce-source">nonce-source</a> or a <a data-link-type="grammar" href="#grammardef-hash-source">hash-source</a> that matches
@@ -2869,7 +2861,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">Responses</a> to style requests MUST pass through <a href="#should-block-response">§4.1.4 request に対する response は Content Security Policy によってブロックされるべきか？</a>.</p>
      <li data-md="">
-      <p>Inline <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-style-element">style</a></code> blocks MUST pass through <a href="#should-block-inline">§4.2.3 Should element’s inline type behavior be blocked by Content Security Policy?</a>. The
+      <p>Inline <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-style-element">style</a></code> blocks MUST pass through <a href="#should-block-inline">§4.2.3 element においてインラインの type に関する挙動は Content Security Policy によってブロックされるべきか？</a>. The
   styles will be blocked unless every policy allows inline style, either
   implicitly by not specifying a <code>script-src</code> (or <code>default-src</code>) directive,
   or explicitly, by whitelisting "<code>unsafe-inline</code>", a <a data-link-type="grammar" href="#grammardef-nonce-source">nonce-source</a> or a <a data-link-type="grammar" href="#grammardef-hash-source">hash-source</a> that matches
@@ -3862,7 +3854,7 @@ dictionary <a href="#dictdef-securitypolicyviolationeventinit">SecurityPolicyVio
    <div class="issue"> ここで、"document を生成する際に用いられたリソースの <code>CSP list</code> を <code>Window</code> オブジェクトの <code>CSP list</code> に代入する" といったモンキーパッチが必要です。<a href="#issue-dd85eabd"> ↵ </a></div>
    <div class="issue"> アルゴリズム <a data-link-type="dfn" href="https://html.spec.whatwg.org/#update-a-style-block">update a <code>style</code> block</a> は W3C’s HTML には存在しません。<a href="#issue-f87a8865"> ↵ </a></div>
    <div class="issue"> <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> と <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-style-element">style</a></code> の <code>nonce</code> 属性が WHATWG’s HTML に追加されました（<a href="https://github.com/whatwg/html/commit/882803c4cc8fba2fa5472b76f628d95cc82c421d">whatwg/html@882803c</a>）。しかし、まだ W3C’s HTML には追加されていません。<a href="#issue-d00ffd43"> ↵ </a></div>
-   <div class="issue"> <a href="#should-block-inline">§4.2.3 Should element’s inline type behavior be blocked by Content Security Policy?</a> のフックが WHATWG’s HTML に追加されました（<a href="https://github.com/whatwg/html/commit/ee3486eb129bc350b5ca684d0c91dff23453ac1a">whatwg/html@ee3486e</a>）。しかし、まだ W3C’s HTML には追加されていません。<a href="#issue-5cab039f"> ↵ </a></div>
+   <div class="issue"> <a href="#should-block-inline">§4.2.3 element においてインラインの type に関する挙動は Content Security Policy によってブロックされるべきか？</a> のフックが WHATWG’s HTML に追加されました（<a href="https://github.com/whatwg/html/commit/ee3486eb129bc350b5ca684d0c91dff23453ac1a">whatwg/html@ee3486e</a>）。しかし、まだ W3C’s HTML には追加されていません。<a href="#issue-5cab039f"> ↵ </a></div>
    <div class="issue"> このフックは現在 WHATWG’s HTML で検討中です。 <a href="https://github.com/WHATWG/html/issues/384">&lt;https://github.com/WHATWG/html/issues/384></a><a href="#issue-64efaac2"> ↵ </a></div>
    <div class="issue"> この処理は WHATWG’s HTML に追加されました（<a href="https://github.com/whatwg/html/commit/5064a629f22bef29839ab4dc6f1ceef17f010bc5">whatwg/html@5064a62</a>）。しかし、まだ W3C’s HTML には追加されていません。<a href="#issue-689f5c62"> ↵ </a></div>
    <div class="issue"> TODO.<a href="#issue-95f2d23a"> ↵ </a></div>

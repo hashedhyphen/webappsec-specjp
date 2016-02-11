@@ -782,7 +782,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
       ISSUE: ここで、"document を生成する際に用いられたリソースの `CSP list` を `Window` オブジェクトの `CSP list` に代入する" といったモンキーパッチが必要です。
 
-  4.  インラインのスクリプトやスタイルを実行・レンダリングしてもよいかを判断するため、アルゴリズム [[#should-block-inline]] は <a>prepare a script</a> と <a>update a `style` block</a> のアルゴリズム中で呼び出されます。
+  4.  インラインのスクリプト・スタイルを実行・レンダリングしてもよいかを判断するため、アルゴリズム [[#should-block-inline]] は <a>prepare a script</a> と <a>update a `style` block</a> のアルゴリズム中で呼び出されます。
 
       ISSUE: アルゴリズム <a>update a `style` block</a> は W3C's HTML には存在しません。
 
@@ -856,38 +856,28 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   2.  |response| の <a for="response">CSP list</a> に含まれる |policy| について、それぞれの |policy| を |global| の <a for="document">CSP list</a> に挿入します。
 
   <h4 id="should-block-inline" algorithm>
-    Should |element|'s inline |type| behavior be blocked by Content Security Policy?
+    |element| においてインラインの |type| に関する挙動は Content Security Policy によってブロックされるべきか？
   </h4>
 
-  Given an {{Element}} (|element|), and a string (|type|) this algorithm returns
-  "`Allowed`" if the element is allowed to have inline definition of a
-  particular type of behavior (script execution, style application, event handlers,
-  etc.), and "`Blocked`" otherwise:
+  ある {{Element}} (|element|) と文字列 (|type|) に対するこのアルゴリズムは、（スクリプト実行、スタイル適用、イベントハンドラなどといった）特定の挙動に関するインライン定義を、その要素に与えることが許されていれば "Allowed" を返し、そうでなければ "Blocked" を返します。
 
-  1.  Let |result| be "`Allowed`".
+  1.  |result| に "`Allowed`" を代入します。
 
-  2.  For each |policy| in |element|'s {{Document}}'s <a>global object</a>'s
-      <a for="global object">CSP list</a>:
+  2.  |element| の {{Document}} が持つ <a>global object</a> の <a for="global object">CSP list</a> に含まれる要素 |policy| のそれぞれについて以下を実行します。
 
-      1.  For each |directive| in |policy|:
+      1.  |policy| に含まれる |directive| のそれぞれについて以下を実行します。
 
-          1.  If |directive|'s <a for="directive">inline check</a> returns
-              "`Allowed`" when executed upon |element| and |type|, skip to the
-              next |directive|.
+          1.  ここで |element| と |type| に対して |directive| の <a for="directive">inline check</a> を実行した結果が "`Allowed`" だった場合、以下の処理を飛ばして次の |directive| に移ります。
 
-          2.  Otherwise, let |violation| be the result of executing
-              [[#create-violation-for-global]] on the <a>incumbent settings
-              object</a>, |policy|, and "`style-src`" if |type| is "`style`" or
-              "`style-attribute`", or "`script-src`" otherwise.
+          2.  "`Allowed`" ではなく、かつ |type| が "`style`" か "`style-attribute`" のどちらかである、または "`script-src`" 以外である場合、<a>incumbent settings object</a> と |policy| と "`style-src`" に対して [[#create-violation-for-global]] を適用し、その結果を |violation| に代入します。
 
-          3.  Set |violation|'s <a for="violation">resource</a> to "`inline`".
+          3.  |violation| の <a for="violation">resource</a> に "`inline`" を代入します。
 
-          4.  Execute [[#report-violation]] on |violation|.
+          4.  |violation| に対して [[#report-violation]] を適用します。
 
-          5.  If |policy|'s <a for="policy">disposition</a> is "`enforce`", then
-              set |result| to "`Blocked`".
+          5.  ここで |policy| の <a for="policy">disposition</a> が "`enforce`" だった場合、|result| に "`Blocked`" を代入します。
 
-  3.  Return |result|.
+  3.  |result| を返します。
 </section>
 
 <!-- Big Text: Reporting -->
