@@ -883,15 +883,13 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 <!-- Big Text: Reporting -->
 <section>
   <h2 id="reporting">
-    Reporting
+    報告
   </h2>
 
-  When one or more of a <a>policy</a>'s directives is violated, a <dfn>violation
-  report</dfn> may be generated and sent out to a reporting endpoint associated
-  with the <a>policy</a>.
+  1 つ以上の <a>policy</a> のディレクティブが違反を受けた際、<dfn>violation report</dfn> を作成して <a>policy</a> における reporting endpoint に送信することができます。
 
   <h3 id="violation-events">
-    Violation DOM Events
+    Violation DOM イベント
   </h3>
 
   <pre class="idl">
@@ -926,45 +924,34 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     Obtain the deprecated serialization of |violation|
   </h3>
 
-  Given a <a>violation</a> (|violation|), this algorithm returns a JSON text
-  string representation of the violation, suitable for submission to a reporting
-  endpoint associated with the deprecated <a>`report-uri`</a> directive.
+  ある <a>violation</a> (|violation|) に対して、このアルゴリズムは JSON 文字列で表現された violation を返します。この JSON テキストは、廃止された <a>`report-uri`</a> ディレクティブに指定する reporting endpoint への送信に適しています。
 
-  1.  Let |object| be a new JavaScript object with properties initialized as
-      follows:
+  1.  以下に従ってプロパティを初期化した JavaScript オブジェクトを新しく作成し、それを |object| に代入します。
 
       :  "`document-uri`"
-      :: The result of executing the <a>URL serializer</a> on |violation|'s
-         <a for="violation">url</a>, with the `exclude fragment` flag set.
+      :: |violation| の <a for="violation">url</a> について、`exclude fragment` フラグをセットした状態で <a>URL serializer</a> を実行し、その結果を格納します。
       :  "`referrer`"
-      :: The result of executing the <a>URL serializer</a> on |violation|'s
-         <a for="violation">referrer</a>, with the `exclude fragment` flag set.
+      :: |violation| の <a for="violation">referrer</a> について、`exclude fragment` フラグをセットした状態で <a>URL serializer</a> を実行し、その結果を格納します。
       :  "`blocked-uri`"
-      :: The result of executing the <a>URL serializer</a> on |violation|'s
-         <a for="violation">resource</a>, with the `exclude fragment` flag set.
+      :: |violation| の <a for="violation">resource</a> について、`exclude fragment` フラグをセットした状態で <a>URL serializer</a> を実行し、その結果を格納します。
       :  "`effective-directive`"
-      :: |violation|'s <a for="violation">effective directive</a>
+      :: |violation| の <a for="violation">effective directive</a> を格納します。
       :  "`violated-directive`"
-      :: |violation|'s <a for="violation">effective directive</a>
+      :: |violation| の <a for="violation">effective directive</a> を格納します。
       :  "`original-policy`"
-      :: The <a lt="serialized CSP">serialization</a> of |violation|'s
-         <a for="violation">policy</a>
+      :: |violation| の <a for="violation">policy</a> における <a lt="serialized CSP">serialization</a> を格納します。
       :  "`status-code`"
-      :: |violation|'s <a for="violation">status</a>
+      :: |violation| の <a for="violation">status</a> を格納します。
 
-  2.  If |violation|'s <a for="violation">source file</a> is not `null`:
+  2.  ここで |violation| の <a for="violation">source file</a> が `null` ではなかった場合、以下を実行します。
 
-      1.  Set |object|'s "`source-file`" property to the result of executing
-          the <a>URL serializer</a> on |violation|'s <a for="violation">source
-          file</a>, with the `exclude fragment` flag set.
+      1.  |violation| の <a for="violation">source file</a> について、`exclude fragment` フラグをセットした状態で <a>URL serializer</a> を実行し、その結果を |object| の "`source-file`" プロパティに代入します。
 
-      2.  Set |object|'s "`line-number`" property to |violation|'s
-          <a for="violation">line number</a>.
+      2.  |object| の "`line-number`" プロパティに |violation| の <a for="violation">line number</a> を代入します。
 
-      3.  Set |object|'s "`column-number`" property to |violation|'s
-          <a for="violation">column number</a>.
+      3.  |object| の "`column-number`" プロパティに |violation| の <a for="violation">column number</a> を代入します。
 
-  3.  Return the result of executing {{JSON.stringify()}} on |object|.
+  3.  |object| に {{JSON.stringify()}} を実行した結果を返します。
 
   <h3 id="report-violation">
     Report a |violation|

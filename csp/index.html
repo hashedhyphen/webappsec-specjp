@@ -1413,9 +1413,9 @@
        </ol>
      </ol>
     <li>
-     <a href="#reporting"><span class="secno">5</span> <span class="content"> Reporting </span></a>
+     <a href="#reporting"><span class="secno">5</span> <span class="content"> 報告 </span></a>
      <ol class="toc">
-      <li><a href="#violation-events"><span class="secno">5.1</span> <span class="content"> Violation DOM Events </span></a>
+      <li><a href="#violation-events"><span class="secno">5.1</span> <span class="content"> Violation DOM イベント </span></a>
       <li><a href="#deprecated-serialize-violation"><span class="secno">5.2</span> <span class="content"> Obtain the deprecated serialization of <var>violation</var> </span></a>
       <li><a href="#report-violation"><span class="secno">5.3</span> <span class="content"> Report a <var>violation</var> </span></a>
      </ol>
@@ -2062,11 +2062,9 @@
     </ol>
    </section>
    <section>
-    <h2 class="heading settled" data-level="5" id="reporting"><span class="secno">5. </span><span class="content"> Reporting </span><a class="self-link" href="#reporting"></a></h2>
-    <p>When one or more of a <a data-link-type="dfn" href="#policy">policy</a>’s directives is violated, a <dfn data-dfn-type="dfn" data-noexport="" id="violation-report">violation
-  report<a class="self-link" href="#violation-report"></a></dfn> may be generated and sent out to a reporting endpoint associated
-  with the <a data-link-type="dfn" href="#policy">policy</a>.</p>
-    <h3 class="heading settled" data-level="5.1" id="violation-events"><span class="secno">5.1. </span><span class="content"> Violation DOM Events </span><a class="self-link" href="#violation-events"></a></h3>
+    <h2 class="heading settled" data-level="5" id="reporting"><span class="secno">5. </span><span class="content"> 報告 </span><a class="self-link" href="#reporting"></a></h2>
+    <p>1 つ以上の <a data-link-type="dfn" href="#policy">policy</a> のディレクティブが違反を受けた際、<dfn data-dfn-type="dfn" data-noexport="" id="violation-report">violation report<a class="self-link" href="#violation-report"></a></dfn> を作成して <a data-link-type="dfn" href="#policy">policy</a> における reporting endpoint に送信することができます。</p>
+    <h3 class="heading settled" data-level="5.1" id="violation-events"><span class="secno">5.1. </span><span class="content"> Violation DOM イベント </span><a class="self-link" href="#violation-events"></a></h3>
 <pre class="idl">[<dfn class="idl-code" data-dfn-for="SecurityPolicyViolationEvent" data-dfn-type="constructor" data-export="" data-lt="SecurityPolicyViolationEvent(type, eventInitDict)" id="dom-securitypolicyviolationevent-securitypolicyviolationevent">Constructor<a class="self-link" href="#dom-securitypolicyviolationevent-securitypolicyviolationevent"></a></dfn>(DOMString <dfn class="idl-code" data-dfn-for="SecurityPolicyViolationEvent/SecurityPolicyViolationEvent(type, eventInitDict)" data-dfn-type="argument" data-export="" id="dom-securitypolicyviolationevent-securitypolicyviolationevent-type-eventinitdict-type">type<a class="self-link" href="#dom-securitypolicyviolationevent-securitypolicyviolationevent-type-eventinitdict-type"></a></dfn>, optional <a data-link-type="idl-name" href="#dictdef-securitypolicyviolationeventinit">SecurityPolicyViolationEventInit</a> <dfn class="idl-code" data-dfn-for="SecurityPolicyViolationEvent/SecurityPolicyViolationEvent(type, eventInitDict)" data-dfn-type="argument" data-export="" id="dom-securitypolicyviolationevent-securitypolicyviolationevent-type-eventinitdict-eventinitdict">eventInitDict<a class="self-link" href="#dom-securitypolicyviolationevent-securitypolicyviolationevent-type-eventinitdict-eventinitdict"></a></dfn>)]
 interface <a class="idl-code" data-link-type="interface" href="#securitypolicyviolationevent">SecurityPolicyViolationEvent</a> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event">Event</a> {
     readonly    attribute DOMString <dfn class="idl-code" data-dfn-for="SecurityPolicyViolationEvent" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString " id="dom-securitypolicyviolationevent-documenturi">documentURI<a class="self-link" href="#dom-securitypolicyviolationevent-documenturi"></a></dfn>;
@@ -2094,57 +2092,52 @@ dictionary <dfn class="idl-code" data-dfn-type="dictionary" data-export="" id="d
 };
 </pre>
     <h3 class="heading settled" data-level="5.2" id="deprecated-serialize-violation"><span class="secno">5.2. </span><span class="content"> Obtain the deprecated serialization of <var>violation</var> </span><a class="self-link" href="#deprecated-serialize-violation"></a></h3>
-    <p>Given a <a data-link-type="dfn" href="#violation">violation</a> (<var>violation</var>), this algorithm returns a JSON text
-  string representation of the violation, suitable for submission to a reporting
-  endpoint associated with the deprecated <a data-link-type="dfn" href="#report-uri"><code>report-uri</code></a> directive.</p>
+    <p>ある <a data-link-type="dfn" href="#violation">violation</a> (<var>violation</var>) に対して、このアルゴリズムは JSON 文字列で表現された violation を返します。この JSON テキストは、廃止された <a data-link-type="dfn" href="#report-uri"><code>report-uri</code></a> ディレクティブに指定する reporting endpoint への送信に適しています。</p>
     <ol>
      <li data-md="">
-      <p>Let <var>object</var> be a new JavaScript object with properties initialized as
-  follows:</p>
+      <p>以下に従ってプロパティを初期化した JavaScript オブジェクトを新しく作成し、それを <var>object</var> に代入します。</p>
       <dl>
        <dt data-md="">
         <p>"<code>document-uri</code>"</p>
        <dd data-md="">
-        <p>The result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer">URL serializer</a> on <var>violation</var>’s <a data-link-type="dfn" href="#violation-url">url</a>, with the <code>exclude fragment</code> flag set.</p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-url">url</a> について、<code>exclude fragment</code> フラグをセットした状態で <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer">URL serializer</a> を実行し、その結果を格納します。</p>
        <dt data-md="">
         <p>"<code>referrer</code>"</p>
        <dd data-md="">
-        <p>The result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer">URL serializer</a> on <var>violation</var>’s <a data-link-type="dfn" href="#violation-referrer">referrer</a>, with the <code>exclude fragment</code> flag set.</p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-referrer">referrer</a> について、<code>exclude fragment</code> フラグをセットした状態で <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer">URL serializer</a> を実行し、その結果を格納します。</p>
        <dt data-md="">
         <p>"<code>blocked-uri</code>"</p>
        <dd data-md="">
-        <p>The result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer">URL serializer</a> on <var>violation</var>’s <a data-link-type="dfn" href="#violation-resource">resource</a>, with the <code>exclude fragment</code> flag set.</p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-resource">resource</a> について、<code>exclude fragment</code> フラグをセットした状態で <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer">URL serializer</a> を実行し、その結果を格納します。</p>
        <dt data-md="">
         <p>"<code>effective-directive</code>"</p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-effective-directive">effective directive</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-effective-directive">effective directive</a> を格納します。</p>
        <dt data-md="">
         <p>"<code>violated-directive</code>"</p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-effective-directive">effective directive</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-effective-directive">effective directive</a> を格納します。</p>
        <dt data-md="">
         <p>"<code>original-policy</code>"</p>
        <dd data-md="">
-        <p>The <a data-link-type="dfn" href="#serialized-csp">serialization</a> of <var>violation</var>’s <a data-link-type="dfn" href="#violation-policy">policy</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-policy">policy</a> における <a data-link-type="dfn" href="#serialized-csp">serialization</a> を格納します。</p>
        <dt data-md="">
         <p>"<code>status-code</code>"</p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-status">status</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-status">status</a> を格納します。</p>
       </dl>
      <li data-md="">
-      <p>If <var>violation</var>’s <a data-link-type="dfn" href="#violation-source-file">source file</a> is not <code>null</code>:</p>
+      <p>ここで <var>violation</var> の <a data-link-type="dfn" href="#violation-source-file">source file</a> が <code>null</code> ではなかった場合、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>Set <var>object</var>’s "<code>source-file</code>" property to the result of executing
-  the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer">URL serializer</a> on <var>violation</var>’s <a data-link-type="dfn" href="#violation-source-file">source
-  file</a>, with the <code>exclude fragment</code> flag set.</p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-source-file">source file</a> について、<code>exclude fragment</code> フラグをセットした状態で <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer">URL serializer</a> を実行し、その結果を <var>object</var> の "<code>source-file</code>" プロパティに代入します。</p>
        <li data-md="">
-        <p>Set <var>object</var>’s "<code>line-number</code>" property to <var>violation</var>’s <a data-link-type="dfn" href="#violation-line-number">line number</a>.</p>
+        <p><var>object</var> の "<code>line-number</code>" プロパティに <var>violation</var> の <a data-link-type="dfn" href="#violation-line-number">line number</a> を代入します。</p>
        <li data-md="">
-        <p>Set <var>object</var>’s "<code>column-number</code>" property to <var>violation</var>’s <a data-link-type="dfn" href="#violation-column-number">column number</a>.</p>
+        <p><var>object</var> の "<code>column-number</code>" プロパティに <var>violation</var> の <a data-link-type="dfn" href="#violation-column-number">column number</a> を代入します。</p>
       </ol>
      <li data-md="">
-      <p>Return the result of executing <code class="idl"><a data-link-type="idl" href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-json.stringify">JSON.stringify()</a></code> on <var>object</var>.</p>
+      <p><var>object</var> に <code class="idl"><a data-link-type="idl" href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-json.stringify">JSON.stringify()</a></code> を実行した結果を返します。</p>
     </ol>
     <h3 class="heading settled" data-level="5.3" id="report-violation"><span class="secno">5.3. </span><span class="content"> Report a <var>violation</var> </span><a class="self-link" href="#report-violation"></a></h3>
     <p>Given a <a data-link-type="dfn" href="#violation">violation</a> (<var>violation</var>), this algorithm reports it to the
@@ -3536,8 +3529,7 @@ Content-Security-Policy: connect-src http://example.com/;
      <li><a href="#dom-securitypolicyviolationeventinit-violateddirective">dict-member for SecurityPolicyViolationEventInit</a><span>, in §5.1</span>
     </ul>
    <li><a href="#violation">violation</a><span>, in §2.3</span>
-   <li><a href="#violation-report">violation
-  report</a><span>, in §5</span>
+   <li><a href="#violation-report">violation report</a><span>, in §5</span>
   </ul>
   <h3 class="no-num heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
