@@ -921,7 +921,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   </pre>
 
   <h3 id="deprecated-serialize-violation">
-    Obtain the deprecated serialization of |violation|
+    |violation| を廃止された方法でシリアライズしたものを取得する
   </h3>
 
   ある <a>violation</a> (|violation|) に対して、このアルゴリズムは JSON 文字列で表現された violation を返します。この JSON テキストは、廃止された <a>`report-uri`</a> ディレクティブに指定する reporting endpoint への送信に適しています。
@@ -954,69 +954,57 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   3.  |object| に {{JSON.stringify()}} を実行した結果を返します。
 
   <h3 id="report-violation">
-    Report a |violation|
+    |violation| を報告する
   </h3>
 
-  Given a <a>violation</a> (|violation|), this algorithm reports it to the
-  endpoint specified in |violation|'s <a for="violation">policy</a>, and
-  fires a <dfn interface>SecurityPolicyViolationEvent</dfn> at |violation|'s
-  <a for="violation">global object</a>.
+  ある <a>violation</a> (|violation|) に対するこのアルゴリズムは、|violation| の <a for="violation">policy</a> で指定したエンドポイントに <a>violation</a> を報告し、|violation| の <a for="violation">global object</a> における <dfn interface>SecurityPolicyViolationEvent</dfn> を発火させます。
 
-  1.  <a>Fire</a> a <a>trusted</a> event with the name `securitypolicyviolation`
-      that uses the {{SecurityPolicyViolationEvent}} interface, with its
-      attributes initialized as follows:
+  1.  以下のように属性値を初期化した {{SecurityPolicyViolationEvent}} インターフェイスを用いて、`securitypolicyviolation` という名前の <a>trusted</a> イベントを <a>fire</a> します。
 
       :  {{SecurityPolicyViolationEvent/documentURI}}
-      :: |violation|'s <a for="violation">url</a>
+      :: |violation| の <a for="violation">url</a>
       :  {{SecurityPolicyViolationEvent/referrer}}
-      :: |violation|'s <a for="violation">referrer</a>
+      :: |violation| の <a for="violation">referrer</a>
       :  {{SecurityPolicyViolationEvent/blockedURI}}
-      :: |violation|'s <a for="violation">resource</a>
+      :: |violation| の <a for="violation">resource</a>
       :  {{SecurityPolicyViolationEvent/effectiveDirective}}
-      :: |violation|'s <a for="violation">effective directive</a>
+      :: |violation| の <a for="violation">effective directive</a>
       :  {{SecurityPolicyViolationEvent/violatedDirective}}
-      :: |violation|'s <a for="violation">effective directive</a>
+      :: |violation| の <a for="violation">effective directive</a>
       :  {{SecurityPolicyViolationEvent/originalPolicy}}
-      :: |violation|'s <a for="violation">policy</a>
+      :: |violation| の <a for="violation">policy</a>
       :  {{SecurityPolicyViolationEvent/sourceFile}}
-      :: |violation|'s <a for="violation">source file</a>
+      :: |violation| の <a for="violation">source file</a>
       :  {{SecurityPolicyViolationEvent/statusCode}}
-      :: |violation|'s <a for="violation">status</a>
+      :: |violation| の <a for="violation">status</a>
       :  {{SecurityPolicyViolationEvent/lineNumber}}
-      :: |violation|'s <a for="violation">line number</a>
+      :: |violation| の <a for="violation">line number</a>
       :  {{SecurityPolicyViolationEvent/columnNumber}}
-      :: |violation|'s <a for="violation">column number</a>
+      :: |violation| の <a for="violation">column number</a>
 
-      Note: Both {{SecurityPolicyViolationEvent/effectiveDirective}} and
-      {{SecurityPolicyViolationEvent/violatedDirective}} are the same value.
-      This is intentional to maintain backwards compatibility.
+      Note: {{SecurityPolicyViolationEvent/effectiveDirective}} と
+      {{SecurityPolicyViolationEvent/violatedDirective}} には同じ値が格納されます。これは後方互換性が保たれるよう意図したものです。
 
-  2.  If |violation|'s <a for="violation">policy</a>'s <a for="policy">directive
-      set</a> contains a <a>directive</a> named "<a>`report-uri`</a>"
-      (|directive|):
+  2.  ここで |violation| の <a for="violation">policy</a> における <a for="policy">directive set</a> に "<a>`report-uri`</a>" という <a>directive</a> (|directive|) が含まれていた場合、以下を実行します。
 
-      1.  If |violation|'s <a for="violation">policy</a>'s
-          <a for="policy">directive set</a> contains a <a>directive</a> named
-          "<a>`report-to`</a>", skip the remaining substeps.
+      1.  ここで |violation| の <a for="violation">policy</a> における <a for="policy">directive set</a> に "<a>`report-to`</a>" という <a>directive</a> が含まれていた場合、残りの副手続きを飛ばします。
 
-      2.  Let |endpoint| be the result of executing the <a>URL parser</a> on
-          |directive|'s <a for="directive">value</a>.
+      2.  |directive| の <a for="directive">value</a> に対して <a>URL parser</a> を適用した結果を |endpoint| に代入します。
 
-      3.  If |endpoint| is not a valid URL, skip the remaining substeps.
+      3.  ここで |endpoint| が有効な URL でなかった場合、残りの副手続きを飛ばします。
 
-      4.  Let |request| be a new <a>request</a>, initialized as follows:
+      4.  新しい <a>request</a> を以下に従って初期化し、|request| に代入します。
 
           :   <a for="request">method</a>
           ::  "`POST`"
           :   <a for="request">url</a>
-          ::  |violation|'s <a for="violation">url</a>
+          ::  |violation| の <a for="violation">url</a>
           :   <a for="request">origin</a>
-          ::  |violation|'s <a for="violation">global object</a>'s <a>origin</a>
+          ::  |violation| の <a for="violation">global object</a> における <a>origin</a>
           :   <a for="request">window</a>
           ::  "`no-window`"
           :   <a for="request">client</a>
-          ::  |violation|'s <a for="violation">global object</a>'s <a>relevant
-              settings object</a>
+          ::  |violation| の <a for="violation">global object</a> における <a>relevant settings object</a>
           :   <a for="request">destination</a>
           ::  ""
           :   <a for="request">initiator</a>
@@ -1028,36 +1016,25 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
           :   <a for="request">credentials mode</a>
           ::  "`same-origin`"
           :   <a for="request">header list</a>
-          ::  A <a for=''>header list</a> containing a single header whose name is
-              "`Content-Type`", and value is "`application/csp-report`"
+          ::  名前を "`Content-Type`"、値を "`application/csp-report`" とした単一のヘッダを含む <a for=''>header list</a>
           :   <a for="request">body</a>
-          ::  The result of executing [[#deprecated-serialize-violation]] on
-              |violation|
+          ::  |violation| に [[#deprecated-serialize-violation]] を適用した結果
           :   <a for="request">redirect mode</a>
           ::  "`error`"
 
-      5.  <a>Fetch</a> |request|. The result will be ignored.
+      5.  |request| を <a>fetch</a> します。ここでの実行結果は無視されます。
 
-      Note: All of this should be considered deprecated. It sends a single
-      request per violation, which simply isn't scalable. As soon as this
-      behavior can be removed from user agents, it will be.
+      Note: この箇所はすべて廃止されたものと考えるべきです。ここでは 1 つの violation につき 1 つのリクエストを送信しており、単純にスケールできません。この箇所の動作をユーザエージェントから削除できる状態になれば廃止されることになります。
 
-      Note: `report-uri` only takes effect if `report-to` is not present. That'
-      is, the latter overrides the former, allowing for backwards compatibility
-      with browsers that don't support the new mechanism.
+      Note: `report-uri` は `report-to` が無い場合のみ有効になります。すなわち後者は前者を上書きするため、この新しい仕組みをサポートしていないブラウザへの後方互換性が保たれます。
 
-  3.  If |violation|'s <a for="violation">policy</a>'s <a for="policy">directive
-      set</a> contains a <a>directive</a> named "<a>`report-to`</a>"
-      (|directive|):
+  3.  ここで |violation| の <a for="violation">policy</a> における <a for="policy">directive set</a> に "<a>`report-to`</a>" という <a>directive</a> (|directive|) が含まれていた場合、以下を実行します。
 
-      1.  Let |group| be |directive|'s <a for="directive">value</a>.
+      1.  |directive| の <a for="directive">value</a> を |group| に代入します。
 
-      2.  Let |settings object| be |violation|'s <a for="violation">global
-          object</a>'s <a>relevant settings object</a>.
+      2.  |violation| の <a for="violation">global object</a> における <a>relevant settings object</a> を |settings object| に代入します。
 
-      3.  Execute [[!OOB-REPORTING]]'s <a lt="queue report">Queue |data| as
-          |type| for |endpoint group| on |settings|</a> algorithm with the
-          following arguments:
+      3.  [[!OOB-REPORTING]] の <a lt="queue report">Queue |data| as |type| for |endpoint group| on |settings|</a> アルゴリズムに以下の引数を与えて実行します。
 
           :   |data|
           ::  |violation|

@@ -1416,8 +1416,8 @@
      <a href="#reporting"><span class="secno">5</span> <span class="content"> 報告 </span></a>
      <ol class="toc">
       <li><a href="#violation-events"><span class="secno">5.1</span> <span class="content"> Violation DOM イベント </span></a>
-      <li><a href="#deprecated-serialize-violation"><span class="secno">5.2</span> <span class="content"> Obtain the deprecated serialization of <var>violation</var> </span></a>
-      <li><a href="#report-violation"><span class="secno">5.3</span> <span class="content"> Report a <var>violation</var> </span></a>
+      <li><a href="#deprecated-serialize-violation"><span class="secno">5.2</span> <span class="content"> <var>violation</var> を廃止された方法でシリアライズしたものを取得する </span></a>
+      <li><a href="#report-violation"><span class="secno">5.3</span> <span class="content"> <var>violation</var> を報告する </span></a>
      </ol>
     <li>
      <a href="#csp-directives"><span class="secno">6</span> <span class="content"> Content Security Policy Directives </span></a>
@@ -1874,7 +1874,7 @@
        <li data-md="">
         <p><var>request</var> と <var>policy</var> に対して <a href="#does-request-violate-policy">§6.1.11.1 Does request violate policy?</a> を適用した結果を <var>violates</var> に代入します。</p>
        <li data-md="">
-        <p>ここで <var>violates</var> が "<code>Does Not Violate</code>" でなかった場合、<var>request</var> と <var>policy</var> と <var>violates</var> に対して <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> を適用し、その結果に対して <a href="#report-violation">§5.3 Report a violation</a> を適用します。</p>
+        <p>ここで <var>violates</var> が "<code>Does Not Violate</code>" でなかった場合、<var>request</var> と <var>policy</var> と <var>violates</var> に対して <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> を適用し、その結果に対して <a href="#report-violation">§5.3 violation を報告する</a> を適用します。</p>
       </ol>
     </ol>
     <h4 class="heading settled" data-algorithm="request は Content Security Policy によってブロックされるべきか？" data-level="4.1.3" id="should-block-request"><span class="secno">4.1.3. </span><span class="content"> <var>request</var> は Content Security Policy によってブロックされるべきか？ </span><a class="self-link" href="#should-block-request"></a></h4>
@@ -1895,7 +1895,7 @@
         <p>ここで <var>violates</var> が "<code>Does Not Violate</code>" ではなかった場合、以下を実行します。</p>
         <ol>
          <li data-md="">
-          <p><var>request</var> と <var>policy</var> と <var>violates</var> に対して <a href="#report-violation">§5.3 Report a violation</a> を実行します。</p>
+          <p><var>request</var> と <var>policy</var> と <var>violates</var> に対して <a href="#report-violation">§5.3 violation を報告する</a> を実行します。</p>
          <li data-md="">
           <p><var>result</var> に "<code>Blocked</code>" を代入します。</p>
         </ol>
@@ -1920,7 +1920,7 @@
           <p>ここで <var>directive</var> の <a data-link-type="dfn" href="#directive-post-request-check">post-request check</a> を実行し、その結果が "<code>Blocked</code>" だった場合、以下を実行します。</p>
           <ol>
            <li data-md="">
-            <p><var>request</var> と <var>policy</var> と <var>directive</var> に対して <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> を適用し、その結果をもとに <a href="#report-violation">§5.3 Report a violation</a> を実行します。</p>
+            <p><var>request</var> と <var>policy</var> と <var>directive</var> に対して <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> を適用し、その結果をもとに <a href="#report-violation">§5.3 violation を報告する</a> を実行します。</p>
            <li data-md="">
             <p>ここで <var>policy</var> の <a data-link-type="dfn" href="#policy-disposition">disposition</a> が "<code>enforce</code>" だった場合、<var>result</var> に "<code>Blocked</code>" を代入します。</p>
           </ol>
@@ -1937,7 +1937,7 @@
           <p>ここで <var>request</var> と <var>response</var> と <var>policy</var> に対して <var>directive</var> の <a data-link-type="dfn" href="#directive-response-check">response check</a> を適用し、その結果が "<code>Blocked</code>" だった場合、以下を実行します。</p>
           <ol>
            <li data-md="">
-            <p><var>request</var> と <var>policy</var> と <var>directive</var> に対して <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> を適用し、その結果をもとに <a href="#report-violation">§5.3 Report a violation</a> を実行します。</p>
+            <p><var>request</var> と <var>policy</var> と <var>directive</var> に対して <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> を適用し、その結果をもとに <a href="#report-violation">§5.3 violation を報告する</a> を実行します。</p>
            <li data-md="">
             <p>ここで <var>policy</var> の <a data-link-type="dfn" href="#policy-disposition">disposition</a> が "<code>enforce</code>" だった場合、<var>result</var> に "<code>Blocked</code>" を代入します。</p>
           </ol>
@@ -2052,7 +2052,7 @@
          <li data-md="">
           <p><var>violation</var> の <a data-link-type="dfn" href="#violation-resource">resource</a> に "<code>inline</code>" を代入します。</p>
          <li data-md="">
-          <p><var>violation</var> に対して <a href="#report-violation">§5.3 Report a violation</a> を適用します。</p>
+          <p><var>violation</var> に対して <a href="#report-violation">§5.3 violation を報告する</a> を適用します。</p>
          <li data-md="">
           <p>ここで <var>policy</var> の <a data-link-type="dfn" href="#policy-disposition">disposition</a> が "<code>enforce</code>" だった場合、<var>result</var> に "<code>Blocked</code>" を代入します。</p>
         </ol>
@@ -2091,7 +2091,7 @@ dictionary <dfn class="idl-code" data-dfn-type="dictionary" data-export="" id="d
     long      <dfn class="idl-code" data-dfn-for="SecurityPolicyViolationEventInit" data-dfn-type="dict-member" data-export="" data-type="long      " id="dom-securitypolicyviolationeventinit-columnnumber">columnNumber<a class="self-link" href="#dom-securitypolicyviolationeventinit-columnnumber"></a></dfn>;
 };
 </pre>
-    <h3 class="heading settled" data-level="5.2" id="deprecated-serialize-violation"><span class="secno">5.2. </span><span class="content"> Obtain the deprecated serialization of <var>violation</var> </span><a class="self-link" href="#deprecated-serialize-violation"></a></h3>
+    <h3 class="heading settled" data-level="5.2" id="deprecated-serialize-violation"><span class="secno">5.2. </span><span class="content"> <var>violation</var> を廃止された方法でシリアライズしたものを取得する </span><a class="self-link" href="#deprecated-serialize-violation"></a></h3>
     <p>ある <a data-link-type="dfn" href="#violation">violation</a> (<var>violation</var>) に対して、このアルゴリズムは JSON 文字列で表現された violation を返します。この JSON テキストは、廃止された <a data-link-type="dfn" href="#report-uri"><code>report-uri</code></a> ディレクティブに指定する reporting endpoint への送信に適しています。</p>
     <ol>
      <li data-md="">
@@ -2139,72 +2139,65 @@ dictionary <dfn class="idl-code" data-dfn-type="dictionary" data-export="" id="d
      <li data-md="">
       <p><var>object</var> に <code class="idl"><a data-link-type="idl" href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-json.stringify">JSON.stringify()</a></code> を実行した結果を返します。</p>
     </ol>
-    <h3 class="heading settled" data-level="5.3" id="report-violation"><span class="secno">5.3. </span><span class="content"> Report a <var>violation</var> </span><a class="self-link" href="#report-violation"></a></h3>
-    <p>Given a <a data-link-type="dfn" href="#violation">violation</a> (<var>violation</var>), this algorithm reports it to the
-  endpoint specified in <var>violation</var>’s <a data-link-type="dfn" href="#violation-policy">policy</a>, and
-  fires a <dfn class="idl-code" data-dfn-type="interface" data-export="" id="securitypolicyviolationevent">SecurityPolicyViolationEvent<a class="self-link" href="#securitypolicyviolationevent"></a></dfn> at <var>violation</var>’s <a data-link-type="dfn" href="#violation-global-object">global object</a>.</p>
+    <h3 class="heading settled" data-level="5.3" id="report-violation"><span class="secno">5.3. </span><span class="content"> <var>violation</var> を報告する </span><a class="self-link" href="#report-violation"></a></h3>
+    <p>ある <a data-link-type="dfn" href="#violation">violation</a> (<var>violation</var>) に対するこのアルゴリズムは、<var>violation</var> の <a data-link-type="dfn" href="#violation-policy">policy</a> で指定したエンドポイントに <a data-link-type="dfn" href="#violation">violation</a> を報告し、<var>violation</var> の <a data-link-type="dfn" href="#violation-global-object">global object</a> における <dfn class="idl-code" data-dfn-type="interface" data-export="" id="securitypolicyviolationevent">SecurityPolicyViolationEvent<a class="self-link" href="#securitypolicyviolationevent"></a></dfn> を発火させます。</p>
     <ol>
      <li data-md="">
-      <p><a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#concept-event-fire">Fire</a> a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#concept-event-trusted">trusted</a> event with the name <code>securitypolicyviolation</code> that uses the <code class="idl"><a data-link-type="idl" href="#securitypolicyviolationevent">SecurityPolicyViolationEvent</a></code> interface, with its
-  attributes initialized as follows:</p>
+      <p>以下のように属性値を初期化した <code class="idl"><a data-link-type="idl" href="#securitypolicyviolationevent">SecurityPolicyViolationEvent</a></code> インターフェイスを用いて、<code>securitypolicyviolation</code> という名前の <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#concept-event-trusted">trusted</a> イベントを <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#concept-event-fire">fire</a> します。</p>
       <dl>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-documenturi">documentURI</a></code></p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-url">url</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-url">url</a></p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-referrer">referrer</a></code></p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-referrer">referrer</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-referrer">referrer</a></p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-blockeduri">blockedURI</a></code></p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-resource">resource</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-resource">resource</a></p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-effectivedirective">effectiveDirective</a></code></p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-effective-directive">effective directive</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-effective-directive">effective directive</a></p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-violateddirective">violatedDirective</a></code></p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-effective-directive">effective directive</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-effective-directive">effective directive</a></p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-originalpolicy">originalPolicy</a></code></p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-policy">policy</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-policy">policy</a></p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-sourcefile">sourceFile</a></code></p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-source-file">source file</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-source-file">source file</a></p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-statuscode">statusCode</a></code></p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-status">status</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-status">status</a></p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-linenumber">lineNumber</a></code></p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-line-number">line number</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-line-number">line number</a></p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-columnnumber">columnNumber</a></code></p>
        <dd data-md="">
-        <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-column-number">column number</a></p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-column-number">column number</a></p>
       </dl>
-      <p class="note" role="note">Note: Both <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-effectivedirective">effectiveDirective</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-violateddirective">violatedDirective</a></code> are the same value.
-  This is intentional to maintain backwards compatibility.</p>
+      <p class="note" role="note">Note: <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-effectivedirective">effectiveDirective</a></code> と <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-violateddirective">violatedDirective</a></code> には同じ値が格納されます。これは後方互換性が保たれるよう意図したものです。</p>
      <li data-md="">
-      <p>If <var>violation</var>’s <a data-link-type="dfn" href="#violation-policy">policy</a>’s <a data-link-type="dfn" href="#policy-directive-set">directive
-  set</a> contains a <a data-link-type="dfn" href="#directives">directive</a> named "<a data-link-type="dfn" href="#report-uri"><code>report-uri</code></a>"
-  (<var>directive</var>):</p>
+      <p>ここで <var>violation</var> の <a data-link-type="dfn" href="#violation-policy">policy</a> における <a data-link-type="dfn" href="#policy-directive-set">directive set</a> に "<a data-link-type="dfn" href="#report-uri"><code>report-uri</code></a>" という <a data-link-type="dfn" href="#directives">directive</a> (<var>directive</var>) が含まれていた場合、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>If <var>violation</var>’s <a data-link-type="dfn" href="#violation-policy">policy</a>’s <a data-link-type="dfn" href="#policy-directive-set">directive set</a> contains a <a data-link-type="dfn" href="#directives">directive</a> named
-  "<a data-link-type="dfn" href="#report-to"><code>report-to</code></a>", skip the remaining substeps.</p>
+        <p>ここで <var>violation</var> の <a data-link-type="dfn" href="#violation-policy">policy</a> における <a data-link-type="dfn" href="#policy-directive-set">directive set</a> に "<a data-link-type="dfn" href="#report-to"><code>report-to</code></a>" という <a data-link-type="dfn" href="#directives">directive</a> が含まれていた場合、残りの副手続きを飛ばします。</p>
        <li data-md="">
-        <p>Let <var>endpoint</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser">URL parser</a> on <var>directive</var>’s <a data-link-type="dfn" href="#directive-value">value</a>.</p>
+        <p><var>directive</var> の <a data-link-type="dfn" href="#directive-value">value</a> に対して <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser">URL parser</a> を適用した結果を <var>endpoint</var> に代入します。</p>
        <li data-md="">
-        <p>If <var>endpoint</var> is not a valid URL, skip the remaining substeps.</p>
+        <p>ここで <var>endpoint</var> が有効な URL でなかった場合、残りの副手続きを飛ばします。</p>
        <li data-md="">
-        <p>Let <var>request</var> be a new <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a>, initialized as follows:</p>
+        <p>新しい <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> を以下に従って初期化し、<var>request</var> に代入します。</p>
         <dl>
          <dt data-md="">
           <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-method">method</a></p>
@@ -2213,11 +2206,11 @@ dictionary <dfn class="idl-code" data-dfn-type="dictionary" data-export="" id="d
          <dt data-md="">
           <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a></p>
          <dd data-md="">
-          <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-url">url</a></p>
+          <p><var>violation</var> の <a data-link-type="dfn" href="#violation-url">url</a></p>
          <dt data-md="">
           <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-origin">origin</a></p>
          <dd data-md="">
-          <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-global-object">global object</a>’s <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a></p>
+          <p><var>violation</var> の <a data-link-type="dfn" href="#violation-global-object">global object</a> における <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a></p>
          <dt data-md="">
           <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-window">window</a></p>
          <dd data-md="">
@@ -2225,8 +2218,7 @@ dictionary <dfn class="idl-code" data-dfn-type="dictionary" data-export="" id="d
          <dt data-md="">
           <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-client">client</a></p>
          <dd data-md="">
-          <p><var>violation</var>’s <a data-link-type="dfn" href="#violation-global-object">global object</a>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant
-  settings object</a></p>
+          <p><var>violation</var> の <a data-link-type="dfn" href="#violation-global-object">global object</a> における <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a></p>
          <dt data-md="">
           <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a></p>
          <dd data-md="">
@@ -2250,39 +2242,30 @@ dictionary <dfn class="idl-code" data-dfn-type="dictionary" data-export="" id="d
          <dt data-md="">
           <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-header-list">header list</a></p>
          <dd data-md="">
-          <p>A <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-list">header list</a> containing a single header whose name is
-  "<code>Content-Type</code>", and value is "<code>application/csp-report</code>"</p>
+          <p>名前を "<code>Content-Type</code>"、値を "<code>application/csp-report</code>" とした単一のヘッダを含む <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-list">header list</a></p>
          <dt data-md="">
           <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-body">body</a></p>
          <dd data-md="">
-          <p>The result of executing <a href="#deprecated-serialize-violation">§5.2 Obtain the deprecated serialization of violation</a> on <var>violation</var></p>
+          <p><var>violation</var> に <a href="#deprecated-serialize-violation">§5.2 violation を廃止された方法でシリアライズしたものを取得する</a> を適用した結果</p>
          <dt data-md="">
           <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-redirect-mode">redirect mode</a></p>
          <dd data-md="">
           <p>"<code>error</code>"</p>
         </dl>
        <li data-md="">
-        <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-fetch">Fetch</a> <var>request</var>. The result will be ignored.</p>
+        <p><var>request</var> を <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-fetch">fetch</a> します。ここでの実行結果は無視されます。</p>
       </ol>
-      <p class="note" role="note">Note: All of this should be considered deprecated. It sends a single
-  request per violation, which simply isn’t scalable. As soon as this
-  behavior can be removed from user agents, it will be.</p>
-      <p class="note" role="note">Note: <code>report-uri</code> only takes effect if <code>report-to</code> is not present. That'
-  is, the latter overrides the former, allowing for backwards compatibility
-  with browsers that don’t support the new mechanism.</p>
+      <p class="note" role="note">Note: この箇所はすべて廃止されたものと考えるべきです。ここでは 1 つの violation につき 1 つのリクエストを送信しており、単純にスケールできません。この箇所の動作をユーザエージェントから削除できる状態になれば廃止されることになります。</p>
+      <p class="note" role="note">Note: <code>report-uri</code> は <code>report-to</code> が無い場合のみ有効になります。すなわち後者は前者を上書きするため、この新しい仕組みをサポートしていないブラウザへの後方互換性が保たれます。</p>
      <li data-md="">
-      <p>If <var>violation</var>’s <a data-link-type="dfn" href="#violation-policy">policy</a>’s <a data-link-type="dfn" href="#policy-directive-set">directive
-  set</a> contains a <a data-link-type="dfn" href="#directives">directive</a> named "<a data-link-type="dfn" href="#report-to"><code>report-to</code></a>"
-  (<var>directive</var>):</p>
+      <p>ここで <var>violation</var> の <a data-link-type="dfn" href="#violation-policy">policy</a> における <a data-link-type="dfn" href="#policy-directive-set">directive set</a> に "<a data-link-type="dfn" href="#report-to"><code>report-to</code></a>" という <a data-link-type="dfn" href="#directives">directive</a> (<var>directive</var>) が含まれていた場合、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>Let <var>group</var> be <var>directive</var>’s <a data-link-type="dfn" href="#directive-value">value</a>.</p>
+        <p><var>directive</var> の <a data-link-type="dfn" href="#directive-value">value</a> を <var>group</var> に代入します。</p>
        <li data-md="">
-        <p>Let <var>settings object</var> be <var>violation</var>’s <a data-link-type="dfn" href="#violation-global-object">global
-  object</a>’s <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a>.</p>
+        <p><var>violation</var> の <a data-link-type="dfn" href="#violation-global-object">global object</a> における <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> を <var>settings object</var> に代入します。</p>
        <li data-md="">
-        <p>Execute <a data-link-type="biblio" href="#biblio-oob-reporting">[OOB-REPORTING]</a>'s <a data-link-type="dfn" href="https://mikewest.github.io/error-reporting/#queue-report">Queue <var>data</var> as <var>type</var> for <var>endpoint group</var> on <var>settings</var></a> algorithm with the
-  following arguments:</p>
+        <p><a data-link-type="biblio" href="#biblio-oob-reporting">[OOB-REPORTING]</a> の <a data-link-type="dfn" href="https://mikewest.github.io/error-reporting/#queue-report">Queue <var>data</var> as <var>type</var> for <var>endpoint group</var> on <var>settings</var></a> アルゴリズムに以下の引数を与えて実行します。</p>
         <dl>
          <dt data-md="">
           <p><var>data</var></p>
@@ -3242,7 +3225,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
     </ol>
     <h3 class="heading settled" data-level="6.2" id="directives-reporting"><span class="secno">6.2. </span><span class="content"> Reporting Directives </span><a class="self-link" href="#directives-reporting"></a></h3>
     <p>Various algorithms in this document hook into the reporting process by
-  constructing a <a data-link-type="dfn" href="#violation">violation</a> object via <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> or <a href="#create-violation-for-global">§2.3.1 global、policy、directive に対する violation オブジェクトの生成</a>, and passing that object to <a href="#report-violation">§5.3 Report a violation</a> to deliver the report.</p>
+  constructing a <a data-link-type="dfn" href="#violation">violation</a> object via <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> or <a href="#create-violation-for-global">§2.3.1 global、policy、directive に対する violation オブジェクトの生成</a>, and passing that object to <a href="#report-violation">§5.3 violation を報告する</a> to deliver the report.</p>
     <h4 class="heading settled" data-level="6.2.1" id="directive-report-uri"><span class="secno">6.2.1. </span><span class="content"><code>report-uri</code></span><a class="self-link" href="#directive-report-uri"></a></h4>
     <div class="note" role="note">
       Note: The <a data-link-type="dfn" href="#report-uri"><code>report-uri</code></a> directive is deprecated. Please use the <a data-link-type="dfn" href="#report-to"><code>report-to</code></a> directive instead. If the latter directive is present,
@@ -3265,7 +3248,7 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
     <h4 class="heading settled" data-level="6.2.2" id="directive-report-to"><span class="secno">6.2.2. </span><span class="content"><code>report-to</code></span><a class="self-link" href="#directive-report-to"></a></h4>
     <p>The <dfn data-dfn-type="dfn" data-noexport="" id="report-to"><code>report-to</code><a class="self-link" href="#report-to"></a></dfn> directive defines a <a data-link-type="dfn" href="https://mikewest.github.io/error-reporting/#group">reporting
   group</a> to which violation reports ought to be sent <a data-link-type="biblio" href="#biblio-oob-reporting">[OOB-REPORTING]</a>. The
-  directive’s behavior is defined in <a href="#report-violation">§5.3 Report a violation</a>. The directive’s name
+  directive’s behavior is defined in <a href="#report-violation">§5.3 violation を報告する</a>. The directive’s name
   and value are described by the following ABNF:</p>
 <pre>directive-name  = "report-to"
 directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.6">token</a>
