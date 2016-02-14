@@ -1476,9 +1476,9 @@
           <li><a href="#style-src-algorithms"><span class="secno">6.1.10.1</span> <span class="content">Algorithms</span></a>
          </ol>
         <li>
-         <a href="#fetch-directive-matching-url"><span class="secno">6.1.11</span> <span class="content">URL Matching Algorithms</span></a>
+         <a href="#fetch-directive-matching-url"><span class="secno">6.1.11</span> <span class="content">URL マッチングのアルゴリズム</span></a>
          <ol class="toc">
-          <li><a href="#does-request-violate-policy"><span class="secno">6.1.11.1</span> <span class="content"> Does <var>request</var> violate <var>policy</var>? </span></a>
+          <li><a href="#does-request-violate-policy"><span class="secno">6.1.11.1</span> <span class="content"> <var>request</var> は<var>policy</var> に違反するか？ </span></a>
           <li><a href="#match-url-to-source-list"><span class="secno">6.1.11.2</span> <span class="content"> Does <var>url</var> match <var>source list</var>? </span></a>
           <li><a href="#match-url-to-source-expression"><span class="secno">6.1.11.3</span> <span class="content"> Does <var>url</var> match <var>expression</var> in <var>origin</var> with <var>redirect count</var>? </span></a>
           <li><a href="#effective-directive-for-a-request"><span class="secno">6.1.11.4</span> <span class="content"> Get the effective directive for <var>request</var> </span></a>
@@ -1872,7 +1872,7 @@
        <li data-md="">
         <p>ここで <var>policy</var> の <a data-link-type="dfn" href="#policy-disposition">disposition</a> が "<code>enforce</code>" だった場合、以降の処理を飛ばして次の <var>policy</var> に移ります。</p>
        <li data-md="">
-        <p><var>request</var> と <var>policy</var> に対して <a href="#does-request-violate-policy">§6.1.11.1 Does request violate policy?</a> を適用した結果を <var>violates</var> に代入します。</p>
+        <p><var>request</var> と <var>policy</var> に対して <a href="#does-request-violate-policy">§6.1.11.1 request はpolicy に違反するか？</a> を適用した結果を <var>violates</var> に代入します。</p>
        <li data-md="">
         <p>ここで <var>violates</var> が "<code>Does Not Violate</code>" でなかった場合、<var>request</var> と <var>policy</var> と <var>violates</var> に対して <a href="#create-violation-for-request">§2.3.2 request、policy、directive に対する violation オブジェクトの生成</a> を適用し、その結果に対して <a href="#report-violation">§5.3 violation を報告する</a> を適用します。</p>
       </ol>
@@ -1890,7 +1890,7 @@
        <li data-md="">
         <p>ここで <var>policy</var> の <a data-link-type="dfn" href="#policy-disposition">disposition</a> が "<code>report</code>" だった場合、以降の処理を飛ばして次の <var>policy</var> に移ります。</p>
        <li data-md="">
-        <p><var>request</var> と <var>policy</var> に対して <a href="#does-request-violate-policy">§6.1.11.1 Does request violate policy?</a> を適用した結果を <var>violates</var> に代入します。</p>
+        <p><var>request</var> と <var>policy</var> に対して <a href="#does-request-violate-policy">§6.1.11.1 request はpolicy に違反するか？</a> を適用した結果を <var>violates</var> に代入します。</p>
        <li data-md="">
         <p>ここで <var>violates</var> が "<code>Does Not Violate</code>" ではなかった場合、以下を実行します。</p>
         <ol>
@@ -2901,24 +2901,22 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
     <p class="issue" id="issue-eba1ebc1"><a class="self-link" href="#issue-eba1ebc1"></a> Do something interesting to the execution context in order to lock down
   interesting CSSOM algorithms. I don’t think CSSOM gives us any hooks here, so
   let’s work with them to put something reasonable together.</p>
-    <h4 class="heading settled" data-level="6.1.11" id="fetch-directive-matching-url"><span class="secno">6.1.11. </span><span class="content">URL Matching Algorithms</span><a class="self-link" href="#fetch-directive-matching-url"></a></h4>
-    <h5 class="heading settled" data-algorithm="Does request violate policy?" data-level="6.1.11.1" id="does-request-violate-policy"><span class="secno">6.1.11.1. </span><span class="content"> Does <var>request</var> violate <var>policy</var>? </span><a class="self-link" href="#does-request-violate-policy"></a></h5>
-    <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> (<var>request</var>) and a <a data-link-type="dfn" href="#policy">policy</a> (<var>policy</var>), this
-  algorithm returns the violated <a data-link-type="dfn" href="#directives">directive</a> if the request violates the
-  policy, and "<code>Does Not Violate</code>" otherwise.</p>
+    <h4 class="heading settled" data-level="6.1.11" id="fetch-directive-matching-url"><span class="secno">6.1.11. </span><span class="content">URL マッチングのアルゴリズム</span><a class="self-link" href="#fetch-directive-matching-url"></a></h4>
+    <h5 class="heading settled" data-algorithm="request はpolicy に違反するか？" data-level="6.1.11.1" id="does-request-violate-policy"><span class="secno">6.1.11.1. </span><span class="content"> <var>request</var> は<var>policy</var> に違反するか？ </span><a class="self-link" href="#does-request-violate-policy"></a></h5>
+    <p>ある <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> (<var>request</var>) と <a data-link-type="dfn" href="#policy">policy</a> (<var>policy</var>) に対し、このアルゴリズムはリクエストによって違反を受けたポリシーを返し、違反を受けたポリシーがなければ "<code>Does Not Violate</code>" を返します。</p>
     <ol>
      <li data-md="">
-      <p>Let <var>violates</var> be "<code>Does Not Violate</code>".</p>
+      <p><var>violates</var> に "<code>Does Not Violate</code>" を代入します。</p>
      <li data-md="">
-      <p>For each <var>directive</var> in <var>policy</var>:</p>
+      <p><var>policy</var> に含まれる <var>directive</var> のそれぞれについて以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>Let <var>result</var> be the result of executing <var>directive</var>’s <a data-link-type="dfn" href="#directive-pre-request-check">pre-request check</a> on <var>request</var> and <var>policy</var>.</p>
+        <p><var>request</var> と <var>policy</var> に対して <a data-link-type="dfn" href="#directive-pre-request-check">pre-request check</a> を実行し、その結果を <var>result</var> に代入します。</p>
        <li data-md="">
-        <p>If <var>result</var> is "<code>Blocked</code>", then let <var>violates</var> be <var>directive</var>.</p>
+        <p>ここで <var>result</var> が "<code>Blocked</code>" だった場合、<var>violates</var> に <var>directive</var> を代入します。</p>
       </ol>
      <li data-md="">
-      <p>Return <var>violates</var>.</p>
+      <p><var>violates</var> を返します。</p>
     </ol>
     <h5 class="heading settled" data-algorithm="Does url match source list?" data-level="6.1.11.2" id="match-url-to-source-list"><span class="secno">6.1.11.2. </span><span class="content"> Does <var>url</var> match <var>source list</var>? </span><a class="self-link" href="#match-url-to-source-list"></a></h5>
     <p>Given a <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#url">URL</a></code> (<var>url</var>), and a <a data-link-type="dfn" href="#source-lists">source list</a> (<var>source list</var>), this

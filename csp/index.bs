@@ -1822,26 +1822,23 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   interesting CSSOM algorithms. I don't think CSSOM gives us any hooks here, so
   let's work with them to put something reasonable together.
 
-  <h4 id="fetch-directive-matching-url">URL Matching Algorithms</h4>
+  <h4 id="fetch-directive-matching-url">URL マッチングのアルゴリズム</h4>
 
   <h5 id="does-request-violate-policy" algorithm>
-    Does |request| violate |policy|?
+    |request| は|policy| に違反するか？
   </h5>
 
-  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|), this
-  algorithm returns the violated <a>directive</a> if the request violates the
-  policy, and "`Does Not Violate`" otherwise.
+  ある <a>request</a> (|request|) と <a>policy</a> (|policy|) に対し、このアルゴリズムはリクエストによって違反を受けたポリシーを返し、違反を受けたポリシーがなければ "`Does Not Violate`" を返します。
 
-  1.  Let |violates| be "`Does Not Violate`".
+  1.  |violates| に "`Does Not Violate`" を代入します。
 
-  2.  For each |directive| in |policy|:
+  2.  |policy| に含まれる |directive| のそれぞれについて以下を実行します。
 
-      1.  Let |result| be the result of executing |directive|'s
-          <a for="directive">pre-request check</a> on |request| and |policy|.
+      1.  |request| と |policy| に対して <a for="directive">pre-request check</a> を実行し、その結果を |result| に代入します。
 
-      2.  If |result| is "`Blocked`", then let |violates| be |directive|.
+      2.  ここで |result| が "`Blocked`" だった場合、|violates| に |directive| を代入します。
 
-  3.  Return |violates|.
+  3.  |violates| を返します。
 
   <h5 id="match-url-to-source-list" algorithm>
     Does |url| match |source list|?
