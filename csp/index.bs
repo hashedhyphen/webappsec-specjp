@@ -1841,24 +1841,20 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   3.  |violates| を返します。
 
   <h5 id="match-url-to-source-list" algorithm>
-    Does |url| match |source list|?
+    |url| は |source list| にマッチするか？
   </h5>
 
-  Given a {{URL}} (|url|), and a <a>source list</a> (|source list|), this
-  algorithm returns "`Matches`" if the URL matches one or more source
-  expressions in |source list|, or "`Does Not Match`" otherwise:
+  ある {{URL}} (|url|) と <a>source list</a> (|source list|) に対するこのアルゴリズムは、|source list| に含まれる source expressions の 1 つ以上に URL がマッチすれば "`Matches`" を返し、それ以外の場合は "`Does Not Match`" を返します。
 
-  1.  If |source list| is `null`, return "`Matches`".
+  1.  ここで |source list| が `null` だった場合、"`Matches`" を返します。
 
-  2.  If |source list| contains a single item which is a <a>case-sensitive</a>
-      match for the string "`'none'`", return `Does Not Match`.
+  2.  ここで、文字列 "`'none'`" に <a>case-sensitive</a> で一致する単一の要素が |source list| に含まれていた場合、`Does Not Match` を返します。
 
-  3.  For each |expression| in |source list|:
+  3.  |source list| に含まれる要素 |expression| のそれぞれについて以下を実行します。
 
-      1.  If [[#match-url-to-source-expression]] returns "`Matches`" when
-          executed upon |url| and |expression|, return "`Matches`".
+      1.  ここで |url| と |expression| に対して [[#match-url-to-source-expression]] を適用し、その実行結果が "`Matches`" であれば "`Matches`" を返します。
 
-  4.  Return "`Does Not Match`".
+  4.  "`Does Not Match`" を返します。
 
   <h5 id="match-url-to-source-expression" algorithm>
     Does |url| match |expression| in |origin| with |redirect count|?

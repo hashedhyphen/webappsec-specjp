@@ -1479,7 +1479,7 @@
          <a href="#fetch-directive-matching-url"><span class="secno">6.1.11</span> <span class="content">URL マッチングのアルゴリズム</span></a>
          <ol class="toc">
           <li><a href="#does-request-violate-policy"><span class="secno">6.1.11.1</span> <span class="content"> <var>request</var> は<var>policy</var> に違反するか？ </span></a>
-          <li><a href="#match-url-to-source-list"><span class="secno">6.1.11.2</span> <span class="content"> Does <var>url</var> match <var>source list</var>? </span></a>
+          <li><a href="#match-url-to-source-list"><span class="secno">6.1.11.2</span> <span class="content"> <var>url</var> は <var>source list</var> にマッチするか？ </span></a>
           <li><a href="#match-url-to-source-expression"><span class="secno">6.1.11.3</span> <span class="content"> Does <var>url</var> match <var>expression</var> in <var>origin</var> with <var>redirect count</var>? </span></a>
           <li><a href="#effective-directive-for-a-request"><span class="secno">6.1.11.4</span> <span class="content"> Get the effective directive for <var>request</var> </span></a>
          </ol>
@@ -1737,8 +1737,8 @@
 <dfn data-dfn-type="grammar" data-export="" id="grammardef-hash-algorithm">hash-algorithm<a class="self-link" href="#grammardef-hash-algorithm"></a></dfn> = "sha256" / "sha384" / "sha512"
 </pre>
     <p><a data-link-type="grammar" href="#grammardef-host-char">host-char</a> の項では、意図的に ASCII 文字のみが許されています。従って、国際化ドメイン名は <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> の中に直接含めることはできず、その代わりに Punycode で事前にエンコードしなければなりません（MUST）。例えば、<code>üüüüüü.de</code> というドメイン名は <code>xn--tdaaaaaa.de</code> と表記されなければなりません（MUST）。</p>
-    <p class="note" role="note">Note: IP アドレスも上記の文法に適合しますが、source expression の中で用いて実際に URL とマッチするのは <code>127.0.0.1</code> のみです（詳しくは <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> を参照してください）。IP アドレスに関するセキュリティの問題点はまだ明確になっていませんが、管理者は可能な限りホスト名を用いるべきです。</p>
-    <p><a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> のアルゴリズムが <code>Matches</code> を返した場合、その <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#url">URL</a></code> は <dfn data-dfn-type="dfn" data-noexport="" id="matches-a-source-list">matches a source list<a class="self-link" href="#matches-a-source-list"></a></dfn> といいます。</p>
+    <p class="note" role="note">Note: IP アドレスも上記の文法に適合しますが、source expression の中で用いて実際に URL とマッチするのは <code>127.0.0.1</code> のみです（詳しくは <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> を参照してください）。IP アドレスに関するセキュリティの問題点はまだ明確になっていませんが、管理者は可能な限りホスト名を用いるべきです。</p>
+    <p><a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> のアルゴリズムが <code>Matches</code> を返した場合、その <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#url">URL</a></code> は <dfn data-dfn-type="dfn" data-noexport="" id="matches-a-source-list">matches a source list<a class="self-link" href="#matches-a-source-list"></a></dfn> といいます。</p>
     <h3 class="heading settled" data-level="2.3" id="framework-violation"><span class="secno">2.3. </span><span class="content">Violations</span><a class="self-link" href="#framework-violation"></a></h3>
     <p><dfn data-dfn-type="dfn" data-noexport="" id="violation">violation<a class="self-link" href="#violation"></a></dfn> とは、<a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> に対する <a data-link-type="dfn" href="#policy">policies</a> の制約に反したアクションやリソースを表現するものです。</p>
     <p>各 <a data-link-type="dfn" href="#violation">violation</a> は <dfn data-dfn-for="violation" data-dfn-type="dfn" data-noexport="" id="violation-global-object">global object<a class="self-link" href="#violation-global-object"></a></dfn> を持っており、違反が行われた <a data-link-type="dfn" href="#policy">policy</a> に対応する <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> がこれに相当します。</p>
@@ -2399,7 +2399,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   "<code>subresource</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2413,7 +2413,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   "<code>subresource</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2478,7 +2478,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p>If <var>policy</var> contains a <a data-link-type="dfn" href="#directives">directive</a> whose <a data-link-type="dfn" href="#directive-name">name</a> is <var>name</var>, return "<code>Allowed</code>".</p>
      <li data-md="">
-      <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
+      <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
      <li data-md="">
       <p>Return "<code>Allowed</code>".</p>
     </ol>
@@ -2492,7 +2492,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p>If <var>policy</var> contains a <a data-link-type="dfn" href="#directives">directive</a> whose <a data-link-type="dfn" href="#directive-name">name</a> is <var>name</var>, return "<code>Allowed</code>".</p>
      <li data-md="">
-      <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
+      <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
      <li data-md="">
       <p>Return "<code>Allowed</code>".</p>
     </ol>
@@ -2528,7 +2528,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>font</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2541,7 +2541,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>font</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2573,7 +2573,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>image</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2586,7 +2586,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>image</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2616,7 +2616,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-initiator">initiator</a> is "<code>manifest</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2629,7 +2629,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-initiator">initiator</a> is "<code>manifest</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2663,7 +2663,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   or "<code>track</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2677,7 +2677,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   or "<code>track</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2718,7 +2718,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is "<code>unknown</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2731,7 +2731,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is "<code>unknown</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2779,7 +2779,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>script</code>", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is "<code>subresource</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2792,7 +2792,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>script</code>", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is "<code>subresource</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2866,7 +2866,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>style</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2879,7 +2879,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>style</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 Does url match source list?</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2918,24 +2918,21 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p><var>violates</var> を返します。</p>
     </ol>
-    <h5 class="heading settled" data-algorithm="Does url match source list?" data-level="6.1.11.2" id="match-url-to-source-list"><span class="secno">6.1.11.2. </span><span class="content"> Does <var>url</var> match <var>source list</var>? </span><a class="self-link" href="#match-url-to-source-list"></a></h5>
-    <p>Given a <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#url">URL</a></code> (<var>url</var>), and a <a data-link-type="dfn" href="#source-lists">source list</a> (<var>source list</var>), this
-  algorithm returns "<code>Matches</code>" if the URL matches one or more source
-  expressions in <var>source list</var>, or "<code>Does Not Match</code>" otherwise:</p>
+    <h5 class="heading settled" data-algorithm="url は source list にマッチするか？" data-level="6.1.11.2" id="match-url-to-source-list"><span class="secno">6.1.11.2. </span><span class="content"> <var>url</var> は <var>source list</var> にマッチするか？ </span><a class="self-link" href="#match-url-to-source-list"></a></h5>
+    <p>ある <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#url">URL</a></code> (<var>url</var>) と <a data-link-type="dfn" href="#source-lists">source list</a> (<var>source list</var>) に対するこのアルゴリズムは、<var>source list</var> に含まれる source expressions の 1 つ以上に URL がマッチすれば "<code>Matches</code>" を返し、それ以外の場合は "<code>Does Not Match</code>" を返します。</p>
     <ol>
      <li data-md="">
-      <p>If <var>source list</var> is <code>null</code>, return "<code>Matches</code>".</p>
+      <p>ここで <var>source list</var> が <code>null</code> だった場合、"<code>Matches</code>" を返します。</p>
      <li data-md="">
-      <p>If <var>source list</var> contains a single item which is a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#case-sensitive">case-sensitive</a> match for the string "<code>'none'</code>", return <code>Does Not Match</code>.</p>
+      <p>ここで、文字列 "<code>'none'</code>" に <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#case-sensitive">case-sensitive</a> で一致する単一の要素が <var>source list</var> に含まれていた場合、<code>Does Not Match</code> を返します。</p>
      <li data-md="">
-      <p>For each <var>expression</var> in <var>source list</var>:</p>
+      <p><var>source list</var> に含まれる要素 <var>expression</var> のそれぞれについて以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>If <a href="#match-url-to-source-expression">§6.1.11.3 Does url match expression in origin with redirect count?</a> returns "<code>Matches</code>" when
-  executed upon <var>url</var> and <var>expression</var>, return "<code>Matches</code>".</p>
+        <p>ここで <var>url</var> と <var>expression</var> に対して <a href="#match-url-to-source-expression">§6.1.11.3 Does url match expression in origin with redirect count?</a> を適用し、その実行結果が "<code>Matches</code>" であれば "<code>Matches</code>" を返します。</p>
       </ol>
      <li data-md="">
-      <p>Return "<code>Does Not Match</code>".</p>
+      <p>"<code>Does Not Match</code>" を返します。</p>
     </ol>
     <h5 class="heading settled" data-algorithm="Does url match expression in origin with redirect count?" data-level="6.1.11.3" id="match-url-to-source-expression"><span class="secno">6.1.11.3. </span><span class="content"> Does <var>url</var> match <var>expression</var> in <var>origin</var> with <var>redirect count</var>? </span><a class="self-link" href="#match-url-to-source-expression"></a></h5>
     <p>Given a <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#url">URL</a></code> (<var>url</var>), a <a data-link-type="dfn" href="#source-expression">source expression</a> (<var>expression</var>), an <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> (<var>origin</var>), and a number (<var>redirect count</var>), this algorithm
