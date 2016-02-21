@@ -375,7 +375,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   </pre>
 
   <h4 id="parse-serialized-policy" dfn lt="parse a serialized CSP" algorithm>
-    |serialized CSP| を |disposition| としてパースする
+    |serialized CSP| を |disposition| に従ってパースする
   </h4>
 
   <a>serialized CSP</a> (|serialized CSP|) と <a for="policy">disposition</a> (|disposition|) に対して、このアルゴリズムは <a>policy</a> オブジェクトを返します。文字列をパースできなかった場合、空の <a>directive set</a> が含まれた <a>policy</a> が返されます。
@@ -403,7 +403,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   3.  |policy| を返します。
 
   <h4 id="parse-serialized-policy-list" algorithm>
-    serialized CSP の |list| を |disposition| としてパースする
+    serialized CSP の |list| を |disposition| に従ってパースする
   </h4>
 
   複数の <a>serialized CSP</a> をカンマ区切りで並べた文字列 (|list|) と、<a for="policy">disposition</a> (|disposition|) とに対して、以下のアルゴリズムは <a>policy</a> のリストを返します。
@@ -1822,7 +1822,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   interesting CSSOM algorithms. I don't think CSSOM gives us any hooks here, so
   let's work with them to put something reasonable together.
 
-  <h4 id="fetch-directive-matching-url">URL マッチングのアルゴリズム</h4>
+  <h4 id="fetch-directive-matching-url">URL のマッチングアルゴリズム</h4>
 
   <h5 id="does-request-violate-policy" algorithm>
     |request| は|policy| に違反するか？
@@ -1857,156 +1857,93 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   4.  "`Does Not Match`" を返します。
 
   <h5 id="match-url-to-source-expression" algorithm>
-    Does |url| match |expression| in |origin| with |redirect count|?
+    |redirect count| を持つ |origin| において |url| は |expression| にマッチするか？
   </h5>
 
-  Given a {{URL}} (|url|), a <a>source expression</a> (|expression|), an
-  <a>origin</a> (|origin|), and a number (|redirect count|), this algorithm
-  returns "`Matches`" if |url| matches |expression|, and "`Does Not Match`"
-  otherwise.
+  ある {{URL}} (|url|) と <a>source expression</a> (|expression|) と <a>origin</a> (|origin|) と数値 (|redirect count|) に対し、このアルゴリズムは |url| が |expression| にマッチすれば "`Matches`" を返し、それ以外の場合は "`Does Not Match`" を返します。
 
-  Note: |origin| is the <a>origin</a> of the resource relative to which the
-  |expression| should be resolved. "`'self'`", for instance, will have distinct
-  meaning depending on that bit of context.
+  Note: |origin| とは、|expression| が相対的に解決されるべきリソースの <a>origin</a> です。例えば、"`'self'`" はコンテキストによって別々の意味を持つことになります。
 
-  1.  If |expression| is the string "*", and |url|'s {{URL/scheme}} is not a
-      <a>local scheme</a>, return "`Matches`".
+  1.  ここで |expression| が文字列 "*" であり、かつ |url| の {{URL/scheme}} が <a>local scheme</a> ではない場合、"`Matches`" を返します。
 
-  2.  If |expression| matches the <a grammar>`scheme-source`</a> or
-      <a grammar>`host-source`</a> grammar:
+  2.  ここで |expression| が <a grammar>`scheme-source`</a> または <a grammar>`host-source`</a> の文法に一致する場合、以下を実行します。
 
-      1.  If |expression| has a <a grammar>`scheme-part`</a> that is not an
-          <a>ASCII case-insensitive match</a> for |url|'s {{URL/scheme}}, then
-          return "`Does Not Match`" unless one of the following conditions is
-          met:
+      1.  ここで、|url| の {{URL/scheme}} に <a>ASCII case-insensitive match</a> する <a grammar>`scheme-part`</a> を |expression| が持たず、かつ以下の条件をいずれも満たさない場合、"`Does Not Match`" を返します。
 
-          1.  |expression|'s <a grammar>`scheme-part`</a> is an <a>ASCII
-              case-insensitive match</a> for "`http`" and |url|'s {{URL/scheme}}
-              is "`https`"
+          1.  |expression| の <a grammar>`scheme-part`</a> が "`http`" に <a>ASCII case-insensitive match</a> し、かつ |url| の {{URL/scheme}} が "`https`" である
 
-          2.  |expression|'s <a grammar>`scheme-part`</a> is an <a>ASCII
-              case-insensitive match</a> for "`ws`" and |url|'s {{URL/scheme}}
-              is "`wss`"
+          2.  |expression| の <a grammar>`scheme-part`</a> が "`ws`" に <a>ASCII case-insensitive match</a> し、かつ |url| の {{URL/scheme}} が "`wss`" である
 
-      2.  If |expression| matches the <a grammar>`scheme-source`</a> grammar,
-          return "`Matches`".
+      2.  ここで |expression| が <a grammar>`scheme-source`</a> の文法に一致する場合、"`Matches`" を返します。
 
-      Note: This logic effectively means that `script-src http:` is
-      equivalent to `script-src http: https:`, and
-      `script-src http://example.com/` is equivalent to `script-src
-      http://example.com https://example.com`. In short, we always allow a
-      secure upgrade from an explicitly insecure expression.
+      Note: この処理が鍵となり、`script-src http:` が `script-src http: https:` と等しく、`script-src http://example.com/` が `script-src http://example.com https://example.com` と等しくなります。つまり、明示的に書かれた安全でない式を、安全な式へ自動変換することが常に可能となります。
 
-  3.  If |expression| matches the <a grammar>`host-source`</a> grammar:
+  3.  ここで |expression| が <a grammar>`host-source`</a> の文法に一致する場合、以下を実行します。
 
-      1.  If |url|'s {{URL/host}} is `null`, return "`Does Not Match`".
+      1.  ここで |url| の {{URL/host}} が `null` である場合、"`Does Not Match`" を返します。
 
-      2.  If |expression| does not have a <a grammar>`scheme-part`</a>, then
-          return "`Does Not Match`" unless one of the following conditions is
-          met:
+      2.  ここで |expression| に <a grammar>`scheme-part`</a> がなく、かつ以下の条件をいずれも満たさない場合に "`Does Not Match`" を返します。
 
-          1.  |origin|'s {{URL/scheme}} is |url|'s {{URL/scheme}}
+          1.  |origin| の {{URL/scheme}} が |url| の {{URL/scheme}} に等しい
 
-          2.  |origin|'s {{URL/scheme}} is "`http`", and |url|'s {{URL/scheme}}
-              one of "`https`", "`ws`", or "`wss`".
+          2.  |origin| の {{URL/scheme}} が "`http`" であり、かつ |url| の {{URL/scheme}} が "`https`"、"`ws`"、"`wss`" のいずれかである
 
-          3.  |origin|'s {{URL/scheme}} is "`https`", and |url|'s {{URL/scheme}}
-              is "`wss`".
+          3.  |origin| の {{URL/scheme}} が "`https`" であり、かつ |url| の {{URL/scheme}} が "`wss`" である
 
-          Note: As with <a grammar>`scheme-part`</a> above, we allow schemeless
-          <a grammar>`host-source`</a> expressions to be upgraded from insecure
-          schemes to secure schemes.
+          Note: 先程の <a grammar>`scheme-part`</a> に関する処理と同様に、source expression がスキームを持たない <a grammar>`host-source`</a> であれば、安全なスキームへ自動変換することが可能です。
 
-      3.  If the first character of |expression|'s <a grammar>`host-part`</a>
-          is an U+002A ASTERISK character (`*`):
+      3.  ここで |expression| の <a grammar>`host-part`</a> における先頭文字が U+002A ASTERISK 文字 (`*`) だった場合、以下を実行します。
 
-          1.  Let |remaining| be the result of removing the leading "`*`" from
-              |expression|.
+          1.  |expression| から先頭の "`*`" を取り除いた結果を |remaining| に代入します。
 
-          2.  If |remaining| (including the leading U+002E FULL STOP character
-              (`.`)) is not an <a>ASCII case-insensitive match</a> for the
-              rightmost characters of |url|'s {{URL/host}}, then return "`Does
-              Not Match`".
+          2.  ここで（先頭に U+002E FULL STOP 文字 (`.`) を含む）|remaining| が、|url| の {{URL/host}} における最右端の文字列に <a>ASCII case-insensitive match</a> する場合、"`Does Not Match`" を返します。
 
-      4.  If the first character of |expression|'s <a grammar>`host-part`</a>
-          is not an U+002A ASTERISK character (`*`), and |url|'s {{URL/host}}
-          is not an <a>ASCII case-insensitive match</a> for |expression|'s
-          <a grammar>`host-part`</a>, return "`Does Not Match`".
+      4.  ここで |expression| の <a grammar>`host-part`</a> における先頭文字が U+002A ASTERISK 文字 (`*`) ではなく、かつ |url| の {{URL/host}} が |expression| の <a grammar>`host-part`</a> に <a>ASCII case-insensitive match</a> しない場合、"`Does Not Match`" を返します。
 
-      5.  If |expression|'s <a grammar>`host-part`</a> matches the
-          <a grammar>IPv4address</a> rule from [[!RFC3986]], and is not
-          "`127.0.0.1`"; or if |expression|'s <a grammar>`host-part`</a> is an
-          <a>IPv6 address</a>, return "`Does Not Match`".
+      5.  ここで |expression| の <a grammar>`host-part`</a> が <a grammar>IPv4address</a> の文法 [[!RFC3986]] に一致し、かつ "`127.0.0.1`" ではない場合、または |expression| の <a grammar>`host-part`</a> が <a>IPv6 address</a> の文法に一致する場合、"`Does Not Match`" を返します。
 
-          Note: A future version of this specification may allow literal IPv6
-          and IPv4 addresses, depending on usage and demand. Given the weak
-          security properties of IP addresses in relation to named hosts,
-          however, authors are encouraged to prefer the latter whenever
-          possible.
+          Note: 将来の仕様では、利用の度合いと要望に応じて IPv6 と IPv4 のアドレスリテラルが使えるようになるかもしれません。とはいえ、名前ベースのホストと比較して IP アドレスのセキュリティ特性は弱いため、Web サイトの管理者は可能な限り後者を用いることが推奨されます。
 
-      6.  If |expression| does not contain a <a grammar>`port-part`</a>, and
-          |url|'s {{URL/port}} is not the <a>default port</a> for |url|'s
-          {{URL/scheme}}, return "`Does Not Match`".
+      6.  ここで |expression| に <a grammar>`port-part`</a> が含まれておらず、かつ |url| の {{URL/port}} が |url| の {{URL/scheme}} に対する <a>default port</a> ではない場合、"`Does Not Match`" を返します。
 
-      7.  If |expression| does contain a <a grammar>`port-part`</a>:
+      7.  ここで |expression| に <a grammar>`port-part`</a> が含まれる場合、以下を実行します。
 
-          1.  If |expression|'s <a grammar>`port-part`</a> is not "`*`", and
-              is not the same number as |url|'s {{URL/port}}, return "`Does Not
-              Match`".
+          1.  ここで |expression| の <a grammar>`port-part`</a> が "`*`" ではなく、かつ |url| の {{URL/port}} に等しくなければ "`Does Not Match`" を返します。
 
-      8.  If |expression| contains a non-empty <a grammar>`path-part`</a>, and
-          |redirect count| is 0, then:
+      8.  ここで |expression| に空でない <a grammar>`path-part`</a> が含まれており、かつ |redirect count| が 0 である場合、以下を実行します。
 
-          1.  Let |exact match| be `false` if the final character of
-              |expression|'s <a grammar>`path-part`</a> is the U+002F SOLIDUS
-              character (`/`), and `true` otherwise.
+          1.  ここで |expression| の <a grammar>`path-part`</a> における末尾文字が U+002F SOLIDUS 文字 (`/`) である場合、|exact match| に `false` を代入し、それ以外の場合は `true` を代入します。
 
-          2.  Let |path list| be the result of
-              <a lt="strictly split a string">strictly splitting</a>
-              |expression|'s <a grammar>`path-part`</a> on the U+002F SOLIDUS
-              character (`/`).
+          2.  |expression| の <a grammar>`path-part`</a> を U+002F SOLIDUS 文字 (`/`) で <a lt="strictly split a string">strictly splitting</a> した結果を |path list| に代入します。
 
-          3.  If |path list| has more items than |url|'s {{URL/path}}, return
-              "`Does Not Match`".
+          3.  ここで |path list| が |url| の {{URL/path}} よりも多くの要素を含んでいる場合、"`Does Not Match`" を返します。
 
-          4.  If |exact match| is `true`, and |path list| does not have the same
-              number of items as |url|'s {{URL/path}}, return "`Does Not
-              Match`".
+          4.  ここで |exact match| が `true` であり、かつ |path list| が |url| の {{URL/path}} と同じ要素数を含む場合、"`Does Not Match`" を返します。
 
-          5.  For each |expression piece| in |path list|:
+          5.  |path list| に含まれる |expression piece| のそれぞれについて以下を実行します。
 
-              1.  Let |url piece| be the next item in |url|'s {{URL/path}}.
+              1.  |url| の {{URL/path}} における次の要素を |url piece| に代入します。
 
-              2.  <a>Percent decode</a> |expression piece|.
+              2.  |expression piece| を <a>Percent decode</a> します。
 
-              3.  <a>Percent decode</a> |url piece|.
+              3.  |url piece| を <a>Percent decode</a> します。
 
-              4.  If |expression piece| is not an <a>ASCII case-insensitive
-                  match</a> for |url piece|, return "`Does Not Match`".
+              4.  ここで |expression piece| が |url piece| に <a>ASCII case-insensitive match</a> しない場合、"`Does Not Match`" を返します。
 
-      9. Return "`Matches`".
+      9. "`Matches`" を返します。
 
-  4.  If |expression| is an <a>ASCII case-insensitive match</a> for "`'self'`",
-      return "`Matches`" if one or more of the following conditions is met:
+  4.  ここで |expression| が "`'self'`" に <a>ASCII case-insensitive match</a> し、かつ以下の条件のうち 1 つ以上を満たすならば "`Matches`" を返します。
 
-      1.  |origin| is the same as |url|'s {{URL/origin}}
+      1.  |origin| が |url| の {{URL/origin}} に等しい場合
 
-      2.  |origin|'s {{URL/host}} is the same as |url|'s {{URL/host}},
-          |origin|'s {{URL/port}} and |url|'s {{URL/port} are either the same
-          or the <a>default ports</a> for their respective {{URL/scheme}}s, and
-          one or more of the following conditions is met:
+      2.  |origin| の {{URL/host}} が |url| の {{URL/host}} に等しく、かつ |origin| の {{URL/port}} が |url| の {{URL/port}} か {{URL/scheme}} の <a>default ports</a> に等しく、かつ以下の条件のうちどちらかを満たす
 
-          1.  |url|'s {{URL/scheme}} is "`https`" or "`wss`"
-          2.  |origin|'s {{URL/scheme}} is "`http`"
+          1.  |url| の {{URL/scheme}} が "`https`" または "`wss`" である
+          2.  |origin| の {{URL/scheme}} が "`http`" である
 
-      Note: Like the <a grammar>`scheme-part`</a> logic above, the "`'self'`"
-      matching algorithm allows upgrades to secure schemes when it is safe to do
-      so. We limit these upgrades to endpoints running on the default port for a
-      particular scheme or a port that matches the origin of the protected
-      resource, as this seems sufficient to deal with upgrades that can be
-      reasonably expected to succeed.
+      Note: 先程の <a grammar>`scheme-part`</a> に関する処理と同様に、"`'self'`" のマッチングアルゴリズムにおける安全なスキームへの自動変換は、その変換が安全である限り可能です。この変換は、特定のスキームに対するデフォルトポートか、保護されたリソースのオリジンにおけるポートかで動作しているエンドポイントに限られます。とはいえ、この制限があったとしても、変換が成り立つケースは十分にカバーされるはずです。
 
-  5.  Return "`Does Not Match`".
+  5.  "`Does Not Match`" を返します。
 
   <h5 id="effective-directive-for-a-request" algorithm>
     Get the effective directive for |request|
