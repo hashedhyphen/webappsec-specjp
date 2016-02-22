@@ -1946,66 +1946,54 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   5.  "`Does Not Match`" を返します。
 
   <h5 id="effective-directive-for-a-request" algorithm>
-    Get the effective directive for |request|
+    |request| の effective directive を得る
   </h5>
 
-  Each <a>fetch directive</a> controls a specific type of <a>request</a>. Given
-  a <a>request</a> (|request|), the following algorithm returns either
-  `null` or the <a for="directive">name</a> of the request's
-  <dfn for="request">effective directive</dfn>:
+  各 <a>fetch directive</a> は <a>request</a> のタイプを制御します。ある <a>request</a> (|request|) に対し、このアルゴリズムは `null` を返すか、リクエストの <dfn for="request">effective directive</dfn> における <a for="directive">name</a> を返します。
 
-  1.  Switch on |request|'s <a for="request">type</a>, and execute
-      the associated steps:
+  1.  |request| の <a for="request">type</a> に対応する処理を以下から実行します。
 
       : ""
       ::
-        1.  If the |request|'s <a for="request">initiator</a> is
-            "`fetch`", return `connect-src`.
-        2.  If the |request|'s <a for="request">initiator</a> is
-            "`manifest`", return `manifest-src`.
-        3.  If the |request|'s <a for="request">destination</a> is
-            "`subresource`", return `connect-src`.
-        4.  If the |request|'s <a for="request">destination</a> is
-            "`unknown`", return `object-src`.
-        5.  If the |request|'s <a for="request">destination</a> is
-            "`document`" <em>and</em> the |request|'s
-            <a for="request">target browsing context</a> is a <a>nested browsing
-            context</a>, return `child-src`.
+        1.  ここで |request| の <a for="request">initiator</a> が "`fetch`" だった場合、`connect-src` を返します。
+        2.  ここで |request| の <a for="request">initiator</a> が "`manifest`" だった場合、`manifest-src` を返します。
+        3.  ここで |request| の <a for="request">destination</a> が "`subresource`" だった場合、`connect-src` を返します。
+        4.  ここで |request| の <a for="request">destination</a> が "`unknown`" だった場合、`object-src` を返します。
+        5.  ここで |request| の <a for="request">destination</a> が "`document`" であり、<em>かつ</em> |request| の <a for="request">target browsing context</a> が <a>nested browsing context</a> だった場合、`child-src` を返します。
 
       : "`audio`"
       : "`track`"
       : "`video`"
       ::
-        1.  Return `media-src`.
+        1.  `media-src` を返します。
 
       : "`font`"
       ::
-        1.  Return `font-src`.
+        1.  `font-src` を返します。
 
       : "`image`"
       ::
-        1.  Return `image-src`.
+        1.  `image-src` を返します。
 
       : "`style`"
       ::
-        1.  Return `style-src`.
+        1.  `style-src` を返します。
 
       : "`script`"
       ::
-        1.  Switch on |request|'s <a for="request">destination</a>, and
-            execute the associated steps:
+        1.  |request| の <a for="request">destination</a> に対応する処理を以下から実行します。
 
             : "`subresource`"
             ::
-              1.  Return `script-src`.
+              1.  `script-src` を返します。
 
             : "`serviceworker`"
             : "`sharedworker`"
             : "`worker`"
             ::
-              1.  Return `child-src`.
+              1.  `child-src` を返します。
 
-  2.  Return `null`.
+  2.  `null` を返します。
 
   <h4 id="fetch-directive-matching-element">Element Matching Algorithms</h4>
 

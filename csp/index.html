@@ -1425,7 +1425,7 @@
           <li><a href="#does-request-violate-policy"><span class="secno">6.1.11.1</span> <span class="content"> <var>request</var> は<var>policy</var> に違反するか？ </span></a>
           <li><a href="#match-url-to-source-list"><span class="secno">6.1.11.2</span> <span class="content"> <var>url</var> は <var>source list</var> にマッチするか？ </span></a>
           <li><a href="#match-url-to-source-expression"><span class="secno">6.1.11.3</span> <span class="content"> <var>redirect count</var> を持つ <var>origin</var> において <var>url</var> は <var>expression</var> にマッチするか？ </span></a>
-          <li><a href="#effective-directive-for-a-request"><span class="secno">6.1.11.4</span> <span class="content"> Get the effective directive for <var>request</var> </span></a>
+          <li><a href="#effective-directive-for-a-request"><span class="secno">6.1.11.4</span> <span class="content"> <var>request</var> の effective directive を得る </span></a>
          </ol>
         <li>
          <a href="#fetch-directive-matching-element"><span class="secno">6.1.12</span> <span class="content">Element Matching Algorithms</span></a>
@@ -2416,7 +2416,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> (<var>request</var>) and a <a data-link-type="dfn" href="#policy">policy</a> (<var>policy</var>):</p>
     <ol>
      <li data-md="">
-      <p>Let <var>name</var> be the result of executing <a href="#effective-directive-for-a-request">§6.1.11.4 Get the effective directive for request</a> on <var>request</var>.</p>
+      <p>Let <var>name</var> be the result of executing <a href="#effective-directive-for-a-request">§6.1.11.4 request の effective directive を得る</a> on <var>request</var>.</p>
      <li data-md="">
       <p>If <var>name</var> is <code>null</code>, return "<code>Allowed</code>".</p>
      <li data-md="">
@@ -2430,7 +2430,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> (<var>request</var>), a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response">response</a> (<var>response</var>), and a <a data-link-type="dfn" href="#policy">policy</a> (<var>policy</var>):</p>
     <ol>
      <li data-md="">
-      <p>Let <var>name</var> be the result of executing <a href="#effective-directive-for-a-request">§6.1.11.4 Get the effective directive for request</a> on <var>request</var>.</p>
+      <p>Let <var>name</var> be the result of executing <a href="#effective-directive-for-a-request">§6.1.11.4 request の effective directive を得る</a> on <var>request</var>.</p>
      <li data-md="">
       <p>If <var>name</var> is <code>null</code>, return "<code>Allowed</code>".</p>
      <li data-md="">
@@ -2981,34 +2981,26 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p>"<code>Does Not Match</code>" を返します。</p>
     </ol>
-    <h5 class="heading settled" data-algorithm="Get the effective directive for request" data-level="6.1.11.4" id="effective-directive-for-a-request"><span class="secno">6.1.11.4. </span><span class="content"> Get the effective directive for <var>request</var> </span><a class="self-link" href="#effective-directive-for-a-request"></a></h5>
-    <p>Each <a data-link-type="dfn" href="#fetch-directives">fetch directive</a> controls a specific type of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a>. Given
-  a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> (<var>request</var>), the following algorithm returns either <code>null</code> or the <a data-link-type="dfn" href="#directive-name">name</a> of the request’s <dfn data-dfn-for="request" data-dfn-type="dfn" data-noexport="" id="request-effective-directive">effective directive<a class="self-link" href="#request-effective-directive"></a></dfn>:</p>
+    <h5 class="heading settled" data-algorithm="request の effective directive を得る" data-level="6.1.11.4" id="effective-directive-for-a-request"><span class="secno">6.1.11.4. </span><span class="content"> <var>request</var> の effective directive を得る </span><a class="self-link" href="#effective-directive-for-a-request"></a></h5>
+    <p>各 <a data-link-type="dfn" href="#fetch-directives">fetch directive</a> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> のタイプを制御します。ある <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> (<var>request</var>) に対し、このアルゴリズムは <code>null</code> を返すか、リクエストの <dfn data-dfn-for="request" data-dfn-type="dfn" data-noexport="" id="request-effective-directive">effective directive<a class="self-link" href="#request-effective-directive"></a></dfn> における <a data-link-type="dfn" href="#directive-name">name</a> を返します。</p>
     <ol>
      <li data-md="">
-      <p>Switch on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a>, and execute
-  the associated steps:</p>
+      <p><var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> に対応する処理を以下から実行します。</p>
       <dl>
        <dt data-md="">
         <p>""</p>
        <dd data-md="">
         <ol>
          <li data-md="">
-          <p>If the <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-initiator">initiator</a> is
-  "<code>fetch</code>", return <code>connect-src</code>.</p>
+          <p>ここで <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-initiator">initiator</a> が "<code>fetch</code>" だった場合、<code>connect-src</code> を返します。</p>
          <li data-md="">
-          <p>If the <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-initiator">initiator</a> is
-  "<code>manifest</code>", return <code>manifest-src</code>.</p>
+          <p>ここで <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-initiator">initiator</a> が "<code>manifest</code>" だった場合、<code>manifest-src</code> を返します。</p>
          <li data-md="">
-          <p>If the <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is
-  "<code>subresource</code>", return <code>connect-src</code>.</p>
+          <p>ここで <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> が "<code>subresource</code>" だった場合、<code>connect-src</code> を返します。</p>
          <li data-md="">
-          <p>If the <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is
-  "<code>unknown</code>", return <code>object-src</code>.</p>
+          <p>ここで <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> が "<code>unknown</code>" だった場合、<code>object-src</code> を返します。</p>
          <li data-md="">
-          <p>If the <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is
-  "<code>document</code>" <em>and</em> the <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-target-browsing-context">target browsing context</a> is a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#nested-browsing-context">nested browsing
-  context</a>, return <code>child-src</code>.</p>
+          <p>ここで <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> が "<code>document</code>" であり、<em>かつ</em> <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-target-browsing-context">target browsing context</a> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/browsers.html#nested-browsing-context">nested browsing context</a> だった場合、<code>child-src</code> を返します。</p>
         </ol>
        <dt data-md="">
         <p>"<code>audio</code>"</p>
@@ -3019,43 +3011,42 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
        <dd data-md="">
         <ol>
          <li data-md="">
-          <p>Return <code>media-src</code>.</p>
+          <p><code>media-src</code> を返します。</p>
         </ol>
        <dt data-md="">
         <p>"<code>font</code>"</p>
        <dd data-md="">
         <ol>
          <li data-md="">
-          <p>Return <code>font-src</code>.</p>
+          <p><code>font-src</code> を返します。</p>
         </ol>
        <dt data-md="">
         <p>"<code>image</code>"</p>
        <dd data-md="">
         <ol>
          <li data-md="">
-          <p>Return <code>image-src</code>.</p>
+          <p><code>image-src</code> を返します。</p>
         </ol>
        <dt data-md="">
         <p>"<code>style</code>"</p>
        <dd data-md="">
         <ol>
          <li data-md="">
-          <p>Return <code>style-src</code>.</p>
+          <p><code>style-src</code> を返します。</p>
         </ol>
        <dt data-md="">
         <p>"<code>script</code>"</p>
        <dd data-md="">
         <ol>
          <li data-md="">
-          <p>Switch on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a>, and
-  execute the associated steps:</p>
+          <p><var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> に対応する処理を以下から実行します。</p>
           <dl>
            <dt data-md="">
             <p>"<code>subresource</code>"</p>
            <dd data-md="">
             <ol>
              <li data-md="">
-              <p>Return <code>script-src</code>.</p>
+              <p><code>script-src</code> を返します。</p>
             </ol>
            <dt data-md="">
             <p>"<code>serviceworker</code>"</p>
@@ -3066,13 +3057,13 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
            <dd data-md="">
             <ol>
              <li data-md="">
-              <p>Return <code>child-src</code>.</p>
+              <p><code>child-src</code> を返します。</p>
             </ol>
           </dl>
         </ol>
       </dl>
      <li data-md="">
-      <p>Return <code>null</code>.</p>
+      <p><code>null</code> を返します。</p>
     </ol>
     <h4 class="heading settled" data-level="6.1.12" id="fetch-directive-matching-element"><span class="secno">6.1.12. </span><span class="content">Element Matching Algorithms</span><a class="self-link" href="#fetch-directive-matching-element"></a></h4>
     <h5 algorthm="" class="heading settled" data-level="6.1.12.1" id="match-element-to-source-list"><span class="secno">6.1.12.1. </span><span class="content"> Does <var>element</var> match source <var>list</var>? </span><a class="self-link" href="#match-element-to-source-list"></a></h5>
