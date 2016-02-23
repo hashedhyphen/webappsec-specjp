@@ -1241,12 +1241,12 @@
 </style>
  <body class="h-entry">
   <div>
-   <p class="note" role="note">この文書は、<a href="https://w3c.github.io/webappsec-csp/" target="_blank">Content Security Policy Level 3</a> Editor's Draft （2016年1月12日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。</p>
+   <p class="note" role="note">この文書は、<a href="https://w3c.github.io/webappsec-csp/" target="_blank">Content Security Policy Level 3</a> Editor's Draft （2016年2月18日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。</p>
   </div>
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Content Security Policy Level 3 日本語訳</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-01-12">12 January 2016</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-02-18">18 February 2016</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1541,18 +1541,11 @@
       <p><code>report-uri</code> ディレクティブが廃止され、新しいディレクティブとして <code>report-to</code> が推奨されるようになりました。この <code>report-to</code> ディレクティブは <a data-link-type="biblio" href="#biblio-oob-reporting">[OOB-REPORTING]</a> を基盤として設計されています。</p>
     </ol>
     <h3 class="heading settled" data-level="1.4" id="open-questions"><span class="secno">1.4. </span><span class="content">議論中の事項</span><a class="self-link" href="#open-questions"></a></h3>
-    <ol>
-     <li data-md="">
-      <p><code>frame-src</code> を本当に削除したほうがいいのでしょうか？Worker とフレームの脅威モデルは似ていますが、それらの上で実行できる内容は異なります。もしかすると、Worker と フレームのどちらか一方のみを許可するほうが良いのかもしれません。</p>
-     <li data-md="">
-      <p><code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> の内側で <code>sandbox</code> を有効にできるのでしょうか？このサポートを打ち切った場合に考慮すべき脅威はまだ明確に分かっていません（今日現在、Chrome と Safari ではサポートされています）。</p>
-     <li data-md="">
-      <p>Reporting（5章）に関すること</p>
-      <ol>
-       <li data-md="">
-        <p>値を取り除く必要なまだあるのでしょうか？ブロックされたリソースにおける元々の URL を用いることで、そのリスクはほとんど排除されたと考えています。つまり、スクリプトが DOM を走査しても、レポートの JSON に含まれている自分自身の情報は何も収集できないはずです。</p>
-      </ol>
-    </ol>
+    <p class="issue" id="issue-beb745b1"><a class="self-link" href="#issue-beb745b1"></a> <code>frame-src</code> を本当に削除したほうがいいのでしょうか？Worker とフレームの脅威モデルは似ていますが、それらの上で実行できる内容は異なります。もしかすると、Worker と フレームのどちらか一方のみを許可するほうが良いのかもしれません。</p>
+    <p class="issue" id="issue-ce23d45e"><a class="self-link" href="#issue-ce23d45e"></a> <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> の内側で <code>sandbox</code> を有効にできるのでしょうか？このサポートを打ち切った場合に考慮すべき脅威はまだ明確に分かっていません（今日現在、Chrome と Safari ではサポートされています）。</p>
+    <p class="issue" id="issue-1dba5599"><a class="self-link" href="#issue-1dba5599"></a> 報告の際に値を取り除く必要はまだあるのでしょうか？ブロックされたリソースにおける元々の URL を用いることで、そのリスクはほとんど排除されたと考えています。つまり、スクリプトが DOM を走査しても、レポートの JSON に含まれている自分自身の情報は何も収集できないはずです。</p>
+    <p class="issue" id="issue-39406a5f"><a class="self-link" href="#issue-39406a5f"></a> <a href="https://lists.w3.org/Archives/Public/public-webappsec/2016Feb/0048.html"><code>'unsafe-dynamic'</code></a> を追加すべきでしょうか？</p>
+    <p class="issue" id="issue-88485c04"><a class="self-link" href="#issue-88485c04"></a> ハッシュ値によるインラインイベントハンドラのホワイトリスト化を可能にすべきでしょうか？ <a href="https://github.com/w3c/webappsec-csp/issues/13">&lt;https://github.com/w3c/webappsec-csp/issues/13></a></p>
    </section>
    <section>
     <h2 class="heading settled" data-level="2" id="framework"><span class="secno">2. </span><span class="content">枠組み</span><a class="self-link" href="#framework"></a></h2>
@@ -1731,10 +1724,10 @@
     <p>サーバからクライアントへポリシーを伝達する仕組みとしては、<dfn data-dfn-type="dfn" data-noexport="" id="content-security-policy"><code>Content-Security-Policy</code><a class="self-link" href="#content-security-policy"></a></dfn> HTTP レスポンスヘッダフィールドを用いることが望まれます。ヘッダの値は <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a> の ABNF で以下のように表現されます。</p>
 <pre>Content-Security-Policy = 1#<a data-link-type="grammar" href="#grammardef-serialized-policy">serialized-policy</a>
 </pre>
-    <div class="example" id="example-731af1ba">
-     <a class="self-link" href="#example-731af1ba"></a>
+    <div class="example" id="example-d17cc188">
+     <a class="self-link" href="#example-d17cc188"></a>
 <pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: script-src 'self';
-                         reports /csp-reporting-endpoint
+                         report-to /csp-reporting-endpoint
 </pre>
     </div>
     <p>同じリソースを指す異なる <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">representations</a> について、サーバはそれぞれ異なる <code>Content-Security-Policy</code> ヘッダフィールド値を送信してもよいです（MAY）。</p>
@@ -1745,16 +1738,16 @@
 <pre>Content-Security-Policy-Report-Only = 1#<a data-link-type="grammar" href="#grammardef-serialized-policy">serialized-policy</a>
 </pre>
     <p>Web 開発者はこのヘッダフィールドを用いることで、実験を繰り返しつつセキュリティポリシーを組み立てることができます。つまり、サイトの動作を入念に設計した状態で report-only ポリシーをデプロイし、その結果を違反レポートとして検証することで、サイトの動作に自信を持ってから実際にポリシーを適用することができます。</p>
-    <div class="example" id="example-89c50ad6">
-     <a class="self-link" href="#example-89c50ad6"></a>
+    <div class="example" id="example-913cb678">
+     <a class="self-link" href="#example-913cb678"></a>
 <pre><a data-link-type="dfn" href="#content-security-policy-report-only">Content-Security-Policy-Report-Only</a>: script-src 'self';
-                                     reports /csp-reporting-endpoint
+                                     report-to /csp-reporting-endpoint
 </pre>
     </div>
     <p>同じリソースを指す異なる <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">representations</a> について、サーバはそれぞれ異なる <code>Content-Security-Policy-Report-Only</code> ヘッダフィールド値を送信してもよいです（MAY）。</p>
     <p>1 つの <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a> について、サーバは "<code>Content-Security-Policy-Report-Only</code>" という名前の HTTP レスポンスヘッダフィールドを 2 つ以上送信するべきではありません（SHOULD NOT）。</p>
     <p><code>Content-Security-Policy-Report-Only</code> ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a data-link-type="dfn" href="#serialized-csp">serialized CSP</a> のそれぞれを <a data-link-type="dfn" href="#parse-serialized-policy">parse</a> し、かつ <a data-link-type="dfn" href="#monitored">monitor</a> しなければなりません（MUST）。これについては <a href="#fetch-integration">§4.1 Fetch との連携</a> と <a href="#html-integration">§4.2 HTML との連携</a> で説明されています。</p>
-    <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素における <code>&lt;a>Content-Security-Policy-Report-Only&lt;/a></code> ヘッダはサポートされて<strong>いません</strong>。</p>
+    <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素における <a data-link-type="dfn" href="#content-security-policy-report-only"><code>Content-Security-Policy-Report-Only</code></a> ヘッダはサポートされて<strong>いません</strong>。</p>
     <h3 class="heading settled" data-level="3.3" id="meta-element"><span class="secno">3.3. </span><span class="content"> <code>&lt;meta></code> 要素 </span><a class="self-link" href="#meta-element"></a></h3>
     <p>"<code>Content-Security-Policy</code>" に対して <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive match</a> な文字列を <code><a data-link-type="element-sub" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv">http-equiv</a></code> 属性値に持つ HTML <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素について、<code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#document">Document</a></code> はこの要素を 1 つ以上用いてポリシーを伝達してもよいです（MAY）。具体例を以下に示します。</p>
     <div class="example" id="example-cff5e786">
@@ -1763,7 +1756,7 @@
 </pre>
     </div>
     <p>実装に関する詳細は、HTML 仕様の <a data-link-type="dfn" href="https://html.spec.whatwg.org/#attr-meta-http-equiv-content-security-policy"><code>Content-Security-Policy</code> <code>http-equiv</code> processing instructions</a> <a data-link-type="biblio" href="#biblio-html">[HTML]</a> を参照してください。</p>
-    <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素における <code>&lt;a>Content-Security-Policy-Report-Only&lt;/a></code> ヘッダはサポートされて<em>いません</em>。また、<code>report-uri</code>、<code>frame-ancestors</code>、<code>sandbox</code> 各ディレクティブも <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内ではサポートされていません。</p>
+    <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素における <a data-link-type="dfn" href="#content-security-policy-report-only"><code>Content-Security-Policy-Report-Only</code></a> ヘッダはサポートされて<em>いません</em>。また、<code>report-uri</code>、<code>frame-ancestors</code>、<code>sandbox</code> 各ディレクティブも <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内ではサポートされていません。</p>
     <p class="issue" id="issue-44b673d0"><a class="self-link" href="#issue-44b673d0"></a> 制限を緩めて <code>sandbox</code> も利用可にできるでしょうか？</p>
     <p>Web 開発者は、できるだけドキュメントの先頭近くに <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素を書くように<em>強く推奨されます</em>。なぜなら、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内で指定されたポリシーは、その書かれた位置より前のコンテンツには適用されないからです。特に、<code>Link</code> HTTP レスポンスヘッダフィールドを使って読込・先読みされるリソース、また <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素で伝達されたポリシーより前に位置する <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-link-element">link</a></code> 要素や <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> 要素で読込・先読みされるリソースについて、これらがブロックの対象とならないことに注意してください。</p>
     <p class="note" role="note">Note: あるポリシーが <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内で指定されており、かつ保護されたリソースに対するアクティブなポリシーが他にもあった場合、後者のポリシーを指定した位置に関係なく、両方のポリシーが同時に適用されます。複数ポリシーの適用時における一般的な影響については <a href="#multiple-policies">§8.1 The effect of multiple policies</a> で説明されています。</p>
@@ -2305,8 +2298,8 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   other origins. This includes APIs like <code>fetch()</code>, <a data-link-type="biblio" href="#biblio-xhr">[XHR]</a>, <a data-link-type="biblio" href="#biblio-eventsource">[EVENTSOURCE]</a>, <a data-link-type="biblio" href="#biblio-beacon">[BEACON]</a>, and <code><a data-link-type="element" href="http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element">a</a></code>'s <code><a data-link-type="element-sub" href="https://html.spec.whatwg.org/#ping">ping</a></code>. This directive <em>also</em> controls
   WebSocket <a data-link-type="biblio" href="#biblio-websockets">[WEBSOCKETS]</a> connections, though those aren’t technically part
   of Fetch.</p>
-    <div class="example" id="example-d5f8d3ff">
-     <a class="self-link" href="#example-d5f8d3ff"></a> JavaScript offers a few mechanisms that directly connect to an external
+    <div class="example" id="example-a37a07ab">
+     <a class="self-link" href="#example-a37a07ab"></a> JavaScript offers a few mechanisms that directly connect to an external
     server to send or receive information. <code>EventSource</code> maintains an open
     HTTP connection to a server in order to receive push notifications, <code>WebSockets</code> open a bidirectional communication channel between your
     browser and a server, and <code>XMLHttpRequest</code> makes arbitrary HTTP requests
@@ -2331,7 +2324,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   var es = new EventSource("https://not-example.com/");
 
   navigator.sendBeacon("https://not-example.com/", { ... });
->/script>
+&lt;/script>
 </pre>
     </div>
     <h5 class="heading settled" data-level="6.1.2.1" id="connect-src-algorithms"><span class="secno">6.1.2.1. </span><span class="content">Algorithms</span><a class="self-link" href="#connect-src-algorithms"></a></h5>
@@ -2373,37 +2366,39 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   used as the policy’s default source list. That is, given <code>default-src 'none'; script-src 'self'</code>, script requests will use <code>'self'</code> as the <a data-link-type="dfn" href="#source-lists">source
   list</a> to match against. Other requests will use <code>'none'</code>. This is spelled
   out in more detail in the <a href="#should-block-request">§4.1.3 request は Content Security Policy によってブロックされるべきか？</a> and <a href="#should-block-response">§4.1.4 request に対する response は Content Security Policy によってブロックされるべきか？</a> algorithms.</p>
-    <div class="example" id="example-cd6e259c">
-     <a class="self-link" href="#example-cd6e259c"></a> The following header:
+    <div class="example" id="example-0f144ac9">
+     <a class="self-link" href="#example-0f144ac9"></a> The following header:
 <pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: <a data-link-type="dfn" href="#default-src">default-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
 </pre>
      <p>will have the same behavior as the following header:</p>
-<pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: <a data-link-type="dfn" href="#child-src">child-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#connect-src">connect-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#font-src">font-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#img-src">img-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#media-src">media-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#object-src">object-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#script-src">script-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
+<pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: <a data-link-type="dfn" href="#child-src">child-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#connect-src">connect-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#font-src">font-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#img-src">img-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#manifest-src">manifest-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#media-src">media-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#object-src">object-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#script-src">script-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
                          <a data-link-type="dfn" href="#style-src">style-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
 </pre>
      <p>That is, when <code>default-src</code> is set, every <a data-link-type="dfn" href="#fetch-directives">fetch directive</a> that isn’t
     explicitly set will fall back to the value <code>default-src</code> specifies.</p>
     </div>
-    <div class="example" id="example-3e3c915b">
-     <a class="self-link" href="#example-3e3c915b"></a> There is no inheritance. If a <code>script-src</code> directive is explicitly
+    <div class="example" id="example-dd396889">
+     <a class="self-link" href="#example-dd396889"></a> There is no inheritance. If a <code>script-src</code> directive is explicitly
     specified, for example, then the value of <code>default-src</code> has no influence on
     script requests. That is, the following header:
-<pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: <a data-link-type="dfn" href="#default-src">default-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>, <a data-link-type="dfn" href="#script-src">script-src</a> https://example.com
+<pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: <a data-link-type="dfn" href="#default-src">default-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>; <a data-link-type="dfn" href="#script-src">script-src</a> https://example.com
 </pre>
      <p>will have the same behavior as the following header:</p>
-<pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: <a data-link-type="dfn" href="#child-src">child-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#connect-src">connect-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#font-src">font-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#img-src">img-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#media-src">media-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#object-src">object-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
-                         <a data-link-type="dfn" href="#script-src">script-src</a> https://example.com
+<pre><a data-link-type="dfn" href="#content-security-policy">Content-Security-Policy</a>: <a data-link-type="dfn" href="#child-src">child-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#connect-src">connect-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#font-src">font-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#img-src">img-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#manifest-src">manifest-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#media-src">media-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#object-src">object-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>;
+                         <a data-link-type="dfn" href="#script-src">script-src</a> https://example.com;
                          <a data-link-type="dfn" href="#style-src">style-src</a> <a data-link-type="grammar" href="#grammardef-self">'self'</a>
 </pre>
      <p>Given this behavior, one good way to build a policy for a site would be to
@@ -2868,7 +2863,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p>ここで <var>source list</var> が <code>null</code> だった場合、"<code>Matches</code>" を返します。</p>
      <li data-md="">
-      <p>ここで、文字列 "<code>'none'</code>" に <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#case-sensitive">case-sensitive</a> で一致する単一の要素が <var>source list</var> に含まれていた場合、<code>Does Not Match</code> を返します。</p>
+      <p>ここで、文字列 "<code>'none'</code>" に <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#case-sensitive">case-sensitive</a> で一致する単一の要素が <var>source list</var> に含まれていた場合、"<code>Does Not Match</code>" を返します。</p>
      <li data-md="">
       <p><var>source list</var> に含まれる要素 <var>expression</var> のそれぞれについて以下を実行します。</p>
       <ol>
@@ -3718,6 +3713,11 @@ dictionary <a href="#dictdef-securitypolicyviolationeventinit">SecurityPolicyVio
 </pre>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
+   <div class="issue"> <code>frame-src</code> を本当に削除したほうがいいのでしょうか？Worker とフレームの脅威モデルは似ていますが、それらの上で実行できる内容は異なります。もしかすると、Worker と フレームのどちらか一方のみを許可するほうが良いのかもしれません。<a href="#issue-beb745b1"> ↵ </a></div>
+   <div class="issue"> <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> の内側で <code>sandbox</code> を有効にできるのでしょうか？このサポートを打ち切った場合に考慮すべき脅威はまだ明確に分かっていません（今日現在、Chrome と Safari ではサポートされています）。<a href="#issue-ce23d45e"> ↵ </a></div>
+   <div class="issue"> 報告の際に値を取り除く必要はまだあるのでしょうか？ブロックされたリソースにおける元々の URL を用いることで、そのリスクはほとんど排除されたと考えています。つまり、スクリプトが DOM を走査しても、レポートの JSON に含まれている自分自身の情報は何も収集できないはずです。<a href="#issue-1dba5599"> ↵ </a></div>
+   <div class="issue"> <a href="https://lists.w3.org/Archives/Public/public-webappsec/2016Feb/0048.html"><code>'unsafe-dynamic'</code></a> を追加すべきでしょうか？<a href="#issue-39406a5f"> ↵ </a></div>
+   <div class="issue"> ハッシュ値によるインラインイベントハンドラのホワイトリスト化を可能にすべきでしょうか？ <a href="https://github.com/w3c/webappsec-csp/issues/13">&lt;https://github.com/w3c/webappsec-csp/issues/13></a><a href="#issue-88485c04"> ↵ </a></div>
    <div class="issue"> このような処理は他でも行われているでしょうか？この処理 は <a data-link-type="biblio" href="#biblio-es2015">[ES2015]</a>　で効果的に用いられていますが、それ以外の例をまだ知りません。<a href="#issue-0e2d0de4"> ↵ </a></div>
    <div class="issue"> ステータスコードを正確に得るにはどうすれば良いのでしょうか？実際、このステータスコードはどこにも保存されません。<a href="#issue-6510dc05"> ↵ </a></div>
    <div class="issue"> 制限を緩めて <code>sandbox</code> も利用可にできるでしょうか？<a href="#issue-44b673d0"> ↵ </a></div>

@@ -346,13 +346,15 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   <h3 id="open-questions">議論中の事項</h3>
 
-  1.  `frame-src` を本当に削除したほうがいいのでしょうか？Worker とフレームの脅威モデルは似ていますが、それらの上で実行できる内容は異なります。もしかすると、Worker と フレームのどちらか一方のみを許可するほうが良いのかもしれません。
+  ISSUE: `frame-src` を本当に削除したほうがいいのでしょうか？Worker とフレームの脅威モデルは似ていますが、それらの上で実行できる内容は異なります。もしかすると、Worker と フレームのどちらか一方のみを許可するほうが良いのかもしれません。
 
-  2.  <{meta}> の内側で `sandbox` を有効にできるのでしょうか？このサポートを打ち切った場合に考慮すべき脅威はまだ明確に分かっていません（今日現在、Chrome と Safari ではサポートされています）。
+  ISSUE: <{meta}> の内側で `sandbox` を有効にできるのでしょうか？このサポートを打ち切った場合に考慮すべき脅威はまだ明確に分かっていません（今日現在、Chrome と Safari ではサポートされています）。
 
-  3.  Reporting（5章）に関すること
+  ISSUE: 報告の際に値を取り除く必要はまだあるのでしょうか？ブロックされたリソースにおける元々の URL を用いることで、そのリスクはほとんど排除されたと考えています。つまり、スクリプトが DOM を走査しても、レポートの JSON に含まれている自分自身の情報は何も収集できないはずです。
 
-      1.  値を取り除く必要なまだあるのでしょうか？ブロックされたリソースにおける元々の URL を用いることで、そのリスクはほとんど排除されたと考えています。つまり、スクリプトが DOM を走査しても、レポートの JSON に含まれている自分自身の情報は何も収集できないはずです。
+  ISSUE: <a href="https://lists.w3.org/Archives/Public/public-webappsec/2016Feb/0048.html">`'unsafe-dynamic'`</a> を追加すべきでしょうか？
+
+  ISSUE(w3c/webappsec-csp#13): ハッシュ値によるインラインイベントハンドラのホワイトリスト化を可能にすべきでしょうか？
 </section>
 
 <!-- Big Text: Framework -->
@@ -587,7 +589,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   <div class="example">
     <pre>
       <a>Content-Security-Policy</a>: script-src 'self';
-                               reports /csp-reporting-endpoint
+                               report-to /csp-reporting-endpoint
     </pre>
   </div>
 
@@ -612,7 +614,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   <div class="example">
     <pre>
       <a>Content-Security-Policy-Report-Only</a>: script-src 'self';
-                                           reports /csp-reporting-endpoint
+                                           report-to /csp-reporting-endpoint
     </pre>
   </div>
 
@@ -622,7 +624,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   `Content-Security-Policy-Report-Only` ヘッダフィールドを受信したユーザエージェントは、フィールドに含まれている <a>serialized CSP</a> のそれぞれを <a lt="parse a serialized CSP">parse</a> し、かつ <a>monitor</a> しなければなりません（MUST）。これについては [[#fetch-integration]] と [[#html-integration]] で説明されています。
 
-  Note: <{meta}> 要素における `<a>Content-Security-Policy-Report-Only</a>` ヘッダはサポートされて<strong>いません</strong>。
+  Note: <{meta}> 要素における <a>`Content-Security-Policy-Report-Only`</a> ヘッダはサポートされて<strong>いません</strong>。
 
   <h3 id="meta-element">
     `<meta>` 要素
@@ -638,7 +640,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   実装に関する詳細は、HTML 仕様の <a>`Content-Security-Policy` `http-equiv` processing instructions</a> [[!HTML]] を参照してください。
 
-  Note: <{meta}> 要素における `<a>Content-Security-Policy-Report-Only</a>` ヘッダはサポートされて<em>いません</em>。また、`report-uri`、`frame-ancestors`、`sandbox` 各ディレクティブも <{meta}> 要素内ではサポートされていません。
+  Note: <{meta}> 要素における <a>`Content-Security-Policy-Report-Only`</a> ヘッダはサポートされて<em>いません</em>。また、`report-uri`、`frame-ancestors`、`sandbox` 各ディレクティブも <{meta}> 要素内ではサポートされていません。
 
   ISSUE: 制限を緩めて `sandbox` も利用可にできるでしょうか？
 
@@ -1188,7 +1190,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
         var es = new EventSource("https://not-example.com/");
 
         navigator.sendBeacon("https://not-example.com/", { ... });
-      &gt;/script&gt;
+      &lt;/script&gt;
     </pre>
   </div>
 
@@ -1253,13 +1255,14 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     will have the same behavior as the following header:
 
     <pre>
-      <a>Content-Security-Policy</a>: <a>child-src</a> <a grammar>'self'</a>
-                               <a>connect-src</a> <a grammar>'self'</a>
-                               <a>font-src</a> <a grammar>'self'</a>
-                               <a>img-src</a> <a grammar>'self'</a>
-                               <a>media-src</a> <a grammar>'self'</a>
-                               <a>object-src</a> <a grammar>'self'</a>
-                               <a>script-src</a> <a grammar>'self'</a>
+      <a>Content-Security-Policy</a>: <a>child-src</a> <a grammar>'self'</a>;
+                               <a>connect-src</a> <a grammar>'self'</a>;
+                               <a>font-src</a> <a grammar>'self'</a>;
+                               <a>img-src</a> <a grammar>'self'</a>;
+                               <a>manifest-src</a> <a grammar>'self'</a>;
+                               <a>media-src</a> <a grammar>'self'</a>;
+                               <a>object-src</a> <a grammar>'self'</a>;
+                               <a>script-src</a> <a grammar>'self'</a>;
                                <a>style-src</a> <a grammar>'self'</a>
     </pre>
 
@@ -1272,19 +1275,20 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     script requests. That is, the following header:
 
     <pre>
-      <a>Content-Security-Policy</a>: <a>default-src</a> <a grammar>'self'</a>, <a>script-src</a> https://example.com
+      <a>Content-Security-Policy</a>: <a>default-src</a> <a grammar>'self'</a>; <a>script-src</a> https://example.com
     </pre>
 
     will have the same behavior as the following header:
 
     <pre>
-      <a>Content-Security-Policy</a>: <a>child-src</a> <a grammar>'self'</a>
-                               <a>connect-src</a> <a grammar>'self'</a>
-                               <a>font-src</a> <a grammar>'self'</a>
-                               <a>img-src</a> <a grammar>'self'</a>
-                               <a>media-src</a> <a grammar>'self'</a>
-                               <a>object-src</a> <a grammar>'self'</a>
-                               <a>script-src</a> https://example.com
+      <a>Content-Security-Policy</a>: <a>child-src</a> <a grammar>'self'</a>;
+                               <a>connect-src</a> <a grammar>'self'</a>;
+                               <a>font-src</a> <a grammar>'self'</a>;
+                               <a>img-src</a> <a grammar>'self'</a>;
+                               <a>manifest-src</a> <a grammar>'self'</a>;
+                               <a>media-src</a> <a grammar>'self'</a>;
+                               <a>object-src</a> <a grammar>'self'</a>;
+                               <a>script-src</a> https://example.com;
                                <a>style-src</a> <a grammar>'self'</a>
     </pre>
 
@@ -1848,7 +1852,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   1.  ここで |source list| が `null` だった場合、"`Matches`" を返します。
 
-  2.  ここで、文字列 "`'none'`" に <a>case-sensitive</a> で一致する単一の要素が |source list| に含まれていた場合、`Does Not Match` を返します。
+  2.  ここで、文字列 "`'none'`" に <a>case-sensitive</a> で一致する単一の要素が |source list| に含まれていた場合、"`Does Not Match`" を返します。
 
   3.  |source list| に含まれる要素 |expression| のそれぞれについて以下を実行します。
 
