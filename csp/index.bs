@@ -2148,19 +2148,15 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
 <!-- Big text: Authoring -->
 <section>
-  <h2 id="authoring-considerations">Authoring Considerations</h2>
+  <h2 id="authoring-considerations">利用に関して考慮すべき事項</h2>
 
   <h3 id="multiple-policies">
-    The effect of multiple policies
+    複数のポリシーによる影響
   </h3>
 
-  <em>This section is not normative.</em>
+  <em>この章は非規範的です。</em>
 
-  The above sections note that when multiple policies are present, each must be
-  enforced or reported, according to its type. An example will help clarify how
-  that ought to work in practice. The behavior of an `XMLHttpRequest`
-  might seem unclear given a site that, for whatever reason, delivered the
-  following HTTP headers:
+  複数のポリシーが提示された際の挙動については、それぞれを種類に応じて適用・報告しなければならない旨を以前の章で述べました。これが実際にどう動作すべきなのか明確にするため、以下に例を示します。以下の HTTP ヘッダを送出する Web サイトを考えた際、様々な理由で `XMLHttpRequest` の動作が分かりにくくなるかもしれません。
 
   <div class="example">
     <pre>
@@ -2171,20 +2167,9 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     </pre>
   </div>
 
-  Is a connection to example.com allowed or not? The short answer is that the
-  connection is not allowed. Enforcing both policies means that a potential
-  connection would have to pass through both unscathed. Even though the second
-  policy would allow this connection, the first policy contains
-  `connect-src 'none'`, so its enforcement blocks the connection. The
-  impact is that adding additional policies to the list of policies to enforce
-  can <em>only</em> further restrict the capabilities of the protected resource.
+  example.com へのアクセスは許可されるでしょうか？端的に言えば「許可されない」が答えとなります。両方のポリシーが適用されるため、もしその接続が許可されるのであれば、両方のポリシーを無事に通り抜けることが必要となるでしょう。2 番目のポリシーはこの接続を許可しています。とはいえ、1 番目のポリシーには `connect-src 'none'` が含まれているため、これが適用されて接続はブロックされます。複数のポリシーによる影響として、新たなポリシーを適用した場合は、保護されたリソースの能力を制限すること<em>のみ</em>が可能であるといえます。
 
-  To demonstrate that further, consider a script tag on this page. The first
-  policy would lock scripts down to `'self'`, `http://example.com` and
-  `http://example.net` via the `default-src` directive. The second, however,
-  would only allow script from `http://example.com/`. Script will only load if
-  it meets both policy’s criteria: in this case, the only origin that can match
-  is `http://example.com`, as both policies allow it.
+  さらに詳しく説明するため、このページに script タグがあった場合を考えます。1 番目のポリシーは `default-src` ディレクティブの指定により、スクリプトの読込元を `'self'` と `http://example.com` と `http://example.net` に制限します。しかし、2 番目のポリシーでは `http://example.com` のスクリプトを許可しています。ここで、スクリプトは両方のポリシーの要件を満たした場合にのみ読み込まれます。すなわち、今回の場合でマッチするオリジンは、両方のポリシーが許可している `http://example.com` のみとなります。
 </section>
 
 <section>

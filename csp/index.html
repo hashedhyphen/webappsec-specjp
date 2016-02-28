@@ -1447,9 +1447,9 @@
       <li><a href="#security-nonces"><span class="secno">7.1</span> <span class="content">nonce の再利用</span></a>
      </ol>
     <li>
-     <a href="#authoring-considerations"><span class="secno">8</span> <span class="content">Authoring Considerations</span></a>
+     <a href="#authoring-considerations"><span class="secno">8</span> <span class="content">利用に関して考慮すべき事項</span></a>
      <ol class="toc">
-      <li><a href="#multiple-policies"><span class="secno">8.1</span> <span class="content"> The effect of multiple policies </span></a>
+      <li><a href="#multiple-policies"><span class="secno">8.1</span> <span class="content"> 複数のポリシーによる影響 </span></a>
      </ol>
     <li>
      <a href="#implementation-considerations"><span class="secno">9</span> <span class="content">実装に関して考慮すべき事項</span></a>
@@ -1759,7 +1759,7 @@
     <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素における <a data-link-type="dfn" href="#content-security-policy-report-only"><code>Content-Security-Policy-Report-Only</code></a> ヘッダはサポートされて<em>いません</em>。また、<code>report-uri</code>、<code>frame-ancestors</code>、<code>sandbox</code> 各ディレクティブも <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内ではサポートされていません。</p>
     <p class="issue" id="issue-44b673d0"><a class="self-link" href="#issue-44b673d0"></a> 制限を緩めて <code>sandbox</code> も利用可にできるでしょうか？</p>
     <p>Web 開発者は、できるだけドキュメントの先頭近くに <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素を書くように<em>強く推奨されます</em>。なぜなら、<code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内で指定されたポリシーは、その書かれた位置より前のコンテンツには適用されないからです。特に、<code>Link</code> HTTP レスポンスヘッダフィールドを使って読込・先読みされるリソース、また <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素で伝達されたポリシーより前に位置する <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-link-element">link</a></code> 要素や <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> 要素で読込・先読みされるリソースについて、これらがブロックの対象とならないことに注意してください。</p>
-    <p class="note" role="note">Note: あるポリシーが <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内で指定されており、かつ保護されたリソースに対するアクティブなポリシーが他にもあった場合、後者のポリシーを指定した位置に関係なく、両方のポリシーが同時に適用されます。複数ポリシーの適用時における一般的な影響については <a href="#multiple-policies">§8.1 The effect of multiple policies</a> で説明されています。</p>
+    <p class="note" role="note">Note: あるポリシーが <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素内で指定されており、かつ保護されたリソースに対するアクティブなポリシーが他にもあった場合、後者のポリシーを指定した位置に関係なく、両方のポリシーが同時に適用されます。複数ポリシーの適用時における一般的な影響については <a href="#multiple-policies">§8.1 複数のポリシーによる影響</a> で説明されています。</p>
     <p class="note" role="note">Note: <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> 要素がパースされた後に <code><a data-link-type="element-sub" href="http://www.w3.org/TR/html5/document-metadata.html#attr-meta-content">content</a></code> 属性値を変更した場合、この変更は無視されます。</p>
    </section>
    <section>
@@ -3171,13 +3171,10 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
     <p>補足: インラインのスクリプトやスタイルをホワイトリスト化するために nonce を用いてしまうと、nonce を使わない場合よりも安全性が失われます。なぜなら、nonce を指定したディレクティブの制限を nonce によって回避できるからです。その nonce の値を知っている攻撃者は、任意のタイミングで任意のスクリプトを実行できてしまいます。しかしながら、既存のコードの上に Content Security Policy を構築する場合、<a data-link-type="grammar" href="#grammardef-unsafe-inline">'unsafe-inline'</a> を用いるよりも nonce のほうが防御策として価値があります。もしあなたが開発者として <a data-link-type="grammar" href="#grammardef-unsafe-inline">'unsafe-inline'</a> の利用を検討している場合、代わりに nonce （またはハッシュ値）を用いることを推奨します。</p>
    </section>
    <section>
-    <h2 class="heading settled" data-level="8" id="authoring-considerations"><span class="secno">8. </span><span class="content">Authoring Considerations</span><a class="self-link" href="#authoring-considerations"></a></h2>
-    <h3 class="heading settled" data-level="8.1" id="multiple-policies"><span class="secno">8.1. </span><span class="content"> The effect of multiple policies </span><a class="self-link" href="#multiple-policies"></a></h3>
-    <p><em>This section is not normative.</em></p>
-    <p>The above sections note that when multiple policies are present, each must be
-  enforced or reported, according to its type. An example will help clarify how
-  that ought to work in practice. The behavior of an <code>XMLHttpRequest</code> might seem unclear given a site that, for whatever reason, delivered the
-  following HTTP headers:</p>
+    <h2 class="heading settled" data-level="8" id="authoring-considerations"><span class="secno">8. </span><span class="content">利用に関して考慮すべき事項</span><a class="self-link" href="#authoring-considerations"></a></h2>
+    <h3 class="heading settled" data-level="8.1" id="multiple-policies"><span class="secno">8.1. </span><span class="content"> 複数のポリシーによる影響 </span><a class="self-link" href="#multiple-policies"></a></h3>
+    <p><em>この章は非規範的です。</em></p>
+    <p>複数のポリシーが提示された際の挙動については、それぞれを種類に応じて適用・報告しなければならない旨を以前の章で述べました。これが実際にどう動作すべきなのか明確にするため、以下に例を示します。以下の HTTP ヘッダを送出する Web サイトを考えた際、様々な理由で <code>XMLHttpRequest</code> の動作が分かりにくくなるかもしれません。</p>
     <div class="example" id="example-ef0bfc7a">
      <a class="self-link" href="#example-ef0bfc7a"></a>
 <pre>Content-Security-Policy: default-src 'self' http://example.com http://example.net;
@@ -3186,17 +3183,8 @@ Content-Security-Policy: connect-src http://example.com/;
                          script-src http://example.com/
 </pre>
     </div>
-    <p>Is a connection to example.com allowed or not? The short answer is that the
-  connection is not allowed. Enforcing both policies means that a potential
-  connection would have to pass through both unscathed. Even though the second
-  policy would allow this connection, the first policy contains <code>connect-src 'none'</code>, so its enforcement blocks the connection. The
-  impact is that adding additional policies to the list of policies to enforce
-  can <em>only</em> further restrict the capabilities of the protected resource.</p>
-    <p>To demonstrate that further, consider a script tag on this page. The first
-  policy would lock scripts down to <code>'self'</code>, <code>http://example.com</code> and <code>http://example.net</code> via the <code>default-src</code> directive. The second, however,
-  would only allow script from <code>http://example.com/</code>. Script will only load if
-  it meets both policy’s criteria: in this case, the only origin that can match
-  is <code>http://example.com</code>, as both policies allow it.</p>
+    <p>example.com へのアクセスは許可されるでしょうか？端的に言えば「許可されない」が答えとなります。両方のポリシーが適用されるため、もしその接続が許可されるのであれば、両方のポリシーを無事に通り抜けることが必要となるでしょう。2 番目のポリシーはこの接続を許可しています。とはいえ、1 番目のポリシーには <code>connect-src 'none'</code> が含まれているため、これが適用されて接続はブロックされます。複数のポリシーによる影響として、新たなポリシーを適用した場合は、保護されたリソースの能力を制限すること<em>のみ</em>が可能であるといえます。</p>
+    <p>さらに詳しく説明するため、このページに script タグがあった場合を考えます。1 番目のポリシーは <code>default-src</code> ディレクティブの指定により、スクリプトの読込元を <code>'self'</code> と <code>http://example.com</code> と <code>http://example.net</code> に制限します。しかし、2 番目のポリシーでは <code>http://example.com</code> のスクリプトを許可しています。ここで、スクリプトは両方のポリシーの要件を満たした場合にのみ読み込まれます。すなわち、今回の場合でマッチするオリジンは、両方のポリシーが許可している <code>http://example.com</code> のみとなります。</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="9" id="implementation-considerations"><span class="secno">9. </span><span class="content">実装に関して考慮すべき事項</span><a class="self-link" href="#implementation-considerations"></a></h2>
