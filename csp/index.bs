@@ -1052,28 +1052,17 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 <!-- Big Text: Directives -->
 <section>
   <h2 id="csp-directives">
-    Content Security Policy Directives
+    Content Security Policy のディレクティブ
   </h2>
 
-  This specification defines a number of types of <a>directives</a> which allow
-  developers to control certain aspects of their sites' behavior. This document
-  defines directives which govern resource fetching (in [[#directives-fetch]])
-  and directives which govern reporting (in [[#directives-reporting]]). These
-  form the core of Content Security Policy; other directives are defined in a
-  modular fashion in ancillary documents (see [[#directives-elsewhere]] for
-  examples).
+  この仕様書では <a>directives</a> の種類が数多く定義されています。これらのディレクティブを用いることで、Web サイトの動作を開発者が制御できるようになります。この文書では、リソースの取得を制御するディレクティブ（[[#directives-fetch]]）と、報告を制御するディレクティブ（[[#directives-reporting]]）が定義されます。これらのディレクティブは Content Security Policy の核を形成するものであり、他のディレクティブはモジュールとして付随文書で定義されます（使用例は [[#directives-elsewhere]] を参照してください）。
 
-  To mitigate the risk of cross-site scripting attacks, web developers SHOULD
-  include directives that regulate sources of script and plugins. They can do
-  so by including:
+  クロスサイトスクリプティング攻撃のリスクを軽減するため、Web 開発者はスクリプトやプラグインの読込元を制限するディレクティブを含めるべきです（SHOULD）。これは以下のディレクティブを指定することで実現できます。
 
-  *   Both the <a>script-src</a> and <a>object-src</a> directives, or
-  *   a <a>default-src</a> directive
+  *   <a>script-src</a> と <a>object-src</a> ディレクティブの両方、または
+  *   <a>default-src</a> ディレクティブ
 
-  In either case, developers SHOULD NOT include either
-  <a grammar>`'unsafe-inline'`</a>, or `data:` as valid
-  sources in their policies. Both enable XSS attacks by allowing code to be
-  included directly in the document itself; they are best avoided completely.
+  どちらの場合でも、開発者はポリシーの中に <a grammar>`'unsafe-inline'`</a> や `data:` を有効な読込元に含めるべきではありません（SHOULD NOT）。これらを指定すると、XSS 攻撃によってコードが直接ドキュメントの中に差し込まれる隙が生まれるため、どちらも全く使用しないことがベストです。
 
   <h3 id="directives-fetch">
     Fetch Directives

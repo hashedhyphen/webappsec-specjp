@@ -1364,7 +1364,7 @@
       <li><a href="#report-violation"><span class="secno">5.3</span> <span class="content"> <var>violation</var> を報告する </span></a>
      </ol>
     <li>
-     <a href="#csp-directives"><span class="secno">6</span> <span class="content"> Content Security Policy Directives </span></a>
+     <a href="#csp-directives"><span class="secno">6</span> <span class="content"> Content Security Policy のディレクティブ </span></a>
      <ol class="toc">
       <li>
        <a href="#directives-fetch"><span class="secno">6.1</span> <span class="content"> Fetch Directives </span></a>
@@ -1603,7 +1603,7 @@
       <p><var>policies</var> を返します。</p>
     </ol>
     <h3 class="heading settled" data-level="2.2" id="framework-directives"><span class="secno">2.2. </span><span class="content">ディレクティブ</span><a class="self-link" href="#framework-directives"></a></h3>
-    <p><a data-link-type="dfn" href="#policy">Policies</a> には <dfn data-dfn-type="dfn" data-noexport="" id="directives">directives<a class="self-link" href="#directives"></a></dfn> の集合が含まれており、各ディレクティブは動作を制御します。この仕様書で定義されるディレクティブは <a href="#csp-directives">§6 Content Security Policy Directives</a> で説明されています。</p>
+    <p><a data-link-type="dfn" href="#policy">Policies</a> には <dfn data-dfn-type="dfn" data-noexport="" id="directives">directives<a class="self-link" href="#directives"></a></dfn> の集合が含まれており、各ディレクティブは動作を制御します。この仕様書で定義されるディレクティブは <a href="#csp-directives">§6 Content Security Policy のディレクティブ</a> で説明されています。</p>
     <p>各 <a data-link-type="dfn" href="#directives">directive</a> は <dfn data-dfn-for="directive" data-dfn-type="dfn" data-noexport="" id="directive-name">name<a class="self-link" href="#directive-name"></a></dfn> と <dfn data-dfn-for="directive" data-dfn-type="dfn" data-noexport="" id="directive-value">value<a class="self-link" href="#directive-value"></a></dfn> の組です。<a data-link-type="dfn" href="#directive-name">name</a> は空ではない文字列であり、<a data-link-type="dfn" href="#directive-value">value</a> は空でない文字列の集合です。<a data-link-type="dfn" href="#directive-value">value</a> は空であってもよいです（MAY）。</p>
     <p><dfn data-dfn-type="dfn" data-noexport="" id="serialized-directive">serialized directive<a class="self-link" href="#serialized-directive"></a></dfn> は、空白で区切られた一つ以上のトークンからなる ASCII 文字列であり、<a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a> の ABNF を用いると以下のように表現されます</p>
 <pre><dfn data-dfn-type="grammar" data-export="" id="grammardef-serialized-directive">serialized-directive<a class="self-link" href="#grammardef-serialized-directive"></a></dfn> = <a data-link-type="grammar" href="#grammardef-directive-name">directive-name</a> [ <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">RWS</a> <a data-link-type="grammar" href="#grammardef-directive-value">directive-value</a> ]
@@ -2226,26 +2226,16 @@ dictionary <dfn class="idl-code" data-dfn-type="dictionary" data-export="" id="d
     </ol>
    </section>
    <section>
-    <h2 class="heading settled" data-level="6" id="csp-directives"><span class="secno">6. </span><span class="content"> Content Security Policy Directives </span><a class="self-link" href="#csp-directives"></a></h2>
-    <p>This specification defines a number of types of <a data-link-type="dfn" href="#directives">directives</a> which allow
-  developers to control certain aspects of their sites' behavior. This document
-  defines directives which govern resource fetching (in <a href="#directives-fetch">§6.1 Fetch Directives</a>)
-  and directives which govern reporting (in <a href="#directives-reporting">§6.2 Reporting Directives</a>). These
-  form the core of Content Security Policy; other directives are defined in a
-  modular fashion in ancillary documents (see <a href="#directives-elsewhere">§6.3 Directives Defined in Other Documents</a> for
-  examples).</p>
-    <p>To mitigate the risk of cross-site scripting attacks, web developers SHOULD
-  include directives that regulate sources of script and plugins. They can do
-  so by including:</p>
+    <h2 class="heading settled" data-level="6" id="csp-directives"><span class="secno">6. </span><span class="content"> Content Security Policy のディレクティブ </span><a class="self-link" href="#csp-directives"></a></h2>
+    <p>この仕様書では <a data-link-type="dfn" href="#directives">directives</a> の種類が数多く定義されています。これらのディレクティブを用いることで、Web サイトの動作を開発者が制御できるようになります。この文書では、リソースの取得を制御するディレクティブ（<a href="#directives-fetch">§6.1 Fetch Directives</a>）と、報告を制御するディレクティブ（<a href="#directives-reporting">§6.2 Reporting Directives</a>）が定義されます。これらのディレクティブは Content Security Policy の核を形成するものであり、他のディレクティブはモジュールとして付随文書で定義されます（使用例は <a href="#directives-elsewhere">§6.3 Directives Defined in Other Documents</a> を参照してください）。</p>
+    <p>クロスサイトスクリプティング攻撃のリスクを軽減するため、Web 開発者はスクリプトやプラグインの読込元を制限するディレクティブを含めるべきです（SHOULD）。これは以下のディレクティブを指定することで実現できます。</p>
     <ul>
      <li data-md="">
-      <p>Both the <a data-link-type="dfn" href="#script-src">script-src</a> and <a data-link-type="dfn" href="#object-src">object-src</a> directives, or</p>
+      <p><a data-link-type="dfn" href="#script-src">script-src</a> と <a data-link-type="dfn" href="#object-src">object-src</a> ディレクティブの両方、または</p>
      <li data-md="">
-      <p>a <a data-link-type="dfn" href="#default-src">default-src</a> directive</p>
+      <p><a data-link-type="dfn" href="#default-src">default-src</a> ディレクティブ</p>
     </ul>
-    <p>In either case, developers SHOULD NOT include either <a data-link-type="grammar" href="#grammardef-unsafe-inline"><code>'unsafe-inline'</code></a>, or <code>data:</code> as valid
-  sources in their policies. Both enable XSS attacks by allowing code to be
-  included directly in the document itself; they are best avoided completely.</p>
+    <p>どちらの場合でも、開発者はポリシーの中に <a data-link-type="grammar" href="#grammardef-unsafe-inline"><code>'unsafe-inline'</code></a> や <code>data:</code> を有効な読込元に含めるべきではありません（SHOULD NOT）。これらを指定すると、XSS 攻撃によってコードが直接ドキュメントの中に差し込まれる隙が生まれるため、どちらも全く使用しないことがベストです。</p>
     <h3 class="heading settled" data-level="6.1" id="directives-fetch"><span class="secno">6.1. </span><span class="content"> Fetch Directives </span><a class="self-link" href="#directives-fetch"></a></h3>
     <p><dfn data-dfn-type="dfn" data-noexport="" id="fetch-directives">Fetch directives<a class="self-link" href="#fetch-directives"></a></dfn> control the locations from which certain resource
   types may be loaded. For instance, <a data-link-type="dfn" href="#script-src">script-src</a> allows developers to
