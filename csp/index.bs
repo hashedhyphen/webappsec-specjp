@@ -1842,7 +1842,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   1.  ここで |source list| が `null` だった場合、"`Matches`" を返します。
 
-  2.  ここで、文字列 "`'none'`" に <a>case-sensitive</a> で一致する単一の要素が |source list| に含まれていた場合、"`Does Not Match`" を返します。
+  2.  ここで、文字列 "`'none'`" に <a>ASCII case-insensitive match</a> する単一の要素が |source list| に含まれていた場合、"`Does Not Match`" を返します。
 
   3.  |source list| に含まれる要素 |expression| のそれぞれについて以下を実行します。
 
@@ -1922,7 +1922,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
               3.  |url piece| を <a>Percent decode</a> します。
 
-              4.  ここで |expression piece| が |url piece| に <a>ASCII case-insensitive match</a> しない場合、"`Does Not Match`" を返します。
+              4.  ここで |expression piece| が |url piece| に <a>case-sensitive</a> で一致しない場合、"`Does Not Match`" を返します。
 
       9. "`Matches`" を返します。
 
@@ -2012,11 +2012,13 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   4.  If |type| is not "`script attribute`" or "`style attribute`":
 
-      1.  Let |content| be <a>the script block's source</a> if |element| is a
+      1.  If |type| is "`script`" and |element| has an attribute whose name is an <a>ASCII case-insensitive match</a> for the string "`<script`", or |type| is "`style`" and |element| has an attribute whose name is an <a>ASCII case-insensitive match</a> for the string "`<style`", then return "`Does Not Match`".
+
+      2.  Let |content| be <a>the script block's source</a> if |element| is a
           <{script}> element, or the value of |element|'s {{Node/textContent}}
           IDL attribute for any other element.
 
-      2.  For each |expression| in |list|:
+      3.  For each |expression| in |list|:
 
           1.  If |expression| matches the <a grammar>`nonce-source`</a> grammar,
               and |element| has a <{script/nonce}> attribute whose value is a

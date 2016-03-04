@@ -1240,13 +1240,10 @@
   }
 </style>
  <body class="h-entry">
-  <div>
-   <p class="note" role="note">この文書は、<a href="https://w3c.github.io/webappsec-csp/" target="_blank">Content Security Policy Level 3</a> Editor's Draft （2016年2月24日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。</p>
-  </div>
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Content Security Policy Level 3 日本語訳</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-02-24">24 February 2016</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-02-29">29 February 2016</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2854,7 +2851,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p>ここで <var>source list</var> が <code>null</code> だった場合、"<code>Matches</code>" を返します。</p>
      <li data-md="">
-      <p>ここで、文字列 "<code>'none'</code>" に <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#case-sensitive">case-sensitive</a> で一致する単一の要素が <var>source list</var> に含まれていた場合、"<code>Does Not Match</code>" を返します。</p>
+      <p>ここで、文字列 "<code>'none'</code>" に <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive match</a> する単一の要素が <var>source list</var> に含まれていた場合、"<code>Does Not Match</code>" を返します。</p>
      <li data-md="">
       <p><var>source list</var> に含まれる要素 <var>expression</var> のそれぞれについて以下を実行します。</p>
       <ol>
@@ -2943,7 +2940,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
            <li data-md="">
             <p><var>url piece</var> を <a data-link-type="dfn" href="https://url.spec.whatwg.org/#percent-decode">Percent decode</a> します。</p>
            <li data-md="">
-            <p>ここで <var>expression piece</var> が <var>url piece</var> に <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive match</a> しない場合、"<code>Does Not Match</code>" を返します。</p>
+            <p>ここで <var>expression piece</var> が <var>url piece</var> に <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#case-sensitive">case-sensitive</a> で一致しない場合、"<code>Does Not Match</code>" を返します。</p>
           </ol>
         </ol>
        <li data-md="">
@@ -3070,6 +3067,8 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p>If <var>type</var> is not "<code>script attribute</code>" or "<code>style attribute</code>":</p>
       <ol>
+       <li data-md="">
+        <p>If <var>type</var> is "<code>script</code>" and <var>element</var> has an attribute whose name is an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive match</a> for the string "<code>&lt;script</code>", or <var>type</var> is "<code>style</code>" and <var>element</var> has an attribute whose name is an <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive match</a> for the string "<code>&lt;style</code>", then return "<code>Does Not Match</code>".</p>
        <li data-md="">
         <p>Let <var>content</var> be <a data-link-type="dfn" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-block&apos;s-source">the script block’s source</a> if <var>element</var> is a <code><a data-link-type="element" href="http://www.w3.org/TR/html5/scripting-1.html#the-script-element">script</a></code> element, or the value of <var>element</var>’s <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/dom/#dom-node-textcontent">textContent</a></code> IDL attribute for any other element.</p>
        <li data-md="">
