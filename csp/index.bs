@@ -1065,49 +1065,35 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   どちらの場合でも、開発者はポリシーの中に <a grammar>`'unsafe-inline'`</a> や `data:` を有効な読込元に含めるべきではありません（SHOULD NOT）。これらを指定すると、XSS 攻撃によってコードが直接ドキュメントの中に差し込まれる隙が生まれるため、どちらも全く使用しないことがベストです。
 
   <h3 id="directives-fetch">
-    Fetch Directives
+    Fetch ディレクティブ群
   </h3>
 
-  <dfn>Fetch directives</dfn> control the locations from which certain resource
-  types may be loaded. For instance, <a>script-src</a> allows developers to
-  whitelist trusted sources of script to execute on a page, while
-  <a>font-src</a> controls the sources of web fonts.
+  <dfn>Fetch directives</dfn> を用いると、ポリシーを適用させたいリソースの種類を指定したうえで、そのリソースの読込元を制御することができます。例えば <a>script-src</a> を用いた場合、ページ上で実行可能なスクリプトについて、信頼できる読込元をホワイトリスト化することができます。一方 <a>font-src</a> を用いた場合は、Web フォントの読込元を制御することができます。
 
   <h4 id="directive-child-src">`child-src`</h4>
 
-  The <dfn>child-src</dfn> directive governs the creation of <a>nested browsing
-  contexts</a> (e.g. <{iframe}> and <{frame}> navigations) and Worker execution
-  contexts. The syntax for the directive's name and value is described by the
-  following ABNF:
+  <dfn>child-src</dfn> ディレクティブを用いると、<a>nested browsing contexts</a> （<{iframe}> や <{frame}> によるナビゲーションなど）の生成を制御したり、Worker の実行されるコンテキストを制御することができます。このディレクティブの名前と値に関する構文は、以下の ABNF で表現されます。
 
   <pre>
     directive-name  = "child-src"
     directive-value = <a grammar>serialized-source-list</a>
   </pre>
 
-  This directive controls <a>requests</a> which will populate a frame or a
-  worker. More formally, <a>requests</a> falling into one of the
-  following categories:
+  このディレクティブは、フレームや Worker を生成する <a>requests</a> を制御します。より形式的に言えば、<a>requests</a> は以下の種類のうちどれか一つに分類されます。
 
-  *  <a for="request">destination</a> is "`document`", and whose
-     <a for="request">target browsing context</a> is a <a>nested browsing
-     context</a> (e.g. requests which will populate an <{iframe}> or <{frame}>
-     element)
+  *  <a for="request">destination</a> が "`document`" であり、かつその <a for="request">target browsing context</a> が <a>nested browsing
+     context</a>（<{iframe}> や <{frame}> 要素の中にデータを読み込むリクエストなど）であるもの
 
-  *  <a for="request">destination</a> is either "`serviceworker`",
-     "`sharedworker`", or "`worker`" (which are fed to the <a>run a worker</a>
-     algorithm for {{ServiceWorker}}, {{SharedWorker}}, and {{Worker}},
-     respectively).
+  *  <a for="request">destination</a> が "`serviceworker`"、"`sharedworker`"、"`worker`" のいずれかであるもの（これらは各々 {{ServiceWorker}}、{{SharedWorker}}、{{Worker}} における <a>run a worker</a> アルゴリズムに適用されます）
 
   <div class="example">
-    Given a page with the following Content Security Policy:
+    次の Content Security Policy が適用される Web ページを考えます。
 
     <pre>
       Content-Security-Policy: <a>child-src</a> https://example.com/
     </pre>
 
-    Fetches for the following code will all return network errors, as the URLs
-    provided do not match `child-src`'s <a>source list</a>:
+    以下のコードによって生じた通信は、指定されている URL が `child-src` の <a>source list</a> にマッチしないため、すべてネットワークエラーが返されます。
 
     <pre>
       &lt;iframe src="https://not-example.com"&gt;&lt;/iframe&gt;
@@ -1117,15 +1103,15 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     </pre>
   </div>
 
-  <h5 id="child-src-algorithms">Algorithms</h5>
+  <h5 id="child-src-algorithms">アルゴリズム</h5>
 
-  This directive's <a for="directive">pre-request check</a> is as follows:
+  このディレクティブの <a for="directive">pre-request check</a> は次の通りです。
 
-  Given a <a>request</a> (|request|):
+  ある <a>request</a> (|request|) に対して以下を実行します。
 
   ISSUE: TODO.
 
-  This directive's <a for="directive">post-request check</a> is as follows:
+  このディレクティブの <a for="directive">post-request check</a> は次の通りです。
 
   ISSUE: TODO.
 
