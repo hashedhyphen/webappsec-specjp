@@ -2088,26 +2088,18 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   </pre>
 
   <h3 id="directives-elsewhere">
-    Directives Defined in Other Documents
+    他の文書で定義されるディレクティブ
   </h3>
 
-  This document defines a core set of directives, and sets up a framework for
-  modular extension by other specifications. At the time this document was
-  produced, the following stable documents extend CSP:
+  この文書では主要なディレクティブを定義しており、また他の仕様書によってモジュール的に拡張できるような枠組みを整備しています。この文書が作成された時点で、CSP を拡張する文書として安定しているものは以下の通りです。
 
-  * [[MIX]] defines `block-all-mixed-content`
-  * [[UPGRADE-INSECURE-REQUESTS]] defines `upgrade-insecure-requests`
-  * [[CSP-DOCUMENT]] defines `base-uri`, `form-action`, `frame-ancestors`,
-    `plugin-types`, and `sandbox`.
+  * [[MIX]] では `block-all-mixed-content` を定義しています
+  * [[UPGRADE-INSECURE-REQUESTS]] では `upgrade-insecure-requests` を定義しています
+  * [[CSP-DOCUMENT]] では `base-uri`、`form-action`、`frame-ancestors`、`plugin-types`、`sandbox` を定義しています。
 
-  Extensions to CSP MUST register themselves via the process outlined in
-  <a href="https://tools.ietf.org/html/draft-west-webappsec-csp-reg">draft-west-webappsec-csp-reg</a>.
-  In particular, note the criteria discussed in Section 3.2 of that document.
+  CSP を拡張する際は <a href="https://tools.ietf.org/html/draft-west-webappsec-csp-reg">draft-west-webappsec-csp-reg</a> で説明されている手続きに従って内容を登録しなければなりません（MUST）。特に、その文書の 3.2 章で議論されている要件には注意してください。
 
-  New directives SHOULD use the <a for="directive">pre-request check</a>,
-  <a for="directive">post-request check</a>, <a for="directive">response
-  check</a>, and <a for="directive">initialization</a> hooks in order to
-  integrate themselves into Fetch and HTML.
+  Fetch や HTML と連携できるよう、新しいディレクティブは <a for="directive">pre-request check</a> と <a for="directive">post-request check</a>、<a for="directive">initialization</a> の各フックを用いるべきです（SHOULD）。
 </section>
 
 <!-- Big text: Security -->
