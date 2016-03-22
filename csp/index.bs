@@ -1117,42 +1117,25 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   <h4 id="directive-connect-src">`connect-src`</h4>
 
-  The <dfn>connect-src</dfn> directive restricts the URLs which can be loaded
-  using script interfaces. The syntax for the directive's name and value is
-  described by the following ABNF:
+  <dfn>connect-src</dfn> ディレクティブを用いると、スクリプトのインターフェイスを利用して読み込む URL を制御することができます。このディレクティブの名前と値に関する構文は、以下の ABNF で表現されます。
 
   <pre>
     directive-name  = "connect-src"
     directive-value = <a grammar>serialized-source-list</a>
   </pre>
 
-  This directive controls <a>requests</a> which transmit or receive data from
-  other origins. This includes APIs like `fetch()`, [[XHR]], [[EVENTSOURCE]],
-  [[BEACON]], and <{a}>'s <{a/ping}>. This directive <em>also</em> controls
-  WebSocket [[WEBSOCKETS]] connections, though those aren't technically part
-  of Fetch.
+  このディレクティブでは、他のオリジンとデータを送受信する <a>requests</a> を制御します。この <a>requests</a> は、`fetch()` や [[XHR]]、[[EVENTSOURCE]]、[[BEACON]]、そして <{a}> 要素の <{a/ping}> 属性といった API を経由して生成されるものです。<em>加えて</em>、技術的には Fetch と異なるものの、`connect-src` ディレクティブは WebSocket [[WEBSOCKETS]] の接続も制御します。
 
   <div class="example">
-    JavaScript offers a few mechanisms that directly connect to an external
-    server to send or receive information. `EventSource` maintains an open
-    HTTP connection to a server in order to receive push notifications,
-    `WebSockets` open a bidirectional communication channel between your
-    browser and a server, and `XMLHttpRequest` makes arbitrary HTTP requests
-    on your behalf. These are powerful APIs that enable useful functionality,
-    but also provide tempting avenues for data exfiltration.
+    JavaScript においては、外部のサーバと直接に接続してデータを送受信できる仕組みがいくつか用意されています。プッシュ通知を受信できるようにサーバとの通信を管理する `EventSource`、ブラウザとサーバとの間に双方向の通信路を確立する `WebSockets`、そしてユーザに代わって任意の HTTP リクエストを生成する `XMLHttpRequest` といった具合です。こういった強力な API によって利便性が向上する一方、データを窃取する巧妙な手法も編み出されています。
 
-    The `connect-src` directive allows you to ensure that these and similar
-    sorts of connections are only opened to origins you trust. Sending a
-    policy that defines a list of source expressions for this directive is
-    straightforward. For example, to limit connections to only
-    `https://example.com`, send the following header:
+    `connect-src` ディレクティブを用いることで、こういった類の接続先を信頼できるオリジンのみに制限することができます。このディレクティブに関しては、必要な source expressions を定義してポリシーを送信するのは単純な作業で済みます。例として、接続先を `https://example.com` のみに限定したい場合は、次のようなヘッダを送信することになります。
 
     <pre>
       Content-Security-Policy: <a>connect-src</a> https://example.com/
     </pre>
 
-    Fetches for the following code will all return network errors, as the URLs
-    provided do not match `connect-src`'s <a>source list</a>:
+    以下のコードを用いて接続を試みると、`connect-src` の <a>source list</a> と URL がマッチしないため、すべてネットワークエラーが返されます。
 
     <pre>
       &lt;a ping="https://not-example.com"&gt;...
@@ -1170,38 +1153,27 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     </pre>
   </div>
 
-  <h5 id="connect-src-algorithms">Algorithms</h5>
+  <h5 id="connect-src-algorithms">アルゴリズム</h5>
 
-  This directive's <a for="directive">pre-request check</a> is as follows:
+  このディレクティブにおける <a for="directive">pre-request check</a> は以下の通りです。
 
-  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+  ある <a>request</a> (|request|) と <a>policy</a> (|policy|) に対して、以下を実行します。
 
-  1.  If |request|'s <a for="request">initiator</a> is "`fetch`", or its
-      <a for="request">type</a> is "" and <a for="request">destination</a> is
-      "`subresource`":
+  1.  ここで |request| の <a for="request">initiator</a> が "`fetch`" だった場合、または |request| の <a for="request">type</a> が "" かつ <a for="request">destination</a> が "`subresource`" だった場合、以下を実行します。
 
-      1.  If the result of executing [[#match-url-to-source-list]] on
-          |request|'s <a for="request">url</a> and this directive's
-          <a for="directive">value</a> is "`Does Not Match`",
-          return "`Blocked`".
+      1.  ここで |request| の <a for="request">url</a> とディレクティブの <a for="directive">value</a> に対して [[#match-url-to-source-list]] を適用し、その実行結果が "`Does Not Match`" だった場合、"`Blocked`" を返します。
 
-  2.  Return "`Allowed`".
+  2.  "`Allowed`" を返します。
 
-  This directive's <a for="directive">post-request check</a> is as follows:
+  このディレクティブにおける <a for="directive">post-request check</a> は以下の通りです。
 
-  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
-  <a>policy</a> (|policy|):
+  ある <a>request</a> (|request|) と <a>response</a> (|response|) と <a>policy</a> (|policy|) に対して、以下を実行します。
 
-  1.  If |request|'s <a for="request">initiator</a> is "`fetch`", or its
-      <a for="request">type</a> is "" and <a for="request">destination</a> is
-      "`subresource`":
+  1.  ここで |request| の <a for="request">initiator</a> が "`fetch`" だった場合、または |request| の <a for="request">type</a> が "" かつ <a for="request">destination</a> が "`subresource`" だった場合、以下を実行します。
 
-      1.  If the result of executing [[#match-url-to-source-list]] on
-          |response|'s <a for="response">url</a> and this directive's
-          <a for="directive">value</a> is "`Does Not Match`",
-          return "`Blocked`".
+      1.  ここで |response| の <a for="response">url</a> とディレクティブの <a for="directive">value</a> に対して [[#match-url-to-source-list]] を適用し、その実行結果が "`Does Not Match`" だった場合、"`Blocked`" を返します。
 
-  2.  Return "`Allowed`".
+  2.  "`Allowed`" を返します。
 
   <h4 id="directive-default-src">`default-src`</h4>
 
