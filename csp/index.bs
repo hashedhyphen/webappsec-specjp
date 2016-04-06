@@ -2,7 +2,7 @@
 <pre class="metadata">
 Status: ED
 ED: https://w3c.github.io/webappsec-csp/
-TR: http://www.w3.org/TR/CSP3/
+TR: https://www.w3.org/TR/CSP3/
 Shortname: CSP
 Level: 3
 Editor: Mike West 56384, Google Inc., mkwst@google.com
@@ -24,8 +24,11 @@ spec: RFC6454; urlPrefix: https://tools.ietf.org/html/rfc6454
     text: globally unique identifier; url: section-2.3
     text: origin; url: section-3.2
     text: the same; url: section-5
-spec: ES2015; urlPrefix: http://www.ecma-international.org/ecma-262/6.0/index.html
+spec: ECMA262; urlPrefix: https://tc39.github.io/ecma262
+  type: dfn
+    text: realm
   type: method
+    text: HostEnsureCanCompileStrings(); url: sec-hostensurecancompilestrings
     text: eval(); url: sec-eval-x
     text: Function(); url: sec-function-objects
     text: JSON.stringify(); url: sec-json.stringify
@@ -222,6 +225,7 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/
     text: update a style block
     text: the worker's documents
     text: Content-Security-Policy http-equiv processing instructions; url: attr-meta-http-equiv-content-security-policy
+    text: realm's global object; url: concept-realm-global-object
   type: element-attr
     text: ping; for: a
     text: nonce; for: script; url: attr-script-nonce
@@ -246,10 +250,10 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
     "title": "HTML Design Principles",
     "publisher": "W3C"
   },
-  "ES2015": {
-    "authors": [ "Allen Wirfs-Brock" ],
-    "href": "http://www.ecma-international.org/ecma-262/6.0/index.html",
-    "title": "ECMAScript® 2015 Language Specification",
+  "ECMA262": {
+    "authors": [ "Brian Terlson", "Allen Wirfs-Brock" ],
+    "href": "https://tc39.github.io/ecma262/",
+    "title": "ECMAScript® Language Specification",
     "publisher": "ECMA"
   },
   "SHA2": {
@@ -332,7 +336,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   2.  CSP Level 2 で廃止された `frame-src` ディレクティブが削除されました。
 
-  3.  source expressions に安全でないスキームを指定した際、安全なスキームにもマッチするようになりました。すなわち、`http:` は `http: https:` と等価であり、`http://a.com` は `http://a.com https://a.com` と等価です。
+  3.  source expressions に安全でないスキームを指定した際、安全なスキームにもマッチするようになりました。すなわち、`http:` は `http: https:` と等価であり、`http://example.com` は `http://example.com https://example.com` と等価です。
 
       同様に、`http` スキームのページで `'self'` を指定した場合、そのページのオリジンにおける `https` と `wss` にもマッチするようになりました。
 
@@ -347,8 +351,6 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
   <h3 id="open-questions">議論中の事項</h3>
 
   ISSUE: `frame-src` を本当に削除したほうがいいのでしょうか？Worker とフレームの脅威モデルは似ていますが、それらの上で実行できる内容は異なります。もしかすると、Worker と フレームのどちらか一方のみを許可するほうが良いのかもしれません。
-
-  ISSUE: <{meta}> の内側で `sandbox` を有効にできるのでしょうか？このサポートを打ち切った場合に考慮すべき脅威はまだ明確に分かっていません（今日現在、Chrome と Safari ではサポートされています）。
 
   ISSUE: 報告の際に値を取り除く必要はまだあるのでしょうか？ブロックされたリソースにおける元々の URL を用いることで、そのリスクはほとんど排除されたと考えています。つまり、スクリプトが DOM を走査しても、レポートの JSON に含まれている自分自身の情報は何も収集できないはずです。
 
@@ -541,7 +543,7 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
 
   2.  ここで、ユーザエージェントがスクリプトを実行中であり、かつ |global| からソースファイルの URL や行数、列数を読み出せる場合、それらに従って |violation| の <a for="violation">source file</a> と <a for="violation">line number</a>、<a for="violation">column number</a> を設定します。
 
-      ISSUE: このような処理は他でも行われているでしょうか？この処理 は [[ES2015]]　で効果的に用いられていますが、それ以外の例をまだ知りません。
+      ISSUE: このような処理は他でも行われているでしょうか？この処理 は [[ECMA262]]　で効果的に用いられていますが、それ以外の例をまだ知りません。
 
   3.  ここで |global| が {{Window}} オブジェクトであった場合、|global| における {{Window/document}} の {{Document/referrer}} を |violation| の <a for="violation">referrer</a> に代入します。
 
@@ -880,6 +882,42 @@ spec: SHA2; urlPrefix: http://csrc.nist.gov/publications/fips/fips180-4/fips-180
           5.  ここで |policy| の <a for="policy">disposition</a> が "`enforce`" だった場合、|result| に "`Blocked`" を代入します。
 
   3.  |result| を返します。
+
+  <h3 id="ecma-integration">Integration with ECMAScript</h3>
+
+  ECMAScript defines a {{HostEnsureCanCompileStrings()}} operation which allows
+  the host environment to block the compilation of strings into ECMAScript code.
+  This document defines an implementation of that operation which examines the
+  relevant <a for="global object">CSP list</a> to determine whether such
+  compilation ought to be blocked.
+
+  <h4 id="can-compile-strings" algorithm dfn method>
+    EnsureCSPDoesNotBlockStringCompilation(|callerRealm|, |calleeRealm|)
+  </h4>
+
+  Given two <a>realms</a> (|callerRealm| and |calleeRealm|), this algorithm
+  returns normally if string compilation is allowed, and throws an "`EvalError`"
+  if not:
+
+  1.  Let |global| be |callerRealm|'s <a lt="Realm's global object">global
+      object</a>.
+
+  2.  For each |policy| in |global|'s <a for="global object">CSP list</a>:
+
+      1.  Let |source-list| be null.
+
+      2.  If |policy| contains a <a>directive</a> whose
+          <a for="directive">name</a> is "`script-src`", then set |source-list|
+          to that <a>directive</a>'s <a for="directive">value</a>.
+
+          Otherwise if |policy| contains a <a>directive</a> whose
+          <a for="directive">name</a> is "`default-src`", then set |source-list|
+          to that directive's <a for="directive">value</a>.
+
+      3.  If |source-list| is non-null, and does not contain a <a>source
+          expression</a> which is an <a>ASCII case-insensitive</a> match for the
+          string "<a grammar>`'unsafe-eval'`</a>", then throw an `EvalError`
+exception.
 </section>
 
 <!-- Big Text: Reporting -->

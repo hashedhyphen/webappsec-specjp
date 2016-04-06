@@ -10,7 +10,7 @@
  *
  * Indices
  *   - .toc for the Table of Contents (<ol class="toc">)
- *     -> <span class="secno"> for the section numbers
+ *     + <span class="secno"> for the section numbers
  *   - #toc for the Table of Contents (<nav id="toc">)
  *   - ul.index for Indices (<a href="#ref">term</a><span>, in §N.M</span>)
  *   - table.index for Index Tables (e.g. for properties or elements)
@@ -113,39 +113,36 @@
 
 	div.head h2 { margin-bottom: 1.5em;}
 
-	div.head .logo {
+/** W3C Logo ******************************************************************/
+
+	.head .logo {
 		float: right;
-		margin: 0;
+		margin: 0.4rem 0 0.2rem .4rem;
 	}
 
-	@media screen {
-		div.head .logo > a {
-			display: inline-block;
-			margin: 0.4rem 0 0.2rem .4rem;
-		}
-
-		div.head img[src*="logos/W3C"] {
-			display: block;
-			border: solid #1a5e9a;
-			border-width: .65rem .7rem .6rem;
-			border-radius: .4rem;
-			background: #1a5e9a;
-			color: white;
-			font-weight: bold;
-		}
-
-		div.head a:hover > img[src*="logos/W3C"],
-		div.head a:focus > img[src*="logos/W3C"] {
-			background: #457cad;
-			border-color: #457cad;
-		}
-
-		div.head a:active > img[src*="logos/W3C"] {
-			background: #c00;
-			border-color: #c00;
-		}
+	.head img[src*="logos/W3C"] {
+		display: block;
+		border: solid #1a5e9a;
+		border-width: .65rem .7rem .6rem;
+		border-radius: .4rem;
+		background: #1a5e9a;
+		color: white;
+		font-weight: bold;
 	}
 
+	.head a:hover > img[src*="logos/W3C"],
+	.head a:focus > img[src*="logos/W3C"] {
+		opacity: .8;
+	}
+
+	.head a:active > img[src*="logos/W3C"] {
+		background: #c00;
+		border-color: #c00;
+	}
+
+	/* see also additional rules in Link Styling section */
+
+/** Copyright *****************************************************************/
 
 	p.copyright,
 	p.copyright small { font-size: small }
@@ -331,6 +328,7 @@
 		font: 100% sans-serif;   /* Reset all font styling to clear out UA styles */
 		font-family: inherit;    /* Inherit the font family. */
 		line-height: 1.2;        /* Keep wrapped headings compact */
+		hyphens: manual;         /* Hyphenated headings look weird */
 	}
 
 	h2, h3, h4, h5, h6 {
@@ -534,9 +532,11 @@
 	}
 
 	/* Backout above styling for W3C logo */
-	.head > p:first-child > a {
+	.head .logo,
+	.head .logo a {
 		border: none;
 		text-decoration: none;
+		background: transparent;
 	}
 
 /******************************************************************************/
@@ -828,8 +828,8 @@
 	table.index {
 		margin: 1em auto;
 		border-collapse: collapse;
-		width: 100%;
 		border: hidden;
+		width: 100%;
 	}
 	table.data caption,
 	table.index caption {
@@ -936,7 +936,7 @@ Possible extra rowspan handling
 
 	.toc a {
 		/* More spacing; use padding to make it part of the click target. */
-		padding-top: 0.1em;
+		padding-top: 0.1rem;
 		/* Larger, more consistently-sized click target */
 		display: block;
 		/* Reverse color scheme */
@@ -967,19 +967,14 @@ Possible extra rowspan handling
 	.toc > li li li li li { font-style:  italic;
 	                        font-size:   85%;    }
 
-	.toc > li             { margin: 1.5em 0;     }
+	.toc > li             { margin: 1.5rem 0;    }
 	.toc > li li          { margin: 0.3rem 0;    }
-	.toc > li li li       { margin-left: 2em;
-	                        margin-left: 2rem;   }
+	.toc > li li li       { margin-left: 2rem;   }
 
 	/* Section numbers in a column of their own */
-	:not(li) > .toc {
-		margin-left: 5em;
-	}
-
 	.toc .secno {
 		float: left;
-		width: 4em;
+		width: 4rem;
 		white-space: nowrap;
 	}
 	.toc > li li li li .secno {
@@ -1027,7 +1022,7 @@ Possible extra rowspan handling
 /** Index *********************************************************************/
 
 	/* Index Lists: Layout */
-	ul.index       { margin-left: 0; columns: 15em; -webkit-columns: 15em; -moz-columns: 15em; text-indent: 1em hanging; }
+	ul.index       { margin-left: 0; columns: 15em; text-indent: 1em hanging; }
 	ul.index li    { margin-left: 0; list-style: none; break-inside: avoid; }
 	ul.index li li { margin-left: 1em }
 	ul.index dl    { margin-top: 0; }
@@ -1106,6 +1101,12 @@ Possible extra rowspan handling
 	.figure .caption, .sidefigure .caption, figcaption {
 		/* in case figure is overlarge, limit caption to 50em */
 		max-width: 50rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.overlarge > table {
+		/* limit preferred width of table */
+		max-width: 50em;
 		margin-left: auto;
 		margin-right: auto;
 	}
@@ -1251,6 +1252,9 @@ Possible extra rowspan handling
 	.heading > a.self-link {
 		font-size: 83%;
 	}
+	li > a.self-link {
+		left: calc(-1 * (3.5rem - 26px) - 2em);
+	}
 	dfn > a.self-link {
 		top: auto;
 		left: auto;
@@ -1293,7 +1297,7 @@ Possible extra rowspan handling
 
 
 /********************************************
- Remember to remove the logo section when copypasting freshly.
+ Remember to fix the logo section when copypasting freshly.
  */
 </style>
   <meta content="Bikeshed 1.0.0" name="generator">
@@ -1342,18 +1346,18 @@ Possible extra rowspan handling
         </style>
  <body class="h-entry">
   <div>
-   <p class="note" role="note">この文書は、<a href="https://w3c.github.io/webappsec-csp/" target="_blank">Content Security Policy Level 3</a> Editor's Draft （2016年2月29日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。</p>
+   <p class="note" role="note">この文書は、<a href="https://w3c.github.io/webappsec-csp/" target="_blank">Content Security Policy Level 3</a> Editor's Draft （2016年4月6日版）の非公式な日本語訳です。正式な文書は英語版のみであることにご注意ください。詳しくは<a href="https://github.com/hashedhyphen/webappsec-specjp/blob/master/README.md">こちら</a>をご覧ください。</p>
   </div>
   <div class="head">
-   <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/Icons/w3c_home" width="72"> </a> </p>
+   <p data-fill-with="logo"><a class="logo" href="http://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Content Security Policy Level 3 日本語訳</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-02-29">29 February 2016</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2016-04-06">6 April 2016</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
      <dd><a class="u-url" href="https://w3c.github.io/webappsec-csp/">https://w3c.github.io/webappsec-csp/</a>
      <dt>Latest version:
-     <dd><a href="http://www.w3.org/TR/CSP3/">http://www.w3.org/TR/CSP3/</a>
+     <dd><a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
      <dt>Version History:
      <dd><a href="https://github.com/w3c/webappsec-csp/commits/master/index.src.html">https://github.com/w3c/webappsec-csp/commits/master/index.src.html</a>
      <dt>Feedback:
@@ -1455,6 +1459,11 @@ Possible extra rowspan handling
         <li><a href="#initialize-document-csp"><span class="secno">4.2.1</span> <span class="content"> <code>Document</code> の <code>CSP list</code> に対する初期化 </span></a>
         <li><a href="#initialize-global-object-csp"><span class="secno">4.2.2</span> <span class="content"> グローバルオブジェクトの <code>CSP list</code> に対する初期化 </span></a>
         <li><a href="#should-block-inline"><span class="secno">4.2.3</span> <span class="content"> <var>element</var> においてインラインの <var>type</var> に関する挙動は Content Security Policy によってブロックされるべきか？ </span></a>
+       </ol>
+      <li>
+       <a href="#ecma-integration"><span class="secno">4.3</span> <span class="content">Integration with ECMAScript</span></a>
+       <ol class="toc">
+        <li><a href="#can-compile-strings"><span class="secno">4.3.1</span> <span class="content"> EnsureCSPDoesNotBlockStringCompilation(<var>callerRealm</var>, <var>calleeRealm</var>) </span></a>
        </ol>
      </ol>
     <li>
@@ -1611,7 +1620,7 @@ Possible extra rowspan handling
        <li data-md="">
         <p>インラインスクリプトの実行</p>
        <li data-md="">
-        <p>（<code class="idl"><a data-link-type="idl" href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-eval-x">eval()</a></code> や類似の構文を用いる）動的なコード実行</p>
+        <p>（<code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262#sec-eval-x">eval()</a></code> や類似の構文を用いる）動的なコード実行</p>
        <li data-md="">
         <p>インラインスタイルを含むアプリケーション</p>
       </ul>
@@ -1630,7 +1639,7 @@ Possible extra rowspan handling
      <li data-md="">
       <p>CSP Level 2 で廃止された <code>frame-src</code> ディレクティブが削除されました。</p>
      <li data-md="">
-      <p>source expressions に安全でないスキームを指定した際、安全なスキームにもマッチするようになりました。すなわち、<code>http:</code> は <code>http: https:</code> と等価であり、<code>http://a.com</code> は <code>http://a.com https://a.com</code> と等価です。</p>
+      <p>source expressions に安全でないスキームを指定した際、安全なスキームにもマッチするようになりました。すなわち、<code>http:</code> は <code>http: https:</code> と等価であり、<code>http://example.com</code> は <code>http://example.com https://example.com</code> と等価です。</p>
       <p>同様に、<code>http</code> スキームのページで <code>'self'</code> を指定した場合、そのページのオリジンにおける <code>https</code> と <code>wss</code> にもマッチするようになりました。</p>
      <li data-md="">
       <p>インラインのスクリプトとスタイルから生成された違反レポートは、ブロックされたリソースとして "<code>inline</code>" が報告されることになります。同様に、<code>eval()</code> の実行がブロックされた場合は、ブロックされたリソースとして "<code>eval</code>" が報告されます。</p>
@@ -1643,7 +1652,6 @@ Possible extra rowspan handling
     </ol>
     <h3 class="heading settled" data-level="1.4" id="open-questions"><span class="secno">1.4. </span><span class="content">議論中の事項</span><a class="self-link" href="#open-questions"></a></h3>
     <p class="issue" id="issue-beb745b1"><a class="self-link" href="#issue-beb745b1"></a> <code>frame-src</code> を本当に削除したほうがいいのでしょうか？Worker とフレームの脅威モデルは似ていますが、それらの上で実行できる内容は異なります。もしかすると、Worker と フレームのどちらか一方のみを許可するほうが良いのかもしれません。</p>
-    <p class="issue" id="issue-ce23d45e"><a class="self-link" href="#issue-ce23d45e"></a> <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> の内側で <code>sandbox</code> を有効にできるのでしょうか？このサポートを打ち切った場合に考慮すべき脅威はまだ明確に分かっていません（今日現在、Chrome と Safari ではサポートされています）。</p>
     <p class="issue" id="issue-1dba5599"><a class="self-link" href="#issue-1dba5599"></a> 報告の際に値を取り除く必要はまだあるのでしょうか？ブロックされたリソースにおける元々の URL を用いることで、そのリスクはほとんど排除されたと考えています。つまり、スクリプトが DOM を走査しても、レポートの JSON に含まれている自分自身の情報は何も収集できないはずです。</p>
     <p class="issue" id="issue-39406a5f"><a class="self-link" href="#issue-39406a5f"></a> <a href="https://lists.w3.org/Archives/Public/public-webappsec/2016Feb/0048.html"><code>'unsafe-dynamic'</code></a> を追加すべきでしょうか？</p>
     <p class="issue" id="issue-88485c04"><a class="self-link" href="#issue-88485c04"></a> ハッシュ値によるインラインイベントハンドラのホワイトリスト化を可能にすべきでしょうか？ <a href="https://github.com/w3c/webappsec-csp/issues/13">&lt;https://github.com/w3c/webappsec-csp/issues/13></a></p>
@@ -1740,14 +1748,17 @@ Possible extra rowspan handling
     <h3 class="heading settled" data-level="2.2" id="framework-directives"><span class="secno">2.2. </span><span class="content">ディレクティブ</span><a class="self-link" href="#framework-directives"></a></h3>
     <p><a data-link-type="dfn" href="#policy" id="ref-for-policy-5">Policies</a> には <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="directives" data-noexport="" id="directives">directives<span class="dfn-panel" data-deco=""><b><a href="#directives">#directives</a></b><b>Referenced in:</b><span><a href="#ref-for-directives-1">2.1. ポリシー</a></span><span><a href="#ref-for-directives-2">2.1.1.
     serialized CSP を disposition に従ってパースする </a> <a href="#ref-for-directives-3">(2)</a></span><span><a href="#ref-for-directives-4">2.2. ディレクティブ</a> <a href="#ref-for-directives-5">(2)</a></span><span><a href="#ref-for-directives-6">2.2.1. Source Lists</a></span><span><a href="#ref-for-directives-7">2.3. Violations</a></span><span><a href="#ref-for-directives-8">4.1.
-    Fetch との連携 </a></span><span><a href="#ref-for-directives-9">5.3.
-    violation を報告する </a> <a href="#ref-for-directives-10">(2)</a> <a href="#ref-for-directives-11">(3)</a></span><span><a href="#ref-for-directives-12">6.
-    Content Security Policy のディレクティブ </a></span><span><a href="#ref-for-directives-13">6.1.3.1. Algorithms</a> <a href="#ref-for-directives-14">(2)</a></span></span></dfn> の集合が含まれており、各ディレクティブは動作を制御します。この仕様書で定義されるディレクティブは <a href="#csp-directives">§6 Content Security Policy のディレクティブ</a> で説明されています。</p>
+    Fetch との連携 </a></span><span><a href="#ref-for-directives-9">4.3.1.
+    EnsureCSPDoesNotBlockStringCompilation(callerRealm, calleeRealm) </a> <a href="#ref-for-directives-10">(2)</a> <a href="#ref-for-directives-11">(3)</a></span><span><a href="#ref-for-directives-12">5.3.
+    violation を報告する </a> <a href="#ref-for-directives-13">(2)</a> <a href="#ref-for-directives-14">(3)</a></span><span><a href="#ref-for-directives-15">6.
+    Content Security Policy のディレクティブ </a></span><span><a href="#ref-for-directives-16">6.1.3.1. Algorithms</a> <a href="#ref-for-directives-17">(2)</a></span></span></dfn> の集合が含まれており、各ディレクティブは動作を制御します。この仕様書で定義されるディレクティブは <a href="#csp-directives">§6 Content Security Policy のディレクティブ</a> で説明されています。</p>
     <p>各 <a data-link-type="dfn" href="#directives" id="ref-for-directives-4">directive</a> は <dfn class="dfn-paneled" data-dfn-for="directive" data-dfn-type="dfn" data-lt="name" data-noexport="" id="directive-name">name<span class="dfn-panel" data-deco=""><b><a href="#directive-name">#directive-name</a></b><b>Referenced in:</b><span><a href="#ref-for-directive-name-1">2.1.1.
-    serialized CSP を disposition に従ってパースする </a> <a href="#ref-for-directive-name-2">(2)</a></span><span><a href="#ref-for-directive-name-3">2.2. ディレクティブ</a></span><span><a href="#ref-for-directive-name-4">6.1.3.1. Algorithms</a> <a href="#ref-for-directive-name-5">(2)</a></span><span><a href="#ref-for-directive-name-6">6.1.11.4.
+    serialized CSP を disposition に従ってパースする </a> <a href="#ref-for-directive-name-2">(2)</a></span><span><a href="#ref-for-directive-name-3">2.2. ディレクティブ</a></span><span><a href="#ref-for-directive-name-4">4.3.1.
+    EnsureCSPDoesNotBlockStringCompilation(callerRealm, calleeRealm) </a> <a href="#ref-for-directive-name-5">(2)</a></span><span><a href="#ref-for-directive-name-6">6.1.3.1. Algorithms</a> <a href="#ref-for-directive-name-7">(2)</a></span><span><a href="#ref-for-directive-name-8">6.1.11.4.
     request の effective directive を得る </a></span></span></dfn> と <dfn class="dfn-paneled" data-dfn-for="directive" data-dfn-type="dfn" data-lt="value" data-noexport="" id="directive-value">value<span class="dfn-panel" data-deco=""><b><a href="#directive-value">#directive-value</a></b><b>Referenced in:</b><span><a href="#ref-for-directive-value-1">2.1.1.
-    serialized CSP を disposition に従ってパースする </a></span><span><a href="#ref-for-directive-value-2">2.2. ディレクティブ</a> <a href="#ref-for-directive-value-3">(2)</a></span><span><a href="#ref-for-directive-value-4">2.2.1. Source Lists</a></span><span><a href="#ref-for-directive-value-5">5.3.
-    violation を報告する </a> <a href="#ref-for-directive-value-6">(2)</a></span><span><a href="#ref-for-directive-value-7">6.1.2.1. アルゴリズム</a> <a href="#ref-for-directive-value-8">(2)</a></span><span><a href="#ref-for-directive-value-9">6.1.3.1. Algorithms</a> <a href="#ref-for-directive-value-10">(2)</a></span><span><a href="#ref-for-directive-value-11">6.1.4.1. Algorithms</a> <a href="#ref-for-directive-value-12">(2)</a></span><span><a href="#ref-for-directive-value-13">6.1.5.1. Algorithms</a> <a href="#ref-for-directive-value-14">(2)</a></span><span><a href="#ref-for-directive-value-15">6.1.6.1. Algorithms</a> <a href="#ref-for-directive-value-16">(2)</a></span><span><a href="#ref-for-directive-value-17">6.1.7.1. Algorithms</a> <a href="#ref-for-directive-value-18">(2)</a></span><span><a href="#ref-for-directive-value-19">6.1.8.1. Algorithms</a> <a href="#ref-for-directive-value-20">(2)</a></span><span><a href="#ref-for-directive-value-21">6.1.9.1. Algorithms</a> <a href="#ref-for-directive-value-22">(2)</a> <a href="#ref-for-directive-value-23">(3)</a></span><span><a href="#ref-for-directive-value-24">6.1.10.1. Algorithms</a> <a href="#ref-for-directive-value-25">(2)</a> <a href="#ref-for-directive-value-26">(3)</a></span></span></dfn> の組です。<a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name-3">name</a> は空ではない文字列であり、<a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-2">value</a> は空でない文字列の集合です。<a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-3">value</a> は空であってもよいです（MAY）。</p>
+    serialized CSP を disposition に従ってパースする </a></span><span><a href="#ref-for-directive-value-2">2.2. ディレクティブ</a> <a href="#ref-for-directive-value-3">(2)</a></span><span><a href="#ref-for-directive-value-4">2.2.1. Source Lists</a></span><span><a href="#ref-for-directive-value-5">4.3.1.
+    EnsureCSPDoesNotBlockStringCompilation(callerRealm, calleeRealm) </a> <a href="#ref-for-directive-value-6">(2)</a></span><span><a href="#ref-for-directive-value-7">5.3.
+    violation を報告する </a> <a href="#ref-for-directive-value-8">(2)</a></span><span><a href="#ref-for-directive-value-9">6.1.2.1. アルゴリズム</a> <a href="#ref-for-directive-value-10">(2)</a></span><span><a href="#ref-for-directive-value-11">6.1.3.1. Algorithms</a> <a href="#ref-for-directive-value-12">(2)</a></span><span><a href="#ref-for-directive-value-13">6.1.4.1. Algorithms</a> <a href="#ref-for-directive-value-14">(2)</a></span><span><a href="#ref-for-directive-value-15">6.1.5.1. Algorithms</a> <a href="#ref-for-directive-value-16">(2)</a></span><span><a href="#ref-for-directive-value-17">6.1.6.1. Algorithms</a> <a href="#ref-for-directive-value-18">(2)</a></span><span><a href="#ref-for-directive-value-19">6.1.7.1. Algorithms</a> <a href="#ref-for-directive-value-20">(2)</a></span><span><a href="#ref-for-directive-value-21">6.1.8.1. Algorithms</a> <a href="#ref-for-directive-value-22">(2)</a></span><span><a href="#ref-for-directive-value-23">6.1.9.1. Algorithms</a> <a href="#ref-for-directive-value-24">(2)</a> <a href="#ref-for-directive-value-25">(3)</a></span><span><a href="#ref-for-directive-value-26">6.1.10.1. Algorithms</a> <a href="#ref-for-directive-value-27">(2)</a> <a href="#ref-for-directive-value-28">(3)</a></span></span></dfn> の組です。<a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name-3">name</a> は空ではない文字列であり、<a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-2">value</a> は空でない文字列の集合です。<a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-3">value</a> は空であってもよいです（MAY）。</p>
     <p><dfn data-dfn-type="dfn" data-noexport="" id="serialized-directive">serialized directive<a class="self-link" href="#serialized-directive"></a></dfn> は、空白で区切られた一つ以上のトークンからなる ASCII 文字列であり、<a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a> の ABNF を用いると以下のように表現されます</p>
 <pre><dfn class="dfn-paneled" data-dfn-type="grammar" data-export="" data-lt="serialized-directive" id="grammardef-serialized-directive">serialized-directive<span class="dfn-panel" data-deco=""><b><a href="#grammardef-serialized-directive">#grammardef-serialized-directive</a></b><b>Referenced in:</b><span><a href="#ref-for-grammardef-serialized-directive-1">2.1. ポリシー</a> <a href="#ref-for-grammardef-serialized-directive-2">(2)</a></span></span></dfn> = <a data-link-type="grammar" href="#grammardef-directive-name" id="ref-for-grammardef-directive-name-1">directive-name</a> [ <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">RWS</a> <a data-link-type="grammar" href="#grammardef-directive-value" id="ref-for-grammardef-directive-value-1">directive-value</a> ]
 <dfn class="dfn-paneled" data-dfn-type="grammar" data-export="" data-lt="directive-name" id="grammardef-directive-name">directive-name<span class="dfn-panel" data-deco=""><b><a href="#grammardef-directive-name">#grammardef-directive-name</a></b><b>Referenced in:</b><span><a href="#ref-for-grammardef-directive-name-1">2.2. ディレクティブ</a></span></span></dfn>       = 1*( <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">ALPHA</a> / <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc5234#appendix-B.1">DIGIT</a> / "-" )
@@ -1782,8 +1793,9 @@ Possible extra rowspan handling
     <h4 class="heading settled" data-level="2.2.1" id="framework-directive-source-list"><span class="secno">2.2.1. </span><span class="content">Source Lists</span><a class="self-link" href="#framework-directive-source-list"></a></h4>
     <p><a data-link-type="dfn" href="#directives" id="ref-for-directives-6">directives</a> における <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-4">values</a> の多くは <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="source lists" data-noexport="" id="source-lists">source lists<span class="dfn-panel" data-deco=""><b><a href="#source-lists">#source-lists</a></b><b>Referenced in:</b><span><a href="#ref-for-source-lists-1">6.1.1. child-src</a></span><span><a href="#ref-for-source-lists-2">6.1.2. connect-src</a></span><span><a href="#ref-for-source-lists-3">6.1.3. default-src</a></span><span><a href="#ref-for-source-lists-4">6.1.4. font-src</a></span><span><a href="#ref-for-source-lists-5">6.1.5. img-src</a></span><span><a href="#ref-for-source-lists-6">6.1.6. manifest-src</a></span><span><a href="#ref-for-source-lists-7">6.1.7. media-src</a></span><span><a href="#ref-for-source-lists-8">6.1.8. object-src</a></span><span><a href="#ref-for-source-lists-9">6.1.11.2.
     url は source list にマッチするか？ </a></span><span><a href="#ref-for-source-lists-10">6.1.12.1.
-    Does element match source list? </a></span></span></dfn> から構成されます。source list とは、読み込まれるコンテンツ、埋め込み・実行の可能性があるコンテンツを特定するトークンの集合です。これらのトークンは、以下に列挙した <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="source expression" data-noexport="" id="source-expression">source expression<span class="dfn-panel" data-deco=""><b><a href="#source-expression">#source-expression</a></b><b>Referenced in:</b><span><a href="#ref-for-source-expression-1">2.2.1. Source Lists</a></span><span><a href="#ref-for-source-expression-2">6.1.11.3.
-    redirect count を持つ origin において url は expression にマッチするか？ </a></span><span><a href="#ref-for-source-expression-3">6.1.12.1.
+    Does element match source list? </a></span></span></dfn> から構成されます。source list とは、読み込まれるコンテンツ、埋め込み・実行の可能性があるコンテンツを特定するトークンの集合です。これらのトークンは、以下に列挙した <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="source expression" data-noexport="" id="source-expression">source expression<span class="dfn-panel" data-deco=""><b><a href="#source-expression">#source-expression</a></b><b>Referenced in:</b><span><a href="#ref-for-source-expression-1">2.2.1. Source Lists</a></span><span><a href="#ref-for-source-expression-2">4.3.1.
+    EnsureCSPDoesNotBlockStringCompilation(callerRealm, calleeRealm) </a></span><span><a href="#ref-for-source-expression-3">6.1.11.3.
+    redirect count を持つ origin において url は expression にマッチするか？ </a></span><span><a href="#ref-for-source-expression-4">6.1.12.1.
     Does element match source list? </a></span></span></dfn> の種類のうち、いずれか 1 つを示します。</p>
     <ol>
      <li data-md="">
@@ -1832,7 +1844,9 @@ Possible extra rowspan handling
 ; キーワード:
 <dfn class="dfn-paneled" data-dfn-type="grammar" data-export="" data-lt="keyword-source" id="grammardef-keyword-source">keyword-source<span class="dfn-panel" data-deco=""><b><a href="#grammardef-keyword-source">#grammardef-keyword-source</a></b><b>Referenced in:</b><span><a href="#ref-for-grammardef-keyword-source-1">2.2.1. Source Lists</a></span></span></dfn> = "<dfn class="dfn-paneled" data-dfn-type="grammar" data-export="" data-lt="&apos;self&apos;" id="grammardef-self">'self'<span class="dfn-panel" data-deco=""><b><a href="#grammardef-self">#grammardef-self</a></b><b>Referenced in:</b><span><a href="#ref-for-grammardef-self-1">2.2.1. Source Lists</a></span><span><a href="#ref-for-grammardef-self-2">6.1.3. default-src</a> <a href="#ref-for-grammardef-self-3">(2)</a> <a href="#ref-for-grammardef-self-4">(3)</a> <a href="#ref-for-grammardef-self-5">(4)</a> <a href="#ref-for-grammardef-self-6">(5)</a> <a href="#ref-for-grammardef-self-7">(6)</a> <a href="#ref-for-grammardef-self-8">(7)</a> <a href="#ref-for-grammardef-self-9">(8)</a> <a href="#ref-for-grammardef-self-10">(9)</a> <a href="#ref-for-grammardef-self-11">(10)</a> <a href="#ref-for-grammardef-self-12">(11)</a> <a href="#ref-for-grammardef-self-13">(12)</a> <a href="#ref-for-grammardef-self-14">(13)</a> <a href="#ref-for-grammardef-self-15">(14)</a> <a href="#ref-for-grammardef-self-16">(15)</a> <a href="#ref-for-grammardef-self-17">(16)</a> <a href="#ref-for-grammardef-self-18">(17)</a> <a href="#ref-for-grammardef-self-19">(18)</a> <a href="#ref-for-grammardef-self-20">(19)</a></span></span></dfn>" / "<dfn class="dfn-paneled" data-dfn-type="grammar" data-export="" data-lt="&apos;unsafe-inline&apos;" id="grammardef-unsafe-inline">'unsafe-inline'<span class="dfn-panel" data-deco=""><b><a href="#grammardef-unsafe-inline">#grammardef-unsafe-inline</a></b><b>Referenced in:</b><span><a href="#ref-for-grammardef-unsafe-inline-1">6.
     Content Security Policy のディレクティブ
-  </a></span><span><a href="#ref-for-grammardef-unsafe-inline-2">7.1. nonce の再利用</a> <a href="#ref-for-grammardef-unsafe-inline-3">(2)</a></span></span></dfn>" / "<dfn data-dfn-type="grammar" data-export="" id="grammardef-unsafe-eval">'unsafe-eval'<a class="self-link" href="#grammardef-unsafe-eval"></a></dfn>"
+  </a></span><span><a href="#ref-for-grammardef-unsafe-inline-2">7.1. nonce の再利用</a> <a href="#ref-for-grammardef-unsafe-inline-3">(2)</a></span></span></dfn>" / "<dfn class="dfn-paneled" data-dfn-type="grammar" data-export="" data-lt="&apos;unsafe-eval&apos;" id="grammardef-unsafe-eval">'unsafe-eval'<span class="dfn-panel" data-deco=""><b><a href="#grammardef-unsafe-eval">#grammardef-unsafe-eval</a></b><b>Referenced in:</b><span><a href="#ref-for-grammardef-unsafe-eval-1">4.3.1.
+    EnsureCSPDoesNotBlockStringCompilation(callerRealm, calleeRealm)
+  </a></span></span></dfn>"
 
 ; Nonces: 'nonce-[ここに nonce 値が入ります]'
 <dfn class="dfn-paneled" data-dfn-type="grammar" data-export="" data-lt="nonce-source" id="grammardef-nonce-source">nonce-source<span class="dfn-panel" data-deco=""><b><a href="#grammardef-nonce-source">#grammardef-nonce-source</a></b><b>Referenced in:</b><span><a href="#ref-for-grammardef-nonce-source-1">2.2.1. Source Lists</a></span><span><a href="#ref-for-grammardef-nonce-source-2">6.1.9. script-src</a></span><span><a href="#ref-for-grammardef-nonce-source-3">6.1.10. style-src</a></span><span><a href="#ref-for-grammardef-nonce-source-4">6.1.12.1.
@@ -1907,7 +1921,7 @@ Possible extra rowspan handling
       <p><a data-link-type="dfn" href="#violation-global-object" id="ref-for-violation-global-object-2">global object</a> に <var>global</var> を、<a data-link-type="dfn" href="#violation-policy" id="ref-for-violation-policy-1">policy</a> に <var>policy</var> を、<a data-link-type="dfn" href="#violation-effective-directive" id="ref-for-violation-effective-directive-1">effective directive</a> に <var>directive</var> を、<a data-link-type="dfn" href="#violation-resource" id="ref-for-violation-resource-1">resource</a> に <code>null</code> をそれぞれセットした新しい <a data-link-type="dfn" href="#violation" id="ref-for-violation-12">violation</a> を <var>violation</var> に代入します。</p>
      <li data-md="">
       <p>ここで、ユーザエージェントがスクリプトを実行中であり、かつ <var>global</var> からソースファイルの URL や行数、列数を読み出せる場合、それらに従って <var>violation</var> の <a data-link-type="dfn" href="#violation-source-file" id="ref-for-violation-source-file-1">source file</a> と <a data-link-type="dfn" href="#violation-line-number" id="ref-for-violation-line-number-1">line number</a>、<a data-link-type="dfn" href="#violation-column-number" id="ref-for-violation-column-number-1">column number</a> を設定します。</p>
-      <p class="issue" id="issue-0e2d0de4"><a class="self-link" href="#issue-0e2d0de4"></a> このような処理は他でも行われているでしょうか？この処理 は <a data-link-type="biblio" href="#biblio-es2015">[ES2015]</a>　で効果的に用いられていますが、それ以外の例をまだ知りません。</p>
+      <p class="issue" id="issue-4e4c40eb"><a class="self-link" href="#issue-4e4c40eb"></a> このような処理は他でも行われているでしょうか？この処理 は <a data-link-type="biblio" href="#biblio-ecma262">[ECMA262]</a>　で効果的に用いられていますが、それ以外の例をまだ知りません。</p>
      <li data-md="">
       <p>ここで <var>global</var> が <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/browsers.html#dom-window">Window</a></code> オブジェクトであった場合、<var>global</var> における <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/browsers.html#dom-document-2">document</a></code> の <code class="idl"><a data-link-type="idl" href="http://www.w3.org/TR/html5/dom.html#dom-document-referrer">referrer</a></code> を <var>violation</var> の <a data-link-type="dfn" href="#violation-referrer" id="ref-for-violation-referrer-1">referrer</a> に代入します。</p>
      <li data-md="">
@@ -2108,7 +2122,8 @@ Possible extra rowspan handling
     request に対する response は Content Security Policy によってブロックされるべきか？ </a></span><span><a href="#ref-for-global-object-csp-list-4">4.2.
     HTML との連携 </a></span><span><a href="#ref-for-global-object-csp-list-5">4.2.2.
     グローバルオブジェクトの CSP list に対する初期化 </a> <a href="#ref-for-global-object-csp-list-6">(2)</a></span><span><a href="#ref-for-global-object-csp-list-7">4.2.3.
-    element においてインラインの type に関する挙動は Content Security Policy によってブロックされるべきか？ </a></span></span></dfn> を持ちます。この CSP list は、そのコンテキストでアクティブな <a data-link-type="dfn" href="#policy" id="ref-for-policy-18">policy</a> オブジェクトすべてを含むリストです。特に指定のない限り、このリストが空になることはなく、アルゴリズム <a href="#initialize-global-object-csp">§4.2.2 グローバルオブジェクトの CSP list に対する初期化</a> によって初期化されます。</p>
+    element においてインラインの type に関する挙動は Content Security Policy によってブロックされるべきか？ </a></span><span><a href="#ref-for-global-object-csp-list-8">4.3. Integration with ECMAScript</a></span><span><a href="#ref-for-global-object-csp-list-9">4.3.1.
+    EnsureCSPDoesNotBlockStringCompilation(callerRealm, calleeRealm) </a></span></span></dfn> を持ちます。この CSP list は、そのコンテキストでアクティブな <a data-link-type="dfn" href="#policy" id="ref-for-policy-18">policy</a> オブジェクトすべてを含むリストです。特に指定のない限り、このリストが空になることはなく、アルゴリズム <a href="#initialize-global-object-csp">§4.2.2 グローバルオブジェクトの CSP list に対する初期化</a> によって初期化されます。</p>
      <li data-md="">
       <p>ある <a data-link-type="dfn" href="#policy" id="ref-for-policy-19">policy</a> が <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> の <a data-link-type="dfn" href="#global-object-csp-list" id="ref-for-global-object-csp-list-4">CSP list</a> に挿入されると、その <a data-link-type="dfn" href="#policy" id="ref-for-policy-20">policy</a> は <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#global-object">global object</a> に対して <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="enforced" data-noexport="" id="enforced">enforced<span class="dfn-panel" data-deco=""><b><a href="#enforced">#enforced</a></b><b>Referenced in:</b><span><a href="#ref-for-enforced-1">3.1.
     Content-Security-Policy HTTP レスポンスヘッダフィールド </a></span><span><a href="#ref-for-enforced-2">4.2.
@@ -2223,6 +2238,35 @@ Possible extra rowspan handling
      <li data-md="">
       <p><var>result</var> を返します。</p>
     </ol>
+    <h3 class="heading settled" data-level="4.3" id="ecma-integration"><span class="secno">4.3. </span><span class="content">Integration with ECMAScript</span><a class="self-link" href="#ecma-integration"></a></h3>
+    <p>ECMAScript defines a <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262#sec-hostensurecancompilestrings">HostEnsureCanCompileStrings()</a></code> operation which allows
+  the host environment to block the compilation of strings into ECMAScript code.
+  This document defines an implementation of that operation which examines the
+  relevant <a data-link-type="dfn" href="#global-object-csp-list" id="ref-for-global-object-csp-list-8">CSP list</a> to determine whether such
+  compilation ought to be blocked.</p>
+    <h4 class="heading settled" data-algorithm="EnsureCSPDoesNotBlockStringCompilation(callerRealm, calleeRealm)" data-dfn-type="dfn" data-level="4.3.1" data-lt="EnsureCSPDoesNotBlockStringCompilation(callerRealm, calleeRealm)" data-noexport="" id="can-compile-strings" method=""><span class="secno">4.3.1. </span><span class="content"> EnsureCSPDoesNotBlockStringCompilation(<var>callerRealm</var>, <var>calleeRealm</var>) </span><a class="self-link" href="#can-compile-strings"></a></h4>
+    <p>Given two <a data-link-type="dfn" href="https://tc39.github.io/ecma262#realm">realms</a> (<var>callerRealm</var> and <var>calleeRealm</var>), this algorithm
+  returns normally if string compilation is allowed, and throws an "<code>EvalError</code>"
+  if not:</p>
+    <ol>
+     <li data-md="">
+      <p>Let <var>global</var> be <var>callerRealm</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/#concept-realm-global-object">global
+  object</a>.</p>
+     <li data-md="">
+      <p>For each <var>policy</var> in <var>global</var>’s <a data-link-type="dfn" href="#global-object-csp-list" id="ref-for-global-object-csp-list-9">CSP list</a>:</p>
+      <ol>
+       <li data-md="">
+        <p>Let <var>source-list</var> be null.</p>
+       <li data-md="">
+        <p>If <var>policy</var> contains a <a data-link-type="dfn" href="#directives" id="ref-for-directives-9">directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name-4">name</a> is "<code>script-src</code>", then set <var>source-list</var> to that <a data-link-type="dfn" href="#directives" id="ref-for-directives-10">directive</a>’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-5">value</a>.</p>
+        <p>Otherwise if <var>policy</var> contains a <a data-link-type="dfn" href="#directives" id="ref-for-directives-11">directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name-5">name</a> is "<code>default-src</code>", then set <var>source-list</var> to that directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-6">value</a>.</p>
+       <li data-md="">
+        <p>If <var>source-list</var> is non-null, and does not contain a <a data-link-type="dfn" href="#source-expression" id="ref-for-source-expression-2">source
+  expression</a> which is an <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#ascii-case-insensitive">ASCII case-insensitive</a> match for the
+  string "<a data-link-type="grammar" href="#grammardef-unsafe-eval" id="ref-for-grammardef-unsafe-eval-1"><code>'unsafe-eval'</code></a>", then throw an <code>EvalError</code></p>
+      </ol>
+    </ol>
+    exception.
    </section>
    <section>
     <h2 class="heading settled" data-level="5" id="reporting"><span class="secno">5. </span><span class="content"> 報告 </span><a class="self-link" href="#reporting"></a></h2>
@@ -2323,7 +2367,7 @@ dictionary <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-exp
         <p><var>object</var> の "<code>column-number</code>" プロパティに <var>violation</var> の <a data-link-type="dfn" href="#violation-column-number" id="ref-for-violation-column-number-2">column number</a> を代入します。</p>
       </ol>
      <li data-md="">
-      <p><var>object</var> に <code class="idl"><a data-link-type="idl" href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-json.stringify">JSON.stringify()</a></code> を実行した結果を返します。</p>
+      <p><var>object</var> に <code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262#sec-json.stringify">JSON.stringify()</a></code> を実行した結果を返します。</p>
     </ol>
     <h3 class="heading settled" data-level="5.3" id="report-violation"><span class="secno">5.3. </span><span class="content"> <var>violation</var> を報告する </span><a class="self-link" href="#report-violation"></a></h3>
     <p>ある <a data-link-type="dfn" href="#violation" id="ref-for-violation-15">violation</a> (<var>violation</var>) に対するこのアルゴリズムは、<var>violation</var> の <a data-link-type="dfn" href="#violation-policy" id="ref-for-violation-policy-3">policy</a> で指定したエンドポイントに <a data-link-type="dfn" href="#violation" id="ref-for-violation-16">violation</a> を報告し、<var>violation</var> の <a data-link-type="dfn" href="#violation-global-object" id="ref-for-violation-global-object-4">global object</a> における <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export="" data-lt="SecurityPolicyViolationEvent" id="securitypolicyviolationevent">SecurityPolicyViolationEvent<span class="dfn-panel" data-deco=""><b><a href="#securitypolicyviolationevent">#securitypolicyviolationevent</a></b><b>Referenced in:</b><span><a href="#ref-for-securitypolicyviolationevent-1">5.1.
@@ -2376,12 +2420,12 @@ dictionary <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-exp
       </dl>
       <p class="note" role="note">Note: <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-effectivedirective" id="ref-for-dom-securitypolicyviolationevent-effectivedirective-2">effectiveDirective</a></code> と <code class="idl"><a data-link-type="idl" href="#dom-securitypolicyviolationevent-violateddirective" id="ref-for-dom-securitypolicyviolationevent-violateddirective-2">violatedDirective</a></code> には同じ値が格納されます。これは後方互換性が保たれるよう意図したものです。</p>
      <li data-md="">
-      <p>ここで <var>violation</var> の <a data-link-type="dfn" href="#violation-policy" id="ref-for-violation-policy-5">policy</a> における <a data-link-type="dfn" href="#policy-directive-set" id="ref-for-policy-directive-set-6">directive set</a> に "<a data-link-type="dfn" href="#report-uri" id="ref-for-report-uri-2"><code>report-uri</code></a>" という <a data-link-type="dfn" href="#directives" id="ref-for-directives-9">directive</a> (<var>directive</var>) が含まれていた場合、以下を実行します。</p>
+      <p>ここで <var>violation</var> の <a data-link-type="dfn" href="#violation-policy" id="ref-for-violation-policy-5">policy</a> における <a data-link-type="dfn" href="#policy-directive-set" id="ref-for-policy-directive-set-6">directive set</a> に "<a data-link-type="dfn" href="#report-uri" id="ref-for-report-uri-2"><code>report-uri</code></a>" という <a data-link-type="dfn" href="#directives" id="ref-for-directives-12">directive</a> (<var>directive</var>) が含まれていた場合、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>ここで <var>violation</var> の <a data-link-type="dfn" href="#violation-policy" id="ref-for-violation-policy-6">policy</a> における <a data-link-type="dfn" href="#policy-directive-set" id="ref-for-policy-directive-set-7">directive set</a> に "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to-1"><code>report-to</code></a>" という <a data-link-type="dfn" href="#directives" id="ref-for-directives-10">directive</a> が含まれていた場合、残りの副手続きを飛ばします。</p>
+        <p>ここで <var>violation</var> の <a data-link-type="dfn" href="#violation-policy" id="ref-for-violation-policy-6">policy</a> における <a data-link-type="dfn" href="#policy-directive-set" id="ref-for-policy-directive-set-7">directive set</a> に "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to-1"><code>report-to</code></a>" という <a data-link-type="dfn" href="#directives" id="ref-for-directives-13">directive</a> が含まれていた場合、残りの副手続きを飛ばします。</p>
        <li data-md="">
-        <p><var>directive</var> の <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-5">value</a> に対して <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser">URL parser</a> を適用した結果を <var>endpoint</var> に代入します。</p>
+        <p><var>directive</var> の <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-7">value</a> に対して <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser">URL parser</a> を適用した結果を <var>endpoint</var> に代入します。</p>
        <li data-md="">
         <p>ここで <var>endpoint</var> が有効な URL でなかった場合、残りの副手続きを飛ばします。</p>
        <li data-md="">
@@ -2446,10 +2490,10 @@ dictionary <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-exp
       <p class="note" role="note">Note: この箇所はすべて廃止されたものと考えるべきです。ここでは 1 つの violation につき 1 つのリクエストを送信しており、単純にスケールできません。この箇所の動作をユーザエージェントから削除できる状態になれば廃止されることになります。</p>
       <p class="note" role="note">Note: <code>report-uri</code> は <code>report-to</code> が無い場合のみ有効になります。すなわち後者は前者を上書きするため、この新しい仕組みをサポートしていないブラウザへの後方互換性が保たれます。</p>
      <li data-md="">
-      <p>ここで <var>violation</var> の <a data-link-type="dfn" href="#violation-policy" id="ref-for-violation-policy-7">policy</a> における <a data-link-type="dfn" href="#policy-directive-set" id="ref-for-policy-directive-set-8">directive set</a> に "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to-2"><code>report-to</code></a>" という <a data-link-type="dfn" href="#directives" id="ref-for-directives-11">directive</a> (<var>directive</var>) が含まれていた場合、以下を実行します。</p>
+      <p>ここで <var>violation</var> の <a data-link-type="dfn" href="#violation-policy" id="ref-for-violation-policy-7">policy</a> における <a data-link-type="dfn" href="#policy-directive-set" id="ref-for-policy-directive-set-8">directive set</a> に "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to-2"><code>report-to</code></a>" という <a data-link-type="dfn" href="#directives" id="ref-for-directives-14">directive</a> (<var>directive</var>) が含まれていた場合、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p><var>directive</var> の <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-6">value</a> を <var>group</var> に代入します。</p>
+        <p><var>directive</var> の <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-8">value</a> を <var>group</var> に代入します。</p>
        <li data-md="">
         <p><var>violation</var> の <a data-link-type="dfn" href="#violation-global-object" id="ref-for-violation-global-object-7">global object</a> における <a data-link-type="dfn" href="http://www.w3.org/TR/html5/webappapis.html#relevant-settings-object-for-a-global-object">relevant settings object</a> を <var>settings object</var> に代入します。</p>
        <li data-md="">
@@ -2477,7 +2521,7 @@ dictionary <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-exp
    </section>
    <section>
     <h2 class="heading settled" data-level="6" id="csp-directives"><span class="secno">6. </span><span class="content"> Content Security Policy のディレクティブ </span><a class="self-link" href="#csp-directives"></a></h2>
-    <p>この仕様書では <a data-link-type="dfn" href="#directives" id="ref-for-directives-12">directives</a> の種類が数多く定義されています。これらのディレクティブを用いることで、Web サイトの動作を開発者が制御できるようになります。この文書では、リソースの取得を制御するディレクティブ（<a href="#directives-fetch">§6.1 Fetch ディレクティブ群</a>）と、報告を制御するディレクティブ（<a href="#directives-reporting">§6.2 Reporting Directives</a>）が定義されます。これらのディレクティブは Content Security Policy の核を形成するものであり、他のディレクティブはモジュールとして付随文書で定義されます（使用例は <a href="#directives-elsewhere">§6.3 他の文書で定義されるディレクティブ</a> を参照してください）。</p>
+    <p>この仕様書では <a data-link-type="dfn" href="#directives" id="ref-for-directives-15">directives</a> の種類が数多く定義されています。これらのディレクティブを用いることで、Web サイトの動作を開発者が制御できるようになります。この文書では、リソースの取得を制御するディレクティブ（<a href="#directives-fetch">§6.1 Fetch ディレクティブ群</a>）と、報告を制御するディレクティブ（<a href="#directives-reporting">§6.2 Reporting Directives</a>）が定義されます。これらのディレクティブは Content Security Policy の核を形成するものであり、他のディレクティブはモジュールとして付随文書で定義されます（使用例は <a href="#directives-elsewhere">§6.3 他の文書で定義されるディレクティブ</a> を参照してください）。</p>
     <p>クロスサイトスクリプティング攻撃のリスクを軽減するため、Web 開発者はスクリプトやプラグインの読込元を制限するディレクティブを含めるべきです（SHOULD）。これは以下のディレクティブを指定することで実現できます。</p>
     <ul>
      <li data-md="">
@@ -2553,7 +2597,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>ここで <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-initiator">initiator</a> が "<code>fetch</code>" だった場合、または <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> が "" かつ <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> が "<code>subresource</code>" だった場合、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>ここで <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> とディレクティブの <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-7">value</a> に対して <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> を適用し、その実行結果が "<code>Does Not Match</code>" だった場合、"<code>Blocked</code>" を返します。</p>
+        <p>ここで <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> とディレクティブの <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-9">value</a> に対して <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> を適用し、その実行結果が "<code>Does Not Match</code>" だった場合、"<code>Blocked</code>" を返します。</p>
       </ol>
      <li data-md="">
       <p>"<code>Allowed</code>" を返します。</p>
@@ -2565,7 +2609,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>ここで <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-initiator">initiator</a> が "<code>fetch</code>" だった場合、または <var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> が "" かつ <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> が "<code>subresource</code>" だった場合、以下を実行します。</p>
       <ol>
        <li data-md="">
-        <p>ここで <var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> とディレクティブの <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-8">value</a> に対して <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> を適用し、その実行結果が "<code>Does Not Match</code>" だった場合、"<code>Blocked</code>" を返します。</p>
+        <p>ここで <var>response</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> とディレクティブの <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-10">value</a> に対して <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> を適用し、その実行結果が "<code>Does Not Match</code>" だった場合、"<code>Blocked</code>" を返します。</p>
       </ol>
      <li data-md="">
       <p>"<code>Allowed</code>" を返します。</p>
@@ -2630,9 +2674,9 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p>If <var>name</var> is <code>null</code>, return "<code>Allowed</code>".</p>
      <li data-md="">
-      <p>If <var>policy</var> contains a <a data-link-type="dfn" href="#directives" id="ref-for-directives-13">directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name-4">name</a> is <var>name</var>, return "<code>Allowed</code>".</p>
+      <p>If <var>policy</var> contains a <a data-link-type="dfn" href="#directives" id="ref-for-directives-16">directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name-6">name</a> is <var>name</var>, return "<code>Allowed</code>".</p>
      <li data-md="">
-      <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-9">value</a> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
+      <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-11">value</a> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
      <li data-md="">
       <p>Return "<code>Allowed</code>".</p>
     </ol>
@@ -2644,9 +2688,9 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
      <li data-md="">
       <p>If <var>name</var> is <code>null</code>, return "<code>Allowed</code>".</p>
      <li data-md="">
-      <p>If <var>policy</var> contains a <a data-link-type="dfn" href="#directives" id="ref-for-directives-14">directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name-5">name</a> is <var>name</var>, return "<code>Allowed</code>".</p>
+      <p>If <var>policy</var> contains a <a data-link-type="dfn" href="#directives" id="ref-for-directives-17">directive</a> whose <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name-7">name</a> is <var>name</var>, return "<code>Allowed</code>".</p>
      <li data-md="">
-      <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-10">value</a> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
+      <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-12">value</a> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
      <li data-md="">
       <p>Return "<code>Allowed</code>".</p>
     </ol>
@@ -2683,7 +2727,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>font</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-11">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-13">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2696,7 +2740,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>font</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-12">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-14">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2728,7 +2772,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>image</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-13">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-15">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2741,7 +2785,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>image</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-14">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-16">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2771,7 +2815,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-initiator">initiator</a> is "<code>manifest</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-15">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-17">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2784,7 +2828,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-initiator">initiator</a> is "<code>manifest</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-16">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-18">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2818,7 +2862,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   or "<code>track</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-17">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-19">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2832,7 +2876,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   or "<code>track</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-18">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-20">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2874,7 +2918,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is "<code>unknown</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-19">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-21">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2887,7 +2931,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is "<code>unknown</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-20">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-22">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2919,9 +2963,9 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
   source expression:</p>
       <ul>
        <li data-md="">
-        <p><code class="idl"><a data-link-type="idl" href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-eval-x">eval()</a></code></p>
+        <p><code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262#sec-eval-x">eval()</a></code></p>
        <li data-md="">
-        <p><code class="idl"><a data-link-type="idl" href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-function-objects">Function()</a></code></p>
+        <p><code class="idl"><a data-link-type="idl" href="https://tc39.github.io/ecma262#sec-function-objects">Function()</a></code></p>
        <li data-md="">
         <p><code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#dom-windowtimers-settimeout">setTimeout()</a></code> with an initial argument which is not callable.</p>
        <li data-md="">
@@ -2937,7 +2981,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>script</code>", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is "<code>subresource</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-21">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-23">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2950,7 +2994,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>script</code>", and its <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination">destination</a> is "<code>subresource</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-22">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-24">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -2963,7 +3007,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>type</var> is "<code>script</code>" or "<code>script attribute</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-element-to-source-list">§6.1.12.1 Does element match source list?</a> on <var>element</var>, this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-23">value</a>, and <var>type</var> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
+        <p>If the result of executing <a href="#match-element-to-source-list">§6.1.12.1 Does element match source list?</a> on <var>element</var>, this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-25">value</a>, and <var>type</var> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
       <p>Return "<code>Allowed</code>".</p>
@@ -3024,7 +3068,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>style</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-24">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-26">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -3037,7 +3081,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> is "<code>style</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-25">value</a> is "<code>Does Not Match</code>",
+        <p>If the result of executing <a href="#match-url-to-source-list">§6.1.11.2 url は source list にマッチするか？</a> on <var>response</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> and this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-27">value</a> is "<code>Does Not Match</code>",
   return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
@@ -3050,7 +3094,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>If <var>type</var> is "<code>style</code>" or "<code>style attribute</code>":</p>
       <ol>
        <li data-md="">
-        <p>If the result of executing <a href="#match-element-to-source-list">§6.1.12.1 Does element match source list?</a> on <var>element</var>, this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-26">value</a>, and <var>type</var> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
+        <p>If the result of executing <a href="#match-element-to-source-list">§6.1.12.1 Does element match source list?</a> on <var>element</var>, this directive’s <a data-link-type="dfn" href="#directive-value" id="ref-for-directive-value-28">value</a>, and <var>type</var> is "<code>Does Not Match</code>", return "<code>Blocked</code>".</p>
       </ol>
      <li data-md="">
       <p>Return "<code>Allowed</code>".</p>
@@ -3093,7 +3137,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>"<code>Does Not Match</code>" を返します。</p>
     </ol>
     <h5 class="heading settled" data-algorithm="redirect count を持つ origin において url は expression にマッチするか？" data-level="6.1.11.3" id="match-url-to-source-expression"><span class="secno">6.1.11.3. </span><span class="content"> <var>redirect count</var> を持つ <var>origin</var> において <var>url</var> は <var>expression</var> にマッチするか？ </span><a class="self-link" href="#match-url-to-source-expression"></a></h5>
-    <p>ある <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#url">URL</a></code> (<var>url</var>) と <a data-link-type="dfn" href="#source-expression" id="ref-for-source-expression-2">source expression</a> (<var>expression</var>) と <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> (<var>origin</var>) と数値 (<var>redirect count</var>) に対し、このアルゴリズムは <var>url</var> が <var>expression</var> にマッチすれば "<code>Matches</code>" を返し、それ以外の場合は "<code>Does Not Match</code>" を返します。</p>
+    <p>ある <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#url">URL</a></code> (<var>url</var>) と <a data-link-type="dfn" href="#source-expression" id="ref-for-source-expression-3">source expression</a> (<var>expression</var>) と <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> (<var>origin</var>) と数値 (<var>redirect count</var>) に対し、このアルゴリズムは <var>url</var> が <var>expression</var> にマッチすれば "<code>Matches</code>" を返し、それ以外の場合は "<code>Does Not Match</code>" を返します。</p>
     <p class="note" role="note">Note: <var>origin</var> とは、<var>expression</var> が相対的に解決されるべきリソースの <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a> です。例えば、"<code>'self'</code>" はコンテキストによって別々の意味を持つことになります。</p>
     <ol>
      <li data-md="">
@@ -3196,7 +3240,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
       <p>"<code>Does Not Match</code>" を返します。</p>
     </ol>
     <h5 class="heading settled" data-algorithm="request の effective directive を得る" data-level="6.1.11.4" id="effective-directive-for-a-request"><span class="secno">6.1.11.4. </span><span class="content"> <var>request</var> の effective directive を得る </span><a class="self-link" href="#effective-directive-for-a-request"></a></h5>
-    <p>各 <a data-link-type="dfn" href="#fetch-directives" id="ref-for-fetch-directives-3">fetch directive</a> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> のタイプを制御します。ある <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> (<var>request</var>) に対し、このアルゴリズムは <code>null</code> を返すか、リクエストの <dfn data-dfn-for="request" data-dfn-type="dfn" data-noexport="" id="request-effective-directive">effective directive<a class="self-link" href="#request-effective-directive"></a></dfn> における <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name-6">name</a> を返します。</p>
+    <p>各 <a data-link-type="dfn" href="#fetch-directives" id="ref-for-fetch-directives-3">fetch directive</a> は <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> のタイプを制御します。ある <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a> (<var>request</var>) に対し、このアルゴリズムは <code>null</code> を返すか、リクエストの <dfn data-dfn-for="request" data-dfn-type="dfn" data-noexport="" id="request-effective-directive">effective directive<a class="self-link" href="#request-effective-directive"></a></dfn> における <a data-link-type="dfn" href="#directive-name" id="ref-for-directive-name-8">name</a> を返します。</p>
     <ol>
      <li data-md="">
       <p><var>request</var> の <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-type">type</a> に対応する処理を以下から実行します。</p>
@@ -3293,7 +3337,7 @@ directive-value = <a data-link-type="grammar" href="#grammardef-serialized-sourc
         <p>If <var>expression</var> matches the <a data-link-type="grammar" href="#grammardef-nonce-source" id="ref-for-grammardef-nonce-source-4"><code>nonce-source</code></a> or <a data-link-type="grammar" href="#grammardef-hash-source" id="ref-for-grammardef-hash-source-4"><code>hash-source</code></a> grammar, set <var>contains nonce or hash</var> to <code>true</code>.</p>
       </ol>
      <li data-md="">
-      <p>If <var>contains nonce or hash</var> is <code>false</code>, and <var>list</var> contains a <a data-link-type="dfn" href="#source-expression" id="ref-for-source-expression-3">source expression</a> which is a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#case-sensitive">case-sensitive</a> match for
+      <p>If <var>contains nonce or hash</var> is <code>false</code>, and <var>list</var> contains a <a data-link-type="dfn" href="#source-expression" id="ref-for-source-expression-4">source expression</a> which is a <a data-link-type="dfn" href="http://www.w3.org/TR/html5/infrastructure.html#case-sensitive">case-sensitive</a> match for
   the string "<code>unsafe-inline</code>", then return "<code>Matches</code>".</p>
      <li data-md="">
       <p>If <var>type</var> is not "<code>script attribute</code>" or "<code>style attribute</code>":</p>
@@ -3518,6 +3562,7 @@ Content-Security-Policy: connect-src http://example.com/;
     </ul>
    <li><a href="#embedding-document">embedding document</a><span>, in §4.2</span>
    <li><a href="#enforced">enforced</a><span>, in §4.2</span>
+   <li><a href="#can-compile-strings">EnsureCSPDoesNotBlockStringCompilation(callerRealm, calleeRealm)</a><span>, in §4.3</span>
    <li><a href="#fetch-directives">Fetch directives</a><span>, in §6.1</span>
    <li><a href="#font-src">font-src</a><span>, in §6.1.4</span>
    <li><a href="#violation-global-object">global object</a><span>, in §2.3</span>
@@ -3622,7 +3667,7 @@ Content-Security-Policy: connect-src http://example.com/;
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
-    <a data-link-type="biblio" href="#biblio-cssom">[cssom]</a> defines the following terms:
+    <a data-link-type="biblio">[CSSOM]</a> defines the following terms:
     <ul>
      <li><a href="http://www.w3.org/TR/cssom/#insert-a-css-rule">insert a css rule</a>
      <li><a href="http://www.w3.org/TR/cssom/#parse-a-css-declaration-block">parse a css declaration block</a>
@@ -3630,20 +3675,22 @@ Content-Security-Policy: connect-src http://example.com/;
      <li><a href="http://www.w3.org/TR/cssom/#parse-a-group-of-selectors">parse a group of selectors</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-whatwg-dom">[WHATWG-DOM]</a> defines the following terms:
+    <a data-link-type="biblio">[WHATWG-DOM]</a> defines the following terms:
     <ul>
      <li><a href="http://www.w3.org/TR/dom/#interface-element">Element</a>
      <li><a href="http://www.w3.org/TR/dom/#dom-node-textcontent">textContent</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-es2015">[ES2015]</a> defines the following terms:
+    <a data-link-type="biblio">[ECMA262]</a> defines the following terms:
     <ul>
-     <li><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-function-objects">Function()</a>
-     <li><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-json.stringify">JSON.stringify()</a>
-     <li><a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-eval-x">eval()</a>
+     <li><a href="https://tc39.github.io/ecma262#sec-function-objects">Function()</a>
+     <li><a href="https://tc39.github.io/ecma262#sec-hostensurecancompilestrings">HostEnsureCanCompileStrings()</a>
+     <li><a href="https://tc39.github.io/ecma262#sec-json.stringify">JSON.stringify()</a>
+     <li><a href="https://tc39.github.io/ecma262#sec-eval-x">eval()</a>
+     <li><a href="https://tc39.github.io/ecma262#realm">realm</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a> defines the following terms:
+    <a data-link-type="biblio">[FETCH]</a> defines the following terms:
     <ul>
      <li><a href="https://fetch.spec.whatwg.org/#concept-request-body">body</a>
      <li><a href="https://fetch.spec.whatwg.org/#concept-request-cache-mode">cache mode</a>
@@ -3672,18 +3719,19 @@ Content-Security-Policy: connect-src http://example.com/;
      <li><a href="https://fetch.spec.whatwg.org/#concept-request-window">window</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-html">[HTML]</a> defines the following terms:
+    <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
      <li><a href="https://html.spec.whatwg.org/#attr-meta-http-equiv-content-security-policy">content-security-policy http-equiv processing instructions</a>
      <li><a href="https://html.spec.whatwg.org/#initialising-a-new-document-object">initialising a new document object</a>
      <li><a href="https://html.spec.whatwg.org/#attr-script-nonce">nonce</a>
      <li><a href="https://html.spec.whatwg.org/#ping">ping</a>
+     <li><a href="https://html.spec.whatwg.org/#concept-realm-global-object">realm's global object</a>
      <li><a href="https://html.spec.whatwg.org/#run-a-worker">run a worker</a>
      <li><a href="https://html.spec.whatwg.org/#the-workers-documents">the worker's documents</a>
      <li><a href="https://html.spec.whatwg.org/#update-a-style-block">update a style block</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-html5">[html5]</a> defines the following terms:
+    <a data-link-type="biblio">[HTML5]</a> defines the following terms:
     <ul>
      <li><a href="http://www.w3.org/TR/html5/dom.html#document">Document</a>
      <li><a href="http://www.w3.org/TR/html5/browsers.html#dom-window">Window</a>
@@ -3725,13 +3773,13 @@ Content-Security-Policy: connect-src http://example.com/;
      <li><a href="http://www.w3.org/TR/html5/infrastructure.html#concept-event-trusted">trusted</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-oob-reporting">[OOB-REPORTING]</a> defines the following terms:
+    <a data-link-type="biblio">[OOB-REPORTING]</a> defines the following terms:
     <ul>
      <li><a href="https://mikewest.github.io/error-reporting/#group">group</a>
      <li><a href="https://mikewest.github.io/error-reporting/#queue-report">queue report</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-rfc3986">[rfc3986]</a> defines the following terms:
+    <a data-link-type="biblio">[RFC3986]</a> defines the following terms:
     <ul>
      <li><a href="https://tools.ietf.org/html/rfc3986#section-3.2.2">ipv4address</a>
      <li><a href="https://tools.ietf.org/html/rfc3986#section-3.3">path</a>
@@ -3739,49 +3787,49 @@ Content-Security-Policy: connect-src http://example.com/;
      <li><a href="https://tools.ietf.org/html/rfc3986#section-4.1">uri-reference</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-rfc4648">[rfc4648]</a> defines the following terms:
+    <a data-link-type="biblio">[rfc4648]</a> defines the following terms:
     <ul>
      <li><a href="https://tools.ietf.org/html/rfc4648#section-4">base64 encoding</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-rfc5234">[rfc5234]</a> defines the following terms:
+    <a data-link-type="biblio">[RFC5234]</a> defines the following terms:
     <ul>
      <li><a href="https://tools.ietf.org/html/rfc5234#appendix-B.1">alpha</a>
      <li><a href="https://tools.ietf.org/html/rfc5234#appendix-B.1">digit</a>
      <li><a href="https://tools.ietf.org/html/rfc5234#appendix-B.1">vchar</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-rfc6454">[rfc6454]</a> defines the following terms:
+    <a data-link-type="biblio">[rfc6454]</a> defines the following terms:
     <ul>
      <li><a href="https://tools.ietf.org/html/rfc6454#section-3.2">origin</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-rfc7230">[rfc7230]</a> defines the following terms:
+    <a data-link-type="biblio">[rfc7230]</a> defines the following terms:
     <ul>
      <li><a href="https://tools.ietf.org/html/rfc7230#section-3.2.3">ows</a>
      <li><a href="https://tools.ietf.org/html/rfc7230#section-3.2.3">rws</a>
      <li><a href="https://tools.ietf.org/html/rfc7230#section-3.2.6">token</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-rfc7231">[rfc7231]</a> defines the following terms:
+    <a data-link-type="biblio">[rfc7231]</a> defines the following terms:
     <ul>
      <li><a href="https://tools.ietf.org/html/rfc7231#section-3">representation</a>
      <li><a href="https://tools.ietf.org/html/rfc7231#section-3">resource representation</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-service-workers">[service-workers]</a> defines the following terms:
+    <a data-link-type="biblio">[service-workers]</a> defines the following terms:
     <ul>
      <li><a href="http://www.w3.org/TR/service-workers/#service-worker-interface">ServiceWorker</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-sha2">[SHA2]</a> defines the following terms:
+    <a data-link-type="biblio">[SHA2]</a> defines the following terms:
     <ul>
      <li><a href="http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf#">sha-256</a>
      <li><a href="http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf#">sha-384</a>
      <li><a href="http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf#">sha-512</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-whatwg-url">[WHATWG-URL]</a> defines the following terms:
+    <a data-link-type="biblio">[WHATWG-URL]</a> defines the following terms:
     <ul>
      <li><a href="https://url.spec.whatwg.org/#url">URL</a>
      <li><a href="https://url.spec.whatwg.org/#default-port">default port</a>
@@ -3797,22 +3845,23 @@ Content-Security-Policy: connect-src http://example.com/;
      <li><a href="https://url.spec.whatwg.org/#concept-url-serializer">url serializer</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-workers">[workers]</a> defines the following terms:
+    <a data-link-type="biblio">[workers]</a> defines the following terms:
     <ul>
      <li><a href="http://www.w3.org/TR/workers/#worker">Worker</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-css-cascade-4">[css-cascade-4]</a> defines the following terms:
+    <a data-link-type="biblio">[css-cascade-4]</a> defines the following terms:
     <ul>
      <li><a href="https://drafts.csswg.org/css-cascade-4/#at-ruledef-import">@import</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-whatwg-dom">[WHATWG-DOM]</a> defines the following terms:
+    <a data-link-type="biblio">[WHATWG-DOM]</a> defines the following terms:
     <ul>
      <li><a href="https://dom.spec.whatwg.org/#dictdef-eventinit">EventInit</a>
+     <li><a href="https://dom.spec.whatwg.org/#ascii-case-insensitive">ascii case-insensitive</a>
     </ul>
    <li>
-    <a data-link-type="biblio" href="#biblio-html">[HTML]</a> defines the following terms:
+    <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
      <li><a href="https://html.spec.whatwg.org/multipage/workers.html#sharedworker">SharedWorker</a>
      <li><a href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">WorkerGlobalScope</a>
@@ -3827,15 +3876,15 @@ Content-Security-Policy: connect-src http://example.com/;
    <dt id="biblio-css-cascade-4">[CSS-CASCADE-4]
    <dd>Elika Etemad; Tab Atkins Jr.. <a href="http://dev.w3.org/csswg/css-cascade/">CSS Cascading and Inheritance Level 4</a>. 14 January 2016. CR. URL: <a href="http://dev.w3.org/csswg/css-cascade/">http://dev.w3.org/csswg/css-cascade/</a>
    <dt id="biblio-cssom">[CSSOM]
-   <dd>Simon Pieters; Glenn Adams. <a href="http://www.w3.org/TR/cssom/">CSS Object Model (CSSOM)</a>. 5 December 2013. WD. URL: <a href="http://www.w3.org/TR/cssom/">http://www.w3.org/TR/cssom/</a>
-   <dt id="biblio-es2015">[ES2015]
-   <dd>Allen Wirfs-Brock. <a href="http://www.ecma-international.org/ecma-262/6.0/index.html">ECMAScript® 2015 Language Specification</a>. URL: <a href="http://www.ecma-international.org/ecma-262/6.0/index.html">http://www.ecma-international.org/ecma-262/6.0/index.html</a>
+   <dd>Simon Pieters; Glenn Adams. <a href="http://dev.w3.org/csswg/cssom/">CSS Object Model (CSSOM)</a>. 5 December 2013. WD. URL: <a href="http://dev.w3.org/csswg/cssom/">http://dev.w3.org/csswg/cssom/</a>
+   <dt id="biblio-ecma262">[ECMA262]
+   <dd>Brian Terlson; Allen Wirfs-Brock. <a href="https://tc39.github.io/ecma262/">ECMAScript® Language Specification</a>. URL: <a href="https://tc39.github.io/ecma262/">https://tc39.github.io/ecma262/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-html">[HTML]
    <dd>Ian Hickson. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-html5">[HTML5]
-   <dd>Ian Hickson; et al. <a href="http://www.w3.org/TR/html5/">HTML5</a>. 28 October 2014. REC. URL: <a href="http://www.w3.org/TR/html5/">http://www.w3.org/TR/html5/</a>
+   <dd>Ian Hickson; et al. <a href="http://www.w3.org/html/wg/drafts/html/master/">HTML5</a>. 28 October 2014. REC. URL: <a href="http://www.w3.org/html/wg/drafts/html/master/">http://www.w3.org/html/wg/drafts/html/master/</a>
    <dt id="biblio-oob-reporting">[OOB-REPORTING]
    <dd>Ilya Gregorik; Mike West. <a href="https://mikewest.github.io/error-reporting/">Out-of-band Reporting</a>. URL: <a href="https://mikewest.github.io/error-reporting/">https://mikewest.github.io/error-reporting/</a>
    <dt id="biblio-rfc2119">[RFC2119]
@@ -3870,7 +3919,7 @@ Content-Security-Policy: connect-src http://example.com/;
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-appmanifest">[APPMANIFEST]
-   <dd>Marcos Caceres; et al. <a href="http://www.w3.org/TR/appmanifest/">Web App Manifest</a>. 27 January 2016. WD. URL: <a href="http://www.w3.org/TR/appmanifest/">http://www.w3.org/TR/appmanifest/</a>
+   <dd>Marcos Caceres; et al. <a href="http://www.w3.org/TR/appmanifest/">Web App Manifest</a>. 15 March 2016. WD. URL: <a href="http://www.w3.org/TR/appmanifest/">http://www.w3.org/TR/appmanifest/</a>
    <dt id="biblio-beacon">[BEACON]
    <dd>Ilya Grigorik; et al. <a href="http://www.w3.org/TR/beacon/">Beacon</a>. 25 February 2016. WD. URL: <a href="http://www.w3.org/TR/beacon/">http://www.w3.org/TR/beacon/</a>
    <dt id="biblio-csp-document">[CSP-DOCUMENT]
@@ -3926,11 +3975,10 @@ dictionary <a href="#dictdef-securitypolicyviolationeventinit">SecurityPolicyVio
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
    <div class="issue"> <code>frame-src</code> を本当に削除したほうがいいのでしょうか？Worker とフレームの脅威モデルは似ていますが、それらの上で実行できる内容は異なります。もしかすると、Worker と フレームのどちらか一方のみを許可するほうが良いのかもしれません。<a href="#issue-beb745b1"> ↵ </a></div>
-   <div class="issue"> <code><a data-link-type="element" href="http://www.w3.org/TR/html5/document-metadata.html#the-meta-element">meta</a></code> の内側で <code>sandbox</code> を有効にできるのでしょうか？このサポートを打ち切った場合に考慮すべき脅威はまだ明確に分かっていません（今日現在、Chrome と Safari ではサポートされています）。<a href="#issue-ce23d45e"> ↵ </a></div>
    <div class="issue"> 報告の際に値を取り除く必要はまだあるのでしょうか？ブロックされたリソースにおける元々の URL を用いることで、そのリスクはほとんど排除されたと考えています。つまり、スクリプトが DOM を走査しても、レポートの JSON に含まれている自分自身の情報は何も収集できないはずです。<a href="#issue-1dba5599"> ↵ </a></div>
    <div class="issue"> <a href="https://lists.w3.org/Archives/Public/public-webappsec/2016Feb/0048.html"><code>'unsafe-dynamic'</code></a> を追加すべきでしょうか？<a href="#issue-39406a5f"> ↵ </a></div>
    <div class="issue"> ハッシュ値によるインラインイベントハンドラのホワイトリスト化を可能にすべきでしょうか？ <a href="https://github.com/w3c/webappsec-csp/issues/13">&lt;https://github.com/w3c/webappsec-csp/issues/13></a><a href="#issue-88485c04"> ↵ </a></div>
-   <div class="issue"> このような処理は他でも行われているでしょうか？この処理 は <a data-link-type="biblio" href="#biblio-es2015">[ES2015]</a>　で効果的に用いられていますが、それ以外の例をまだ知りません。<a href="#issue-0e2d0de4"> ↵ </a></div>
+   <div class="issue"> このような処理は他でも行われているでしょうか？この処理 は <a data-link-type="biblio" href="#biblio-ecma262">[ECMA262]</a>　で効果的に用いられていますが、それ以外の例をまだ知りません。<a href="#issue-4e4c40eb"> ↵ </a></div>
    <div class="issue"> ステータスコードを正確に得るにはどうすれば良いのでしょうか？実際、このステータスコードはどこにも保存されません。<a href="#issue-6510dc05"> ↵ </a></div>
    <div class="issue"> 制限を緩めて <code>sandbox</code> も利用可にできるでしょうか？<a href="#issue-44b673d0"> ↵ </a></div>
    <div class="issue"> W3C’s HTML で定義されるアルゴリズム "creating a new <code>Document</code> object" は、Fetch との相性が良くありません。<a href="#issue-ba1e08e5"> ↵ </a></div>
