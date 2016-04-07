@@ -1215,30 +1215,23 @@ exception.
 
   <h4 id="directive-default-src">`default-src`</h4>
 
-  The <dfn>default-src</dfn> directive serves as a fallback for the other
-  <a>fetch directives</a>. The syntax for the directive's name and value is described by
-  the following ABNF:
+  <dfn>default-src</dfn> ディレクティブは、他の <a>fetch directives</a> におけるフォールバックの役を担います。このディレクティブの名前と値に関する構文は、以下の ABNF で表現されます。
 
   <pre>
     directive-name  = "default-src"
     directive-value = <a grammar>serialized-source-list</a>
   </pre>
 
-  If a <a>default-src</a> directive is present in a policy, its value will be
-  used as the policy's default source list. That is, given `default-src 'none';
-  script-src 'self'`, script requests will use `'self'` as the <a>source
-  list</a> to match against. Other requests will use `'none'`. This is spelled
-  out in more detail in the [[#should-block-request]] and
-  [[#should-block-response]] algorithms.
+  ポリシーに <a>default-src</a> ディレクティブが含まれていた場合、その値はポリシーにおけるデフォルトの source list として扱われます。つまり、`default-src 'none'; script-src 'self'` を指定した場合、スクリプトのリクエストに対するマッチの基準には `'self'` が用いられ、他のリクエストに対するマッチの基準には `'none'` が用いられます。この部分に関しては、アルゴリズム [[#should-block-request]] と [[#should-block-response]] の節で詳しく説明されています。
 
   <div class="example">
-    The following header:
+    ヘッダが次のように指定されている場合、
 
     <pre>
       <a>Content-Security-Policy</a>: <a>default-src</a> <a grammar>'self'</a>
     </pre>
 
-    will have the same behavior as the following header:
+    以下のようにディレクティブを指定した場合と等価です。
 
     <pre>
       <a>Content-Security-Policy</a>: <a>child-src</a> <a grammar>'self'</a>;
@@ -1252,19 +1245,16 @@ exception.
                                <a>style-src</a> <a grammar>'self'</a>
     </pre>
 
-    That is, when `default-src` is set, every <a>fetch directive</a> that isn't
-    explicitly set will fall back to the value `default-src` specifies.
+    すなわち `default-src` に値が指定されていれば、明示的に値が指定されていない <a>fetch directive</a> のディレクティブ各々について、`default-src` の値にフォールバックすることになります。
   </div>
   <div class="example">
-    There is no inheritance. If a `script-src` directive is explicitly
-    specified, for example, then the value of `default-src` has no influence on
-    script requests. That is, the following header:
+    継承は存在しません。例えば `script-src` ディレクティブが明示的に指定されている場合、`default-src` の値はスクリプトのリクエストに対して何も影響を与えません。すなわち、ヘッダが以下のように与えられている場合、
 
     <pre>
       <a>Content-Security-Policy</a>: <a>default-src</a> <a grammar>'self'</a>; <a>script-src</a> https://example.com
     </pre>
 
-    will have the same behavior as the following header:
+    以下のようにディレクティブを指定した場合と等価です。
 
     <pre>
       <a>Content-Security-Policy</a>: <a>child-src</a> <a grammar>'self'</a>;
@@ -1278,50 +1268,38 @@ exception.
                                <a>style-src</a> <a grammar>'self'</a>
     </pre>
 
-    Given this behavior, one good way to build a policy for a site would be to
-    begin with a `default-src` of `'none'`, and to build up a policy from there
-    which allowed only those resource types which are necessary for the
-    particular page the policy will apply to.
+    この挙動を踏まえると、Web サイトのポリシーを構築する際はまず `default-src` に `'none'` を指定しておき、そこからページごとに必要なリソースの種類のみを許可するようなポリシーを組み上げていくのが良いでしょう。
   </div>
 
-  <h5 id="default-src-algorithms">Algorithms</h5>
+  <h5 id="default-src-algorithms">アルゴリズム</h5>
 
-  This directive's <a for="directive">pre-request check</a> is as follows:
+  このディレクティブにおける <a for="directive">pre-request check</a> は以下の通りです。
 
-  Given a <a>request</a> (|request|) and a <a>policy</a> (|policy|):
+  ある <a>request</a> (|request|) と a <a>policy</a> (|policy|) に対して以下を実行します。
 
-  1.  Let |name| be the result of executing
-      [[#effective-directive-for-a-request]] on |request|.
+  1.  |request| に対して [[#effective-directive-for-a-request]] を実行した結果を |name| に代入します。
 
-  2.  If |name| is `null`, return "`Allowed`".
+  2.  ここで |name| が `null` だった場合、"`Allowed`" を返します。
 
-  3.  If |policy| contains a <a>directive</a> whose <a for="directive">name</a>
-      is |name|, return "`Allowed`".
+  3.  ここで、名前が |name| に等しい <a>directive</a> が |policy| に含まれていた場合、"`Allowed`" を返します。
 
-  4.  If the result of executing [[#match-url-to-source-list]] on |request|'s
-      <a for="request">url</a> and this directive's <a for="directive">value</a>
-      is "`Does Not Match`", return "`Blocked`".
+  4.  ここで、|request| の <a for="request">url</a> とディレクティブの <a for="directive">value</a> に [[#match-url-to-source-list]] を適用し、その実行結果が "`Does Not Match`" だった場合、"`Blocked`" を返します。
 
-  5.  Return "`Allowed`".
+  5.  "`Allowed`" を返します。
 
-  This directive's <a for="directive">post-request check</a> is as follows:
+  このディレクティブにおける <a for="directive">post-request check</a> は以下の通りです。
 
-  Given a <a>request</a> (|request|), a <a>response</a> (|response|), and a
-  <a>policy</a> (|policy|):
+  ある <a>request</a> (|request|) と <a>response</a> (|response|) と <a>policy</a> (|policy|) に対し、以下を実行します。
 
-  1.  Let |name| be the result of executing
-      [[#effective-directive-for-a-request]] on |request|.
+  1.  |request| に [[#effective-directive-for-a-request]] を適用した結果を |name| に代入します。
 
-  2.  If |name| is `null`, return "`Allowed`".
+  2.  ここで |name| が `null` だった場合、"`Allowed`" を返します。
 
-  3.  If |policy| contains a <a>directive</a> whose <a for="directive">name</a>
-      is |name|, return "`Allowed`".
+  3.  ここで、名前が |name| に等しい <a>directive</a> が |policy| に含まれていた場合、"`Allowed`" を返します。
 
-  4.  If the result of executing [[#match-url-to-source-list]] on |response|'s
-      <a for="response">url</a> and this directive's <a for="directive">value</a>
-      is "`Does Not Match`", return "`Blocked`".
+  4. ここで、|response| の <a for="response">url</a> とディレクティブの <a for="directive">value</a> に [[#match-url-to-source-list]] を適用し、その実行結果が "`Does Not Match`" だった場合、"`Blocked`" を返します。
 
-  5.  Return "`Allowed`".
+  5.  "`Allowed`" を返します。
 
   <h4 id="directive-font-src">`font-src`</h4>
 
